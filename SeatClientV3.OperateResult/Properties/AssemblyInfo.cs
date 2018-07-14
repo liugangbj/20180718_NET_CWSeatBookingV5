@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("SeatClientV3.OperateResult")]
-[assembly: AssemblyCopyright("Copyright ©  2015")]
+[assembly: AssemblyCopyright("Copyright © 2018 楚惟科技 ")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
