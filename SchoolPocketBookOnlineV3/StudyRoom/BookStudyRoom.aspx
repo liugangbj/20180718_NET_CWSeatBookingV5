@@ -260,7 +260,7 @@
                 <span id="spanWarmInfo" name="spanWarmInfo" runat="server" style="color: Red"></span>
             </div>
             <div data-theme="d" data-role="footer" data-position="fixed">
-                <h5>智佰闻欣图书馆座位在线
+                <h5>云座位在线
                 </h5>
                 <%--<a data-role="button" class="ui-btn-right" onclick="subQuery('LoginOut')">注销</a>--%>
             </div>

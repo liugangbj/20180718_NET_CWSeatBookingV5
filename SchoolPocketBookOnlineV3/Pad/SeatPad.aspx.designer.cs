@@ -2,15 +2,12 @@
 // <自动生成>
 //     此代码由工具生成。
 //
-//     对此文件的更改可能会导致不正确的行为，并且如果
-//     重新生成代码，这些更改将会丢失。 
+//     对此文件的更改可能导致不正确的行为，如果
+//     重新生成代码，则所做更改将丢失。
 // </自动生成>
 //------------------------------------------------------------------------------
 
-using System.Web.UI.HtmlControls;
-
-namespace SchoolPocketBookWeb.Pad
-{
+namespace SchoolPocketBookWeb.Pad {
     
     
     public partial class SeatPad {
@@ -22,7 +19,7 @@ namespace SchoolPocketBookWeb.Pad
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected HtmlForm form1;
+        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
         
         /// <summary>
         /// hidSeatNo 控件。
@@ -31,7 +28,7 @@ namespace SchoolPocketBookWeb.Pad
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected HtmlInputHidden hidSeatNo;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hidSeatNo;
         
         /// <summary>
         /// selectReadingRomm 控件。
@@ -40,7 +37,7 @@ namespace SchoolPocketBookWeb.Pad
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected HtmlSelect selectReadingRomm;
+        protected global::System.Web.UI.HtmlControls.HtmlSelect selectReadingRomm;
         
         /// <summary>
         /// selectSeatState 控件。
@@ -49,7 +46,7 @@ namespace SchoolPocketBookWeb.Pad
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected HtmlSelect selectSeatState;
+        protected global::System.Web.UI.HtmlControls.HtmlSelect selectSeatState;
         
         /// <summary>
         /// seatContent 控件。
@@ -58,6 +55,6 @@ namespace SchoolPocketBookWeb.Pad
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected HtmlGenericControl seatContent;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl seatContent;
     }
 }

@@ -63,7 +63,7 @@
         </div>
         <div data-theme="d" data-role="footer" data-position="fixed">
             <h3>
-                智佰闻欣座位在预约
+                云座位在线预约
             </h3>
             <a data-role="button" onclick="subQuery('LoginOut')" class="ui-btn-right">注销 </a>
         </div>

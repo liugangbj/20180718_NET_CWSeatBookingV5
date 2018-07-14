@@ -2,13 +2,10 @@
 // <自动生成>
 //     此代码由工具生成。
 //
-//     对此文件的更改可能会导致不正确的行为，并且如果
-//     重新生成代码，这些更改将会丢失。 
+//     对此文件的更改可能导致不正确的行为，如果
+//     重新生成代码，则所做更改将丢失。
 // </自动生成>
 //------------------------------------------------------------------------------
-
-using System.Web.UI.HtmlControls;
-using System.Web.UI.WebControls;
 
 namespace SchoolPocketBookWeb.StudyRoom {
     
@@ -22,7 +19,7 @@ namespace SchoolPocketBookWeb.StudyRoom {
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected HtmlForm form1;
+        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
         
         /// <summary>
         /// derlist 控件。
@@ -31,7 +28,7 @@ namespace SchoolPocketBookWeb.StudyRoom {
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected HtmlInputHidden derlist;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden derlist;
         
         /// <summary>
         /// hidBookDate 控件。
@@ -40,7 +37,7 @@ namespace SchoolPocketBookWeb.StudyRoom {
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected HiddenField hidBookDate;
+        protected global::System.Web.UI.WebControls.HiddenField hidBookDate;
         
         /// <summary>
         /// txtApplicantName 控件。
@@ -49,7 +46,7 @@ namespace SchoolPocketBookWeb.StudyRoom {
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected HtmlInputText txtApplicantName;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtApplicantName;
         
         /// <summary>
         /// txtApplicantType 控件。
@@ -58,7 +55,7 @@ namespace SchoolPocketBookWeb.StudyRoom {
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected HtmlInputText txtApplicantType;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtApplicantType;
         
         /// <summary>
         /// txtApplicantCardNo 控件。
@@ -67,7 +64,7 @@ namespace SchoolPocketBookWeb.StudyRoom {
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected HtmlInputText txtApplicantCardNo;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtApplicantCardNo;
         
         /// <summary>
         /// txtApplicantDept 控件。
@@ -76,7 +73,7 @@ namespace SchoolPocketBookWeb.StudyRoom {
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected HtmlInputText txtApplicantDept;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtApplicantDept;
         
         /// <summary>
         /// txtApplicantPhoneNum 控件。
@@ -85,7 +82,7 @@ namespace SchoolPocketBookWeb.StudyRoom {
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected HtmlInputText txtApplicantPhoneNum;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtApplicantPhoneNum;
         
         /// <summary>
         /// txtHeadPerson 控件。
@@ -94,7 +91,7 @@ namespace SchoolPocketBookWeb.StudyRoom {
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected HtmlInputText txtHeadPerson;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtHeadPerson;
         
         /// <summary>
         /// txtHeadPersonType 控件。
@@ -103,7 +100,7 @@ namespace SchoolPocketBookWeb.StudyRoom {
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected HtmlInputText txtHeadPersonType;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtHeadPersonType;
         
         /// <summary>
         /// txtHeadPersonPhoneNum 控件。
@@ -112,7 +109,7 @@ namespace SchoolPocketBookWeb.StudyRoom {
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected HtmlInputText txtHeadPersonPhoneNum;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtHeadPersonPhoneNum;
         
         /// <summary>
         /// txtMeetingName 控件。
@@ -121,7 +118,7 @@ namespace SchoolPocketBookWeb.StudyRoom {
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected HtmlInputText txtMeetingName;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtMeetingName;
         
         /// <summary>
         /// txtMembersCount 控件。
@@ -130,7 +127,7 @@ namespace SchoolPocketBookWeb.StudyRoom {
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected HtmlInputText txtMembersCount;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtMembersCount;
         
         /// <summary>
         /// txtBookDate 控件。
@@ -139,7 +136,7 @@ namespace SchoolPocketBookWeb.StudyRoom {
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected HtmlInputText txtBookDate;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtBookDate;
         
         /// <summary>
         /// slbookTime 控件。
@@ -148,7 +145,7 @@ namespace SchoolPocketBookWeb.StudyRoom {
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected HtmlSelect slbookTime;
+        protected global::System.Web.UI.HtmlControls.HtmlSelect slbookTime;
         
         /// <summary>
         /// txtUseTime 控件。
@@ -157,7 +154,7 @@ namespace SchoolPocketBookWeb.StudyRoom {
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected HtmlInputText txtUseTime;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtUseTime;
         
         /// <summary>
         /// txtEmailAddress 控件。
@@ -166,7 +163,7 @@ namespace SchoolPocketBookWeb.StudyRoom {
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected HtmlInputText txtEmailAddress;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtEmailAddress;
         
         /// <summary>
         /// btnSubmit 控件。
@@ -175,7 +172,7 @@ namespace SchoolPocketBookWeb.StudyRoom {
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected HtmlInputButton btnSubmit;
+        protected global::System.Web.UI.HtmlControls.HtmlInputButton btnSubmit;
         
         /// <summary>
         /// spanWarmInfo 控件。
@@ -184,6 +181,6 @@ namespace SchoolPocketBookWeb.StudyRoom {
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected HtmlGenericControl spanWarmInfo;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanWarmInfo;
     }
 }

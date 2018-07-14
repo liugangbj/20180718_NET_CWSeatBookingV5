@@ -45,7 +45,7 @@
             </div>
         </div>
         <div data-theme="d" data-role="footer" data-position="fixed">
-            <h3>智佰闻欣图书馆座位在线
+            <h3>云座位在线
             </h3>
         </div>
     </div>

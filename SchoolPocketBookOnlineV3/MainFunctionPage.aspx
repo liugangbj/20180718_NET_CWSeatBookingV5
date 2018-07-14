@@ -103,7 +103,7 @@
         <div data-theme="d" data-role="footer" data-position="fixed">
             <%--<a data-role="button" class="ui-btn-left" rel="external" href="AboutUs/Feedback.aspx">
                 意见反馈</a>--%>
-            <h5>智佰闻欣图书馆座位在线
+            <h5>云座位在线
             </h5>
            <%-- <a data-role="button" class="ui-btn-right" onclick="subQuery('LoginOut')">注销</a>--%>
         </div>

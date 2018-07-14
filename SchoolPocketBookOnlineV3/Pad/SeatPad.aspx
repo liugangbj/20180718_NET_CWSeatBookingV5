@@ -114,7 +114,7 @@
         </div>
         <div data-theme="c" data-role="footer" data-position="fixed">
             <h3>
-                智佰闻欣图书馆座位管理移动平台
+                云座位管理移动平台
             </h3>
             <a data-role="button" class="ui-btn-right" onclick="SetOperateFlag('LoginOut')">注销</a>
         </div>
@@ -174,7 +174,7 @@
     </table>
     <div data-theme="c" data-role="footer" data-position="fixed">
         <h3>
-            智佰闻欣图书馆座位管理移动平台
+            云座位管理移动平台
         </h3>
         <a data-role="button" class="ui-btn-right" onclick="SetOperateFlag('LoginOut')">注销</a>
     </div>

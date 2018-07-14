@@ -54,7 +54,7 @@
         </div>
         <div data-theme="d" data-role="footer" data-position="fixed">
             <h3>
-                智佰闻欣图书馆座位在线
+                云座位在线
             </h3>
             <%--<a data-role="button" class="ui-btn-right" onclick="subQuery('LoginOut')">注销</a>--%>
         </div>

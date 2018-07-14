@@ -289,7 +289,7 @@ namespace SeatManage.SeatClient.Config.Code
             get { return _WeChatWCFString; }
             set { _WeChatWCFString = value; }
         }
-        string _AdrWcfString = "net.tcp://service.juneberry.cn:10086/";
+        string _AdrWcfString = "net.tcp://gxchuwei.com:10086/";
         /// <summary>
         /// 180wcf连接字符串
         /// </summary>
@@ -298,7 +298,7 @@ namespace SeatManage.SeatClient.Config.Code
             get { return _AdrWcfString; }
             set { _AdrWcfString = value; }
         }
-        string _AdvSocketString = "service.juneberry.cn:12306";
+        string _AdvSocketString = "gxchuwei.com:12306";
         /// <summary>
         /// Socket连接字符
         /// </summary>
@@ -307,7 +307,7 @@ namespace SeatManage.SeatClient.Config.Code
             get { return _AdvSocketString; }
             set { _AdvSocketString = value; }
         }
-        string _MediaFilePath = "D:\\SeatManageV2\\FileTransport\\School\\";
+        string _MediaFilePath = "D:\\Seatbooking\\FileTransport\\School\\";
         /// <summary>
         /// 文件存储地址
         /// </summary>
