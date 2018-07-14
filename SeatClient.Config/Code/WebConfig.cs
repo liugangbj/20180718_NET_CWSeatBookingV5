@@ -16,7 +16,7 @@ namespace SeatManage.SeatClient.Config.Code
         {
             doc = new XmlDocument();
             string fileDircetoryPath = Path.GetDirectoryName(Application.StartupPath);
-            string filePath = string.Format("{0}\\SeatManageWebV2\\Web.config", fileDircetoryPath);
+            string filePath = string.Format("{0}\\SeatManageWebV5\\Web.config", fileDircetoryPath);
             if (File.Exists(filePath))
             {
                 doc.Load(filePath);
@@ -74,7 +74,7 @@ namespace SeatManage.SeatClient.Config.Code
             {
                 doc = new XmlDocument();
                 string fileDircetoryPath = Path.GetDirectoryName(Application.StartupPath);
-                string filePath = string.Format("{0}\\SeatManageWebV2\\Web.config", fileDircetoryPath);
+                string filePath = string.Format("{0}\\SeatManageWebV5\\Web.config", fileDircetoryPath);
                 doc.Load(filePath);
 
                 foreach (XmlNode node in doc.ChildNodes)

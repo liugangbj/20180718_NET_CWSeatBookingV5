@@ -85,7 +85,7 @@ namespace SeatManage.SeatClient.Config
                 }
                 else
                 {
-                    MessageBox.Show("无法自动获取管理网站配置文件，请确保和Host服务文件夹放置在同一目录，并且文件夹为“SeatManageWebV2”");
+                    MessageBox.Show("无法自动获取管理网站配置文件，请确保和Host服务文件夹放置在同一目录，并且文件夹为“SeatManageWebV5”");
                     gb_web.Enabled = false;
                 }
                 foreach (Control c in tabControl1.TabPages[1].Controls)

@@ -3599,6 +3599,7 @@
     <Content Include="NewContent\js\simditor\css\fonticon.scss" />
     <Content Include="NewContent\js\simditor\css\simditor.scss" />
     <None Include="Properties\PublishProfiles\test1.pubxml" />
+    <None Include="Properties\PublishProfiles\webNomal.pubxml" />
     <None Include="Scripts\My97DatePicker\WdatePicker.js.bak" />
     <Content Include="ws_authorized_keys" />
   </ItemGroup>
