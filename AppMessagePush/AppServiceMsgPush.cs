@@ -98,11 +98,14 @@ namespace AppMessagePush
                 string aesStr = SeatManage.SeatManageComm.AESAlgorithm.AESEncrypt(msg, "SeatManage_WeiCharCode");
                 string contenttype = "application/x-www-form-urlencoded"; //更网站该方法支持的类型要一致
                 //根据接口，写参数
+                aesStr = aesStr.Replace("+", "%2B");
                 string para = "msg=" + aesStr;
-                if (msg.IndexOf("2014101603", StringComparison.Ordinal) > 0)
+                if (msg.IndexOf("20180605", StringComparison.Ordinal) > 0)
                 {
                     SeatManage.SeatManageComm.WriteLog.Write(msg);
+                   // SeatManage.SeatManageComm.WriteLog.Write(aesStr);
                 }
+
 
                 //para += "&action=" + aesStr;
                 //发送请求
@@ -124,6 +127,7 @@ namespace AppMessagePush
             }
             catch (Exception ex)
             {
+                SeatManage.SeatManageComm.WriteLog.Write(ex.ToString());
                 return ex.Message;
             }
         }

@@ -225,6 +225,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeatClientV5", "SeatClientV
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolNoteEditerV5", "SchoolNoteEditerV5\SchoolNoteEditerV5.csproj", "{2FA1AC64-7E60-4B90-906B-20C552B5AB8C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WeChatMsgPush", "WeChatMsgPush", "{00643938-C598-4B92-894F-FBBB7FB77052}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeChatMsgPushWeb", "WeChatMsgPushWeb\WeChatMsgPushWeb.csproj", "{AFCCDF6E-B32F-4739-A734-4C32F4764862}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeiXinMsgService", "WeiXinMsgService\WeiXinMsgService.csproj", "{EC26270D-3AE8-42F1-A9FF-E7C9E1EA0477}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1181,6 +1187,30 @@ Global
 		{2FA1AC64-7E60-4B90-906B-20C552B5AB8C}.Release|Mixed Platforms.Build.0 = Release|x86
 		{2FA1AC64-7E60-4B90-906B-20C552B5AB8C}.Release|x86.ActiveCfg = Release|x86
 		{2FA1AC64-7E60-4B90-906B-20C552B5AB8C}.Release|x86.Build.0 = Release|x86
+		{AFCCDF6E-B32F-4739-A734-4C32F4764862}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFCCDF6E-B32F-4739-A734-4C32F4764862}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFCCDF6E-B32F-4739-A734-4C32F4764862}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{AFCCDF6E-B32F-4739-A734-4C32F4764862}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{AFCCDF6E-B32F-4739-A734-4C32F4764862}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AFCCDF6E-B32F-4739-A734-4C32F4764862}.Debug|x86.Build.0 = Debug|Any CPU
+		{AFCCDF6E-B32F-4739-A734-4C32F4764862}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFCCDF6E-B32F-4739-A734-4C32F4764862}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFCCDF6E-B32F-4739-A734-4C32F4764862}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{AFCCDF6E-B32F-4739-A734-4C32F4764862}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{AFCCDF6E-B32F-4739-A734-4C32F4764862}.Release|x86.ActiveCfg = Release|Any CPU
+		{AFCCDF6E-B32F-4739-A734-4C32F4764862}.Release|x86.Build.0 = Release|Any CPU
+		{EC26270D-3AE8-42F1-A9FF-E7C9E1EA0477}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC26270D-3AE8-42F1-A9FF-E7C9E1EA0477}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC26270D-3AE8-42F1-A9FF-E7C9E1EA0477}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{EC26270D-3AE8-42F1-A9FF-E7C9E1EA0477}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{EC26270D-3AE8-42F1-A9FF-E7C9E1EA0477}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EC26270D-3AE8-42F1-A9FF-E7C9E1EA0477}.Debug|x86.Build.0 = Debug|Any CPU
+		{EC26270D-3AE8-42F1-A9FF-E7C9E1EA0477}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC26270D-3AE8-42F1-A9FF-E7C9E1EA0477}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC26270D-3AE8-42F1-A9FF-E7C9E1EA0477}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{EC26270D-3AE8-42F1-A9FF-E7C9E1EA0477}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{EC26270D-3AE8-42F1-A9FF-E7C9E1EA0477}.Release|x86.ActiveCfg = Release|Any CPU
+		{EC26270D-3AE8-42F1-A9FF-E7C9E1EA0477}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1287,6 +1317,8 @@ Global
 		{3F0B8A69-1941-4B8E-B465-A419D71A90C7} = {FBFB54EF-F4BB-4337-9714-A107E7A7C2B0}
 		{4EDAC493-D9AF-4A17-8B6F-445DA09F3228} = {5F32469A-5BEC-4E2A-A03F-53D3B4419A68}
 		{2FA1AC64-7E60-4B90-906B-20C552B5AB8C} = {C8411B15-5AE2-41DA-9BC1-BFC8830565AB}
+		{AFCCDF6E-B32F-4739-A734-4C32F4764862} = {00643938-C598-4B92-894F-FBBB7FB77052}
+		{EC26270D-3AE8-42F1-A9FF-E7C9E1EA0477} = {00643938-C598-4B92-894F-FBBB7FB77052}
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SeatManageV21.vsmdi
