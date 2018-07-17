@@ -100,11 +100,11 @@ namespace AppMessagePush
                 //根据接口，写参数
                 aesStr = aesStr.Replace("+", "%2B");
                 string para = "msg=" + aesStr;
-                if (msg.IndexOf("20180605", StringComparison.Ordinal) > 0)
-                {
+                //if (msg.IndexOf("20180627", StringComparison.Ordinal) > 0)
+               // {
                     SeatManage.SeatManageComm.WriteLog.Write(msg);
                    // SeatManage.SeatManageComm.WriteLog.Write(aesStr);
-                }
+               // }
 
 
                 //para += "&action=" + aesStr;
