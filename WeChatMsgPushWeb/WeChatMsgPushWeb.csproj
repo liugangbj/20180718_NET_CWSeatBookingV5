@@ -40,6 +40,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dos.ORM, Version=1.10.6.7, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\Dos.ORM.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -59,10 +63,12 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="lib\Dos.ORM.dll" />
     <Content Include="lib\SeatManageComm.dll" />
     <Content Include="LoginForm.aspx" />
     <Content Include="TextFile1.txt" />
     <Content Include="Web.config" />
+    <Content Include="XMLFile.xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LoginForm.aspx.cs">
@@ -72,6 +78,7 @@
     <Compile Include="LoginForm.aspx.designer.cs">
       <DependentUpon>LoginForm.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Model\tb_User.cs" />
     <Compile Include="MsgHandler.ashx.cs">
       <DependentUpon>MsgHandler.ashx</DependentUpon>
     </Compile>

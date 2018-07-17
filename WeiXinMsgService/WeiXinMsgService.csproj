@@ -30,9 +30,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Senparc.CO2NET, Version=0.1.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\Senparc.CO2NET.dll</HintPath>
+    </Reference>
+    <Reference Include="Senparc.Weixin, Version=5.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\Senparc.Weixin.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,8 +54,27 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommonTools.cs" />
+    <Compile Include="Model\AcceptUserOperationModel.cs" />
+    <Compile Include="Model\OpenApiResult.cs" />
+    <Compile Include="Model\TemplateData.cs" />
+    <Compile Include="Model\TemplateModel.cs" />
+    <Compile Include="Model\weiXinAccessTocken.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WeiXinJKPram.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SeatManageComm\SeatManageComm.csproj">
+      <Project>{19063808-3340-4563-8b40-573d8dd0baba}</Project>
+      <Name>SeatManageComm</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="lib\Newtonsoft.Json.dll" />
+    <Content Include="lib\Newtonsoft.Json.xml" />
+    <Content Include="lib\Senparc.CO2NET.dll" />
+    <Content Include="lib\Senparc.CO2NET.xml" />
+    <Content Include="lib\Senparc.Weixin.dll" />
+    <Content Include="lib\Senparc.Weixin.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
