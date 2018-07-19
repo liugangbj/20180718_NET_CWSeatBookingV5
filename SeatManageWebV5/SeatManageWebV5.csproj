@@ -773,6 +773,8 @@
     <Content Include="FunctionPages\UsersManage\UserEdit.aspx" />
     <Content Include="FunctionPages\UsersManage\UserInfo.aspx" />
     <Content Include="FunctionPages\WechatCode\MyQRCode.aspx" />
+    <Content Include="HtmlPage1.html" />
+    <Content Include="HtmlPage2.html" />
     <Content Include="Images\BookStream.png" />
     <Content Include="Images\icon\accept.png" />
     <Content Include="Images\icon\add.png" />
@@ -2840,6 +2842,9 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
+    <Content Include="WebForm1.aspx" />
+    <Content Include="WebForm2.aspx" />
+    <Content Include="WebService\SeatLayoutInterface.asmx" />
     <Content Include="WebService\SMS_DataQueryInterface.asmx" />
     <Content Include="WebService\SM_AccessInterface.asmx" />
     <Content Include="说明.txt" />
@@ -3488,6 +3493,24 @@
       <DependentUpon>SeatPad.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebForm1.aspx.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebForm1.aspx.designer.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebForm2.aspx.cs">
+      <DependentUpon>WebForm2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebForm2.aspx.designer.cs">
+      <DependentUpon>WebForm2.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebService\SeatLayoutInterface.asmx.cs">
+      <DependentUpon>SeatLayoutInterface.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="WebService\SMS_DataQueryInterface.asmx.cs">
       <DependentUpon>SMS_DataQueryInterface.asmx</DependentUpon>
       <SubType>Component</SubType>

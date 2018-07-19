@@ -301,7 +301,7 @@ namespace SeatManageWebV2.FunctionPages.SeatBespeak
                 }
                 return result;
             }
-            catch
+            catch(Exception ex)
             {
                 return false;
             }
