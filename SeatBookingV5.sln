@@ -231,6 +231,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeChatMsgPushWeb", "WeChatM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeiXinMsgService", "WeiXinMsgService\WeiXinMsgService.csproj", "{EC26270D-3AE8-42F1-A9FF-E7C9E1EA0477}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DianziKejiDaXueYKTInterface", "DianziKejiDaXueYKTInterface\DianziKejiDaXueYKTInterface.csproj", "{A69F821F-1D17-47F5-9426-A98F00AFD1C1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1211,6 +1213,18 @@ Global
 		{EC26270D-3AE8-42F1-A9FF-E7C9E1EA0477}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{EC26270D-3AE8-42F1-A9FF-E7C9E1EA0477}.Release|x86.ActiveCfg = Release|Any CPU
 		{EC26270D-3AE8-42F1-A9FF-E7C9E1EA0477}.Release|x86.Build.0 = Release|Any CPU
+		{A69F821F-1D17-47F5-9426-A98F00AFD1C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A69F821F-1D17-47F5-9426-A98F00AFD1C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A69F821F-1D17-47F5-9426-A98F00AFD1C1}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A69F821F-1D17-47F5-9426-A98F00AFD1C1}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A69F821F-1D17-47F5-9426-A98F00AFD1C1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A69F821F-1D17-47F5-9426-A98F00AFD1C1}.Debug|x86.Build.0 = Debug|Any CPU
+		{A69F821F-1D17-47F5-9426-A98F00AFD1C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A69F821F-1D17-47F5-9426-A98F00AFD1C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A69F821F-1D17-47F5-9426-A98F00AFD1C1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A69F821F-1D17-47F5-9426-A98F00AFD1C1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{A69F821F-1D17-47F5-9426-A98F00AFD1C1}.Release|x86.ActiveCfg = Release|Any CPU
+		{A69F821F-1D17-47F5-9426-A98F00AFD1C1}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1319,6 +1333,7 @@ Global
 		{2FA1AC64-7E60-4B90-906B-20C552B5AB8C} = {C8411B15-5AE2-41DA-9BC1-BFC8830565AB}
 		{AFCCDF6E-B32F-4739-A734-4C32F4764862} = {00643938-C598-4B92-894F-FBBB7FB77052}
 		{EC26270D-3AE8-42F1-A9FF-E7C9E1EA0477} = {00643938-C598-4B92-894F-FBBB7FB77052}
+		{A69F821F-1D17-47F5-9426-A98F00AFD1C1} = {FBFB54EF-F4BB-4337-9714-A107E7A7C2B0}
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SeatManageV21.vsmdi

@@ -210,6 +210,8 @@ namespace SeatManage.Middleware
         /// <param name="msg"></param>
         private void PubshMsg(SocketMsgBase msg)
         {
+            SeatManageComm.WriteLog.Write("hello world");
+
             try
             {
                 if (msg is SocketRequest)

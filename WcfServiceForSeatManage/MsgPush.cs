@@ -32,10 +32,11 @@ namespace WcfServiceForSeatManage
                 pushMsgV2(model);
                 return true;
             }
-            catch
+            catch(Exception ex)
             {
-              //  throw;
+                //  throw;
                 //zdh 
+                SeatManage.SeatManageComm.WriteLog.Write(ex.ToString());
                 return true;
             }
         }
