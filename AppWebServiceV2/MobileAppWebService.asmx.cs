@@ -834,6 +834,7 @@ namespace AppWebService
                 IMobileAppDataObtianProxy obtainProxy = new MobileAppDataWCFProxy(myHeader.SchoolNum);
                 string r = obtainProxy.GetLibraryNowState();
                 obtainProxy.Dispose();
+              //  SeatManage.SeatManageComm.WriteLog.Write("r:"+r);
                 return r;
             }
             AJM_HandleResult result = new AJM_HandleResult();
