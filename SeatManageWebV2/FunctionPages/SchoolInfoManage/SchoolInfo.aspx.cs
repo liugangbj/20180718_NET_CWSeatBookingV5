@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 using System.Data;
 using FineUI;
 
-namespace SeatManageWebV2.FunctionPages.SchoolInfoManage
+namespace SeatManageWebV5.FunctionPages.SchoolInfoManage
 {
     public partial class SchoolInfo : BasePage
     {

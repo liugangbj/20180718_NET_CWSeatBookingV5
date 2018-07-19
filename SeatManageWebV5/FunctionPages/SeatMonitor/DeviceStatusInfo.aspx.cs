@@ -6,7 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
 
-namespace SeatManageWebV2.FunctionPages.RegulationRulesSetting
+namespace SeatManageWebV5.FunctionPages.RegulationRulesSetting
 {
     public partial class DeviceStatusInfo : System.Web.UI.Page
     {

@@ -7,7 +7,7 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace SeatManageWebV2.FunctionPages.RegulationRulesSetting {
+namespace SeatManageWebV5.FunctionPages.RegulationRulesSetting {
     
     
     public partial class PecketWebSetting {

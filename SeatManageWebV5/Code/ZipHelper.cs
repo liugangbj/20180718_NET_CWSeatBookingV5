@@ -9,7 +9,7 @@ using ICSharpCode.SharpZipLib;
 using ICSharpCode.SharpZipLib.Zip;
 using ICSharpCode.SharpZipLib.Checksums;
 using ICSharpCode.SharpZipLib.Core;
-namespace SeatManageWebV2.Code
+namespace SeatManageWebV5.Code
 {
     public class ZipHelper
     {

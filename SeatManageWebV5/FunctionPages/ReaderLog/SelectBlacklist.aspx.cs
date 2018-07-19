@@ -8,7 +8,7 @@ using SeatManage.EnumType;
 using System.Data;
 using FineUI;
 
-namespace SeatManageWebV2.FunctionPages.ReaderLog
+namespace SeatManageWebV5.FunctionPages.ReaderLog
 {
     public partial class SelectBlacklist : BasePage
     {

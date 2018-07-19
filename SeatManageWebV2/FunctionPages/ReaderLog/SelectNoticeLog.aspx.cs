@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 using FineUI;
 using System.Data;
 
-namespace SeatManageWebV2.FunctionPages.ReaderLog
+namespace SeatManageWebV5.FunctionPages.ReaderLog
 {
     public partial class SelectNoticeLog : BasePage
     {

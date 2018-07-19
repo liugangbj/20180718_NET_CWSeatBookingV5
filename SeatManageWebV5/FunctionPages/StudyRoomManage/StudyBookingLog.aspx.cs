@@ -8,7 +8,7 @@ using System.Data;
 using SeatManage.EnumType;
 using FineUI;
 
-namespace SeatManageWebV2.FunctionPages.StudyRoomManage
+namespace SeatManageWebV5.FunctionPages.StudyRoomManage
 {
     public partial class StudyBookingLog : BasePage
     {

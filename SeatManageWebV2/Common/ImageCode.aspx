@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ImageCode.aspx.cs" Inherits="SeatManageWebV2.Common.ImageCode" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ImageCode.aspx.cs" Inherits="SeatManageWebV5.Common.ImageCode" %>
 
 <!DOCTYPE html>
 

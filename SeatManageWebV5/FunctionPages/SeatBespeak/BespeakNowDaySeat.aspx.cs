@@ -6,9 +6,9 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using FineUI;
 using System.Data;
-using SeatManageWebV2.Code;
+using SeatManageWebV5.Code;
 
-namespace SeatManageWebV2.FunctionPages.SeatBespeak
+namespace SeatManageWebV5.FunctionPages.SeatBespeak
 {
     public partial class BespeakNowDaySeat : BasePage
     {

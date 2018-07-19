@@ -7,7 +7,7 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace SeatManageWebV2.FunctionPages.SeatBespeak {
+namespace SeatManageWebV5.FunctionPages.SeatBespeak {
     
     
     public partial class BespeakNowDayHandle {

@@ -8,7 +8,7 @@ using System.Data;
 using FineUI;
 using SeatManage.EnumType;
 
-namespace SeatManageWebV2.FunctionPages.LogManage
+namespace SeatManageWebV5.FunctionPages.LogManage
 {
     public partial class Blacklist : BasePage
     {

@@ -5,12 +5,12 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using FineUI;
-using SeatManageWebV2.Code;
+using SeatManageWebV5.Code;
 using SeatManage.EnumType;
 using System.Data;
 using SeatManage.ClassModel;
 
-namespace SeatManageWebV2.FunctionPages.LogManage
+namespace SeatManageWebV5.FunctionPages.LogManage
 {
     public partial class BespeakLog : BasePage
     {

@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ReadRoomSeatQRCode.aspx.cs" Inherits="SeatManageWebV2.FunctionPages.SchoolInfoManage.ReadRoomSeatQRCode" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ReadRoomSeatQRCode.aspx.cs" Inherits="SeatManageWebV5.FunctionPages.SchoolInfoManage.ReadRoomSeatQRCode" %>
 
 <!DOCTYPE html>
 

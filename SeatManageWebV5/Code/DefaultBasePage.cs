@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Configuration;
 
-namespace SeatManageWebV2
+namespace SeatManageWebV5
 {
     public class DefaultBasePage : System.Web.UI.Page
     {

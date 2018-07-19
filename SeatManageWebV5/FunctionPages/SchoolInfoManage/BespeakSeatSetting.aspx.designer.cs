@@ -7,7 +7,7 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace SeatManageWebV2.FunctionPages.SchoolInfoManage {
+namespace SeatManageWebV5.FunctionPages.SchoolInfoManage {
     
     
     public partial class BespeakSeatSetting {

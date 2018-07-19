@@ -6,7 +6,7 @@ using SeatManage.Bll;
 using SeatManage.SeatManageComm;
 using System.Text;
 
-namespace SeatManageWebV2.FunctionPages.SeatBespeak
+namespace SeatManageWebV5.FunctionPages.SeatBespeak
 {
     /// <summary>
     /// SeatLayout 的摘要说明

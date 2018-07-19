@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using System.Data;
 
-namespace SeatManageWebV2.FunctionPages.Statistical
+namespace SeatManageWebV5.FunctionPages.Statistical
 {
     public partial class ReadingRoomUsageInfo : BasePage
     {

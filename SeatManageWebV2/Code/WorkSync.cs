@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using SeatManage.ISystemTerminal.IStuLibSync;
 
-namespace SeatManageWebV2.Code
+namespace SeatManageWebV5.Code
 {
     public class WorkSync
     {

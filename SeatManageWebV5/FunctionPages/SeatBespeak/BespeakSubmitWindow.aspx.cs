@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 using FineUI;
 using SeatManage.ClassModel;
 
-namespace SeatManageWebV2.FunctionPages.SeatBespeak
+namespace SeatManageWebV5.FunctionPages.SeatBespeak
 {
     public partial class BespeakSubmitWindow : BasePage
     {
@@ -40,7 +40,7 @@ namespace SeatManageWebV2.FunctionPages.SeatBespeak
                 }
             }
             string parameters = Request.QueryString["parameters"];
-            SeatManageWebV2.Code.BespeakSubmitWindowParamModel bespeakSubmitModel = new Code.BespeakSubmitWindowParamModel(parameters);
+            SeatManageWebV5.Code.BespeakSubmitWindowParamModel bespeakSubmitModel = new Code.BespeakSubmitWindowParamModel(parameters);
             seatNo = bespeakSubmitModel.SeatNo;
             seatShortNo = bespeakSubmitModel.ShortSeatNo;
             date = DateTime.FromBinary(long.Parse(bespeakSubmitModel.BespeakDate)).ToString();

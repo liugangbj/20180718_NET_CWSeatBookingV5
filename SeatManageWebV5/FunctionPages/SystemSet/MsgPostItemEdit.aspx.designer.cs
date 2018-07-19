@@ -7,7 +7,7 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace SeatManageWebV2.FunctionPages.UsersManage {
+namespace SeatManageWebV5.FunctionPages.UsersManage {
     
     
     public partial class MsgPostItemEdit {

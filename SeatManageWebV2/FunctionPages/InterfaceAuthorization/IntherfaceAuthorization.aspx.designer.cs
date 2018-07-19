@@ -7,7 +7,7 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace SeatManageWebV2.FunctionPages.InterfaceAuthorization {
+namespace SeatManageWebV5.FunctionPages.InterfaceAuthorization {
     
     
     public partial class IntherfaceAuthorization {

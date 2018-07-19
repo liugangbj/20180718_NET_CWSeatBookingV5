@@ -6,7 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using FineUI;
 
-namespace SeatManageWebV2.FunctionPages.UsersManage
+namespace SeatManageWebV5.FunctionPages.UsersManage
 {
     public partial class ChangePassword : BasePage
     {

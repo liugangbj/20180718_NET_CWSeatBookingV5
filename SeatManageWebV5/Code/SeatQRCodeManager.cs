@@ -7,7 +7,7 @@ using SeatManage.SeatManageComm;
 using System.Configuration;
 using System.Drawing;
 
-namespace SeatManageWebV2.Code
+namespace SeatManageWebV5.Code
 {
     /// <summary>
     /// 座位二维码生成类

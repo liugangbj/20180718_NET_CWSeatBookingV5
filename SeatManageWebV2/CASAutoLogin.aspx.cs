@@ -13,7 +13,7 @@ using System.Web.UI.WebControls;
 using System.Xml;
 using DotNetCasClient;
 
-namespace SeatManageWebV2
+namespace SeatManageWebV5
 {
     public partial class CASAutoLogin : DefaultBasePage
     {

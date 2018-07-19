@@ -7,7 +7,7 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace SeatManageWebV2.Pad {
+namespace SeatManageWebV5.Pad {
     
     
     public partial class SeatPad {

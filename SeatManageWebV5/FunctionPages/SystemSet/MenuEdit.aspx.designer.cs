@@ -7,7 +7,7 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace SeatManageWebV2.FunctionPages.SystemSet {
+namespace SeatManageWebV5.FunctionPages.SystemSet {
     
     
     public partial class MenuEdit {

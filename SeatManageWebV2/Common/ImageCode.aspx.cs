@@ -1,4 +1,4 @@
-﻿using SeatManageWebV2.Code;
+﻿using SeatManageWebV5.Code;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace SeatManageWebV2.Common
+namespace SeatManageWebV5.Common
 {
     public partial class ImageCode : System.Web.UI.Page
     {

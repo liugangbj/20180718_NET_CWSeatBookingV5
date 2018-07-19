@@ -8,7 +8,7 @@ using FineUI;
 using SeatManage.ClassModel;
 using SeatManage.EnumType;
 
-namespace SeatManageWebV2.FunctionPages.SeatMonitor
+namespace SeatManageWebV5.FunctionPages.SeatMonitor
 {
     public partial class SeatHandle : BasePage
     {

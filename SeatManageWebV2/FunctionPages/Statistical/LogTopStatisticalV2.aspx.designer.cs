@@ -7,7 +7,7 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace SeatManageWebV2.FunctionPages.Statistical {
+namespace SeatManageWebV5.FunctionPages.Statistical {
     
     
     public partial class LogTopStatisticalV2 {

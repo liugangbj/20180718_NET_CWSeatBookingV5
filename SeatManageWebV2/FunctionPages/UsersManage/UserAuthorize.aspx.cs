@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace SeatManageWebV2.FunctionPages.UsersManage
+namespace SeatManageWebV5.FunctionPages.UsersManage
 {
     public partial class UserAuthorize : BasePage
     {

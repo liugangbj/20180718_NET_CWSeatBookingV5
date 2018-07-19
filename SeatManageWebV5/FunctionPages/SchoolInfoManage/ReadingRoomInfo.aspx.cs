@@ -5,11 +5,11 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
-using SeatManageWebV2.Code;
+using SeatManageWebV5.Code;
 using System.IO;
 using SeatManage.SeatManageComm;
 
-namespace SeatManageWebV2.FunctionPages.SchoolInfoManage
+namespace SeatManageWebV5.FunctionPages.SchoolInfoManage
 {
     public partial class ReadingRoomInfo : BasePage
     {

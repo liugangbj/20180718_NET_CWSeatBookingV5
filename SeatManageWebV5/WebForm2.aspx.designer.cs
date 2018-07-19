@@ -7,7 +7,7 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace SeatManageWebV2 {
+namespace SeatManageWebV5 {
     
     
     public partial class WebForm2 {

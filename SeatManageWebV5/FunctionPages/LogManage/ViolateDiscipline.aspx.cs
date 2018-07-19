@@ -8,7 +8,7 @@ using System.Data;
 using SeatManage.EnumType;
 using FineUI;
 
-namespace SeatManageWebV2.FunctionPages.LogManage
+namespace SeatManageWebV5.FunctionPages.LogManage
 {
     public partial class ViolateDiscipline : BasePage
     {

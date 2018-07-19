@@ -6,7 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using FineUI;
 
-namespace SeatManageWebV2.FunctionPages.LogManage
+namespace SeatManageWebV5.FunctionPages.LogManage
 {
     public partial class BlackListDelete : BasePage
     {

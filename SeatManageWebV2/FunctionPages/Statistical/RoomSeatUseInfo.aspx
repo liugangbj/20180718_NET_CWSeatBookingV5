@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="RoomSeatUseInfo.aspx.cs"
-    Inherits="SeatManageWebV2.FunctionPages.Statistical.RoomSeatUseInfo" %>
+    Inherits="SeatManageWebV5.FunctionPages.Statistical.RoomSeatUseInfo" %>
 
 <%@ Register Assembly="System.Web.DataVisualization, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
     Namespace="System.Web.UI.DataVisualization.Charting" TagPrefix="asp" %>

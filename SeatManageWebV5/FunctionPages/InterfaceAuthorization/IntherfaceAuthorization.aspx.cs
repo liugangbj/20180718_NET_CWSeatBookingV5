@@ -6,7 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.IO;
 
-namespace SeatManageWebV2.FunctionPages.InterfaceAuthorization
+namespace SeatManageWebV5.FunctionPages.InterfaceAuthorization
 {
     public partial class IntherfaceAuthorization : System.Web.UI.Page
     {

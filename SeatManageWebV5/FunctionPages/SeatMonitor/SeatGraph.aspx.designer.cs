@@ -7,7 +7,7 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace SeatManageWebV2.FunctionPages.SeatMonitor {
+namespace SeatManageWebV5.FunctionPages.SeatMonitor {
     
     
     public partial class SeatGraph {

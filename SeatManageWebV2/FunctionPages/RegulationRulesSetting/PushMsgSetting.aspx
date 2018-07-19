@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="PushMsgSetting.aspx.cs" Inherits="SeatManageWebV2.FunctionPages.RegulationRulesSetting.PushMsgSetting" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="PushMsgSetting.aspx.cs" Inherits="SeatManageWebV5.FunctionPages.RegulationRulesSetting.PushMsgSetting" %>
 
 <!DOCTYPE html>
 

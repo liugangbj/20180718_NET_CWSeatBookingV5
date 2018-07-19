@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 using FineUI;
 using System.IO;
 
-namespace SeatManageWebV2.FunctionPages.StudyRoomManage
+namespace SeatManageWebV5.FunctionPages.StudyRoomManage
 {
     public partial class StudyRoomEdit : BasePage
     {

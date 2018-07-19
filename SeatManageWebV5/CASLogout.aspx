@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="CASLogout.aspx.cs" Inherits="SeatManageWebV2.CASLogout" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="CASLogout.aspx.cs" Inherits="SeatManageWebV5.CASLogout" %>
 
 <!DOCTYPE html>
 

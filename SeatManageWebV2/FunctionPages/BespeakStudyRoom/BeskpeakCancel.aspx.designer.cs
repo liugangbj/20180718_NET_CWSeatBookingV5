@@ -7,7 +7,7 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace SeatManageWebV2.FunctionPages.BespeakStudyRoom {
+namespace SeatManageWebV5.FunctionPages.BespeakStudyRoom {
     
     
     public partial class BeskpeakCancel {

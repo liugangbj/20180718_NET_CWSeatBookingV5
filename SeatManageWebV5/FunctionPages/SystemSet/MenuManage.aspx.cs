@@ -16,7 +16,7 @@ using System.Text;
 using System.IO;
 using FineUI;
 
-namespace SeatManageWebV2.FunctionPages.SystemSet
+namespace SeatManageWebV5.FunctionPages.SystemSet
 {
     public partial class MenuManage : BasePage
     {

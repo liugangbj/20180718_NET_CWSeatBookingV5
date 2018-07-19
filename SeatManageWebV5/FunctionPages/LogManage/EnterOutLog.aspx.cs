@@ -5,10 +5,10 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
-using SeatManageWebV2.Code;
+using SeatManageWebV5.Code;
 using FineUI;
 using SeatManage.ClassModel;
-namespace SeatManageWebV2.FunctionPages.LogManage
+namespace SeatManageWebV5.FunctionPages.LogManage
 {
     public partial class EnterOutLog : BasePage
     {

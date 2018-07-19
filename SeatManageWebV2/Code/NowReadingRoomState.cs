@@ -5,7 +5,7 @@ using System.Text;
 using SeatManage.EnumType;
 using SeatManage.ClassModel;
 using SeatManage.SeatManageComm;
-namespace SeatManageWebV2.Code
+namespace SeatManageWebV5.Code
 {
     /// <summary>
     /// 阅览室当前状态

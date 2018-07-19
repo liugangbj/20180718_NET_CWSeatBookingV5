@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 using System.Data;
 using FineUI;
 
-namespace SeatManageWebV2.FunctionPages.LogManage
+namespace SeatManageWebV5.FunctionPages.LogManage
 {
     public partial class BlacklistInfo : BasePage
     {

@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="LogTopStatisticalV2.aspx.cs" Inherits="SeatManageWebV2.FunctionPages.Statistical.LogTopStatisticalV2" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="LogTopStatisticalV2.aspx.cs" Inherits="SeatManageWebV5.FunctionPages.Statistical.LogTopStatisticalV2" %>
 
 <!DOCTYPE html>
 

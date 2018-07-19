@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 using System.Data;
 using System.Configuration;
 
-namespace SeatManageWebV2.Florms
+namespace SeatManageWebV5.Florms
 {
     public partial class FormSYS : BasePage
     {

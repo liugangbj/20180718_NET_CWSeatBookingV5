@@ -6,7 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
 
-namespace SeatManageWebV2.FunctionPages.Statistical
+namespace SeatManageWebV5.FunctionPages.Statistical
 {
     public partial class LibraryUsedStat : BasePage
     {
@@ -35,7 +35,7 @@ namespace SeatManageWebV2.FunctionPages.Statistical
         private void LibDataBinding()
         {
             librarySeatUsedInfo.Titles["titleName"].Text = string.Format("{0}{1}座位使用情况", DateTime.Now.ToLongDateString(), ddlLibrary.SelectedItem.Text);
-            DataTable dt = SeatManageWebV2.Code.LogQueryHelper.LibrarySeatInfo(ddlLibrary.SelectedItem.Value);
+            DataTable dt = SeatManageWebV5.Code.LogQueryHelper.LibrarySeatInfo(ddlLibrary.SelectedItem.Value);
             DataView dv = dt.DefaultView;
             librarySeatUsedInfo.ChartAreas[0].Area3DStyle.Enable3D = true;
             librarySeatUsedInfo.ChartAreas[0].Area3DStyle.Inclination = 15;

@@ -6,7 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using SeatManage.ClassModel;
 
-namespace SeatManageWebV2.FunctionPages.RegulationRulesSetting
+namespace SeatManageWebV5.FunctionPages.RegulationRulesSetting
 {
     public partial class DeviceInfo : BasePage
     {

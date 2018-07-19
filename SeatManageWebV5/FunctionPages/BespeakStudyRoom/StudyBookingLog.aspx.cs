@@ -7,9 +7,9 @@ using System.Web.UI.WebControls;
 using FineUI;
 using System.Data;
 using SeatManage.EnumType;
-using SeatManageWebV2.Code;
+using SeatManageWebV5.Code;
 
-namespace SeatManageWebV2.FunctionPages.BespeakStudyRoom
+namespace SeatManageWebV5.FunctionPages.BespeakStudyRoom
 {
     public partial class StudyBookingLog : BasePage
     {

@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="MsgPostItemEdit.aspx.cs" Inherits="SeatManageWebV2.FunctionPages.UsersManage.MsgPostItemEdit" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="MsgPostItemEdit.aspx.cs" Inherits="SeatManageWebV5.FunctionPages.UsersManage.MsgPostItemEdit" %>
 
 <!DOCTYPE html>
 

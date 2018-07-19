@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 using FineUI;
 using System.Data;
 
-namespace SeatManageWebV2.FunctionPages.SystemSet
+namespace SeatManageWebV5.FunctionPages.SystemSet
 {
     public partial class FunctionPagesManage : BasePage
     {

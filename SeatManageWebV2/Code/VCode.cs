@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 using System.Drawing;
 using System.Drawing.Imaging;
 
-namespace SeatManageWebV2.Code
+namespace SeatManageWebV5.Code
 {
     public class VCode
     {

@@ -6,7 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using FineUI;
 
-namespace SeatManageWebV2.FunctionPages.SystemSet
+namespace SeatManageWebV5.FunctionPages.SystemSet
 {
     public partial class DeletePassword : BasePage
     {

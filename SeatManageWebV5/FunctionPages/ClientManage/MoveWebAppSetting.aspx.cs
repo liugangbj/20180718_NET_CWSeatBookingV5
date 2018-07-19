@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace SeatManageWebV2.FunctionPages.ClientManage
+namespace SeatManageWebV5.FunctionPages.ClientManage
 {
     public partial class MoveWebAppSetting : BasePage
     {

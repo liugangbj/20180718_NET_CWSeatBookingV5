@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="MyQRCode.aspx.cs" Inherits="SeatManageWebV2.FunctionPages.WechatCode.MyQRCode" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="MyQRCode.aspx.cs" Inherits="SeatManageWebV5.FunctionPages.WechatCode.MyQRCode" %>
 
 <!DOCTYPE html>
 

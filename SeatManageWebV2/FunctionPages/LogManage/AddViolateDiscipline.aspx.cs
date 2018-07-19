@@ -9,7 +9,7 @@ using SeatManage.Bll;
 using SeatManage.EnumType;
 using FineUI;
 
-namespace SeatManageWebV2.FunctionPages.LogManage
+namespace SeatManageWebV5.FunctionPages.LogManage
 {
     public partial class AddViolateDiscipline : BasePage
     {

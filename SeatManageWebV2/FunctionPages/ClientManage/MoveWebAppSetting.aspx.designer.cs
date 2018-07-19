@@ -7,7 +7,7 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace SeatManageWebV2.FunctionPages.ClientManage {
+namespace SeatManageWebV5.FunctionPages.ClientManage {
     
     
     public partial class MoveWebAppSetting {

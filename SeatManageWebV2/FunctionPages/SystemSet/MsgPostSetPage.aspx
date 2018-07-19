@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="MsgPostSetPage.aspx.cs" Inherits="SeatManageWebV2.FunctionPages.SystemSet.MsgPostSetPage" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="MsgPostSetPage.aspx.cs" Inherits="SeatManageWebV5.FunctionPages.SystemSet.MsgPostSetPage" %>
 
 <!DOCTYPE html>
 

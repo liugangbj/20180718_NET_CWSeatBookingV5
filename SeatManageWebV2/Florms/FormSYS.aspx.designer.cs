@@ -7,7 +7,7 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace SeatManageWebV2.Florms {
+namespace SeatManageWebV5.Florms {
     
     
     public partial class FormSYS {

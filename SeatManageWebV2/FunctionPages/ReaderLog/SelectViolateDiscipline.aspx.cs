@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 using System.Data;
 using SeatManage.EnumType;
 
-namespace SeatManageWebV2.FunctionPages.ReaderLog
+namespace SeatManageWebV5.FunctionPages.ReaderLog
 {
     public partial class SelectViolateDiscipline : BasePage
     {

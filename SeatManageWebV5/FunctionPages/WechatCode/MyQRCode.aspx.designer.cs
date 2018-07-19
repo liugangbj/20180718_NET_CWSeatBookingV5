@@ -7,7 +7,7 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace SeatManageWebV2.FunctionPages.WechatCode {
+namespace SeatManageWebV5.FunctionPages.WechatCode {
     
     
     public partial class MyQRCode {

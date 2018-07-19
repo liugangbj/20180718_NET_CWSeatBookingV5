@@ -4,9 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using SeatManageWebV2.Code;
+using SeatManageWebV5.Code;
 
-namespace SeatManageWebV2.FunctionPages.SeatBespeak
+namespace SeatManageWebV5.FunctionPages.SeatBespeak
 {
     public partial class BespeakSeatLayout : BasePage
     {

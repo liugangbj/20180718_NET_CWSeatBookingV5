@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Text;
-using SeatManageWebV2.Code;
+using SeatManageWebV5.Code;
 
-namespace SeatManageWebV2.FunctionPages.SeatBespeak
+namespace SeatManageWebV5.FunctionPages.SeatBespeak
 {
     /// <summary>
     /// SeatLayoutHandle 的摘要说明

@@ -5,7 +5,7 @@ using System.Web;
 using System.Text;
 using SeatManage.Bll;
 
-namespace SeatManageWebV2.FunctionPages.SchoolInfoManage
+namespace SeatManageWebV5.FunctionPages.SchoolInfoManage
 {
     /// <summary>
     /// BespeakSeatGraph 的摘要说明

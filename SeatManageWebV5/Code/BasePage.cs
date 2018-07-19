@@ -15,7 +15,7 @@ using System.Web.UI.HtmlControls;
 using FineUI;
 using System.Web;
 
-namespace SeatManageWebV2
+namespace SeatManageWebV5
 {
     public class BasePage : DefaultBasePage
     {

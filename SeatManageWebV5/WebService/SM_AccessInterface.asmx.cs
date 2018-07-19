@@ -6,7 +6,7 @@ using System.Web.Services;
 using System.Text;
 using System.Configuration;
 
-namespace SeatManageWebV2.WebService
+namespace SeatManageWebV5.WebService
 {
     /// <summary>
     /// SM_AccessInterface 的摘要说明

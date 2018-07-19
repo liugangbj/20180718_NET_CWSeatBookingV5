@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 using SeatManage.Bll;
 using SeatManage.EnumType;
 
-namespace SeatManageWebV2.FunctionPages.SeatBespeak
+namespace SeatManageWebV5.FunctionPages.SeatBespeak
 {
     public partial class BespeakSelfSeat : BasePage
     {

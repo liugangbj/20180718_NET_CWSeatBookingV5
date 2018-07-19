@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SeatManageWebV2
+namespace SeatManageWebV5
 {
 
 

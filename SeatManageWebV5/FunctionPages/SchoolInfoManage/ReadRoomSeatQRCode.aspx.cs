@@ -1,5 +1,5 @@
 ﻿using ICSharpCode.SharpZipLib.Zip;
-using SeatManageWebV2.Code;
+using SeatManageWebV5.Code;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,7 +9,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace SeatManageWebV2.FunctionPages.SchoolInfoManage
+namespace SeatManageWebV5.FunctionPages.SchoolInfoManage
 {
     public partial class ReadRoomSeatQRCode : BasePage
     {

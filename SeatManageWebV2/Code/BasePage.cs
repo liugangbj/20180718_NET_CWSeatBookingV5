@@ -18,7 +18,7 @@ using SeatManage.EnumType;
 using SeatManage.SeatManageComm;
 using SeatManage.Bll;
 
-namespace SeatManageWebV2
+namespace SeatManageWebV5
 {
     public class BasePage : DefaultBasePage
     {

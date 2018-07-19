@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="图书馆座位管理系统" Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs"
-    Inherits="SeatManageWebV2._Default" %>
+    Inherits="SeatManageWebV5._Default" %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
 <html xmlns="http://www.w3.org/1999/xhtml">

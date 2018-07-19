@@ -6,9 +6,9 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
 using System.Threading;
-using SeatManageWebV2.Code;
+using SeatManageWebV5.Code;
 
-namespace SeatManageWebV2.FunctionPages.Statistical
+namespace SeatManageWebV5.FunctionPages.Statistical
 {
     public partial class LogTopStatistics : BasePage
     {

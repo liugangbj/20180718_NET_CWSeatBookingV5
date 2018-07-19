@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace SeatManageWebV2.FunctionPages.RegulationRulesSetting
+namespace SeatManageWebV5.FunctionPages.RegulationRulesSetting
 {
     public partial class PushMsgSetting : BasePage
     {

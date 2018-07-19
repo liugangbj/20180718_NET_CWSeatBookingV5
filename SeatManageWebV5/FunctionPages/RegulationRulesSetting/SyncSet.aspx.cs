@@ -10,7 +10,7 @@ using SeatManage.EnumType;
 using SeatManage.ISystemTerminal.IStuLibSync;
 using SeatManage.InterfaceFactory;
 
-namespace SeatManageWebV2.FunctionPages.RegulationRulesSetting
+namespace SeatManageWebV5.FunctionPages.RegulationRulesSetting
 {
     public partial class SyncSet : BasePage
     {

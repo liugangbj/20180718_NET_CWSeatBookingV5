@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 using SeatManage.EnumType;
 using SeatManage.ClassModel;
 
-namespace SeatManageWebV2.FunctionPages.SchoolInfoManage
+namespace SeatManageWebV5.FunctionPages.SchoolInfoManage
 {
     public partial class ReadingRoomSetting : BasePage
     {

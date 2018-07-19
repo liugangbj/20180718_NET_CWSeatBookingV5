@@ -9,7 +9,7 @@ using SeatManage.ClassModel;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace SeatManageWebV2
+namespace SeatManageWebV5
 {
     public partial class Login : System.Web.UI.Page
     {

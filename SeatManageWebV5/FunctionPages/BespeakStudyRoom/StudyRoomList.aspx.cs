@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 using System.Data;
 using FineUI;
 
-namespace SeatManageWebV2.FunctionPages.BespeakStudyRoom
+namespace SeatManageWebV5.FunctionPages.BespeakStudyRoom
 {
     public partial class StudyRoomList : BasePage
     {

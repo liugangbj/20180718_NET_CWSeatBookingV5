@@ -12,7 +12,7 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 
-namespace SeatManageWebV2.FunctionPages.WechatCode
+namespace SeatManageWebV5.FunctionPages.WechatCode
 {
     public partial class MyQRCode : BasePage
     {

@@ -7,7 +7,7 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace SeatManageWebV2.FunctionPages.ReaderLog {
+namespace SeatManageWebV5.FunctionPages.ReaderLog {
     
     
     public partial class SelectBespeakLog {

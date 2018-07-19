@@ -8,7 +8,7 @@ using FineUI;
 using SeatManage.ClassModel;
 using SeatManage.EnumType;
 
-namespace SeatManageWebV2.FunctionPages.SeatBespeak
+namespace SeatManageWebV5.FunctionPages.SeatBespeak
 {
     public partial class BespeakNowDayHandle : BasePage
     {
@@ -41,7 +41,7 @@ namespace SeatManageWebV2.FunctionPages.SeatBespeak
                 }
             }
             string parameters = Request.QueryString["parameters"];
-            SeatManageWebV2.Code.BespeakSubmitWindowParamModel bespeakSubmitModel = new Code.BespeakSubmitWindowParamModel(parameters);
+            SeatManageWebV5.Code.BespeakSubmitWindowParamModel bespeakSubmitModel = new Code.BespeakSubmitWindowParamModel(parameters);
             seatNo = bespeakSubmitModel.SeatNo;
             seatShortNo = bespeakSubmitModel.ShortSeatNo;
             date = SeatManage.Bll.ServiceDateTime.Now;

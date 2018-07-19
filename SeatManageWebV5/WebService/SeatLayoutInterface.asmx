@@ -1,1 +1,1 @@
-﻿<%@ WebService Language="C#" CodeBehind="SeatLayoutInterface.asmx.cs" Class="SeatManageWebV2.WebService.SeatLayoutInterface" %>
+﻿<%@ WebService Language="C#" CodeBehind="SeatLayoutInterface.asmx.cs" Class="SeatManageWebV5.WebService.SeatLayoutInterface" %>

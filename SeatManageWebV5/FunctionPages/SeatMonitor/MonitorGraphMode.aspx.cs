@@ -4,11 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using SeatManageWebV2.Code;
+using SeatManageWebV5.Code;
 using System.Data;
 using FineUI;
 
-namespace SeatManageWebV2.FunctionPages.SeatMonitor
+namespace SeatManageWebV5.FunctionPages.SeatMonitor
 {
     public partial class MonitorGraphMode : BasePage
     {

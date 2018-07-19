@@ -7,7 +7,7 @@ using SeatManage.ClassModel;
 using SeatManage.Bll;
 using System.Threading;
 
-namespace SeatManageWebV2.Code
+namespace SeatManageWebV5.Code
 {
     /// <summary>
     /// 记录查询助手

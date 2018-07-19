@@ -9,7 +9,7 @@ using System.Text;
 using SeatManage.EnumType;
 using SeatManage.SeatManageComm;
 
-namespace SeatManageWebV2.Pad
+namespace SeatManageWebV5.Pad
 {
     public partial class SeatPad : System.Web.UI.Page
     {

@@ -6,7 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
 
-namespace SeatManageWebV2.FunctionPages.StudyRoomManage
+namespace SeatManageWebV5.FunctionPages.StudyRoomManage
 {
     public partial class StudyRoomManage : BasePage
     {

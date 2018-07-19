@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="IntherfaceAuthorization.aspx.cs" Inherits="SeatManageWebV2.FunctionPages.InterfaceAuthorization.IntherfaceAuthorization" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="IntherfaceAuthorization.aspx.cs" Inherits="SeatManageWebV5.FunctionPages.InterfaceAuthorization.IntherfaceAuthorization" %>
 
 <!DOCTYPE html>
 

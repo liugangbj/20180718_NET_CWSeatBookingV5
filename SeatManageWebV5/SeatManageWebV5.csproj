@@ -773,7 +773,6 @@
     <Content Include="FunctionPages\UsersManage\UserEdit.aspx" />
     <Content Include="FunctionPages\UsersManage\UserInfo.aspx" />
     <Content Include="FunctionPages\WechatCode\MyQRCode.aspx" />
-    <Content Include="HtmlPage1.html" />
     <Content Include="HtmlPage2.html" />
     <Content Include="Images\BookStream.png" />
     <Content Include="Images\icon\accept.png" />

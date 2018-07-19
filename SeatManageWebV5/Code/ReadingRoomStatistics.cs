@@ -7,7 +7,7 @@ using System.Web.UI.HtmlControls;
 
 
 
-namespace SeatManageWebV2.Code
+namespace SeatManageWebV5.Code
 {
     public class ReadingRoomStatistics
     {

@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 using System.Data;
 using FineUI;
 
-namespace SeatManageWebV2.FunctionPages.UsersManage
+namespace SeatManageWebV5.FunctionPages.UsersManage
 {
     public partial class RoleManage : BasePage
     {

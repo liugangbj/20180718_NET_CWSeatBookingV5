@@ -9,7 +9,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace SeatManageWebV2
+namespace SeatManageWebV5
 {
     public partial class _Default : DefaultBasePage
     {

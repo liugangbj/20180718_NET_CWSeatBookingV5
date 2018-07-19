@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Text.RegularExpressions;
 
-namespace SeatManageWebV2.Code
+namespace SeatManageWebV5.Code
 {
     public class BespeakSubmitWindowParamModel
     {

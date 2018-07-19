@@ -5,11 +5,11 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using FineUI;
-using SeatManageWebV2.Code;
+using SeatManageWebV5.Code;
 using SeatManage.EnumType;
 using System.Data;
 
-namespace SeatManageWebV2.FunctionPages.ReaderLog
+namespace SeatManageWebV5.FunctionPages.ReaderLog
 {
     public partial class SelectBespeakLog : BasePage
     {

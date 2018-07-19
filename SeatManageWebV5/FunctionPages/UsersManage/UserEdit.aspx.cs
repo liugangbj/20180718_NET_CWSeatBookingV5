@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 using FineUI;
 using SeatManage.ClassModel;
 
-namespace SeatManageWebV2.FunctionPages.UsersManage
+namespace SeatManageWebV5.FunctionPages.UsersManage
 {
     public partial class UserEdit : BasePage
     {

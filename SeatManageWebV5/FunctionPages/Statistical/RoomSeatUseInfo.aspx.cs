@@ -5,9 +5,9 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
-using SeatManageWebV2.Code;
+using SeatManageWebV5.Code;
 
-namespace SeatManageWebV2.FunctionPages.Statistical
+namespace SeatManageWebV5.FunctionPages.Statistical
 {
     public partial class RoomSeatUseInfo : BasePage
     {
@@ -70,7 +70,7 @@ namespace SeatManageWebV2.FunctionPages.Statistical
                 this.RegisterStartupScript("日期错误", "<script>alert('开始时间必须小于结束时间！');</script>");
                 return;
             }
-            SeatManageWebV2.Code.ReadingRoomStatistics rrsta = new Code.ReadingRoomStatistics();
+            SeatManageWebV5.Code.ReadingRoomStatistics rrsta = new Code.ReadingRoomStatistics();
             List<string> roomList = new List<string>();
             foreach (System.Web.UI.WebControls.ListItem li in cblreadingroom.Items)
             {

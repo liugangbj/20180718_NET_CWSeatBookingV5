@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="MoveWebAppSetting.aspx.cs" Inherits="SeatManageWebV2.FunctionPages.ClientManage.MoveWebAppSetting" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="MoveWebAppSetting.aspx.cs" Inherits="SeatManageWebV5.FunctionPages.ClientManage.MoveWebAppSetting" %>
 
 <!DOCTYPE html>
 

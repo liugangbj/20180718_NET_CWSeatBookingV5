@@ -7,7 +7,7 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace SeatManageWebV2.FunctionPages.StudyRoomManage {
+namespace SeatManageWebV5.FunctionPages.StudyRoomManage {
     
     
     public partial class StudyBookingLogCheck {

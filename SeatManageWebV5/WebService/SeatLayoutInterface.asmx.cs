@@ -1,13 +1,13 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using SeatManageWebV2.FunctionPages.SeatBespeak;
+using SeatManageWebV5.FunctionPages.SeatBespeak;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Services;
 
-namespace SeatManageWebV2.WebService
+namespace SeatManageWebV5.WebService
 {
     /// <summary>
     /// Summary description for SeatLayoutInterface
@@ -26,12 +26,12 @@ namespace SeatManageWebV2.WebService
             return "Hello World";
         }
 
-        static SeatLayoutHandle seatLayout = new SeatLayoutHandle();
+        //[WebMethod]
+        //public string GetLayOutHtml(string schoolNo,string StudentNo,string Date,string RoomNo)
+        //{
 
-        public string GetLayOutHtml(string schoolNo,string StudentNo,string Date,string RoomNo)
-        {
-            return "";
-        }
+        //    return "";
+        //}
 
     }
 }

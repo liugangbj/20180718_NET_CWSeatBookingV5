@@ -7,10 +7,10 @@ using System.Web.UI.WebControls;
 using System.Data;
 using System.IO;
 using Microsoft.Office.Interop.Excel;
-using SeatManageWebV2.Code;
+using SeatManageWebV5.Code;
 using DataTable = System.Data.DataTable;
 
-namespace SeatManageWebV2.FunctionPages.Statistical
+namespace SeatManageWebV5.FunctionPages.Statistical
 {
     public partial class RoomTripsOutInfo : BasePage
     {
