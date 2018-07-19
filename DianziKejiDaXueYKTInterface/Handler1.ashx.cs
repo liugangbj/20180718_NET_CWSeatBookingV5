@@ -18,7 +18,7 @@ namespace DianziKejiDaXueYKTInterface
 
         public void ProcessRequest(HttpContext context)
         {
-            context.Response.ContentType = "text/plain";
+            context.Response.ContentType = "application/json";
             try
             {
                 if (context.Request.Url.ToString().Contains("modifyCard"))
