@@ -13,6 +13,9 @@ namespace SeatManage.WeChatWcfService
     public partial class WeChatService : IWeChatService
     {
 
+
+
+
         public string QRcodeOperation(string codeStr, string studentNo)
         {
             try

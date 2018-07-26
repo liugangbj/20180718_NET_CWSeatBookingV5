@@ -144,6 +144,18 @@ namespace SeatManage.MobileAppDataObtainProxy
         }
 
 
+        #region 测试获取html
+        /// <summary>
+        /// 测试获取html
+        /// </summary>
+        /// <returns></returns>
+        public string GetTestHtml()
+        {
+            return "hello world";
+        }
+        #endregion
+
+
         /// <summary>
         /// 获取用户的基本信息
         /// </summary>

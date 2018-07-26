@@ -24,6 +24,8 @@ namespace SeatManage.MobileAppService
         {
             switch (requestMethod)
             {
+                case "GetTestHtml":
+                    return appService.GetTestHtml();
                 case "GetUserInfo":
                     return appService.GetUserInfo((string)param[0]);
                 case "CancelBesapeak":

@@ -12,6 +12,13 @@ namespace SeatManage.MobileAppDataObtainProxy
     /// </summary>
     public interface IMobileAppDataObtianProxy
     {
+
+        /// <summary>
+        /// 测试获取html
+        /// </summary>
+        /// <returns></returns>
+        string GetTestHtml();
+
         /// <summary>
         /// 获取用户的基本信息
         /// </summary>

@@ -28,12 +28,38 @@ namespace AppWebService
         {
             myHeader.UserName = "zdh";
             myHeader.PassWord = "zdh";
-            myHeader.SchoolNum = "20171203";
+            myHeader.SchoolNum = "20180716";
         }
 
 
         public MySoapHeader myHeader = new MySoapHeader();
         Code.SoapHeaderCheck headerCheck = new Code.SoapHeaderCheck();
+
+        #region 测试获取html
+
+        [WebMethod]
+        [SoapHeader("myHeader")]
+        public string GetTestHtml()
+        {
+            if (headerCheck.CheckSoapHeader(myHeader, true))
+            {
+                IMobileAppDataObtianProxy obtainProxy = new MobileAppDataWCFProxy(myHeader.SchoolNum);
+                // IMobileAppDataObtianProxy obtainProxy = new MobileAppDataWCFProxy("20171203");
+                string r = obtainProxy.GetTestHtml();
+                obtainProxy.Dispose();
+                return r;
+            }
+            AJM_HandleResult result = new AJM_HandleResult();
+            result.Result = false;
+            result.Msg = "权限验证失败!";
+            return JSONSerializer.Serialize(result);
+        }
+
+
+        #endregion
+
+
+
         /// <summary>
         /// 获取用户的基本信息
         /// </summary>

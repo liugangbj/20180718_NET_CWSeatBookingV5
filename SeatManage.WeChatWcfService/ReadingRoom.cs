@@ -12,6 +12,12 @@ namespace SeatManage.WeChatWcfService
 {
     public partial class WeChatService : IWeChatService
     {
+
+        public string GetTestHtml(string roomNo)
+        {
+            return "返回html";
+        }
+
         /// <summary>
         /// 根据阅览室编号获取阅览室布局
         /// </summary>

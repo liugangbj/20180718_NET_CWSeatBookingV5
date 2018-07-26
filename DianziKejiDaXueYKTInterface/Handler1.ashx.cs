@@ -23,7 +23,7 @@ namespace DianziKejiDaXueYKTInterface
             {
                 if (context.Request.Url.ToString().Contains("modifyCard"))
                 {
-                    string cardJson = context.Request.Params[ConfigurationManager.AppSettings["ModifyKey"]].ToString();//"{'salaryno': '99900234','cardserialno': '3AC1435F','cardstatus': '0','validdate': '20251231','checkdata': '7CC79D4DD2AE505282EABEA071FC2610'}";
+                    string cardJson = context.Request.Params["json"].ToString();//"{'salaryno': '99900234','cardserialno': '3AC1435F','cardstatus': '0','validdate': '20251231','checkdata': '7CC79D4DD2AE505282EABEA071FC2610'}";
                     var jsonObj = JObject.Parse(cardJson);
                     T_SM_Reader reader = new T_SM_Reader();
                     reader.CardID = jsonObj["cardserialno"].ToString();
@@ -37,7 +37,7 @@ namespace DianziKejiDaXueYKTInterface
                 }
                 else if (context.Request.Url.ToString().Contains("addPerson"))
                 {
-                    string personJson = context.Request.Params[ConfigurationManager.AppSettings["AddKey"]].ToString();// "[{ 'salaryno':'999002347','name':'张三','sex':'男','idno':'36212619970212023X','deptno':'电子科技大学/计算机学院/院办','status':'学生','picture':'','cardserialno':'2AC1235F','cardstatus':'0','validdate':'20251231','checkdata':'048CF228644883D730C632E83496F4FB'},{'salaryno':'99900235','name':'李四','sex':'女','idno':'36212619980212023X','deptno':'电子科技大学/计算机学院/院办','status':'教师','picture':'','cardserialno':'3AC1435F','cardstatus':'0','validdate':'20251231','checkdata':'C972B6C667180CEB17C924A387536E14'}]";
+                    string personJson = context.Request.Params["json"].ToString();// "[{ 'salaryno':'999002347','name':'张三','sex':'男','idno':'36212619970212023X','deptno':'电子科技大学/计算机学院/院办','status':'学生','picture':'','cardserialno':'2AC1235F','cardstatus':'0','validdate':'20251231','checkdata':'048CF228644883D730C632E83496F4FB'},{'salaryno':'99900235','name':'李四','sex':'女','idno':'36212619980212023X','deptno':'电子科技大学/计算机学院/院办','status':'教师','picture':'','cardserialno':'3AC1435F','cardstatus':'0','validdate':'20251231','checkdata':'C972B6C667180CEB17C924A387536E14'}]";
                     var jaList = JArray.Parse(personJson);
 
                     int addCount = 0;

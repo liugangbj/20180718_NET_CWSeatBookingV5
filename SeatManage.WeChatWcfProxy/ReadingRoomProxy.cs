@@ -10,6 +10,43 @@ namespace SeatManage.WeChatWcfProxy
 {
     public class ReadingRoomProxy
     {
+
+        public static string GetTestHtml(string roomNo, string endPortAddress)
+        {
+            IWeChatWcfService.IWeChatService weCharService = WeChatWcfChannel.ServiceProxy.CreateChannelSeatManageService(endPortAddress);
+            try
+            {
+                return weCharService.GetTestHtml(roomNo);
+            }
+            catch (Exception ex)
+            {
+                WriteLog.Write("获取阅览室布局图操作失败：" + ex.Message);
+                AJM_HandleResult result = new AJM_HandleResult();
+                result.Result = false;
+                result.Msg = "对不起，数据连接失败，请稍后重试。";
+                return JSONSerializer.Serialize(result);
+            }
+            finally
+            {
+                ICommunicationObject ICommObjectService = weCharService as ICommunicationObject;
+                try
+                {
+                    if (ICommObjectService != null && ICommObjectService.State == CommunicationState.Faulted)
+                    {
+                        ICommObjectService.Abort();
+                    }
+                    else
+                    {
+                        if (ICommObjectService != null) ICommObjectService.Close();
+                    }
+                }
+                catch
+                {
+                    if (ICommObjectService != null) ICommObjectService.Abort();
+                }
+            }
+        }
+
         /// <summary>
         /// 获取全部阅览室的基础信息
         /// </summary>

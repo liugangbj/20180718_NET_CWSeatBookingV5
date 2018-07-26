@@ -9,6 +9,12 @@ namespace SeatManage.AppServiceHelper
     public partial interface IAppServiceHelper
     {
         /// <summary>
+        /// 获取html布局
+        /// </summary>
+        /// <returns></returns>
+        string GetTestHtml();
+
+        /// <summary>
         /// 获取全部阅览室的基础信息
         /// </summary>
         /// <returns></returns>

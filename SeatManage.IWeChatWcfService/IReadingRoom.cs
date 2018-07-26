@@ -10,6 +10,13 @@ namespace SeatManage.IWeChatWcfService
     public partial interface IWeChatService
     {
         /// <summary>
+        /// 测试获取html布局
+        /// </summary>
+        /// <param name="roomNo"></param>
+        /// <returns></returns>
+        string GetTestHtml(string roomNo);
+
+        /// <summary>
         /// 获取全部阅览室的基础信息
         /// </summary>
         /// <returns></returns>

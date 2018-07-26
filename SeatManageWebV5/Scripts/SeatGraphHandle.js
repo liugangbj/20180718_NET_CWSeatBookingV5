@@ -220,3 +220,26 @@ function hiddenAll(showDiv, hiddenDiv) {
     $("#" + hiddenDiv).css("display", "none");
     return false;
 }
+function loadBespeakSeatLayoutInterface() {
+    var roomNo = $("#hiddenRoomNum").val();
+    var Date = $("#hiddenDate").val();
+    var schoolNo = $("#hiddenSchoolNo").val();
+    var studentNo = $("#hiddenStudentNo").val();
+
+    $.ajax({ //一个Ajax过程 
+        type: "post", //使用get方法访问后台
+        dataType: "html", //返回json格式的数据 
+        url: "SeatLayoutInterface.asmx", //要访问的后台地址
+        data: { "schoolNo": schoolNo, "studentNo": studentNo, "date": Date, "roomNum": roomNo, "divTransparentTop": divTop, "divTransparentLeft": divleft }, //要发送的数据
+
+        // complete: function () { $("#load").hide(); }, //AJAX请求完成时隐藏loading提示
+        success: function (msg) {//msg为返回的数据，在这里做数据绑定
+            $("#divSeatGraphMain").html(msg);
+
+        },
+        error: function () {
+            //alert("error");
+        }
+    });
+
+}

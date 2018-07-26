@@ -12,6 +12,16 @@ namespace SeatManage.AppServiceHelper
     public partial class AppServiceHelper : IAppServiceHelper
     {
         public SeatManageDateService SeatManageDateService = new SeatManageDateService();
+
+        /// <summary>
+        /// 获取html布局
+        /// </summary>
+        /// <returns></returns>
+       public string GetTestHtml()
+        {
+            return "haha";
+        }
+
         /// <summary>
         /// 根据阅览室编号获取阅览室布局
         /// </summary>

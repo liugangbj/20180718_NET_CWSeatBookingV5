@@ -69,6 +69,7 @@ namespace SeatManage.MobileAppDataObtainProxy
             try
             {
                 response = SeatManage.SeatManageComm.ByteSerializer.DeserializeByte<SocketResponse>(info);
+                SeatManageComm.WriteLog.Write(response.RequestMethod.ToString());
                 autoConnectEvent.Set();
             }
             catch (Exception ex)
@@ -154,8 +155,38 @@ namespace SeatManage.MobileAppDataObtainProxy
                 client.Disconnect();
             }
         }
+        #region 测试获取html
 
-
+        /// <summary>
+        /// 测试获取html
+        /// </summary>
+        /// <returns></returns>
+        public string GetTestHtml()
+        {
+            if (school.IsSeatBespeak && !string.IsNullOrEmpty(school.ConnectionString))
+            {
+                return WeChatWcfProxy.ReadingRoomProxy.GetTestHtml("101001","");
+            }
+            try
+            {
+                request = new SocketRequest();
+                request.RequestMethodType = "GetTestHtml";
+                //request.Parameters.Add(studentNo);
+                return CallService(request);
+            }
+            catch (Exception ex)
+            {
+                if (!string.IsNullOrEmpty(school.ConnectionString))
+                {
+                    return WeChatWcfProxy.ReadingRoomProxy.GetTestHtml("101001", "");
+                }
+                AJM_HandleResult result = new AJM_HandleResult();
+                result.Result = false;
+                result.Msg = "获取数据失败!";
+                return JSONSerializer.Serialize(result);
+            }
+        } 
+        #endregion
 
         /// <summary>
         /// 获取用户的基本信息
