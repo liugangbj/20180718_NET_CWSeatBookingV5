@@ -124,7 +124,7 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Logo.ico" />
+    <Content Include="Logo.ico" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

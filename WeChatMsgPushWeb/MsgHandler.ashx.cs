@@ -99,7 +99,7 @@ namespace WeChatMsgPushWeb
                 //TemplateModel m = new TemplateModel(first, keyword1, keyword2, keyword3, remark);
                 m.touser = OPENID;
                 m.template_id = tempID;
-                m.url = "http://wechat.gxchuwei.com/User/SeatState";
+                m.url = "http://wechat.gxchuwei.com/NewUser/MySeat";
                 m.topcolor = "#FF0000";
                 OpenApiResult result = tools.SendTemplateMessage(access_tocken, m);
                 SeatManage.SeatManageComm.WriteLog.Write("msg_id" + result.msg_id + "error_code" + result.error_code + "error_msg" + result.error_msg);
