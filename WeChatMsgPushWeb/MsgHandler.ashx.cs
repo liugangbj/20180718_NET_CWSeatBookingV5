@@ -60,6 +60,7 @@ namespace WeChatMsgPushWeb
                         msgModel.AddTime = parms[5].Split('=')[1];
                         msgModel.Msg = parms[8].Split('=')[1];
                         tb_User u = GetOpenIDByCardNo(msgModel.StudentNo);
+                    
                         TemplateModel m = new TemplateModel(u.NickName+"您的座位状态发生改变", msgModel.Room, msgModel.SeatNo, msgModel.AddTime, msgModel.Msg);
                         Push(u.OpenId, m);
                     }
@@ -91,12 +92,11 @@ namespace WeChatMsgPushWeb
         {
             try
             {
+                SeatManage.SeatManageComm.WriteLog.Write(OPENID);
                 string tempID = "WY4Z5Z0rigwhaSBl3onTma-VZC2sdTlHNviIXHV1n2s";//座位状态变更通知模板ID
                 CommonTools tools = new CommonTools();
                 string access_tocken = tool.IsExistAccess_TokenV2();//tools.IsExistAccess_Token("wx2b5a801cd0aa12c7", "42ac52963fadb13b2abff3a4c374888e");
 
-               
-                //TemplateModel m = new TemplateModel(first, keyword1, keyword2, keyword3, remark);
                 m.touser = OPENID;
                 m.template_id = tempID;
                 m.url = "http://wechat.gxchuwei.com/NewUser/MySeat";
