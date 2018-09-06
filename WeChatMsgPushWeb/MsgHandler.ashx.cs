@@ -93,7 +93,7 @@ namespace WeChatMsgPushWeb
             {
                 string tempID = "WY4Z5Z0rigwhaSBl3onTma-VZC2sdTlHNviIXHV1n2s";//座位状态变更通知模板ID
                 CommonTools tools = new CommonTools();
-                string access_tocken = tools.IsExistAccess_Token("wx2b5a801cd0aa12c7", "42ac52963fadb13b2abff3a4c374888e");
+                string access_tocken = tool.IsExistAccess_TokenV2();//tools.IsExistAccess_Token("wx2b5a801cd0aa12c7", "42ac52963fadb13b2abff3a4c374888e");
 
                
                 //TemplateModel m = new TemplateModel(first, keyword1, keyword2, keyword3, remark);
