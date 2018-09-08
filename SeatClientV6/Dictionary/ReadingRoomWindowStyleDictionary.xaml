@@ -22,7 +22,7 @@
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="Height" Value="105"/>
-        <Setter Property="Width" Value="140"/>
+        <Setter Property="Width" Value="50"/>
         <Setter Property="FontFamily" Value="微软雅黑"/>
         <Setter Property="FontSize" Value="24"/>
         <Setter Property="Foreground" Value="#FFF1955B"/>
@@ -52,6 +52,28 @@
                             <Setter Property="Visibility" TargetName="lbg2" Value="Visible"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--选项卡样式V2-->
+    <Style x:Key="TabItem_ReadingRoomV2" TargetType="{x:Type TabItem}">
+        <Setter Property="Opacity" Value="0.8"/>
+        <Setter Property="Width" Value="70"/>
+        <Setter Property="Height" Value="180"/>
+        <Setter Property="FontFamily" Value="微软雅黑"/>
+        <Setter Property="FontSize" Value="24"/>
+        <Setter Property="Foreground" Value="#FFF1955B"/>
+        <Setter Property="Margin" Value="10,10,0,2"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TabItem}">
+                    <StackPanel>
+                    <Label MaxWidth="40" FontSize="24"  x:Name="lb1">
+                        <TextBlock x:Name="txtTitle" TextWrapping="Wrap" Text="一楼A区"  />
+                    </Label>
+                    </StackPanel>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

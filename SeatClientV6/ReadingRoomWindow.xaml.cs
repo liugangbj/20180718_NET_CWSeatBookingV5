@@ -22,6 +22,7 @@ namespace SeatClientV3
             InitializeComponent();
             DataContext = viewModel;
             BindingReadingRoom();
+            BindingReadingRoomV2();
         }
         /// <summary>
         /// 显示窗体
@@ -37,9 +38,9 @@ namespace SeatClientV3
             if (viewModel.ClientObject.RoomAutoAddSize)
             {
                 WPFMessage.MessageHelper.SendMessage(viewModel.ClientObject.MediaClient, SeatManage.EnumType.SendClentMessageType.MoveUp, viewModel.ClientObject.AddSize.ToString());
-                WeiCharOperationWindowObject.GetInstance().Window.WinChange((int) (viewModel.WindowTop));
+                WeiCharOperationWindowObject.GetInstance().Window.WinChange((int)(viewModel.WindowTop));
             }
-            g_loading.Visibility = System.Windows.Visibility.Hidden;
+          //  g_loading.Visibility = System.Windows.Visibility.Hidden;
             this.Topmost = true;
             this.Topmost = false;
             ShowDialog();
@@ -94,32 +95,33 @@ namespace SeatClientV3
                 viewModel.CountDown.Start();
             }
         }
+
         /// <summary>
         /// 绑定阅览室
         /// </summary>
-        private void BindingReadingRoom()
+        private void BindingReadingRoomV2()
         {
             //设置空间最小尺寸
-            G_bg.Width = viewModel.WindowWidth <= 1080 ? 1080 : viewModel.WindowWidth;
-            G_bg.Height = viewModel.WindowHeight <= 1000 ? 1000 : viewModel.WindowHeight;
+            G_bg111.Width = viewModel.WindowWidth <= 1080 ? 1080 : viewModel.WindowWidth;
+            G_bg111.Height = viewModel.WindowHeight <= 1000 ? 1000 : viewModel.WindowHeight;
             if (viewModel.WindowWidth <= 1080 || viewModel.WindowHeight <= 1000)
             {
                 if (viewModel.WindowHeight <= viewModel.WindowWidth)
                 {
-                    G_bg.Width = viewModel.WindowWidth * (1000 / viewModel.WindowHeight);
+                    G_bg111.Width = viewModel.WindowWidth * (1000 / viewModel.WindowHeight);
                 }
                 else
                 {
-                    G_bg.Height = viewModel.WindowHeight * (1080 / viewModel.WindowWidth);
+                    G_bg111.Height = viewModel.WindowHeight * (1080 / viewModel.WindowWidth);
                 }
             }
             if (viewModel.ReadingRoomUsage.Count <= 0)
             {
                 return;
             }
-            //处理UC个数
-            double rcHeight = G_bg.Height - 370;
-            double rcWidth = G_bg.Width - 340;
+            ////处理UC个数
+            double rcHeight = G_bg111.Height - 370;
+            double rcWidth = G_bg111.Width - 340;
             int rowCount = (int)rcHeight / 150;
             int colCount = (int)rcWidth / 135;
             double freeHeight = 0;
@@ -150,29 +152,55 @@ namespace SeatClientV3
             }
             int allCount = rowCount * colCount;
             int tiCount = (int)rcWidth / 140;
+            int tabIndex = 0;
             foreach (KeyValuePair<string, List<ReadingRoomUC_ViewModel>> area in viewModel.ReadingRoomUsage.TakeWhile(area => TabCont.Items.Count < tiCount))
             {
                 if (area.Value.Count <= allCount)
                 {
                     TabItem areaTI = new TabItem();
-                    areaTI.Header = area.Key;
-                    areaTI.Style = (Style)FindResource("TabItem_ReadingRoom");
-
-                    Canvas roomCanvas = new Canvas();
-                    roomCanvas.Width = rcWidth;
-                    roomCanvas.Height = rcHeight;
-
-                    roomCanvas.PreviewMouseLeftButtonUp += Canvas_PreviewMouseLeftButtonUp;
-                    for (int i = 0; i < area.Value.Count; i++)
+                    areaTI.Opacity = 0.8;
+                    areaTI.Width = 70;
+                    areaTI.Height = 180;
+                    if (tabIndex == 0) //第一个
                     {
-                        UC_ReadingRoom uc_Room = new UC_ReadingRoom(area.Value[i]);
-                        uc_Room.Height = 170;
-                        uc_Room.Width = 135;
-                        Canvas.SetLeft(uc_Room, freeWidth + i % colCount * (135 + freeWidth));
-                        Canvas.SetTop(uc_Room, freeHeight + i / colCount * (150 + freeHeight));
-                        roomCanvas.Children.Add(uc_Room);
+                        areaTI.Margin = new Thickness(10, 10, 0, 2);
                     }
-                    areaTI.Content = roomCanvas;
+                    else if (tabIndex == allCount - 1)//最后一个
+                    {
+                        areaTI.Margin = new Thickness(10, 2, 0, 10);
+                    }
+                    else
+                    {
+                        areaTI.Margin = new Thickness(10, 2, 0, 5);
+                    }
+
+                    
+                    areaTI.Header = area.Key;
+
+
+                    areaTI.Style = (Style)FindResource("TabItem_ReadingRoomV2");
+
+                    TextBlock t  =  areaTI.Style.Resources.FindName("txtTitle") as TextBlock;
+
+                     t.Text = areaTI.Header.ToString();
+                    // t.Text=areaTI.
+                    //(areaTI.Template.FindName("txtTitle", areaTI) as TextBlock).Text = "aaa";
+                    //(areaTI.Style["txtTitle"] as TextBlock).Text = "123";
+                    //Canvas roomCanvas = new Canvas();
+                    //roomCanvas.Width = rcWidth;
+                    //roomCanvas.Height = rcHeight;
+
+                    //roomCanvas.PreviewMouseLeftButtonUp += Canvas_PreviewMouseLeftButtonUp;
+                    //for (int i = 0; i < area.Value.Count; i++)
+                    //{
+                    //    UC_ReadingRoom uc_Room = new UC_ReadingRoom(area.Value[i]);
+                    //    uc_Room.Height = 170;
+                    //    uc_Room.Width = 135;
+                    //    Canvas.SetLeft(uc_Room, freeWidth + i % colCount * (135 + freeWidth));
+                    //    Canvas.SetTop(uc_Room, freeHeight + i / colCount * (150 + freeHeight));
+                    //    roomCanvas.Children.Add(uc_Room);
+                    //}
+                    //areaTI.Content = roomCanvas;
                     TabCont.Items.Add(areaTI);
                 }
                 //超过15个的处理
@@ -205,10 +233,128 @@ namespace SeatClientV3
                             roomCanvas.Children.Add(uc_Room);
                         }
                         areaTI.Content = roomCanvas;
-                        TabCont.Items.Add(areaTI);
+                        //  TabCont.Items.Add(areaTI);
                     }
                 }
+                tabIndex++;
             }
+        }
+
+        /// <summary>
+        /// 绑定阅览室
+        /// </summary>
+        private void BindingReadingRoom()
+        {
+            //设置空间最小尺寸
+            //G_bg.Width = viewModel.WindowWidth <= 1080 ? 1080 : viewModel.WindowWidth;
+            //G_bg.Height = viewModel.WindowHeight <= 1000 ? 1000 : viewModel.WindowHeight;
+            //if (viewModel.WindowWidth <= 1080 || viewModel.WindowHeight <= 1000)
+            //{
+            //    if (viewModel.WindowHeight <= viewModel.WindowWidth)
+            //    {
+            //        G_bg.Width = viewModel.WindowWidth * (1000 / viewModel.WindowHeight);
+            //    }
+            //    else
+            //    {
+            //        G_bg.Height = viewModel.WindowHeight * (1080 / viewModel.WindowWidth);
+            //    }
+            //}
+            //if (viewModel.ReadingRoomUsage.Count <= 0)
+            //{
+            //    return;
+            //}
+            ////处理UC个数
+            //double rcHeight = G_bg.Height - 370;
+            //double rcWidth = G_bg.Width - 340;
+            //int rowCount = (int)rcHeight / 150;
+            //int colCount = (int)rcWidth / 135;
+            //double freeHeight = 0;
+            //double freeWidth = 0;
+            //while (true)
+            //{
+            //    if ((colCount + 1) * 10 > rcWidth - colCount * 135)
+            //    {
+            //        colCount--;
+            //    }
+            //    else
+            //    {
+            //        freeWidth = (rcWidth - colCount * 135) / (colCount + 1);
+            //        break;
+            //    }
+            //}
+            //while (true)
+            //{
+            //    if ((rowCount + 1) * 10 > rcHeight - rowCount * 150)
+            //    {
+            //        rowCount--;
+            //    }
+            //    else
+            //    {
+            //        freeHeight = (rcHeight - rowCount * 150) / (rowCount + 1);
+            //        break;
+            //    }
+            //}
+            //int allCount = rowCount * colCount;
+            //int tiCount = (int)rcWidth / 140;
+            //foreach (KeyValuePair<string, List<ReadingRoomUC_ViewModel>> area in viewModel.ReadingRoomUsage.TakeWhile(area => TabCont.Items.Count < tiCount))
+            //{
+            //    if (area.Value.Count <= allCount)
+            //    {
+            //        TabItem areaTI = new TabItem();
+            //        areaTI.Header = area.Key;
+            //        areaTI.Style = (Style)FindResource("TabItem_ReadingRoom");
+
+            //        Canvas roomCanvas = new Canvas();
+            //        roomCanvas.Width = rcWidth;
+            //        roomCanvas.Height = rcHeight;
+
+            //        roomCanvas.PreviewMouseLeftButtonUp += Canvas_PreviewMouseLeftButtonUp;
+            //        for (int i = 0; i < area.Value.Count; i++)
+            //        {
+            //            UC_ReadingRoom uc_Room = new UC_ReadingRoom(area.Value[i]);
+            //            uc_Room.Height = 170;
+            //            uc_Room.Width = 135;
+            //            Canvas.SetLeft(uc_Room, freeWidth + i % colCount * (135 + freeWidth));
+            //            Canvas.SetTop(uc_Room, freeHeight + i / colCount * (150 + freeHeight));
+            //            roomCanvas.Children.Add(uc_Room);
+            //        }
+            //        areaTI.Content = roomCanvas;
+            //     //   TabCont.Items.Add(areaTI);
+            //    }
+            //    //超过15个的处理
+            //    else
+            //    {
+            //        int tapCount = area.Value.Count / allCount;
+            //        if (area.Value.Count % allCount != 0)
+            //        {
+            //            tapCount++;
+            //        }
+            //        Char[] chr = "A".ToCharArray();
+            //        for (int j = 0; j < tapCount; j++)
+            //        {
+            //            chr[0] = Convert.ToChar(chr[0] + j);
+            //            TabItem areaTI = new TabItem();
+            //            areaTI.Header = area.Key + new string(chr);
+            //            areaTI.Style = (Style)FindResource("TabItem_ReadingRoom");
+
+            //            Canvas roomCanvas = new Canvas();
+            //            roomCanvas.Width = rcWidth;
+            //            roomCanvas.Height = rcHeight;
+            //            roomCanvas.PreviewMouseLeftButtonUp += Canvas_PreviewMouseLeftButtonUp;
+            //            for (int i = allCount * j; i < allCount * (j + 1) && i < area.Value.Count; i++)
+            //            {
+            //                UC_ReadingRoom uc_Room = new UC_ReadingRoom(area.Value[i]);
+            //                uc_Room.Height = 150;
+            //                uc_Room.Width = 135;
+            //                Canvas.SetLeft(uc_Room, freeWidth + (i - j * allCount) % colCount * (135 + freeWidth));
+            //                Canvas.SetTop(uc_Room, freeHeight + (i - j * allCount) / colCount * (150 + freeHeight));
+            //                roomCanvas.Children.Add(uc_Room);
+            //            }
+            //            areaTI.Content = roomCanvas;
+            //          //  TabCont.Items.Add(areaTI);
+            //        }
+            //    }
+            //}
         }
         /// <summary>
         /// 点击阅览室
@@ -221,7 +367,7 @@ namespace SeatClientV3
             if (room != null)
             {
                 viewModel.CountDown.Pause();
-                g_loading.Visibility = System.Windows.Visibility.Visible;
+             //   g_loading.Visibility = System.Windows.Visibility.Visible;
                 viewModel.EnterReadingRoom(room.ViewModel);
                 if (viewModel.ClientObject.EnterOutLogData.FlowControl == ClientOperation.Exit)
                 {
@@ -240,7 +386,7 @@ namespace SeatClientV3
                     //    this.ShowDialog();
                     //}
                 }
-                g_loading.Visibility = System.Windows.Visibility.Hidden;
+              //  g_loading.Visibility = System.Windows.Visibility.Hidden;
             }
         }
         /// <summary>
@@ -248,7 +394,7 @@ namespace SeatClientV3
         /// </summary>
         private void WinClosing()
         {
-            g_loading.Visibility = System.Windows.Visibility.Hidden;
+          //  g_loading.Visibility = System.Windows.Visibility.Hidden;
             Hide();
             if (viewModel.ClientObject.ReaderAdvert != null)
             {

@@ -12,18 +12,41 @@
         </ResourceDictionary>
     </Window.Resources>
     <Viewbox>
+
         <Grid x:Name="m_Grid" Width="1080" Height="1000">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="1*" />
+                <ColumnDefinition />
+                <ColumnDefinition  />
+                <ColumnDefinition  />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="49*"/>
-                <RowDefinition Height="150*"/>
+                <RowDefinition Height="100*"/>
+                <RowDefinition Height="200*"/>
                 <RowDefinition Height="100*"/>
             </Grid.RowDefinitions>
-            <Image Grid.Row="0" Grid.Column="2"> </Image>
+            <Image Source="{Binding LogoImage}" Grid.Row="0" HorizontalAlignment="Left" Grid.ColumnSpan="2" Margin="0,50,0,0" Width="1080" Height="178" VerticalAlignment="Top" />
+            <TextBlock Grid.Row="0"  Width="103" Height="38" Grid.Column="3" VerticalAlignment="Top" Margin="0,93,24,0" HorizontalAlignment="Right"   Foreground="White" FontSize="28" TextAlignment="Center" Text="{Binding DayString}"></TextBlock>
+            <TextBlock Grid.Row="0"  Width="103" Height="38" Grid.Column="3" VerticalAlignment="Top" Margin="0,131,24,0" HorizontalAlignment="Right"   Foreground="White" TextAlignment="Center" FontSize="30" Text="{Binding WeekString}"></TextBlock>
+            <Image x:Name="ClockImg" Grid.Row="0"  Width="151" Height="132" Grid.Column="3" VerticalAlignment="Top" Margin="0,50,0,0" HorizontalAlignment="Right" Source="NewResources/Background/dateimg.png"></Image>
+            
+            <Border Width="800"  BorderThickness="10" BorderBrush="LightGray" CornerRadius="20" Opacity="0.6" Grid.Row="1" Grid.Column="0"   Grid.ColumnSpan="3">
+                <UniformGrid x:Name="p1"  Width="800">
+                    <!--<Image Width="321" Height="221"  Source="NewResources/Background/ReadCardImage.png" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    --><!--<Border  BorderBrush="Gray" BorderThickness="10px" Margin="0,0,0,0"    Background="White" Opacity="0.4" CornerRadius="20,20,20,20" ></Border>-->
+                </UniformGrid>
+            </Border>
+
+
+            <Border Grid.Row="2" Grid.Column="0" Width="150" Height="150" Background="White" Opacity="0.3" CornerRadius="20,20,20,20" ></Border>
+            <Border Grid.Row="2" Grid.Column="1" Width="150" Height="150" Background="White" Opacity="0.3" CornerRadius="20,20,20,20" ></Border>
+            <Border Grid.Row="2" Grid.Column="2" Width="150" Height="150" Background="White" Opacity="0.3" CornerRadius="20,20,20,20" ></Border>
+            <!--<Border Grid.Row="2" Grid.Column="3" Width="150" Height="150" Background="White" Opacity="0.3" CornerRadius="20,20,20,20" ></Border>-->
+            <Image  MouseDown="logbtn_MouseDown" Grid.Row="2" Grid.Column="0" Width="120" Height="120"  Source="NewResources/Background/query.png"></Image>
+            <Image MouseDown="activebtn_MouseDown" Grid.Row="2" Width="120" Height="120" Grid.Column="1" Source="NewResources/Background/active.png"></Image>
+            <Image Grid.Row="2" Width="120" Height="120" Grid.Column="2" Source="NewResources/Background/wechatbing.png" MouseDown="weicharbtn_MouseDown"></Image>
+            <!--<Image Grid.Row="2" Width="120" Height="120" Grid.Column="3" Source="NewResources/Background/seat.png"></Image>-->
+
+
             <!--<Rectangle Height="150" Margin="0,0,7,180" x:Name="imgCode" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="150" Visibility="{Binding ShowCode}"/>-->
         </Grid>
     </Viewbox>

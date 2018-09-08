@@ -23,12 +23,42 @@ namespace SeatClientV3
         {
             InitializeComponent();
             DataContext = viewModel;
-            //viewModel.ClientObject.UpdateConfigError += clientObject_UpdateConfigError;
-            //viewModel.ImageChange += viewModel_ImageChange;
-            //MessageHelper = new WPFMessage.MessageHelper();
-            //MessageHelper.GetMessage += messageHelper_GetMessage;
-            ////viewModel.CodeChange += viewModel_CodeChange;
-            //MoveCanvasBinding();
+            viewModel.ClientObject.UpdateConfigError += clientObject_UpdateConfigError;
+            viewModel.ImageChange += viewModel_ImageChange;
+            MessageHelper = new WPFMessage.MessageHelper();
+            MessageHelper.GetMessage += messageHelper_GetMessage;
+            viewModel.CodeChange += viewModel_CodeChange;
+           // MoveCanvasBinding();
+
+            DefaultView();
+        }
+
+        void DefaultView()
+        {
+            System.Windows.Controls.Image imageDefault = new System.Windows.Controls.Image();
+            imageDefault.Width = 321;
+            imageDefault.Height = 221;
+            imageDefault.Name = "imageDefault";
+            BitmapImage imgSource = new BitmapImage(new Uri("NewResources/Background/ReadCardImage.png", UriKind.Relative));
+            imageDefault.Source = imgSource;
+            imageDefault.HorizontalAlignment = HorizontalAlignment.Center;
+            imageDefault.VerticalAlignment = VerticalAlignment.Center;
+
+            p1.Children.Add(imageDefault);
+        }
+
+        /// <summary>
+        /// 校园通知点击
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Image_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if(p1.Children.Count>0)
+            {
+                p1.Children.RemoveAt(0);
+            }
+            viewModel.ImageUpDown(SeatManage.EnumType.AdType.SchoolNotice);
         }
 
 
@@ -36,20 +66,20 @@ namespace SeatClientV3
         protected WPFMessage.MessageHelper MessageHelper;
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            //StartRead();
-            //StopRead();
-            //StartRead();
-            //WPFMessage.MessageHelper.SendMessage(viewModel.ClientObject.MediaClient, SeatManage.EnumType.SendClentMessageType.Normal);
-            //viewModel.ShowTimeRun();
-            //viewModel.LastSeatRun();
-            //viewModel.ImageChangeRun();
-            ////viewModel.CheckCodeRun();
-            //(PresentationSource.FromVisual(this) as HwndSource).AddHook(MessageHelper.WndProc);
-            //if (viewModel.ClientObject.UseCodeCheck)
-            //{
-            //    WeiCharOperationWindowObject.GetInstance().Window.Show();
-            //    WeiCharOperationWindowObject.GetInstance().Window.Topmost = true;
-            //}
+            StartRead();
+            StopRead();
+            StartRead();
+            WPFMessage.MessageHelper.SendMessage(viewModel.ClientObject.MediaClient, SeatManage.EnumType.SendClentMessageType.Normal);
+            viewModel.ShowTimeRun();
+            viewModel.LastSeatRun();
+            viewModel.ImageChangeRun();
+            viewModel.CheckCodeRun();
+            (PresentationSource.FromVisual(this) as HwndSource).AddHook(MessageHelper.WndProc);
+            if (viewModel.ClientObject.UseCodeCheck)
+            {
+                WeiCharOperationWindowObject.GetInstance().Window.Show();
+                WeiCharOperationWindowObject.GetInstance().Window.Topmost = true;
+            }
         }
 
         public void ShowMessage()
@@ -60,37 +90,37 @@ namespace SeatClientV3
             viewModel.ShowTimeRun();
             viewModel.LastSeatRun();
             viewModel.ImageChangeRun();
-            //viewModel.CheckCodeRun();
+            viewModel.CheckCodeRun();
             Show();
             WeiCharOperationWindowObject.GetInstance().Window.WinReset();
         }
         [System.Runtime.InteropServices.DllImport("gdi32.dll")]
         public static extern bool DeleteObject(IntPtr hObject);
 
-        ///// <summary>
-        ///// 二维码显示
-        ///// </summary>
-        //void viewModel_CodeChange()
-        //{
-        //    Dispatcher.Invoke(new Action(() =>
-        //    {
-        //        string url = viewModel.ClientObject.CodeUrl + "?param=";
-        //        string AESCode = string.Format("clientNo={0}&codeTime={1}", viewModel.ClientObject.ClientSetting.ClientNo, DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"));
-        //        Bitmap bitmap = QRCode.GetDimensionalCode(url + AESAlgorithm.AESEncrypt(AESCode), 6, 8);
-        //        IntPtr hBitmap = bitmap.GetHbitmap();
-        //        BitmapSource bitmapImage = new BitmapImage();
+        /// <summary>
+        /// 二维码显示
+        /// </summary>
+        void viewModel_CodeChange()
+        {
+            Dispatcher.Invoke(new Action(() =>
+            {
+                string url = viewModel.ClientObject.CodeUrl + "?param=";
+                string AESCode = string.Format("clientNo={0}&codeTime={1}", viewModel.ClientObject.ClientSetting.ClientNo, DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"));
+                Bitmap bitmap = QRCode.GetDimensionalCode(url + AESAlgorithm.AESEncrypt(AESCode), 6, 8);
+                IntPtr hBitmap = bitmap.GetHbitmap();
+                BitmapSource bitmapImage = new BitmapImage();
 
-        //        try
-        //        {
-        //            bitmapImage = Imaging.CreateBitmapSourceFromHBitmap(hBitmap, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-        //        }
-        //        finally
-        //        {
-        //            DeleteObject(hBitmap);
-        //        }
-        //        //imgCode.Fill = new ImageBrush(bitmapImage);
-        //    }));
-        //}
+                try
+                {
+                    bitmapImage = Imaging.CreateBitmapSourceFromHBitmap(hBitmap, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+                }
+                finally
+                {
+                    DeleteObject(hBitmap);
+                }
+                //imgCode.Fill = new ImageBrush(bitmapImage);
+            }));
+        }
         /// <summary>
         /// 位置移动
         /// </summary>
@@ -155,18 +185,18 @@ namespace SeatClientV3
             Dispatcher.Invoke(new Action(() =>
             {
                 WPFMessage.MessageHelper.SendMessage(viewModel.ClientObject.LauncherClient, SeatManage.EnumType.SendClentMessageType.ReStartUpSeatClient);
-                //WinClosing();
-                //AppLoadingWindowObject.GetInstance().Window.CheckConfigConnection(true);
-                //if (AppLoadingWindowObject.GetInstance().Window.viewModel.InitializeState == SeatManage.EnumType.HandleResult.Successed)
-                //{
-                //    ShowMessage();
-                //    viewModel.ClientObject.StartAutoUpdateConfig();
-                //}
-                //else
-                //{
-                //    WPFMessage.MessageHelper.SendMessage(viewModel.ClientObject.MediaClient, SeatManage.EnumType.SendClentMessageType.Close);
-                //    this.Close();
-                //}
+                WinClosing();
+                AppLoadingWindowObject.GetInstance().Window.CheckConfigConnection(true);
+                if (AppLoadingWindowObject.GetInstance().Window.viewModel.InitializeState == SeatManage.EnumType.HandleResult.Successed)
+                {
+                    ShowMessage();
+                    viewModel.ClientObject.StartAutoUpdateConfig();
+                }
+                else
+                {
+                    WPFMessage.MessageHelper.SendMessage(viewModel.ClientObject.MediaClient, SeatManage.EnumType.SendClentMessageType.Close);
+                    this.Close();
+                }
 
             }));
         }
@@ -175,19 +205,19 @@ namespace SeatClientV3
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        //void viewModel_ImageChange(int x, int y)
-        //{
-        //    Dispatcher.Invoke(new Action(() =>
-        //    {
-        //        switch (viewModel.NowTap)
-        //        {
-        //            case SeatManage.EnumType.AdType.None: btn_Guide.IsChecked = true; break;
-        //            case SeatManage.EnumType.AdType.PromotionAd: btn_Promotion.IsChecked = true; break;
-        //            case SeatManage.EnumType.AdType.SchoolNotice: btn_Note.IsChecked = true; break;
-        //        }
-        //        CanvasMove(x, y);
-        //    }));
-        //}
+        void viewModel_ImageChange(int x, int y)
+        {
+            //Dispatcher.Invoke(new Action(() =>
+            //{
+            //    switch (viewModel.NowTap)
+            //    {
+            //        case SeatManage.EnumType.AdType.None: btn_Guide.IsChecked = true; break;
+            //        case SeatManage.EnumType.AdType.PromotionAd: btn_Promotion.IsChecked = true; break;
+            //        case SeatManage.EnumType.AdType.SchoolNotice: btn_Note.IsChecked = true; break;
+            //    }
+            //    CanvasMove(x, y);
+            //}));
+        }
         /// <summary>
         /// 读卡成功操作
         /// </summary>
@@ -467,18 +497,18 @@ namespace SeatClientV3
         /// <param name="e"></param>
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            //viewModel.ImageChangeStop();
-            //viewModel.ClientObject.StopUpdateConfig();
-            //if (viewModel.timeDateTimeSync != null)
-            //{
-            //    viewModel.timeDateTimeSync.TimeStop();
-            //}
-            //viewModel.MyLastSeatSumTime.TimeStop();
-            //if (viewModel.MyCheckCodeTime != null)
-            //{
-            //    viewModel.MyCheckCodeTime.TimeStop();
-            //}
-            //StopRead();
+            viewModel.ImageChangeStop();
+            viewModel.ClientObject.StopUpdateConfig();
+            if (viewModel.timeDateTimeSync != null)
+            {
+                viewModel.timeDateTimeSync.TimeStop();
+            }
+            viewModel.MyLastSeatSumTime.TimeStop();
+            if (viewModel.MyCheckCodeTime != null)
+            {
+                viewModel.MyCheckCodeTime.TimeStop();
+            }
+            StopRead();
             Application.Current.Shutdown();
         }
         /// <summary>
@@ -494,6 +524,7 @@ namespace SeatClientV3
             bindWeiChar.ShowDialog();
             StartRead();
         }
+
 
     }
 }

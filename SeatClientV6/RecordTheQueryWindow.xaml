@@ -34,7 +34,7 @@
             <TextBlock  Text="近期操作记录"  Style="{DynamicResource TextBlock_White_L}" Canvas.Top="75" Canvas.Left="780"/>
             <Button Content="返回" Canvas.Left="911" Canvas.Top="882.5" Style="{DynamicResource ButtonStyle_L}" Click="Button_Click" />
             <ScrollViewer  Canvas.Top="180" Grid.Column="1" Canvas.Left="40" Template="{DynamicResource ScrollViewerControlTemplate1}" Name="scrollViewer1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"  Width="1000" Height="680">
-                <StackPanel Margin="10,0,0,0" x:Name="Panels">
+                <StackPanel    Margin="10,0,0,0" x:Name="Panels">
 
                 </StackPanel>
             </ScrollViewer>

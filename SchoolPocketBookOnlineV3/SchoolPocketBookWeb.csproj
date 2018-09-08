@@ -53,6 +53,10 @@
       <HintPath>..\SeatManageWebV2\DLL\DotNetCasClient.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.DirectoryServices.AccountManagement" />
     <Reference Include="System.DirectoryServices.Protocols" />
@@ -85,7 +89,11 @@
     <Content Include="CASAutoLogin.aspx" />
     <Content Include="CASLogout.aspx" />
     <Content Include="CXAutoLogin.aspx" />
+    <Content Include="DLL\Newtonsoft.Json.dll" />
+    <Content Include="DLL\Newtonsoft.Json.xml" />
+    <Content Include="dzkdlogin.aspx" />
     <Content Include="ErrorPage.aspx" />
+    <Content Include="HtmlPage1.html" />
     <Content Include="Images\ajax-loader.gif" />
     <Content Include="Images\btn_BlackList.png" />
     <Content Include="Images\btn_book.png" />
@@ -245,6 +253,7 @@
     <Compile Include="CASLogout.aspx.designer.cs">
       <DependentUpon>CASLogout.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Code\DZKDJsonResultObj.cs" />
     <Compile Include="Code\NowReadingRoomState.cs" />
     <Compile Include="Code\ScanCodeParamModel.cs" />
     <Compile Include="CXAutoLogin.aspx.cs">
@@ -253,6 +262,13 @@
     </Compile>
     <Compile Include="CXAutoLogin.aspx.designer.cs">
       <DependentUpon>CXAutoLogin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="dzkdlogin.aspx.cs">
+      <DependentUpon>dzkdlogin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="dzkdlogin.aspx.designer.cs">
+      <DependentUpon>dzkdlogin.aspx</DependentUpon>
     </Compile>
     <Compile Include="ErrorPage.aspx.cs">
       <DependentUpon>ErrorPage.aspx</DependentUpon>
@@ -423,9 +439,7 @@
       <Name>SeatManageComm</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DLL\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Properties\PublishProfiles\web.pubxml" />
   </ItemGroup>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace SeatClientV3
 {
@@ -87,6 +88,7 @@ namespace SeatClientV3
                     TextBlock title = new TextBlock();
                     title.Width = 990;
                     title.Margin = new Thickness(0, 10, 0, 0);
+                    title.Foreground = new SolidColorBrush(Color.FromRgb(23, 72, 117));
                     title.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
                     title.Style = (Style)this.FindResource("TextBlock_White_M");
                     title.Text = viewModel.EnterOutLogList[i].EnterOutTime.ToString("MM月dd日");
@@ -97,6 +99,7 @@ namespace SeatClientV3
                 TextBlock text = new TextBlock();
                 text.TextWrapping = TextWrapping.WrapWithOverflow;
                 text.Width = 140;
+                text.Foreground = new SolidColorBrush(Color.FromRgb(23, 72, 117));
                 text.Margin = new Thickness(0, 5, 0, 0);
                 text.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
                 text.Style = (Style)this.FindResource("TextBlock_White_MS_Wrapping");
@@ -104,6 +107,7 @@ namespace SeatClientV3
                 sp.Children.Add(text);
 
                 TextBlock remark = new TextBlock();
+                remark.Foreground = new SolidColorBrush(Color.FromRgb(23, 72,117));
                 remark.TextWrapping = TextWrapping.WrapWithOverflow;
                 remark.Width = 830;
                 remark.Margin = new Thickness(0, 5, 0, 0);

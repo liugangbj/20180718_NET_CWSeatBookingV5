@@ -14,9 +14,95 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-    <Viewbox >
-        <Grid x:Name="G_bg" Width="1080" Height="1000">
-            <Rectangle Fill="White" Opacity="0.25" Margin="35,152,35,100"/>
+    <Viewbox>
+        <Grid x:Name="G_bg111" Width="991" Height="1000" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition  />
+                <ColumnDefinition  />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="80*"/>
+                <RowDefinition Height="700*"/>
+                <RowDefinition Height="30*"/>
+            </Grid.RowDefinitions>
+            <Grid.Background>
+                <ImageBrush Stretch="None" Opacity="0.65"  ImageSource="NewResources/Background/readingroombg.png"/>
+            </Grid.Background>
+            <TextBlock HorizontalAlignment="Right" Grid.Row="0" Grid.Column="0" Style="{DynamicResource TextBlock_Orange_L}"  Text="读者信息"  Margin="0,30,134,157" />
+            <ScrollViewer Grid.Column="0"  Grid.Row="1" Grid.ColumnSpan="3" Height="700" Margin="20,5,20,5">
+                <ScrollViewer.Resources>
+                    <Style TargetType="ScrollBar">
+                        <Style.Triggers>
+                            <Trigger Property="Orientation" Value="Vertical">
+                                <Setter Property="Width" Value="10"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ScrollViewer.Resources>
+                <TabControl    VerticalAlignment="Top" TabStripPlacement="Left"   x:Name="TabCont">
+                    <!--<TabItem Opacity="0.8"  Width="70" Margin="10,10,0,2"  Height="180">
+                        <TabItem.Header>
+                            <Label MaxWidth="40" FontSize="24" >
+                                <TextBlock TextWrapping="Wrap" Text="一楼A区"  />
+                            </Label>
+                        </TabItem.Header>
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <WrapPanel  Width="850" HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Top">
+                                <Image Margin="5" Width="153" Height="174" Source="NewResources/Background/roomview3.png"></Image>
+                                <Image Margin="5" Width="153" Height="174" Source="NewResources/Background/roomview3.png"></Image>
+                                <Image Margin="5" Width="153" Height="174" Source="NewResources/Background/roomview3.png"></Image>
+                                <Image Margin="5" Width="153" Height="174" Source="NewResources/Background/roomview3.png"></Image>
+                                <Image Margin="5" Width="153" Height="174" Source="NewResources/Background/roomview3.png"></Image>
+                                <Image Margin="5" Width="153" Height="174" Source="NewResources/Background/roomview3.png"></Image>
+                                <Image Margin="5" Width="153" Height="174" Source="NewResources/Background/roomview3.png"></Image>
+                                <Image Margin="5" Width="153" Height="174" Source="NewResources/Background/roomview3.png"></Image>
+                                <Image Margin="5" Width="153" Height="174" Source="NewResources/Background/roomview3.png"></Image>
+                                <Image Margin="5" Width="153" Height="174" Source="NewResources/Background/roomview3.png"></Image>
+                            </WrapPanel>
+                        </ScrollViewer>
+                    </TabItem>
+                    <TabItem  Width="70"  Margin="10,2,0,5" Height="180">
+                        <TabItem.Header>
+                            <Label MaxWidth="40" FontSize="26">
+                                <TextBlock TextWrapping="Wrap" Text="一楼A区" />
+                            </Label>
+                        </TabItem.Header>
+
+                    </TabItem>
+                    <TabItem  Width="70" Height="180"  Margin="10,2,0,2">
+                        <TabItem.Header>
+                            <Label MaxWidth="40" FontSize="26">
+                                <TextBlock TextWrapping="Wrap" Text="一楼A区" />
+                            </Label>
+                        </TabItem.Header>
+                    </TabItem>
+                    <TabItem  Width="70" Height="180" Margin="10,2,0,2" >
+                        <TabItem.Header>
+                            <Label MaxWidth="40" FontSize="26">
+                                <TextBlock TextWrapping="Wrap" Text="一楼A区" />
+                            </Label>
+                        </TabItem.Header>
+                    </TabItem>
+                    <TabItem  Width="70"  Margin="10,2,0,2">
+                        <TabItem.Header>
+                            <Label MaxWidth="40" FontSize="26">
+                                <TextBlock TextWrapping="Wrap" Text="一楼A区" />
+                            </Label>
+                        </TabItem.Header>
+                    </TabItem>
+                    <TabItem  Width="70" Height="180"  Margin="10,2,0,10">
+                        <TabItem.Header>
+                            <Label MaxWidth="40" FontSize="26">
+                                <TextBlock TextWrapping="Wrap" Text="一楼A区" />
+                            </Label>
+                        </TabItem.Header>
+                    </TabItem>-->
+                </TabControl>
+            </ScrollViewer>
+
+            <!--<Image Grid.Row="2" Width="991" Height="918" Grid.Column="2" Source="NewResources/Background/readingroombg.png"></Image>-->
+            <!--<Rectangle Fill="White" Opacity="0.25" Margin="35,152,35,100"/>
             <Path  Data="M20,0 L240,0 L260,60 L0,60 L20,0 L20,0"   Height="60" Width="240"  Stretch="Uniform"  Margin="45,34.361,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" >
                 <Path.Fill>
                     <SolidColorBrush Color="White" Opacity="0.5"/>
@@ -75,7 +161,7 @@
                     <SolidColorBrush Color="Black" Opacity="0.3"/>
                 </Grid.Background>
                 <MyUserControl:UC_Loading Height="200" Width="200"  VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            </Grid>
+            </Grid>-->
         </Grid>
     </Viewbox>
 </Window>

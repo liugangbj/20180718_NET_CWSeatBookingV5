@@ -709,6 +709,24 @@
   <ItemGroup>
     <Resource Include="NewResources\Background\dateimg.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="NewResources\Background\active.png" />
+    <Resource Include="NewResources\Background\notice.png" />
+    <Resource Include="NewResources\Background\query.png" />
+    <Resource Include="NewResources\Background\seat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="NewResources\Background\ReadCardImage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="NewResources\Background\wechatbing.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="NewResources\Background\readingroombg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="NewResources\Background\roomview3.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

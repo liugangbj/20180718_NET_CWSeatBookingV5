@@ -24,6 +24,7 @@ namespace SeatManageWebV2.WebService
         {
             string[] strs = CardNo.Split(',');
             CardNo = strs[0];
+            
             if (!Verifylicensing())
             {
                 return "非法操作，此接口未进行授权！";
@@ -48,6 +49,7 @@ namespace SeatManageWebV2.WebService
                 if (string.IsNullOrEmpty(CardNo))
                 {
                     throw new Exception("输入的学号为空！");
+                   // SeatManage.SeatManageComm.WriteLog.Write(CardNo);
                 }
                 SeatManage.ClassModel.AccessSetting accset = SeatManage.Bll.T_SM_SystemSet.GetAccessSetting();
                 if (accset == null)
@@ -156,6 +158,7 @@ namespace SeatManageWebV2.WebService
                         DateTime nowDate = SeatManage.Bll.ServiceDateTime.Now;
                         if (accset.IsBookingConfinmed && reader.BespeakLog.Count > 0)
                         {
+                            SeatManage.SeatManageComm.WriteLog.Write("到此一游");
                             SeatManage.ClassModel.BespeakLogInfo bespeaklog = reader.BespeakLog[0];
                             SeatManage.ClassModel.ReadingRoomSetting set = reader.AtReadingRoom.Setting;
                             DateTime dtBegin = bespeaklog.BsepeakTime.AddMinutes(-double.Parse(set.SeatBespeak.ConfirmTime.BeginTime));
@@ -201,6 +204,7 @@ namespace SeatManageWebV2.WebService
             }
             catch (Exception e)
             {
+                SeatManage.SeatManageComm.WriteLog.Write(e.Message);
                 Error = e.Message;
             }
             return string.Format(message.ToString(), ReaderNo, ReaderName, NowStatus, BeforeStatus, Error);

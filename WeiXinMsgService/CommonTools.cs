@@ -40,6 +40,8 @@ namespace WeiXinMsgService
             return hash.Equals(signature);
         }
 
+
+
         /// <summary>
         /// 获取Access_token值
         /// </summary>

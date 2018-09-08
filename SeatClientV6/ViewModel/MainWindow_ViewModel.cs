@@ -154,6 +154,49 @@ namespace SeatClientV3.ViewModel
             get { return string.Format("{0}年{1}月{2}日 {3} {4}", _NowDateTime.Year, _NowDateTime.Month, _NowDateTime.Day, CultureInfo.CurrentCulture.DateTimeFormat.GetDayName(_NowDateTime.DayOfWeek), _NowDateTime.ToLongTimeString()); }
         }
 
+        public string DayString
+        {
+            get
+            {
+
+
+                return DateTime.Now.Day.ToString();
+            }
+        }
+
+        public string WeekString
+        {
+            get {
+                string ret = "";
+                switch ((int)DateTime.Now.DayOfWeek)
+                {
+                    case 0:
+                        ret = "星期天";
+                        break;
+                    case 1:
+                        ret = "星期一";
+                        break;
+                    case 2:
+                        ret = "星期二";
+                        break;
+                    case 3:
+                        ret = "星期三";
+                        break;
+                    case 4:
+                        ret = "星期四";
+                        break;
+                    case 5:
+                        ret = "星期五";
+                        break;
+                    case 6:
+                        ret = "星期六";
+                        break;
+                }
+                return ret;
+            }
+        }
+
+
         private int _LastSeatCount;
         /// <summary>
         /// 剩余座位数目

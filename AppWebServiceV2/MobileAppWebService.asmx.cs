@@ -93,8 +93,10 @@ namespace AppWebService
         {
             if (headerCheck.CheckSoapHeader(myHeader, true))
             {
+             
                 IMobileAppDataObtianProxy obtainProxy = new MobileAppDataWCFProxy(myHeader.SchoolNum);
                 string r = obtainProxy.GetUserNowStateV2(studentNo, isCheckCode);
+                //SeatManage.SeatManageComm.WriteLog.Write("r"+r);
                 obtainProxy.Dispose();
                 return r;
             }
