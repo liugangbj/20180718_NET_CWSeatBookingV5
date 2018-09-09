@@ -40,7 +40,18 @@ namespace WeiXinMsgService
             return hash.Equals(signature);
         }
 
-
+        public string IsExistAccess_TokenV2()
+        {
+            string Token = string.Empty;
+            string filepath = System.Web.HttpContext.Current.Server.MapPath("XMLFile.xml");
+            StreamReader str = new StreamReader(filepath, System.Text.Encoding.UTF8);
+            XmlDocument xml = new XmlDocument();
+            xml.Load(str);
+            str.Close();
+            str.Dispose();
+            Token = xml.SelectSingleNode("xml").SelectSingleNode("Access_Token").InnerText;
+            return Token;
+        }
 
         /// <summary>
         /// 获取Access_token值
