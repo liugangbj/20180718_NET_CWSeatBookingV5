@@ -1,0 +1,104 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="/quickui/login/style.css" />
+    <script src="/quickui/libs/js/jquery.js"></script>
+    <script src="/quickui/libs/js/form/placeholder.js"></script>
+    <!--框架必需start-->
+    <link href="/quickui/libs/css/import_main.css" rel="stylesheet" type="text/css" />
+    <link href="/quickui/libs/skins/blue/style.css" rel="stylesheet" type="text/css" id="theme" themeColor="blue" positionTarget="positionContent" />
+    <link href="skin/style.css" rel="stylesheet" type="text/css" id="skin" skinPath="/quickui/system/style16_accordion_blue/skin/" />
+    <script type="text/javascript" src="/quickui/libs/js/jquery.js"></script>
+    <script type="text/javascript" src="/quickui/libs/js/language/cn.js"></script>
+    <script type="text/javascript" src="/quickui/libs/js/main.js"></script>
+    <!--框架必需end-->
+    <!--弹窗组件start-->
+    <script type="text/javascript" src="/quickui/libs/js/popup/drag.js"></script>
+    <script type="text/javascript" src="/quickui/libs/js/popup/dialog.js"></script>
+    <!--弹窗组件end-->
+    <!--引入提示组件start-->
+    <script type="text/javascript" src="/quickui/libs/js/popup/toast.js"></script>
+    <script type="text/javascript" src="/quickui/libs/js/popup/notice.js"></script>
+    <!--引入提示组件end-->
+    <!--左侧导航start-->
+    <script type="text/javascript" src="/quickui/libs/js/nav/menuNav.js"></script>
+    <!--左侧导航end-->
+</head>
+<body>
+    <div class="win">
+        <div class="login_win">
+            <div class="login_title"></div>
+            <form action="../style1_accordion_blue/main.html" method="post" class="form_win">
+                <div class="form_title">
+                    <span>用户登录</span>
+                </div>
+                <div class="user">
+                    <i></i><input type="text" name="txtUserName" id="txtUserName" placeholder="账号" />
+                </div>
+                <div class="passerword">
+                    <i></i><input type="password" name="txtPass" id="txtPass" placeholder="密码" />
+                </div>
+                <div class="remember clear">
+                    <a href="javascript:;">忘记密码？</a>
+                </div>
+                <input type="button" id="btnLogin" value="登 录" class="submit" />
+                <div class="login_copy">
+                    <a href="http://www.uileader.com" target="_blank">官方网站：http://www.uileader.com</a>
+                </div>
+            </form>
+
+        </div>
+        <!--<div class="footer">
+            北京引领视觉科技有限公司出品<br/>官方网站：<span class="white"><a href="http://www.uileader.com" target="_blank">http://www.uileader.com</a></span>
+        </div>-->
+    </div>
+
+    <script>
+
+        $("#btnLogin").click(function () {
+          
+            var $username = $("#txtUserName");
+            var $password = $("#txtPass");
+            if ($username.val() == "") {
+                $username.focus();
+                top.Toast('showErrorToast', '请输入登录账号');
+                return false;
+            } else if ($password.val() == "") {
+                $password.focus();
+                top.Toast('showErrorToast', '请输入登录密码');
+                return false;
+            } else {
+                $.ajax({
+                    url: "/Login/CheckLogin",
+                    data: { username: $.trim($username.val()), password: $password.val() },
+                    type: "post",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.status == "yes") {
+                            top.Toast('showSuccessToast', '成功登录，正在跳转');
+                            window.setTimeout(function () {
+                                window.location.href = "/Home/Index";
+                            }, 500);
+                        } else {
+                            top.Toast('showErrorToast', data.message);
+                        }
+                    }
+                });
+
+            }
+
+
+
+        });
+
+    </script>
+</body>
+</html>
