@@ -77,6 +77,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -140,9 +144,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System.Net.Http.Formatting">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
@@ -2144,6 +2145,23 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Views\home\skin\a.hover.png" />
+    <Content Include="Views\home\skin\iconBgNormal.png" />
+    <Content Include="Views\home\skin\icon_play.png" />
+    <Content Include="Views\home\skin\index_icon.png" />
+    <Content Include="Views\home\skin\index_icon_hover.png" />
+    <Content Include="Views\home\skin\LeftNav_title.png" />
+    <Content Include="Views\home\skin\LeftNav_win_bg.png" />
+    <Content Include="Views\home\skin\logo.png" />
+    <Content Include="Views\home\skin\nav_icon_bg.png" />
+    <Content Include="Views\home\skin\nav_icon_bg_hover.png" />
+    <Content Include="Views\home\skin\nav_more.png" />
+    <Content Include="Views\home\skin\page_head_ico.png" />
+    <Content Include="Views\home\skin\stair_icon_down.png" />
+    <Content Include="Views\home\skin\stair_icon_right.png" />
+    <Content Include="Views\home\skin\stair_icon_up.png" />
+    <Content Include="Views\home\skin\style.css" />
+    <Content Include="Views\home\skin\user_head.png" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -2158,9 +2176,12 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Login\Login.cshtml" />
+    <Content Include="Views\home\Index.cshtml" />
+    <Content Include="Views\home\skin\Thumbs.db" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="lib\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -2174,6 +2195,10 @@
     <ProjectReference Include="..\SeatClientBll\SeatManage.Bll.csproj">
       <Project>{d8187f61-bdc9-431f-975f-c58d9c897412}</Project>
       <Name>SeatManage.Bll</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SeatManageClassModel\SeatManageClassModel.csproj">
+      <Project>{e90fbbad-98da-4a34-b620-26da9adddf85}</Project>
+      <Name>SeatManageClassModel</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

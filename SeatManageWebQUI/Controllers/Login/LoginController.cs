@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace SeatManageWebQUI.Controllers.Login
 {
-    public class LoginController : BaseController
+    public class LoginController : Controller
     {
         // GET: Login
         public ActionResult Index()
@@ -19,7 +19,7 @@ namespace SeatManageWebQUI.Controllers.Login
         {
             JsonResult result = null;
             string loginID = username;
-            string Password = username;
+            string Password = password;
 
             try
             {
@@ -32,7 +32,7 @@ namespace SeatManageWebQUI.Controllers.Login
                 }
                 else
                 {
-                    this.LoginId = loginID;
+                    Session["LoginID"] = loginID;
                     result = Json(new { status = "yes", message = "登录成功" }, JsonRequestBehavior.AllowGet);
                 }
             }
