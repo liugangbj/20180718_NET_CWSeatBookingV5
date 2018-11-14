@@ -10,10 +10,12 @@ namespace SeatManageWebQUI.Controllers
 {
     public class HomeController : BaseController
     {
+
+
         public ActionResult Index()
         {
             string str = LoadData();
-            ViewData["tree"] = str;
+            ViewBag.listTree = str;
             return View();
         }
 
@@ -54,9 +56,7 @@ namespace SeatManageWebQUI.Controllers
             SeatManage.ClassModel.UserInfo LoginUser = GetUserInfo(this.LoginId);
             if (LoginUser == null)
             {
-                return "";
-                //Response.Write(@"<script language='javascript'>alert('用户信息获取失败请重新登录！'); </script> ");
-                //Response.Redirect(this.LogoutPage);
+                return "TimeOut";
             }
           //  ShowUserInfo(LoginUser);
             List<SeatManage.ClassModel.SysMenuInfo> listSysMenu = LoginUser.UserMenus;
@@ -68,7 +68,7 @@ namespace SeatManageWebQUI.Controllers
                 menuString.Append("	{ \"id\":\""+ item.MenuID+ "\", \"parentId\":\"0\", \"name\":\""+item.MenuName+"\", \"isParent\": \"true\",\"backgroundPosition\":\"0px - 80px\",\"img\":\"./ skin / topIcons / icon01.png\"},");
                 foreach (SysMenuInfo subItem in item.ChildMenu)
                 {
-                    menuString.Append("{ \"id\":\""+subItem.MenuID+"\", \"parentId\":\""+item.MenuID+"\", \"name\":\""+ subItem.MenuName+ "\",\"url\":\" / quickui / sample_skin / demo / oa_01.html\", \"target\":\"frmright\",\"icon\": \"./ skin / nav_icon_bg.png\",\"backgroundPosition\":\"0px - 128px\"},");
+                    menuString.Append("{ \"id\":\""+subItem.MenuID+"\", \"parentId\":\""+item.MenuID+"\", \"name\":\""+ subItem.MenuName+ "\",\"url\":\"/"+ subItem.MenuLink+"\", \"target\":\"frmright\",\"icon\": \"./ skin / nav_icon_bg.png\",\"backgroundPosition\":\"0px - 128px\"},");
                 }
             }
             string str = menuString.ToString().TrimEnd(',');

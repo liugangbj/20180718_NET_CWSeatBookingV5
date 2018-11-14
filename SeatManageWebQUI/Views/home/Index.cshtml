@@ -82,6 +82,10 @@
             margin-left: 20px;
         }
     </style>
+
+    <script>
+        var dd = @MvcHtmlString.Create(@ViewBag.listTree);
+    </script>
 </head>
 <body>
     <div id="mainFrame">
@@ -218,143 +222,8 @@
 	];
 	tip_construction(data, ".right_tip", 10000); //数据，div的class或者id，定时器时间
 
+	var menuData = dd;
 
-
-	var menuData = '@ViewData["tree"].ToString()';
-
-
-
-        //[
-        //{ "id": "1", "parentId": "0", "name": "系统功能设置", "isParent": "true", "backgroundPosition": "0px - 80px", "img": "./ skin / topIcons / icon01.png" },
-        //{ "id": "2", "parentId": "1", "name": "功能页面管理", "url": " / quickui / sample_skin / demo / oa_01.html", "target": "frmright", "icon": "./ skin / nav_icon_bg.png", "backgroundPosition": "0px - 128px" },
-        //{ "id": "3", "parentId": "1", "name": "功能菜单管理", "url": " / quickui / sample_skin / demo / oa_01.html", "target": "frmright", "icon": "./ skin / nav_icon_bg.png", "backgroundPosition": "0px - 128px" },
-        //{ "id": "4", "parentId": "0", "name": "用户管理", "isParent": "true", "backgroundPosition": "0px - 80px", "img": "./ skin / topIcons / icon01.png" },
-        //{ "id": "5", "parentId": "4", "name": "用户管理", "url": " / quickui / sample_skin / demo / oa_01.html", "target": "frmright", "icon": "./ skin / nav_icon_bg.png", "backgroundPosition": "0px - 128px" },
-        //{ "id": "6", "parentId": "4", "name": "角色管理", "url": " / quickui / sample_skin / demo / oa_01.html", "target": "frmright", "icon": "./ skin / nav_icon_bg.png", "backgroundPosition": "0px - 128px" },
-        //{ "id": "7", "parentId": "0", "name": "学校信息管理", "isParent": "true", "backgroundPosition": "0px - 80px", "img": "./ skin / topIcons / icon01.png" },
-        //{ "id": "8", "parentId": "7", "name": "校区信息管理", "url": " / quickui / sample_skin / demo / oa_01.html", "target": "frmright", "icon": "./ skin / nav_icon_bg.png", "backgroundPosition": "0px - 128px" },
-        //{ "id": "9", "parentId": "7", "name": "图书馆信息管理", "url": " / quickui / sample_skin / demo / oa_01.html", "target": "frmright", "icon": "./ skin / nav_icon_bg.png", "backgroundPosition": "0px - 128px" },
-        //{ "id": "10", "parentId": "7", "name": "阅览室信息管理", "url": " / quickui / sample_skin / demo / oa_01.html", "target": "frmright", "icon": "./ skin / nav_icon_bg.png", "backgroundPosition": "0px - 128px" },
-        //{ "id": "11", "parentId": "0", "name": "使用状态监控", "isParent": "true", "backgroundPosition": "0px - 80px", "img": "./ skin / topIcons / icon01.png" },
-        //{ "id": "12", "parentId": "11", "name": "阅览室座位监控", "url": " / quickui / sample_skin / demo / oa_01.html", "target": "frmright", "icon": "./ skin / nav_icon_bg.png", "backgroundPosition": "0px - 128px" },
-        //{ "id": "13", "parentId": "11", "name": "设备状态监控", "url": " / quickui / sample_skin / demo / oa_01.html", "target": "frmright", "icon": "./ skin / nav_icon_bg.png", "backgroundPosition": "0px - 128px" },
-        //{ "id": "14", "parentId": "0", "name": "记录管理", "isParent": "true", "backgroundPosition": "0px - 80px", "img": "./ skin / topIcons / icon01.png" },
-        //{ "id": "15", "parentId": "14", "name": "进出记录管理", "url": " / quickui / sample_skin / demo / oa_01.html", "target": "frmright", "icon": "./ skin / nav_icon_bg.png", "backgroundPosition": "0px - 128px" },
-        //{ "id": "16", "parentId": "14", "name": "预约记录管理", "url": " / quickui / sample_skin / demo / oa_01.html", "target": "frmright", "icon": "./ skin / nav_icon_bg.png", "backgroundPosition": "0px - 128px" },
-        //{ "id": "17", "parentId": "14", "name": "违规记录管理", "url": " / quickui / sample_skin / demo / oa_01.html", "target": "frmright", "icon": "./ skin / nav_icon_bg.png", "backgroundPosition": "0px - 128px" },
-        //{ "id": "18", "parentId": "14", "name": "黑名单记录管理", "url": " / quickui / sample_skin / demo / oa_01.html", "target": "frmright", "icon": "./ skin / nav_icon_bg.png", "backgroundPosition": "0px - 128px" },
-        //{ "id": "19", "parentId": "0", "name": "统计查询", "isParent": "true", "backgroundPosition": "0px - 80px", "img": "./ skin / topIcons / icon01.png" },
-        //{ "id": "20", "parentId": "19", "name": "进出人次统计-小时", "url": " / quickui / sample_skin / demo / oa_01.html", "target": "frmright", "icon": "./ skin / nav_icon_bg.png", "backgroundPosition": "0px - 128px" },
-        //{ "id": "21", "parentId": "19", "name": "座位使用情况统计", "url": " / quickui / sample_skin / demo / oa_01.html", "target": "frmright", "icon": "./ skin / nav_icon_bg.png", "backgroundPosition": "0px - 128px" },
-        //{ "id": "22", "parentId": "19", "name": "阅览室进出人次统计", "url": " / quickui / sample_skin / demo / oa_01.html", "target": "frmright", "icon": "./ skin / nav_icon_bg.png", "backgroundPosition": "0px - 128px" },
-        //{ "id": "23", "parentId": "19", "name": "阅览室信息统计", "url": " / quickui / sample_skin / demo / oa_01.html", "target": "frmright", "icon": "./ skin / nav_icon_bg.png", "backgroundPosition": "0px - 128px" },
-        //{ "id": "24", "parentId": "19", "name": "记录排行榜", "url": " / quickui / sample_skin / demo / oa_01.html", "target": "frmright", "icon": "./ skin / nav_icon_bg.png", "backgroundPosition": "0px - 128px" },
-        //{ "id": "25", "parentId": "0", "name": "管理功能设置", "isParent": "true", "backgroundPosition": "0px - 80px", "img": "./ skin / topIcons / icon01.png" },
-        //{ "id": "26", "parentId": "25", "name": "黑名单设置", "url": " / quickui / sample_skin / demo / oa_01.html", "target": "frmright", "icon": "./ skin / nav_icon_bg.png", "backgroundPosition": "0px - 128px" },
-        //{ "id": "27", "parentId": "25", "name": "触摸屏终端设置", "url": " / quickui / sample_skin / demo / oa_01.html", "target": "frmright", "icon": "./ skin / nav_icon_bg.png", "backgroundPosition": "0px - 128px" },
-        //{ "id": "28", "parentId": "25", "name": "同步设置", "url": " / quickui / sample_skin / demo / oa_01.html", "target": "frmright", "icon": "./ skin / nav_icon_bg.png", "backgroundPosition": "0px - 128px" },
-        //{ "id": "29", "parentId": "25", "name": "通道机接口配置", "url": " / quickui / sample_skin / demo / oa_01.html", "target": "frmright", "icon": "./ skin / nav_icon_bg.png", "backgroundPosition": "0px - 128px" },
-        //{ "id": "42", "parentId": "25", "name": "移动客户端设置", "url": " / quickui / sample_skin / demo / oa_01.html", "target": "frmright", "icon": "./ skin / nav_icon_bg.png", "backgroundPosition": "0px - 128px" },
-        //{ "id": "43", "parentId": "25", "name": "消息通知设置", "url": " / quickui / sample_skin / demo / oa_01.html", "target": "frmright", "icon": "./ skin / nav_icon_bg.png", "backgroundPosition": "0px - 128px" }];
-
-
-
-        //[
-
-//	{ "id":"1", "parentId":"0", "name":"OA办公", "isParent": "true","backgroundPosition":"0px -80px","img":"./skin/topIcons/icon01.png"},
-//	{ "id":"102", "parentId":"1", "name":"考勤单据","url":"/quickui/sample_skin/demo/oa_01.html", "target":"frmright","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"103", "parentId":"1", "name":"我的考勤","url":"/quickui/sample_skin/demo/oa_03.html", "target":"frmright","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"104", "parentId":"1", "name":"公司公告","url":"/quickui/sample_skin/demo/oa_04.html", "target":"frmright","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"105", "parentId":"1", "name":"公告管理","url":"/quickui/sample_skin/demo/oa_05.html", "target":"frmright","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"106", "parentId":"1", "name":"合同管理","url":"/quickui/sample_skin/demo/oa_08.html", "target":"frmright","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"107", "parentId":"1", "name":"拜访门店","url":"/quickui/sample_skin/demo/oa_10.html", "target":"frmright","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"108", "parentId":"1", "name":"加班调休查询","url":"/quickui/sample_skin/demo/oa_11.html", "target":"frmright","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"109", "parentId":"1", "name":"员工通讯录","url":"/quickui/sample_skin/demo/oa_12.html", "target":"frmright","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"113", "parentId":"1", "name":"考勤归档","url":"/quickui/sample_skin/demo/oa_13.html", "target":"frmright","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"114", "parentId":"1", "name":"费用报销","url":"/quickui/sample_skin/demo/oa_14.html", "target":"frmright","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-
-
-//	{ "id":"2", "parentId":"0", "name":"招商管理","backgroundPosition":"0px -16px","img":"./skin/topIcons/icon02.png"},
-//	{ "id":"201", "parentId":"2", "name":"招商留言","url":"/quickui/sample_skin/demo/oa_17.html", "target":"frmright","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-
-//	{ "id":"3", "parentId":"0", "name":"审批管理", "isParent": "true","backgroundPosition":"0px -32px","img":"./skin/topIcons/icon03.png"},
-//	{ "id":"301", "parentId":"3", "name":"报销单审批", "url":"/quickui/sample_skin/demo/oa_18.html", "target":"frmright","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-
-//	{ "id":"4", "parentId":"0", "name":"基础信息", "isParent": "true","backgroundPosition":"0px -64px","img":"./skin/topIcons/icon04.png"},
-//	{ "id":"401", "parentId":"4", "name":"资源管理", "url":"/quickui/sample_skin/demo/oa_20.html", "target":"frmright","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"402", "parentId":"4", "name":"企业管理", "url":"/quickui/sample_skin/demo/oa_22.html", "target":"frmright","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"403", "parentId":"4", "name":"品牌管理", "url":"/quickui/sample_skin/demo/oa_23.html", "target":"frmright","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"404", "parentId":"4", "name":"分类管理", "url":"/quickui/sample_skin/demo/oa_24.html", "target":"frmright","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"405", "parentId":"4", "name":"商品管理", "url":"/quickui/sample_skin/demo/oa_25.html", "target":"frmright","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"406", "parentId":"4", "name":"商品SKU管理", "url":"/quickui/sample_skin/demo/oa_27.html", "target":"frmright","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-
-//	{ "id":"5", "parentId":"0", "name":"ERP管理", "isParent": "true","backgroundPosition":"0px -96px","img":"./skin/topIcons/icon05.png"},
-//	{ "id":"501", "parentId":"5", "name":"采购管理","url":"/quickui/sample_skin/demo/oa_30.html", "target":"frmright","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"502", "parentId":"5", "name":"入库【采购】","url":"/quickui/sample_skin/demo/oa_36.html", "target":"frmright","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"503", "parentId":"5", "name":"退货管理","url":"/quickui/sample_skin/demo/oa_37.html", "target":"frmright","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"504", "parentId":"5", "name":"人工受订单","url":"/quickui/sample_skin/demo/oa_39.html", "target":"frmright","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"505", "parentId":"5", "name":"出库【人工受订】","url":"/quickui/sample_skin/demo/oa_44.html", "target":"frmright","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"506", "parentId":"5", "name":"入库【人工受订单退货】","url":"/quickui/sample_skin/demo/oa_47.html", "target":"frmright","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"507", "parentId":"5", "name":"库存管理","url":"/quickui/sample_skin/demo/oa_50.html", "target":"frmright","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"508", "parentId":"5", "name":"供应商管理","url":"/quickui/sample_skin/demo/oa_55.html", "target":"frmright","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"509", "parentId":"5", "name":"库房出入管理","url":"/quickui/sample_skin/demo/oa_59.html", "target":"frmright","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"510", "parentId":"5", "name":"仓库管理","url":"/quickui/sample_skin/demo/oa_61.html", "target":"frmright","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"511", "parentId":"5", "name":"仓位管理","url":"/quickui/sample_skin/demo/oa_63.html", "target":"frmright","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-
-//	{ "id":"7", "parentId":"0", "name":"财务管理", "isParent": "true","backgroundPosition":"0px -112px","img":"./skin/topIcons/icon03.png"},
-
-//	{ "id":"701", "parentId":"7", "name":"收付款", "url":"/quickui/sample_skin/demo/oa_65.html", "target":"frmright","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"702", "parentId":"7", "name":"出货利润", "url":"/quickui/sample_skin/demo/oa_68.html", "target":"frmright","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-
-//	{ "id":"8", "parentId":"0", "name":"用户管理", "isParent": "true","backgroundPosition":"0px -48px","img":"./skin/topIcons/icon04.png"},
-//	{ "id":"801", "parentId":"8", "name":"后台用户", "url":"/quickui/sample_skin/demo/oa_70.html", "target":"frmright","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"802", "parentId":"8", "name":"消费者用户", "url":"/quickui/sample_skin/demo/oa_72.html", "target":"frmright","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"803", "parentId":"8", "name":"门店用户", "url":"/quickui/sample_skin/demo/oa_73.html", "target":"frmright","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-
-//	{ "id":"9", "parentId":"0", "name":"系统配置","backgroundPosition":"0px 0px","img":"./skin/topIcons/icon02.png"},
-//	{ "id":"901", "parentId":"9", "name":"部门管理","url":"/quickui/sample_skin/demo/oa_75.html", "target":"frmright","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"902", "parentId":"9", "name":"用户组管理","url":"/quickui/sample_skin/demo/oa_77.html", "target":"frmright","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"903", "parentId":"9", "name":"审批流配置","url":"/quickui/sample_skin/demo/oa_79.html", "target":"frmright","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-
-//	{ "id":"6", "parentId":"0", "name":"多级菜单", "isParent": "true","backgroundPosition":"0px -144px","img":"./skin/topIcons/icon06.png"},
-
-//	{ "id":"601", "parentId":"6", "name":"第二级-1","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"6101", "parentId":"601", "name":"第三级-1","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"61011", "parentId":"6101", "name":"第四级-1","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"61012", "parentId":"6101", "name":"第四级-2","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"61013", "parentId":"6101", "name":"第四级-3","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"61014", "parentId":"6101", "name":"第四级-4","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"6102", "parentId":"601", "name":"第三级-2","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"61011", "parentId":"6102", "name":"第四级-1","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"61012", "parentId":"6102", "name":"第四级-2","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"61013", "parentId":"6102", "name":"第四级-3","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"61014", "parentId":"6102", "name":"第四级-4","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"6103", "parentId":"601", "name":"第三级-3","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"61011", "parentId":"6103", "name":"第四级-1","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"61012", "parentId":"6103", "name":"第四级-2","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"61013", "parentId":"6103", "name":"第四级-3","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"61014", "parentId":"6103", "name":"第四级-4","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"602", "parentId":"6", "name":"第二级-2","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0 -128px"},
-//	{ "id":"6201", "parentId":"602", "name":"第三级-1","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"61011", "parentId":"6201", "name":"第四级-1","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"61012", "parentId":"6201", "name":"第四级-2","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"61013", "parentId":"6201", "name":"第四级-3","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"61014", "parentId":"6201", "name":"第四级-4","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"6202", "parentId":"602", "name":"第三级-2","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"61011", "parentId":"6202", "name":"第四级-1","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"61012", "parentId":"6202", "name":"第四级-2","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"61013", "parentId":"6202", "name":"第四级-3","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"61014", "parentId":"6202", "name":"第四级-4","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"6203", "parentId":"602", "name":"第三级-3","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"61011", "parentId":"6203", "name":"第四级-1","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"61012", "parentId":"6203", "name":"第四级-2","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"61013", "parentId":"6203", "name":"第四级-3","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"61014", "parentId":"6203", "name":"第四级-4","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"603", "parentId":"6", "name":"第二级-3","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0 -128px"},
-//	{ "id":"6301", "parentId":"603", "name":"第三级-1","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"6302", "parentId":"603", "name":"第三级-2","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"},
-//	{ "id":"6303", "parentId":"603", "name":"第三级-3","icon": "./skin/nav_icon_bg.png","backgroundPosition":"0px -128px"}
-//];
 
 var setting = {
 	data: {

@@ -207,8 +207,18 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\FunctionPages\LogManageController.cs" />
+    <Compile Include="Controllers\FunctionPages\ReaderLogController.cs" />
+    <Compile Include="Controllers\FunctionPages\RegulationRulesSettingController.cs" />
+    <Compile Include="Controllers\FunctionPages\SchoolInfoManageController.cs" />
+    <Compile Include="Controllers\FunctionPages\SeatBespeakController.cs" />
+    <Compile Include="Controllers\FunctionPages\SeatMonitorController.cs" />
+    <Compile Include="Controllers\FunctionPages\StatisticalController.cs" />
+    <Compile Include="Controllers\FunctionPages\SystemSetController.cs" />
+    <Compile Include="Controllers\FunctionPages\UsersManageController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Login\LoginController.cs" />
+    <Compile Include="Controllers\Menu\MenuController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -2178,6 +2188,39 @@
     <Content Include="Views\Login\Login.cshtml" />
     <Content Include="Views\home\Index.cshtml" />
     <Content Include="Views\home\skin\Thumbs.db" />
+    <Content Include="Views\ReaderLog\SelectNoticeLog.cshtml" />
+    <Content Include="Views\ReaderLog\SelectEnterOutLog.cshtml" />
+    <Content Include="Views\ReaderLog\SelectViolateDiscipline.cshtml" />
+    <Content Include="Views\ReaderLog\SelectBlacklist.cshtml" />
+    <Content Include="Views\ReaderLog\SelectBespeakLog.cshtml" />
+    <Content Include="Views\SystemSet\FunctionPagesManage.cshtml" />
+    <Content Include="Views\SystemSet\MenuManage.cshtml" />
+    <Content Include="Views\SeatBespeak\BespeakSelfSeat.cshtml" />
+    <Content Include="Views\UsersManage\UserInfo.cshtml" />
+    <Content Include="Views\UsersManage\RoleManage.cshtml" />
+    <Content Include="Views\SchoolInfoManage\SchoolInfo.cshtml" />
+    <Content Include="Views\SchoolInfoManage\LibraryInfo.cshtml" />
+    <Content Include="Views\SchoolInfoManage\ReadingRoomInfo.cshtml" />
+    <Content Include="Views\SeatMonitor\MonitorGraphMode.cshtml" />
+    <Content Include="Views\SeatMonitor\DeviceStatusInfo.cshtml" />
+    <Content Include="Views\LogManage\EnterOutLog.cshtml" />
+    <Content Include="Views\LogManage\BespeakLog.cshtml" />
+    <Content Include="Views\LogManage\ViolateDiscipline.cshtml" />
+    <Content Include="Views\LogManage\Blacklist.cshtml" />
+    <Content Include="Views\Statistical\RoomTripsOutInfo.cshtml" />
+    <Content Include="Views\Statistical\RoomSeatUseInfo.cshtml" />
+    <Content Include="Views\Statistical\RoomTripsOutUseInfo.cshtml" />
+    <Content Include="Views\Statistical\ReadingRoomUsageInfo.cshtml" />
+    <Content Include="Views\Statistical\LogTopStatisticalV2.cshtml" />
+    <Content Include="Views\RegulationRulesSetting\DeviceInfo.cshtml" />
+    <Content Include="Views\RegulationRulesSetting\BlacklistInfo.cshtml" />
+    <Content Include="Views\RegulationRulesSetting\SyncSet.cshtml" />
+    <Content Include="Views\RegulationRulesSetting\AccessSetting.cshtml" />
+    <Content Include="Views\RegulationRulesSetting\PecketWebSetting.cshtml" />
+    <Content Include="Views\RegulationRulesSetting\PushMsgSetting.cshtml" />
+    <Content Include="Views\SeatBespeak\BespeakSeat.cshtml" />
+    <Content Include="Views\SeatBespeak\BespeakNowDaySeat.cshtml" />
+    <Content Include="Views\SeatBespeak\BespeakProcess.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
