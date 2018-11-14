@@ -140,19 +140,19 @@
                         <div id="rbox">
                             <div id="rbox_topcenter">
                                 <div>
-                                    <span>您好，欢迎访问系统应用！</span>
-                                    <div id="positionContent">首页</div>
+                                    <span>@ViewBag.welcomeMsg</span>
+                                    @*<div id="positionContent">首页</div>*@
                                     <ul>
                                         <div class="right_tip"></div>
                                         <li><b></b></li>
                                         <li><a href="/quickui/sample_skin/page16/page16.html" target="frmright"><span class="icon_home">系统首页</span></a></li>
                                         <li><b></b></li>
-                                        <li><span class="icon_lock" onclick="lockScreen()">屏幕锁定</span></li>
+                                        @*<li><span class="icon_lock" onclick="lockScreen()">屏幕锁定</span></li>*@
                                         <li><b></b></li>
-                                        <li><span class="icon_user">个人中心</span></li>
+                                        @*<li><span class="icon_user">个人中心</span></li>*@
 
                                         <li><b></b></li>
-                                        <li><span class="icon_exit" onclick="top.Dialog.confirm('确定要退出系统吗',function(){});">退出系统</span></li>
+                                        <li><span class="icon_exit" onclick="top.Dialog.confirm('确定要退出系统吗',function(){ location.href='/Home/LoginOut' });">退出系统</span></li>
                                         <div class="clear"></div>
                                     </ul>
                                     <div class="clear"></div>
@@ -249,7 +249,7 @@ function openLockWindow(){
 	var diag = new top.Dialog();
 		diag.Title = "系统锁屏";
 		diag.ID = "a1";
-		diag.URL="/quickui/sample_skin/normal/lock.html";
+		diag.URL="/quickui/libs/lock.html";
 		diag.Width=350;
 		diag.Height=150;
 		diag.ShowCloseButton=false;
@@ -259,7 +259,10 @@ function openLockWindow(){
 		diag.AllowChangeIndex=false;
 		diag.show();
 		diag.addButton("btn1","注销系统",function(){
-			top.Dialog.confirm("确定要退出系统吗",function(){top.Dialog.close();});
+		    top.Dialog.confirm("确定要退出系统吗",function(){
+		        location.href='/Home/LoginOut';
+		        top.Dialog.close();
+		    });
 		})
 		diag.addButton("btn2","确定解锁",function(){
 			top.Dialog.close();

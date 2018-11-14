@@ -1450,6 +1450,7 @@
     <Content Include="quickui\libs\js\tree\ztree\img\zTreeStandard.png" />
     <Content Include="quickui\libs\js\tree\ztree\ztree.css" />
     <Content Include="quickui\libs\js\tree\ztree\ztree.js" />
+    <Content Include="quickui\libs\lock.html" />
     <Content Include="quickui\libs\skins\blue\basicTabProcess\icon_left_hover.png" />
     <Content Include="quickui\libs\skins\blue\basicTabProcess\icon_tab_item1_current.png" />
     <Content Include="quickui\libs\skins\blue\basicTabProcess\icon_tab_item_current_hover.png" />

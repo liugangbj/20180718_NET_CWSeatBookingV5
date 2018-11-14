@@ -19,6 +19,39 @@ namespace SeatManageWebQUI.Controllers
             return View();
         }
 
+
+        //unlockScreen
+        public JsonResult UnlockScreen(string password)
+        {
+            JsonResult result = null;
+            try
+            {
+                if (!IsLogin())
+                {
+                    Response.Write("<html><head><title>系统安全提示</title><script>alert('当前登录账户已经超时，请重新登录');location.href='/Login'</script></head><body></body></html>");
+                    Response.End();
+                }
+
+                SeatManage.Bll.Users_ALL userinfocheck = new SeatManage.Bll.Users_ALL();
+                string loginID = userinfocheck.CheckUser(LoginId, password);
+
+                if (string.IsNullOrEmpty(loginID))
+                {
+                    result = Json(new { status = "no", message = "密码错误，请重新输入" }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    result = Json(new { status = "yes", message = "登录成功" }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                result = Json(new { status = "no", message = ex.ToString() }, JsonRequestBehavior.AllowGet);
+            }
+
+            return result;
+        }
+
         /// <summary>
         /// 获取用户信息
         /// </summary>
@@ -58,7 +91,9 @@ namespace SeatManageWebQUI.Controllers
             {
                 return "TimeOut";
             }
-          //  ShowUserInfo(LoginUser);
+            //  ShowUserInfo(LoginUser);您好，欢迎访问系统应用！
+            string msg = "您好[" + LoginUser.UserName + "],欢迎你回来！";
+            ViewBag.welcomeMsg = msg;
             List<SeatManage.ClassModel.SysMenuInfo> listSysMenu = LoginUser.UserMenus;
 
             StringBuilder menuString = new StringBuilder("[");
@@ -126,6 +161,15 @@ namespace SeatManageWebQUI.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+
+        public ActionResult LoginOut()
+        {
+            Session.Clear();
+            Response.Write("<script>location.href='/Login'</script>");
+            Response.End();
+            return View("/Login");
         }
     }
 }
