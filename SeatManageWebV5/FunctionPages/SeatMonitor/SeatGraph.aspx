@@ -8,6 +8,7 @@
     <link href="../../Styles/SeatGraph.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="../../Scripts/SeatGraphHandle.js?a=1"></script>
     <script type="text/javascript" src="../../Scripts/jquery-1.4.1.js"></script>
+
     <script type="text/javascript">
         $(document).ready(
             function () {

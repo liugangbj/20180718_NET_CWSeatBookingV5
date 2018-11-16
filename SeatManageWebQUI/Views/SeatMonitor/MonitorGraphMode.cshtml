@@ -10,17 +10,137 @@
     <meta name="viewport" content="width=device-width" />
     <title>MonitorGraphMode</title>
     <!--框架必需start-->
-    <script type="text/javascript" src="/quickui/libs/js/jquery.js"></script>
-    <script type="text/javascript" src="/quickui/libs/js/language/cn.js"></script>
-    <script type="text/javascript" src="/quickui/libs/js/framework.js"></script>
-    <link href="/quickui/libs/css/import_basic.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" type="text/css" id="skin" prePath="/quickui/system/style16_accordion_blue/skin/" />
+    <script type="text/javascript" src="~/quickui/libs/js/jquery.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/language/cn.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/framework.js"></script>
+    <link href="~/quickui/libs/css/import_basic.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" id="skin" prePath="~/quickui/" />
     <link rel="stylesheet" type="text/css" id="customSkin" />
     <!--框架必需end-->
+    <link rel="stylesheet" type="text/css" href="~/quickui/style/style.css" />
+
+    <script src="~/quickui/libs/js/table/quiGrid.js" type="text/javascript"></script>
+
+    <!--引入提示组件start-->
+    <script type="text/javascript" src="/quickui/libs/js/popup/toast.js"></script>
+    <script type="text/javascript" src="/quickui/libs/js/popup/notice.js"></script>
+    <!--引入提示组件end-->
 </head>
 <body>
-    <div> 
-        MonitorGraphMode
+    <div class="page_content">
+        <div class="demo_operation">
+            <div class="box_tool_min padding_top2 padding_bottom2 padding_right5">
+                <div class="center">
+                    <div class="left">
+                        <div class="right">
+                            <div class="padding_top5 padding_left10">
+                                <a href="javascript:addUnit();"><span class="icon_add">新增</span></a>
+                                <div class="box_tool_line"></div>
+                                <a href="javascript:onEdit();"><span class="icon_edit">修改</span></a>
+                                <div class="box_tool_line"></div>
+                                <a href="javascript:removeItem();"><span class="icon_delete">删除</span></a>
+                                <div class="box_tool_line"></div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="infoCard infoCard2">
+            <div class="title">
+                <span>菜单列表</span>
+            </div>
+            <div id="dataBasic"></div>
+        </div>
     </div>
+
+    <script type="text/javascript">
+        var grid = null;
+        var data = @MvcHtmlString.Create(@ViewBag.Data);
+			//数据表格使用
+        var gridData = data;
+
+			function initComplete() {
+				grid = $("#dataBasic").quiGrid({
+					columns: [{
+							display: '阅览室编号',
+							name: 'roomNum',
+							width: "10%",
+							cellClick: true
+						},{
+							display: '阅览室名称',
+							name: 'roomName',
+							width: "20%"
+						},{
+							display: '所属图书馆',
+							name: 'libraryName',
+							width: "20%"
+						}, {
+						    display: '座位总数',
+						    name: 'seatCountAll',
+						    width: "10%"
+						},
+                         {
+                             display: '座位使用数',
+                             name: 'seatCountUsed',
+                             width: "10%"
+                         }, 
+                         {
+                             display: '暂离人数',
+                             name: 'seatCountShortLeave',
+                             width: "10%"
+                         },
+                        {
+                         	display: '操作',
+                         	name: 'name',
+                         	align: 'left',
+                         	width: "20%",
+                         	render: function(rowdata, rowindex, value, column) {
+                         		var mainCon = $('<div></div>');
+                         		var con = $('<span class="operation_look" onclick="roomView()" style="float:none;">阅览室监控</span><span class="operation_picking" onclick="readerListView()">读者列表</span>');
+                         		mainCon.append(con);
+                         		return mainCon.html();
+                         	}
+                        }
+					],
+					data: gridData,
+					sortName: 'roomNum',
+					rownumbers: true,
+					checkbox: false,
+					height: '99%',
+					width: "99%",
+					pageSize: 100,
+					percentWidthMode: true,
+					onAfterShowData: onAfterShowData
+				});
+			}
+
+			function onAfterShowData(data) {
+
+				$("#dataBasic").find(".popupMenu").each(function() {
+					$(this).hover(function() {
+						$(this).find(".popupMenu_con").show();
+					}, function() {
+						$(this).find(".popupMenu_con").hide();
+					});
+				})
+			}
+
+
+			function roomView()
+			{
+			    alert("1");
+			}
+
+			function readerListView()
+			{
+			    alert("2");
+			}
+
+
+
+    </script>
 </body>
 </html>

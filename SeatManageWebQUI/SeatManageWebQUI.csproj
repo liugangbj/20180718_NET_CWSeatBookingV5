@@ -44,6 +44,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DotNetCasClient, Version=1.0.3.31006, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\DotNetCasClient.dll</HintPath>
+    </Reference>
+    <Reference Include="FineUI, Version=3.3.0.0, Culture=neutral, PublicKeyToken=0ff1835d01c384a9, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\FineUI.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.4.369, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.2.1\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -77,6 +89,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=10.0.4504.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>lib\Microsoft.Office.Interop.Excel.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -207,6 +224,23 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\FunctionPages\Code\BasePage.cs" />
+    <Compile Include="Controllers\FunctionPages\Code\BespeakEnumKey_Value.cs" />
+    <Compile Include="Controllers\FunctionPages\Code\BespeakSubmitWindowParamModel.cs" />
+    <Compile Include="Controllers\FunctionPages\Code\DataToExcel.cs" />
+    <Compile Include="Controllers\FunctionPages\Code\DefaultBasePage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controllers\FunctionPages\Code\EnumEnterOutLogQueryMethod.cs" />
+    <Compile Include="Controllers\FunctionPages\Code\LogQueryHelper.cs" />
+    <Compile Include="Controllers\FunctionPages\Code\LogTopQuery.cs" />
+    <Compile Include="Controllers\FunctionPages\Code\NowReadingRoomState.cs" />
+    <Compile Include="Controllers\FunctionPages\Code\ReadingRoomStatistics.cs" />
+    <Compile Include="Controllers\FunctionPages\Code\ReadingRoomTreeNodes.cs" />
+    <Compile Include="Controllers\FunctionPages\Code\SeatHandleClass.cs" />
+    <Compile Include="Controllers\FunctionPages\Code\SeatQRCodeManager.cs" />
+    <Compile Include="Controllers\FunctionPages\Code\WorkSync.cs" />
+    <Compile Include="Controllers\FunctionPages\Code\ZipHelper.cs" />
     <Compile Include="Controllers\FunctionPages\LogManageController.cs" />
     <Compile Include="Controllers\FunctionPages\ReaderLogController.cs" />
     <Compile Include="Controllers\FunctionPages\RegulationRulesSettingController.cs" />
@@ -231,10 +265,57 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Scripts\Clock.js" />
+    <Content Include="Content\Scripts\Default.js" />
+    <None Include="Content\Scripts\jquery-1.4.1-vsdoc.js" />
+    <Content Include="Content\Scripts\jquery-1.4.1.js" />
+    <Content Include="Content\Scripts\jquery-1.4.1.min.js" />
+    <Content Include="Content\Scripts\jquery-1.7.2.min.js" />
+    <Content Include="Content\Scripts\jquery.mobile.min.js" />
+    <Content Include="Content\Scripts\My97DatePicker\calendar.js" />
+    <Content Include="Content\Scripts\My97DatePicker\lang\en.js" />
+    <Content Include="Content\Scripts\My97DatePicker\lang\zh-cn.js" />
+    <Content Include="Content\Scripts\My97DatePicker\lang\zh-tw.js" />
+    <Content Include="Content\Scripts\My97DatePicker\skin\datePicker.gif" />
+    <Content Include="Content\Scripts\My97DatePicker\skin\default\datepicker.css" />
+    <Content Include="Content\Scripts\My97DatePicker\skin\default\img.gif" />
+    <Content Include="Content\Scripts\My97DatePicker\skin\WdatePicker.css" />
+    <Content Include="Content\Scripts\My97DatePicker\skin\whyGreen\bg.jpg" />
+    <Content Include="Content\Scripts\My97DatePicker\skin\whyGreen\datepicker.css" />
+    <Content Include="Content\Scripts\My97DatePicker\skin\whyGreen\img.gif" />
+    <Content Include="Content\Scripts\My97DatePicker\WdatePicker.js" />
+    <Content Include="Content\Scripts\My97DatePicker\开发包\lang\en.js" />
+    <Content Include="Content\Scripts\My97DatePicker\开发包\lang\zh-cn.js" />
+    <Content Include="Content\Scripts\My97DatePicker\开发包\lang\zh-tw.js" />
+    <Content Include="Content\Scripts\My97DatePicker\开发包\readme.txt" />
+    <Content Include="Content\Scripts\My97DatePicker\开发包\skin\datePicker.gif" />
+    <Content Include="Content\Scripts\My97DatePicker\开发包\skin\default\datepicker.css" />
+    <Content Include="Content\Scripts\My97DatePicker\开发包\skin\default\img.gif" />
+    <Content Include="Content\Scripts\My97DatePicker\开发包\skin\WdatePicker.css" />
+    <Content Include="Content\Scripts\My97DatePicker\开发包\skin\whyGreen\bg.jpg" />
+    <Content Include="Content\Scripts\My97DatePicker\开发包\skin\whyGreen\datepicker.css" />
+    <Content Include="Content\Scripts\My97DatePicker\开发包\skin\whyGreen\img.gif" />
+    <Content Include="Content\Scripts\RoomSettingVerification.js" />
+    <Content Include="Content\Scripts\SeatGraphHandle.js" />
+    <Content Include="Content\Scripts\timeChoose.js" />
+    <Content Include="Content\Styles\default.css" />
+    <Content Include="Content\Styles\jquery.mobile.min.css" />
+    <Content Include="Content\Styles\main.css" />
+    <Content Include="Content\Styles\Pad.css" />
+    <Content Include="Content\Styles\SeatGraph.css" />
+    <Content Include="Content\Styles\Site.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="lib\DotNetCasClient.dll" />
+    <Content Include="lib\ExtAspNet.dll" />
+    <Content Include="lib\FineUI.dll" />
+    <Content Include="lib\FredCK.FCKeditorV2.dll" />
+    <Content Include="lib\ICSharpCode.SharpZipLib.dll" />
+    <Content Include="lib\Microsoft.Office.Interop.Excel.dll" />
+    <Content Include="lib\Newtonsoft.Json.dll" />
+    <Content Include="lib\Wilco.SyntaxHighlighter.dll" />
     <Content Include="quickui\libs\css\framework\basic.css" />
     <Content Include="quickui\libs\css\framework\code.css" />
     <Content Include="quickui\libs\css\framework\form.css" />
@@ -2167,6 +2248,7 @@
     <Content Include="quickui\system\style16_accordion_blue\skin\Thumbs.db" />
     <Content Include="quickui\system\style16_accordion_blue_tab\skin\Thumbs.db" />
     <Content Include="quickui\skin\Thumbs.db" />
+    <Content Include="Content\Scripts\My97DatePicker\WdatePicker.js.bak" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -2249,7 +2331,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="lib\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -2260,13 +2341,29 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EnumType\EnumType.csproj">
+      <Project>{3e7c2198-f6b3-4fae-8ebf-2271e752dff3}</Project>
+      <Name>EnumType</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\InterfaceFactory\SeatManage.InterfaceFactory.csproj">
+      <Project>{faf7c3dc-e2a6-482b-989e-735be18517ba}</Project>
+      <Name>SeatManage.InterfaceFactory</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SeatClientBll\SeatManage.Bll.csproj">
       <Project>{d8187f61-bdc9-431f-975f-c58d9c897412}</Project>
       <Name>SeatManage.Bll</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SeatManage.ISystemTerminal\SeatManage.ISystemTerminal.csproj">
+      <Project>{a8dc4589-e484-475e-a2bb-b1d264424f05}</Project>
+      <Name>SeatManage.ISystemTerminal</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SeatManageClassModel\SeatManageClassModel.csproj">
       <Project>{e90fbbad-98da-4a34-b620-26da9adddf85}</Project>
       <Name>SeatManageClassModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SeatManageComm\SeatManageComm.csproj">
+      <Project>{19063808-3340-4563-8b40-573d8dd0baba}</Project>
+      <Name>SeatManageComm</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
