@@ -29,7 +29,24 @@
 <body>
     <div class="page_content">
         <div class="demo_operation">
-            <input type="button" value="新增功能页" class="primary" onclick="window.location='oa_78.html'" />
+            <div class="box_tool_min padding_top2 padding_bottom2 padding_right5">
+                <div class="center">
+                    <div class="left">
+                        <div class="right">
+                            <div class="padding_top5 padding_left10">
+                                <a href="javascript:addUnit();"><span class="icon_add">新增</span></a>
+                                <div class="box_tool_line"></div>
+                                <a href="javascript:onEdit();"><span class="icon_edit">修改</span></a>
+                                <div class="box_tool_line"></div>
+                                <a href="javascript:removeItem();"><span class="icon_delete">删除</span></a>
+                                <div class="box_tool_line"></div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
         </div>
         <div class="infoCard infoCard2">
             <div class="title">
@@ -55,38 +72,26 @@
 						},{
 							display: '名称',
 							name: 'MCaption',
-							width: "20%"
+							width: "25%"
 						},{
 							display: '链接',
 							name: 'MenuLink',
-							width: "40%"
+							width: "45%"
 						}, {
 						    display: '分类',
 						    name: 'OrderSeq',
 						    width: "20%"
-						}, {
-							display: '操作',
-							name: 'name',
-							width: "10%",
-							align: 'left',
-							render: function(rowdata, rowindex, value, column) {
-								var mainCon = $('<div></div>');
-								var con = $('<span class="operation_add" onclick="" style="float:none;">编辑</span><span  class="operation_picking" onclick="removeItem('+ rowdata.ModSeq +')">删除</span>');
-								mainCon.append(con);
-								return mainCon.html();
-							}
 						}
 					],
 					data: gridData,
 					sortName: 'ModSeq',
-					rownumbers: false,
+					rownumbers: true,
 					checkbox: false,
 					height: '99%',
 					width: "99%",
 					pageSize: 100,
 					percentWidthMode: true,
 					onAfterShowData: onAfterShowData
-
 				});
 			}
 
@@ -105,45 +110,81 @@
 				top.Dialog.open({URL:"../../sample_skin/demo/oa_52.html",Title:"设置预警",Width:400,Height:250});
 			}
 
-			function onEdit(rowid){
+			//新增
+			function addUnit() {
+
+               
+
 			    var diag = new top.Dialog();
-			    diag.Title = "信息编辑";
-			    diag.URL ="<%=path%>/userAction.do?method=preUpdate&userinfor.userId=" + rowid;
-			    diag.Width=600;
-			    diag.Height=400;
-			    diag.OkButtonText = "保 存";
+			    diag.Title = "新增功能";
+			    diag.URL = "/SystemSet/AddOrEditingFunc?Op=add&ModSeq=0";
+			    diag.Width=400;
+			    diag.Height=200;
+			    diag.OkButtonText = "保存并新建";
 			    //顺序很重要，diag.show()之前添加确定按钮事件，show之后添加新按钮
 			    diag.OKEvent = function() {
-			        diag.innerFrame.contentWindow.submitHandler(1);
+			        diag.innerFrame.contentWindow.submitHandler(0);
 			    };
 			    diag.show();
+			    diag.addButton("next", " 保 存 ", function() {
+			        diag.innerFrame.contentWindow.submitHandler(1);
+			    });
+
+			}
+			//修改    
+			function onEdit(){
+			    var selectData = grid.getSelectedRow(); 
+			    if(selectData==null)
+			    {
+			        top.Toast('showErrorToast', '请选中要编辑的行');
+			    }else{
+			        var diag = new top.Dialog();
+			        diag.Title = "编辑功能";
+			        diag.URL = "/SystemSet/AddOrEditingFunc?Op=Edit&ModSeq="+selectData.ModSeq;
+			        diag.Width=400;
+			        diag.Height=200;
+			        diag.OkButtonText = "保 存";
+			        //顺序很重要，diag.show()之前添加确定按钮事件，show之后添加新按钮
+			        diag.OKEvent = function() {
+			            diag.innerFrame.contentWindow.submitHandler(1);
+			        };
+			        diag.show();
+			    }
+
+
 
 			}
 
 
-			function removeItem(ModSeq)
-			{
-			    top.Dialog.confirm("确认删除"+ModSeq+"编号的记录吗",
-                    function(){
-                        $.ajax({
-                            url: "/SystemSet/RemoveItem",
-                            data: { ModSeq: ModSeq },
-                            type: "post",
-                            dataType: "json",
-                            success: function (data) {
-                                if (data.status == "yes") {
-                                    top.Toast('showSuccessToast', data.message);
-                                    grid.loadData();
-                                } else {
-                                    top.Toast('showErrorToast', data.message);
-                                }
-                            }
-                        });
-                    },
-                    function(){
-                        //点击了取消
-                    });
+			function removeItem()
+			{   
+			    var selectData = grid.getSelectedRow(); 
 
+			    if(selectData==null)
+			    {
+			        top.Toast('showErrorToast', '请选中要删除的行');
+			    }else{
+			        top.Dialog.confirm("确认删除"+selectData.ModSeq+"编号的记录吗",
+			            function(){
+			                $.ajax({
+			                    url: "/SystemSet/RemoveItem",
+			                    data: { ModSeq: selectData.ModSeq },
+			                    type: "post",
+			                    dataType: "json",
+			                    success: function (data) {
+			                        if (data.status == "yes") {
+			                            location.href='/SystemSet/FunctionPagesManage'
+			                            top.Toast('showSuccessToast', data.message);
+			                        } else {
+			                            top.Toast('showErrorToast', data.message);
+			                        }
+			                    }
+			                });
+			            },
+			            function(){
+			                //点击了取消
+			            });
+			    }
 			}
     </script>
 </body>

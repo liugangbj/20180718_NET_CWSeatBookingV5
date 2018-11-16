@@ -1,0 +1,84 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AddOrEditingFunc</title>
+    <!--框架必需start-->
+    <script type="text/javascript" src="~/quickui/libs/js/jquery.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/language/cn.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/framework.js"></script>
+    <link href="~/quickui/libs/css/import_basic.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" id="skin" prePath="~/quickui/" />
+    <link rel="stylesheet" type="text/css" id="customSkin" />
+    <!--框架必需end-->
+    <link rel="stylesheet" type="text/css" href="~/quickui/style/style.css" />
+
+    <script src="~/quickui/libs/js/table/quiGrid.js" type="text/javascript"></script>
+
+    <!--引入提示组件start-->
+    <script type="text/javascript" src="/quickui/libs/js/popup/toast.js"></script>
+    <script type="text/javascript" src="/quickui/libs/js/popup/notice.js"></script>
+    <!--引入提示组件end-->
+</head>
+<body>
+    <form id="myFormId" action="<%=path%>/userAction.do?method=save" method="post" target="frmright" showOnMouseOver="false">
+        <div class="page_content">
+            <table class="formStyle">
+                <tr>
+                    <td width="20%" class="ali03">编号：</td>
+                    <td width="60%">
+                        <input type="text" id="ModSeq" name="ModSeq"  class="validate[requiredlength[0,20]] float_left" />
+                    </td>
+                    <td width="20%" align="left">
+                        <span class="star">*</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20%" class="ali03">功能：</td>
+                    <td width="60%">
+                        <input type="text" id="MCaption" name="MCaption" class="validate[requiredlength[0,20]] float_left" />
+                    </td>
+                    <td width="20%" align="left">
+                        <span class="star">*</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20%" class="ali03">路径：</td>
+                    <td width="60%">
+                        <input type="text" id="MenuLink" name="MenuLink" class="validate[requiredlength[0,20]] float_left" />
+                    </td>
+                    <td width="20%" align="left">
+                        <span class="star">*</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20%" class="ali03">分类：</td>
+                    <td width="60%">
+                        <input type="text" id="OrderSeq" name="OrderSeq" class="validate[requiredlength[0,20]] float_left" />
+                    </td>
+                    <td width="20%" align="left">
+                        <span class="star">*</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+
+    <script>
+
+        $(function () {
+            
+
+        });
+
+       
+
+    </script>
+</body>
+</html>

@@ -40,6 +40,19 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             return View();
         }
 
+        public ActionResult AddOrEditingFunc(string Op,string ModSeq)
+        {
+
+            if (Op == "Edit")
+            {
+                SeatManage.Bll.SysFuncDic bllSysFuncDic = new SeatManage.Bll.SysFuncDic();
+                SeatManage.ClassModel.SysFuncDicInfo modelSysFuncDicInfo =  bllSysFuncDic.GetFuncPage(null, ModSeq)[0];
+                ViewBag.Model = modelSysFuncDicInfo;
+                ViewBag.Op = "Edit";
+            }
+
+            return View();
+        }
 
 
 
