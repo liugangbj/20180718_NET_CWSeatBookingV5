@@ -24,7 +24,25 @@ function seatClick(urlParameters) {
     if (urlParameters == "" || urlParameters == NaN) {
         return;
     }
-    X("seatHandleWindow").box_show("../SeatMonitor/SeatHandle.aspx" + urlParameters, '座位操作');
+    //new 
+    var diag = new top.Dialog();
+    diag.Title = "座位操作";
+    diag.URL = "/SeatMonitor/SeatHandle" + urlParameters;
+    diag.Width = 600;
+    diag.Height = 400;
+    diag.OkButtonText = "关闭";
+    //顺序很重要，diag.show()之前添加确定按钮事件，show之后添加新按钮
+    diag.OKEvent = function () {
+        diag.innerFrame.contentWindow.submitHandler(0);
+    };
+    diag.show();
+    diag.addButton("next", " 保 存 ", function () {
+        diag.innerFrame.contentWindow.submitHandler(1);
+    });
+
+    //old
+    //X("seatHandleWindow").box_show("/SeatMonitor/SeatHandle" + urlParameters, '座位操作');
+   // X("seatHandleWindow").box_show("../SeatMonitor/SeatHandle.aspx" + urlParameters, '座位操作');
 }
 //座位预约确认窗口
 function BespeakSeatClick(urlParameters) {
@@ -63,9 +81,8 @@ function BespeakSeatSettingClick(seatNo, urlParameters) {
 function trimStr(str) { return str.replace(/(^\s*)|(\s*$)/g, ""); }
 
 function loadSeatLayout() {
-    var roomNum = trimStr($("#hiddenRoomNum").val());
+    var roomNum = roomId;//trimStr($("#hiddenRoomNum").val());
    // alert(roomNum);
-   // alert(roomNum.length);
     if (roomNum.length != 6) {
         alert("传入的阅览室编号长度只能是6位！");
     }
@@ -74,7 +91,8 @@ function loadSeatLayout() {
             type: "post", //使用get方法访问后台
             dataType: "html", //返回json格式的数据
             // dataType: "text",
-            url: "SeatLayout.ashx", //要访问的后台地址
+            url: "/SeatMonitor/DrowSeatLayoutHtml", //要访问的后台地址
+          //  url: "SeatLayout.ashx", //要访问的后台地址
             data: { "roomNum": roomNum, "divTransparentTop": divTop, "divTransparentLeft": divleft }, //要发送的数据
 
             // complete: function () { $("#load").hide(); }, //AJAX请求完成时隐藏loading提示

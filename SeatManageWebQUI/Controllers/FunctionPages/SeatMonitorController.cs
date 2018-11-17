@@ -19,6 +19,26 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             return View();
         }
 
+        public ActionResult SeatHandle(string seatNo,string seatShortNo,string used)
+        {
+
+            return View();
+        }
+
+        public string DrowSeatLayoutHtml(string roomNum, string divTransparentTop, string divTransparentLeft)
+        {
+            string html = "";
+            Code.SeatLayoutTools tool = new Code.SeatLayoutTools();
+            html = tool.drowSeatLayoutHtml(roomNum, divTransparentTop, divTransparentLeft);
+            return html;
+        }
+
+        public ActionResult SeatGraph(string roomId)
+        {
+            ViewBag.roomId = roomId;
+            return View();
+        }
+
         private string MonitorGraphModeDataBind()
         {
             string result = "";
