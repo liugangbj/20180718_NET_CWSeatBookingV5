@@ -25,20 +25,70 @@ function seatClick(urlParameters) {
         return;
     }
     //new 
+
+    var used = urlParameters.charAt(urlParameters.length - 1);
+  
     var diag = new top.Dialog();
     diag.Title = "座位操作";
     diag.URL = "/SeatMonitor/SeatHandle" + urlParameters;
     diag.Width = 600;
-    diag.Height = 400;
+    diag.Height = 300;
     diag.OkButtonText = "关闭";
     //顺序很重要，diag.show()之前添加确定按钮事件，show之后添加新按钮
     diag.OKEvent = function () {
+        alert("关闭");
         diag.innerFrame.contentWindow.submitHandler(0);
     };
     diag.show();
-    diag.addButton("next", " 保 存 ", function () {
-        diag.innerFrame.contentWindow.submitHandler(1);
-    });
+
+    if (used == '0')//seatUsed=0          空闲状态，不能暂离，释放，黑名单，只能分配
+    {
+        diag.addButton("next", " 分配座位 ", function () {
+            var inputValue = diag.innerFrame.contentWindow.document.getElementById('txtCardNo').value;
+            alert(inputValue);//txtCardNo
+          //  diag.close();
+            // diag.innerFrame.contentWindow.submitHandler(1);
+        });
+    } else if (used == '2') {// seatUsed == "2"     已被预约，不能暂离，释放，黑名单，不能分配
+
+    }
+    else if (used == '3') {//seatUsed == "3"    座位停用状态，不能暂离，释放，黑名单，不能分配
+
+    } else {  //其余的：可以加黑名单，可以释放，可以暂离，不能分配
+
+        diag.addButton("next", " 暂离 ", function () {
+            alert("暂离");
+        });
+        diag.addButton("next", " 释放 ", function () {
+            alert("释放");
+        });
+        diag.addButton("next", " 加入黑名单 ", function () {
+            alert("加入黑名单");
+        });
+
+    }
+
+
+
+
+    /*
+     seatUsed=0          空闲状态，不能暂离，释放，黑名单，只能分配
+     seatUsed == "2"     已被预约，不能暂离，释放，黑名单，不能分配
+     seatUsed == "3"    座位停用状态，不能暂离，释放，黑名单，不能分配
+
+     有人情况
+     seat.SeatUsedState == SeatManage.EnumType.EnterOutLogType.Leave
+     空闲：不能暂离，释放，黑名单，只能分配
+
+     seat.SeatUsedState == SeatManage.EnumType.EnterOutLogType.ShortLeave
+     暂离：可以加黑名单，可以释放，可以暂离回来，不能分配
+
+     其余的：可以加黑名单，可以释放，可以暂离，不能分配
+    */
+
+  
+
+  
 
     //old
     //X("seatHandleWindow").box_show("/SeatMonitor/SeatHandle" + urlParameters, '座位操作');
