@@ -1,4 +1,6 @@
-﻿using SeatManageWebV5.Code;
+﻿using SeatManage.ClassModel;
+using SeatManage.EnumType;
+using SeatManageWebV5.Code;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -19,46 +21,29 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             return View();
         }
 
+        /// <summary>
+        /// 绑定单个座位信息
+        /// </summary>
+        /// <param name="seatNo"></param>
+        /// <param name="seatShortNo"></param>
+        /// <param name="used"></param>
         public void BindSingleSeat(string seatNo, string seatShortNo, string used)
         {
             if (!string.IsNullOrEmpty(seatNo)) //如果座位号不为空，正常打开
             {
-                //lblSeatNo.Text = seatShortNo;
                 ViewBag.SeatNo = seatShortNo;
 
                 if (used == "0") //没人
                 {
-                    //lblCardNo.Text = "无";
                     ViewBag.CardNo = "无";
-
-                    //lblName.Text = "无";
                     ViewBag.Name = "无";
-
-                    //lblSeatStatus.Text = "空闲";
                     ViewBag.SeatStatus = "空闲";
-                   
-                    // lblTimeLength.Text = "";
                     ViewBag.TimeLength = "";
-
-                   // txtSeat.Text = seatShortNo;
                     ViewBag.Seat=seatShortNo;
-
-                    //btnAddBlackList.Enabled = false;
                     ViewBag.AddBlackListEnabled = "false";
-
-                    //btnShortLeave.Enabled = false;
                     ViewBag.ShortLeaveEnabled = "false";
-
-                  //  btnShortLeave.Text = "暂离";
                     ViewBag.btnShortLeave = "暂离";
-
-                    //btnShortLeave.ConfirmText = "是否确定把该读者设置为暂离？";
                     ViewBag.btnShortLeaveConfirmText = "是否确定把该读者设置为暂离？";
-
-                   // btnLeave.Enabled = false;
-                    ViewBag.btnLeave = "false";
-
-                    //btnAllotSeat.Enabled = true;
                     ViewBag.btnAllotSeatEnabled = "true";
                 }
                 else if (used == "2") 
@@ -66,7 +51,6 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
                     List<SeatManage.ClassModel.BespeakLogInfo> list = SeatManage.Bll.T_SM_SeatBespeak.GetBespeakLogInfoBySeatNo(seatNo, SeatManage.Bll.ServiceDateTime.Now);
                     if (list == null)
                     {
-                        //FineUI.Alert.ShowInTop("没有获取到相关的座位信息", "错误");
                         Response.Write("<html><head><title>系统提示</title><script>alert('没有获取到相关的座位信息');</script></head><body></body></html>");
                         Response.End();
                     }
@@ -274,23 +258,296 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             }
         }
 
-
-        public JsonResult ShortLeave(string seatNo, string seatShortNo, string used)
+        
+        public JsonResult ShortLeave(string seatNo, string seatShortNo, string used,string isShortLeave)
         {
-            return null;
+            JsonResult ret = null;
+            SeatManage.ClassModel.EnterOutLogInfo enterOutLog = SeatManage.Bll.T_SM_EnterOutLog.GetUsingEnterOutLogBySeatNo(seatNo);
+            SeatManage.ClassModel.ReadingRoomInfo roomInfo = SeatManage.Bll.T_SM_ReadingRoom.GetSingleRoomInfo(enterOutLog.ReadingRoomNo);
+
+            if (isShortLeave == "y")
+            {
+                enterOutLog.EnterOutState = SeatManage.EnumType.EnterOutLogType.ShortLeave;
+                enterOutLog.Flag = SeatManage.EnumType.Operation.Admin;
+                enterOutLog.Remark = string.Format("在{0}，{1}号座位，被管理员{2}，在后台管理网站设置为暂离", roomInfo.Name, enterOutLog.ShortSeatNo, this.LoginId);
+                int newId = -1;
+                SeatManage.EnumType.HandleResult result = SeatManage.Bll.EnterOutOperate.AddEnterOutLog(enterOutLog, ref newId);
+                if (result == SeatManage.EnumType.HandleResult.Successed)
+                {
+                    ret = Json(new { status = "yes", message = "设置读者暂离成功" }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    ret = Json(new { status = "no", message = "设置读者暂离失败" }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            else
+            {
+                enterOutLog.EnterOutState = SeatManage.EnumType.EnterOutLogType.ComeBack;
+                enterOutLog.Flag = SeatManage.EnumType.Operation.Admin;
+                enterOutLog.Remark = string.Format("在{0}，{1}号座位，被管理员{2}，在后台管理网站设置为在座", roomInfo.Name, enterOutLog.ShortSeatNo, this.LoginId);
+                int newId = -1;
+                SeatManage.EnumType.HandleResult result = SeatManage.Bll.EnterOutOperate.AddEnterOutLog(enterOutLog, ref newId);
+                if (result == SeatManage.EnumType.HandleResult.Successed)
+                {
+
+                    List<SeatManage.ClassModel.WaitSeatLogInfo> waitSeatLogs = SeatManage.Bll.T_SM_SeatWaiting.GetWaitSeatList("", enterOutLog.EnterOutLogID, null, null, null);
+                    SeatManage.ClassModel.WaitSeatLogInfo waitSeatLog = null;
+                    if (waitSeatLogs.Count > 0)
+                    {
+                        waitSeatLog = waitSeatLogs[0];
+                        waitSeatLog.NowState = SeatManage.EnumType.LogStatus.Fail;
+                        waitSeatLog.OperateType = SeatManage.EnumType.Operation.OtherReader;
+                        waitSeatLog.WaitingState = SeatManage.EnumType.EnterOutLogType.WaitingCancel;
+                        if (SeatManage.Bll.T_SM_SeatWaiting.UpdateWaitLog(waitSeatLog))
+                        {
+                            ret = Json(new { status = "yes", message = "取消读者暂离成功" }, JsonRequestBehavior.AllowGet);
+                        }
+                        else
+                        {
+                            ret = Json(new { status = "yes", message = "取消读者暂离成功，取消等待失败" }, JsonRequestBehavior.AllowGet);
+                        }
+                    }
+                    else
+                    {
+                        ret = Json(new { status = "yes", message = "取消读者暂离成功" }, JsonRequestBehavior.AllowGet);
+                    }
+                }
+                else
+                {
+                    ret = Json(new { status = "no", message = "取消读者暂离失败" }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            return ret;
         }
 
         public JsonResult Leave(string seatNo, string seatShortNo, string used)
         {
-            return null;
+            JsonResult ret = null;
+
+            SeatManage.ClassModel.EnterOutLogInfo enterOutLog = SeatManage.Bll.T_SM_EnterOutLog.GetUsingEnterOutLogBySeatNo(seatNo);
+            SeatManage.ClassModel.ReadingRoomInfo roomInfo = SeatManage.Bll.T_SM_ReadingRoom.GetSingleRoomInfo(enterOutLog.ReadingRoomNo);
+            SeatManage.EnumType.EnterOutLogType type = enterOutLog.EnterOutState;
+            enterOutLog.EnterOutState = SeatManage.EnumType.EnterOutLogType.Leave;
+            enterOutLog.Flag = SeatManage.EnumType.Operation.Admin;
+            enterOutLog.Remark = string.Format("在{0}，{1}号座位，被管理员{2}，在后台管理网站设置离开", roomInfo.Name, enterOutLog.ShortSeatNo, this.LoginId);
+            int newId = -1;
+            SeatManage.EnumType.HandleResult result = SeatManage.Bll.EnterOutOperate.AddEnterOutLog(enterOutLog, ref newId);
+            if (result == SeatManage.EnumType.HandleResult.Successed)
+            {
+                //SeatManage.ClassModel.ReaderNoticeInfo rni = new SeatManage.ClassModel.ReaderNoticeInfo();
+                //rni.CardNo = enterOutLog.CardNo;
+                //rni.Type = SeatManage.EnumType.NoticeType.ManagerFreeSetWarning;
+                //rni.Note = enterOutLog.Remark;
+                //SeatManage.Bll.T_SM_ReaderNotice.AddReaderNotice(rni);
+
+                PushMsgInfo msg = new PushMsgInfo();
+                msg.Title = "您好，您的座位已被释放";
+                msg.MsgType = MsgPushType.AdminOperation;
+                msg.StudentNum = enterOutLog.CardNo;
+                msg.Message = enterOutLog.Remark;
+                SeatManage.Bll.T_SM_ReaderNotice.SendPushMsg(msg);
+
+                if (type == SeatManage.EnumType.EnterOutLogType.ShortLeave)
+                {
+                    List<SeatManage.ClassModel.WaitSeatLogInfo> waitSeatLogs = SeatManage.Bll.T_SM_SeatWaiting.GetWaitSeatList("", enterOutLog.EnterOutLogID, null, null, null);
+                    SeatManage.ClassModel.WaitSeatLogInfo waitSeatLog = null;
+                    if (waitSeatLogs.Count > 0)
+                    {
+                        waitSeatLog = waitSeatLogs[0];
+                        waitSeatLog.NowState = SeatManage.EnumType.LogStatus.Fail;
+                        waitSeatLog.OperateType = SeatManage.EnumType.Operation.OtherReader;
+                        waitSeatLog.WaitingState = SeatManage.EnumType.EnterOutLogType.WaitingCancel;
+                        if (SeatManage.Bll.T_SM_SeatWaiting.UpdateWaitLog(waitSeatLog))
+                        {
+                            //rni = new SeatManage.ClassModel.ReaderNoticeInfo();
+                            //rni.CardNo = waitSeatLog.CardNo;
+                            //rni.Type = SeatManage.EnumType.NoticeType.WaitSeatFail;
+                            //rni.Note = "您所等待的座位已被管理员释放，您的等待已被取消";
+                            //SeatManage.Bll.T_SM_ReaderNotice.AddReaderNotice(rni);
+
+                            //msg = new PushMsgInfo();
+                            //msg.Title = "您好，您的等待已被取消";
+                            //msg.MsgType = MsgPushType.AdminOperation;
+                            //msg.StudentNum = waitSeatLog.CardNo;
+                            //msg.Message = "您所等待的座位已被管理员释放，您的等待已被取消";
+                            //SeatManage.Bll.T_SM_ReaderNotice.SendPushMsg(msg);
+                        }
+                    }
+                }
+
+                SeatManage.ClassModel.RegulationRulesSetting rulesSet = SeatManage.Bll.T_SM_SystemSet.GetRegulationRulesSetting();
+                if (roomInfo.Setting.IsRecordViolate)
+                {
+                    if (roomInfo.Setting.BlackListSetting.Used)
+                    {
+                        if (roomInfo.Setting.BlackListSetting.ViolateRoule[SeatManage.EnumType.ViolationRecordsType.LeaveByAdmin])
+                        {
+                            SeatManage.ClassModel.ViolationRecordsLogInfo violationRecords = new SeatManage.ClassModel.ViolationRecordsLogInfo();
+                            violationRecords.CardNo = enterOutLog.CardNo;
+                            violationRecords.SeatID = enterOutLog.SeatNo.Substring(enterOutLog.SeatNo.Length - roomInfo.Setting.SeatNumAmount, roomInfo.Setting.SeatNumAmount);
+                            violationRecords.ReadingRoomID = enterOutLog.ReadingRoomNo;
+                            violationRecords.EnterOutTime = SeatManage.Bll.ServiceDateTime.Now.ToString();
+                            violationRecords.EnterFlag = SeatManage.EnumType.ViolationRecordsType.LeaveByAdmin;
+                            violationRecords.Remark = string.Format("在{0}，{1}号座位，被管理员{2}，在后台管理网站设置离开", roomInfo.Name, enterOutLog.ShortSeatNo, this.LoginId);
+                            violationRecords.BlacklistID = "-1";
+                            SeatManage.Bll.T_SM_ViolateDiscipline.AddViolationRecords(violationRecords);
+                        }
+                    }
+                    else if (rulesSet.BlacklistSet.Used && rulesSet.BlacklistSet.ViolateRoule[SeatManage.EnumType.ViolationRecordsType.LeaveByAdmin])
+                    {
+                        SeatManage.ClassModel.ViolationRecordsLogInfo violationRecords = new SeatManage.ClassModel.ViolationRecordsLogInfo();
+                        violationRecords.CardNo = enterOutLog.CardNo;
+                        violationRecords.SeatID = enterOutLog.SeatNo.Substring(enterOutLog.SeatNo.Length - roomInfo.Setting.SeatNumAmount, roomInfo.Setting.SeatNumAmount);
+                        violationRecords.ReadingRoomID = enterOutLog.ReadingRoomNo;
+                        violationRecords.EnterOutTime = SeatManage.Bll.ServiceDateTime.Now.ToString();
+                        violationRecords.EnterFlag = SeatManage.EnumType.ViolationRecordsType.LeaveByAdmin;
+                        violationRecords.Remark = string.Format("在{0}，{1}号座位，被管理员{2}，在后台管理网站设置离开", roomInfo.Name, enterOutLog.ShortSeatNo, this.LoginId);
+                        violationRecords.BlacklistID = "-1";
+                        SeatManage.Bll.T_SM_ViolateDiscipline.AddViolationRecords(violationRecords);
+                    }
+                }
+                ret = Json(new { status = "yes", message = "设置读者离开成功" }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                ret = Json(new { status = "no", message = "设置读者离开失败" }, JsonRequestBehavior.AllowGet);
+            }
+
+            return ret;
         }
 
-        public JsonResult SureAddBlacklist(string seatNo, string seatShortNo, string used)
+        /// <summary>
+        /// 添加黑名单
+        /// </summary>
+        /// <param name="seatNo"></param>
+        /// <param name="seatShortNo"></param>
+        /// <param name="used"></param>
+        /// <param name="CardNo"></param>
+        /// <param name="addBlackListRemark"></param>
+        /// <returns></returns>
+        public JsonResult SureAddBlacklist(string seatNo, string seatShortNo, string used,string CardNo,string addBlackListRemark)
         {
-            return null;
+            addBlackListRemark = string.IsNullOrEmpty(addBlackListRemark) ? "未备注" : addBlackListRemark;
+
+            JsonResult ret = null;
+            SeatManage.ClassModel.Seat seat = SeatManage.Bll.T_SM_Seat.GetSeatInfoBySeatNo(seatNo);
+            SeatManage.ClassModel.RegulationRulesSetting rulesSet = SeatManage.Bll.T_SM_SystemSet.GetRegulationRulesSetting();
+            SeatManage.ClassModel.BlacklistSetting blacklistSet = rulesSet.BlacklistSet;
+            SeatManage.ClassModel.ReadingRoomInfo readingroom = SeatManage.Bll.T_SM_ReadingRoom.GetSingleRoomInfo(seat.ReadingRoomNum);
+            int i = -1;
+            if (readingroom != null && readingroom.Setting.BlackListSetting.Used)
+            {
+                SeatManage.ClassModel.BlackListInfo blacklistModel = new SeatManage.ClassModel.BlackListInfo();
+                blacklistModel.AddTime = SeatManage.Bll.ServiceDateTime.Now;
+                blacklistModel.ReadingRoomID = readingroom.No;
+                blacklistModel.BlacklistState = SeatManage.EnumType.LogStatus.Valid;
+                blacklistModel.CardNo = CardNo;
+                blacklistModel.OutBlacklistMode = readingroom.Setting.BlackListSetting.LeaveBlacklist;
+                if (blacklistModel.OutBlacklistMode == SeatManage.EnumType.LeaveBlacklistMode.AutomaticMode)
+                {
+                    blacklistModel.ReMark = string.Format("管理员{0}把读者加入黑名单，记录黑名单{1}天，备注：{2}", this.LoginId, readingroom.Setting.BlackListSetting.LimitDays, addBlackListRemark);
+                    blacklistModel.OutTime = blacklistModel.AddTime.AddDays(readingroom.Setting.BlackListSetting.LimitDays);
+                }
+                else
+                {
+                    blacklistModel.ReMark = string.Format("管理员{0}把读者加入黑名单，手动离开黑名单，备注：{1}", this.LoginId, addBlackListRemark);
+                }
+                blacklistModel.ReadingRoomID = seat.ReadingRoomNum;
+                i = SeatManage.Bll.T_SM_Blacklist.AddBlackList(blacklistModel);
+
+            }
+            else if (blacklistSet.Used)
+            {
+                SeatManage.ClassModel.BlackListInfo blacklistModel = new SeatManage.ClassModel.BlackListInfo();
+                blacklistModel.AddTime = SeatManage.Bll.ServiceDateTime.Now;
+                blacklistModel.OutTime = blacklistModel.AddTime.AddDays(blacklistSet.LimitDays);
+                blacklistModel.BlacklistState = SeatManage.EnumType.LogStatus.Valid;
+                blacklistModel.CardNo = CardNo;
+                blacklistModel.OutBlacklistMode = blacklistSet.LeaveBlacklist;
+                if (blacklistModel.OutBlacklistMode == SeatManage.EnumType.LeaveBlacklistMode.AutomaticMode)
+                {
+                    blacklistModel.ReMark = string.Format("管理员{0}把读者加入黑名单，记录黑名单{1}天，备注：{2}", this.LoginId, blacklistSet.LimitDays, addBlackListRemark);
+                    blacklistModel.OutTime = blacklistModel.AddTime.AddDays(blacklistSet.LimitDays);
+                }
+                else
+                {
+                    blacklistModel.ReMark = string.Format("管理员{0}把读者加入黑名单，手动离开黑名单，备注：{1}", this.LoginId, addBlackListRemark);
+                }
+                blacklistModel.ReadingRoomID = seat.ReadingRoomNum;
+                i = SeatManage.Bll.T_SM_Blacklist.AddBlackList(blacklistModel);
+
+            }
+            else
+            {
+                ret = Json(new { status = "no", message = "对不起，此阅览室以及图书馆没有启用黑名单功能" }, JsonRequestBehavior.AllowGet);
+            }
+            if (i > 0)
+            {
+                SeatManage.ClassModel.EnterOutLogInfo enterOutLogModel = SeatManage.Bll.T_SM_EnterOutLog.GetEnterOutLogInfoByCardNo(CardNo);
+                SeatManage.EnumType.EnterOutLogType type = enterOutLogModel.EnterOutState;
+                enterOutLogModel.EnterOutState = SeatManage.EnumType.EnterOutLogType.Leave;
+                enterOutLogModel.Flag = SeatManage.EnumType.Operation.Admin;
+                enterOutLogModel.Remark = string.Format("在{0}，{1}号座位，被管理员{2}，在后台管理网站加入黑名单并释放座位", enterOutLogModel.ReadingRoomName, enterOutLogModel.ShortSeatNo, this.LoginId);
+                SeatManage.EnumType.HandleResult result = SeatManage.Bll.EnterOutOperate.AddEnterOutLog(enterOutLogModel, ref i);
+                if (result == SeatManage.EnumType.HandleResult.Successed)
+                {
+                    //SeatManage.ClassModel.ReaderNoticeInfo rni = new SeatManage.ClassModel.ReaderNoticeInfo();
+                    //rni.CardNo = enterOutLogModel.CardNo;
+                    //rni.Type = SeatManage.EnumType.NoticeType.ManagerFreeSetWarning;
+                    //rni.Note = enterOutLogModel.Remark;
+                    //SeatManage.Bll.T_SM_ReaderNotice.AddReaderNotice(rni);
+
+                    //PushMsgInfo msg = new PushMsgInfo();
+                    //msg.Title = "您好，您的座位已被释放";
+                    //msg.MsgType = MsgPushType.AdminOperation;
+                    //msg.StudentNum = enterOutLogModel.CardNo;
+                    //msg.Message = enterOutLogModel.Remark;
+                    //SeatManage.Bll.T_SM_ReaderNotice.SendPushMsg(msg);
+
+
+                    if (type == SeatManage.EnumType.EnterOutLogType.ShortLeave)
+                    {
+                        List<SeatManage.ClassModel.WaitSeatLogInfo> waitSeatLogs = SeatManage.Bll.T_SM_SeatWaiting.GetWaitSeatList("", enterOutLogModel.EnterOutLogID, null, null, null);
+                        SeatManage.ClassModel.WaitSeatLogInfo waitSeatLog = null;
+                        if (waitSeatLogs.Count > 0)
+                        {
+                            waitSeatLog = waitSeatLogs[0];
+                            waitSeatLog.NowState = SeatManage.EnumType.LogStatus.Fail;
+                            waitSeatLog.OperateType = SeatManage.EnumType.Operation.OtherReader;
+                            waitSeatLog.WaitingState = SeatManage.EnumType.EnterOutLogType.WaitingCancel;
+                            if (SeatManage.Bll.T_SM_SeatWaiting.UpdateWaitLog(waitSeatLog))
+                            {
+                                //rni = new SeatManage.ClassModel.ReaderNoticeInfo();
+                                //rni.CardNo = waitSeatLog.CardNo;
+                                //rni.Type = SeatManage.EnumType.NoticeType.WaitSeatFail;
+                                //rni.Note = "您所等待的座位已被管理员释放，您的等待已被取消";
+                                //SeatManage.Bll.T_SM_ReaderNotice.AddReaderNotice(rni);
+
+                                //msg = new PushMsgInfo();
+                                //msg.Title = "您好，您已被取消等待";
+                                //msg.MsgType = MsgPushType.AdminOperation;
+                                //msg.StudentNum = waitSeatLog.CardNo;
+                                //msg.Message = "您所等待的座位已被管理员释放，您的等待已被取消";
+                                //SeatManage.Bll.T_SM_ReaderNotice.SendPushMsg(msg);
+                            }
+                        }
+                    }
+                    ret = Json(new { status = "yes", message = "黑名单添加成功" }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    ret = Json(new { status = "no", message = "黑名单添加失败" }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            else
+            {
+                ret = Json(new { status = "no", message = "黑名单添加失败" }, JsonRequestBehavior.AllowGet);
+            }
+            return ret;
         }
 
-        public JsonResult SureAllotSeat(string seatNo, string seatShortNo, string used)
+        public JsonResult SureAllotSeat(string seatNo, string seatShortNo, string used,string cardNo)
         {
             JsonResult ret = null;
 
@@ -299,20 +556,15 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             if (seat == null)
             {
                 ret = Json(new { status = "no", message = "座位号错误，没有找到座位的相关信息" }, JsonRequestBehavior.AllowGet);
-                //FineUI.Alert.ShowInTop("座位号错误，没有找到座位的相关信息");
-                //return;
             }
             //判断当前座位上是否有读者在座。
             SeatManage.ClassModel.EnterOutLogInfo enterOutLogByseatNo = SeatManage.Bll.T_SM_EnterOutLog.GetUsingEnterOutLogBySeatNo(seatNo);
             if (enterOutLogByseatNo != null && enterOutLogByseatNo.EnterOutState != SeatManage.EnumType.EnterOutLogType.Leave)
             {
                 ret = Json(new { status = "no", message = "座位已经被其他读者选择" }, JsonRequestBehavior.AllowGet);
-
-                //FineUI.Alert.ShowInTop("座位已经被其他读者选择");
-                //return;
             }
             //判断读者是否有座位
-            string strCardNo = "reader";// txtCardNo1.Text;
+            string strCardNo = cardNo;// txtCardNo1.Text;
             List<SeatManage.ClassModel.BlackListInfo> blacklistInfoByCardNo = SeatManage.Bll.T_SM_Blacklist.GetBlackListInfo(strCardNo);
             SeatManage.ClassModel.RegulationRulesSetting rulesSet = SeatManage.Bll.T_SM_SystemSet.GetRegulationRulesSetting();
             if (roomInfo.Setting.UsedBlacklistLimit && blacklistInfoByCardNo.Count > 0)
@@ -331,28 +583,17 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
                     if (isblack)
                     {
                         ret = Json(new { status = "no", message = "该读者已进入黑名单，不能在该阅览室为其分配座位" }, JsonRequestBehavior.AllowGet);
-
-                        //FineUI.Alert.ShowInTop("该读者已进入黑名单，不能在该阅览室为其分配座位");
-                        //return;
                     }
                 }
                 else
                 {
                     ret = Json(new { status = "no", message = "该读者已进入黑名单，不能在该阅览室为其分配座位" }, JsonRequestBehavior.AllowGet);
-
-
-                    //FineUI.Alert.ShowInTop("该读者已进入黑名单，不能在该阅览室为其分配座位");
-                    //return;
                 }
             }
             SeatManage.ClassModel.EnterOutLogInfo enterOutLogByCardNo = SeatManage.Bll.T_SM_EnterOutLog.GetEnterOutLogInfoByCardNo(strCardNo);
             if (enterOutLogByCardNo != null && enterOutLogByCardNo.EnterOutState != SeatManage.EnumType.EnterOutLogType.Leave)
             {
                 ret = Json(new { status = "no", message = string.Format("读者已经在{0}，{1}号座位就做", enterOutLogByCardNo.ReadingRoomName, enterOutLogByCardNo.ShortSeatNo) }, JsonRequestBehavior.AllowGet);
-
-
-                //FineUI.Alert.ShowInTop(string.Format("读者已经在{0}，{1}号座位就做", enterOutLogByCardNo.ReadingRoomName, enterOutLogByCardNo.ShortSeatNo));
-                //return;
             }
 
             SeatManage.ClassModel.EnterOutLogInfo enterOutLogModel = new SeatManage.ClassModel.EnterOutLogInfo();
@@ -370,22 +611,23 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             if (result == SeatManage.EnumType.HandleResult.Successed)
             {
 
-                ret = Json(new { status = "no", message = "分配座位成功" }, JsonRequestBehavior.AllowGet);
-
-                //FineUI.Alert.ShowInTop("分配座位成功", "成功");
-                //PageContext.RegisterStartupScript(ActiveWindow.GetHidePostBackReference());
+                ret = Json(new { status = "yes", message = "分配座位成功" }, JsonRequestBehavior.AllowGet);
             }
             else
             {
                 ret = Json(new { status = "no", message = "分配座位失败" }, JsonRequestBehavior.AllowGet);
-
-              //  FineUI.Alert.ShowInTop("分配座位失败", "失败");
             }
 
             return ret;
         }
 
-
+        /// <summary>
+        /// 分配座位
+        /// </summary>
+        /// <param name="seatNo"></param>
+        /// <param name="seatShortNo"></param>
+        /// <param name="used"></param>
+        /// <returns></returns>
         public ActionResult SeatHandle(string seatNo,string seatShortNo,string used)
         {
             BindSingleSeat(seatNo, seatShortNo, used);
@@ -395,6 +637,13 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             return View();
         }
 
+        /// <summary>
+        /// 绘制座位图
+        /// </summary>
+        /// <param name="roomNum"></param>
+        /// <param name="divTransparentTop"></param>
+        /// <param name="divTransparentLeft"></param>
+        /// <returns></returns>
         public string DrowSeatLayoutHtml(string roomNum, string divTransparentTop, string divTransparentLeft)
         {
             string html = "";
@@ -403,6 +652,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             return html;
         }
 
+        
         public ActionResult SeatGraph(string roomId)
         {
             ViewBag.roomId = roomId;

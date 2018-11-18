@@ -28,19 +28,20 @@
 
     <script>
 
-
     </script>
 
 </head>
 <body>
     <form>
+        <input type="hidden" value="@ViewBag.btnShortLeave" id="txtbtnShortLeave" />
+        <input type="hidden" value="@ViewBag.CardNo" id="CardNo" />
         <div id="layout1">
             <div position="top" style="" panelTitle="组织机构">
                 <div style="width:100%;">
 
                     <table class="tableStyle" formMode="view">
                         <tr>
-                            <th colspan="4">详细信息</th>
+                            <th colspan="4">座位信息</th>
                         </tr>
                         <tr>
                             <td>学号：</td>
@@ -62,23 +63,47 @@
 
                 </div>
             </div>
-            <div position="bottom" style="" panelTitle="便捷工具">
-                <div position="top" style="" panelTitle="组织机构">
-                    <div style="width:100%;">
-                        <table class="tableStyle" formMode="view">
-                            <tr>
-                                <th colspan="4">详细信息</th>
-                            </tr>
-                            <tr>
-                                <td>学号：</td>
-                                <td><input type="text" id="txtCardNo" name="txtCardNo" watermark="输入学号" /></td>
-                                <td>座位号：</td>
-                                <td><input type="text" id="Seat" name="Seat"  value="@ViewBag.Seat"/> </td>
-                            </tr>
-                        </table>
+            @if (ViewBag.used == "0")
+            {
+                <div id="divSureAllotSeat" position="bottom" style="" panelTitle="便捷工具">
+                    <div position="top" style="" panelTitle="组织机构">
+                        <div style="width:100%;">
+                            <table class="tableStyle" formMode="view">
+                                <tr>
+                                    <th colspan="4">分配座位</th>
+                                </tr>
+                                <tr>
+                                    <td>学号：</td>
+                                    <td><input type="text" id="txtCardNo" name="txtCardNo" watermark="输入学号" /></td>
+                                    <td>座位号：</td>
+                                    <td><input type="text" id="Seat" name="Seat" value="@ViewBag.Seat" /> </td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
+            }
+
+            @if (ViewBag.used != "0" && ViewBag.used != "2" && ViewBag.used != "3")
+            {
+                <div id="divAddBlackList" position="bottom" style="" panelTitle="便捷工具">
+                    <div position="top" style="" panelTitle="组织机构">
+                        <div style="width:100%;">
+                            <table class="tableStyle" formMode="view">
+                                <tr>
+                                    <th colspan="4">加入黑名单备注</th>
+                                </tr>
+                                <tr>
+                                    <td width="10%">备注：</td>
+                                    <td width="90%"><textarea rows="3"  id="addBlackListRemark"></textarea></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            }
+
+
         </div>
     </form>
 </body>

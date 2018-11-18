@@ -32,12 +32,13 @@ function seatClick(urlParameters) {
     diag.Title = "座位操作";
     diag.URL = "/SeatMonitor/SeatHandle" + urlParameters;
     diag.Width = 600;
-    diag.Height = 300;
+    diag.Height = 400;
     diag.OkButtonText = "关闭";
     //顺序很重要，diag.show()之前添加确定按钮事件，show之后添加新按钮
     diag.OKEvent = function () {
-        alert("关闭");
-        diag.innerFrame.contentWindow.submitHandler(0);
+        diag.close();
+        //alert("关闭");
+        //diag.innerFrame.contentWindow.submitHandler(0);
     };
     diag.show();
 
@@ -45,51 +46,90 @@ function seatClick(urlParameters) {
     {
         diag.addButton("next", " 分配座位 ", function () {
             var inputValue = diag.innerFrame.contentWindow.document.getElementById('txtCardNo').value;
-            alert(inputValue);//txtCardNo
-          //  diag.close();
-            // diag.innerFrame.contentWindow.submitHandler(1);
+           // alert(inputValue);//txtCardNo
+            urlParameters += "&cardNo="+inputValue;
+            //SeatMonitor
+            $.ajax({
+                url: "/SeatMonitor/SureAllotSeat" + urlParameters,
+               // data: { username: $.trim($username.val()), password: $password.val() },
+                type: "post",
+                dataType: "json",
+                success: function (data) {
+                    if (data.status == "yes") {
+                        top.Toast('showSuccessToast', data.message);
+                        diag.close();
+                    } else {
+                        top.Toast('showErrorToast', data.message);
+                    }
+                }
+            });
         });
     } else if (used == '2') {// seatUsed == "2"     已被预约，不能暂离，释放，黑名单，不能分配
-
+        
     }
     else if (used == '3') {//seatUsed == "3"    座位停用状态，不能暂离，释放，黑名单，不能分配
 
+
     } else {  //其余的：可以加黑名单，可以释放，可以暂离，不能分配
 
-        diag.addButton("next", " 暂离 ", function () {
-            alert("暂离");
+        diag.addButton("next", " 暂离/取消暂离 ", function () {
+            var inputValue = diag.innerFrame.contentWindow.document.getElementById('txtbtnShortLeave').value;
+            if (inputValue == "暂离") {
+                urlParameters += "&isShortLeave=y";
+            } else {
+                urlParameters += "&isShortLeave=n";
+            }
+            $.ajax({
+                url: "/SeatMonitor/ShortLeave" + urlParameters,
+                type: "post",
+                dataType: "json",
+                success: function (data) {
+                    if (data.status == "yes") {
+                        top.Toast('showSuccessToast', data.message);
+                        diag.close();
+                    } else {
+                        top.Toast('showErrorToast', data.message);
+                    }
+                }
+            });
         });
         diag.addButton("next", " 释放 ", function () {
-            alert("释放");
+            //Leave
+            $.ajax({
+                url: "/SeatMonitor/Leave" + urlParameters,
+                type: "post",
+                dataType: "json",
+                success: function (data) {
+                    if (data.status == "yes") {
+                        top.Toast('showSuccessToast', data.message);
+                        diag.close();
+                    } else {
+                        top.Toast('showErrorToast', data.message);
+                    }
+                }
+            });
         });
         diag.addButton("next", " 加入黑名单 ", function () {
-            alert("加入黑名单");
+            //addBlackListRemark  SureAddBlacklist
+            var addBlackListRemark = diag.innerFrame.contentWindow.document.getElementById('addBlackListRemark').value;
+            var CardNo = diag.innerFrame.contentWindow.document.getElementById('CardNo').value;
+            urlParameters += "&CardNo=" + CardNo + "&addBlackListRemark=" + addBlackListRemark;
+            $.ajax({
+                url: "/SeatMonitor/SureAddBlacklist" + urlParameters,
+                type: "post",
+                dataType: "json",
+                success: function (data) {
+                    if (data.status == "yes") {
+                        top.Toast('showSuccessToast', data.message);
+                        diag.close();
+                    } else {
+                        top.Toast('showErrorToast', data.message);
+                    }
+                }
+            });
         });
 
     }
-
-
-
-
-    /*
-     seatUsed=0          空闲状态，不能暂离，释放，黑名单，只能分配
-     seatUsed == "2"     已被预约，不能暂离，释放，黑名单，不能分配
-     seatUsed == "3"    座位停用状态，不能暂离，释放，黑名单，不能分配
-
-     有人情况
-     seat.SeatUsedState == SeatManage.EnumType.EnterOutLogType.Leave
-     空闲：不能暂离，释放，黑名单，只能分配
-
-     seat.SeatUsedState == SeatManage.EnumType.EnterOutLogType.ShortLeave
-     暂离：可以加黑名单，可以释放，可以暂离回来，不能分配
-
-     其余的：可以加黑名单，可以释放，可以暂离，不能分配
-    */
-
-  
-
-  
-
     //old
     //X("seatHandleWindow").box_show("/SeatMonitor/SeatHandle" + urlParameters, '座位操作');
    // X("seatHandleWindow").box_show("../SeatMonitor/SeatHandle.aspx" + urlParameters, '座位操作');
