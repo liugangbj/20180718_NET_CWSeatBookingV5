@@ -4118,6 +4118,7 @@
     <Content Include="Views\SystemSet\AddOrEditingFunc.cshtml" />
     <Content Include="Views\SeatMonitor\SeatGraph.cshtml" />
     <Content Include="Views\SeatMonitor\SeatHandle.cshtml" />
+    <Content Include="Views\SeatMonitor\MonitorListMode.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

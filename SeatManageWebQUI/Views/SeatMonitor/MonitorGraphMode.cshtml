@@ -34,11 +34,7 @@
                     <div class="left">
                         <div class="right">
                             <div class="padding_top5 padding_left10">
-                                <a href="javascript:addUnit();"><span class="icon_add">新增</span></a>
-                                <div class="box_tool_line"></div>
-                                <a href="javascript:onEdit();"><span class="icon_edit">修改</span></a>
-                                <div class="box_tool_line"></div>
-                                <a href="javascript:removeItem();"><span class="icon_delete">删除</span></a>
+                                <a href="javascript:refreshList();"><span class="icon_refresh">刷新</span></a>
                                 <div class="box_tool_line"></div>
                                 <div class="clear"></div>
                             </div>
@@ -99,7 +95,7 @@
                          	width: "20%",
                          	render: function(rowdata, rowindex, value, column) {
                          		var mainCon = $('<div></div>');
-                         		var con = $('<span class="operation_look" onclick="roomView('+rowdata.roomNum+')" style="float:none;">阅览室监控</span><span class="operation_picking" onclick="readerListView()">读者列表</span>');
+                         		var con = $('<span class="operation_look" onclick="roomView('+rowdata.roomNum+')" style="float:none;">阅览室监控</span><span class="operation_picking" onclick="readerListView('+rowdata.roomNum+')">读者列表</span>');
                          		mainCon.append(con);
                          		return mainCon.html();
                          	}
@@ -136,20 +132,33 @@
 			    diag.URL = "/SeatMonitor/SeatGraph?roomId="+roomId;
 			    diag.Width=1200;
 			    diag.Height=800;
-			    diag.OkButtonText = "保存并新建";
+			    diag.OkButtonText = "确定";
 			    //顺序很重要，diag.show()之前添加确定按钮事件，show之后添加新按钮
 			    diag.OKEvent = function() {
-			        diag.innerFrame.contentWindow.submitHandler(0);
+			        diag.close();
 			    };
 			    diag.show();
-			    diag.addButton("next", " 保 存 ", function() {
-			        diag.innerFrame.contentWindow.submitHandler(1);
-			    });
 			}
 
-			function readerListView()
+			function readerListView(roomId)
 			{
-			    alert("2");
+			    var diag = new top.Dialog();
+			    diag.Title = "读者列表";
+			    diag.URL = "/SeatMonitor/MonitorListMode?roomId="+roomId;
+			    diag.Width=1000;
+			    diag.Height=600;
+			    diag.OkButtonText = "确定";
+			    //顺序很重要，diag.show()之前添加确定按钮事件，show之后添加新按钮
+			    diag.OKEvent = function() {
+			        diag.close();
+			    };
+			    diag.show();
+			}
+
+
+			function refreshList()
+			{
+			    location.href="/SeatMonitor/MonitorGraphModeDataBind";
 			}
 
 

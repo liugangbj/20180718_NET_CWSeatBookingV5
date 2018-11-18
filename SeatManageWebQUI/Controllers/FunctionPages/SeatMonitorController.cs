@@ -21,6 +21,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             return View();
         }
 
+        #region 座位监控（图）
         /// <summary>
         /// 绑定单个座位信息
         /// </summary>
@@ -39,14 +40,14 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
                     ViewBag.Name = "无";
                     ViewBag.SeatStatus = "空闲";
                     ViewBag.TimeLength = "";
-                    ViewBag.Seat=seatShortNo;
+                    ViewBag.Seat = seatShortNo;
                     ViewBag.AddBlackListEnabled = "false";
                     ViewBag.ShortLeaveEnabled = "false";
                     ViewBag.btnShortLeave = "暂离";
                     ViewBag.btnShortLeaveConfirmText = "是否确定把该读者设置为暂离？";
                     ViewBag.btnAllotSeatEnabled = "true";
                 }
-                else if (used == "2") 
+                else if (used == "2")
                 {
                     List<SeatManage.ClassModel.BespeakLogInfo> list = SeatManage.Bll.T_SM_SeatBespeak.GetBespeakLogInfoBySeatNo(seatNo, SeatManage.Bll.ServiceDateTime.Now);
                     if (list == null)
@@ -68,7 +69,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
                         //lblSeatStatus.Text = "已被预约";
                         ViewBag.SeatStatus = "已被预约";
 
-                      //  lblTimeLength.Text = string.Format("{0:MM月dd日 HH:mm:ss}", list[0].BsepeakTime);
+                        //  lblTimeLength.Text = string.Format("{0:MM月dd日 HH:mm:ss}", list[0].BsepeakTime);
                         ViewBag.TimeLength = string.Format("{0:MM月dd日 HH:mm:ss}", list[0].BsepeakTime);
 
                         //btnAddBlackList.Enabled = false;
@@ -77,16 +78,16 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
                         //btnShortLeave.Enabled = false;
                         ViewBag.ShortLeaveEnabled = "false";
 
-                      //  btnShortLeave.Text = "暂离";
+                        //  btnShortLeave.Text = "暂离";
                         ViewBag.btnShortLeave = "暂离";
 
-                       // btnShortLeave.ConfirmText = "是否确定把该读者设置为暂离？";
+                        // btnShortLeave.ConfirmText = "是否确定把该读者设置为暂离？";
                         ViewBag.btnShortLeaveConfirmText = "是否确定把该读者设置为暂离？";
 
-                       // btnLeave.Enabled = false;
+                        // btnLeave.Enabled = false;
                         ViewBag.btnLeave = "false";
 
-                       // btnAllotSeat.Enabled = false;
+                        // btnAllotSeat.Enabled = false;
                         ViewBag.btnAllotSeatEnabled = "false";
                     }
                 }
@@ -96,19 +97,19 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
                     Response.Write("<html><head><title>系统提示</title><script>alert('此座位已暂停使用');</script></head><body></body></html>");
                     Response.End();
 
-                  //  btnAddBlackList.Enabled = false;
+                    //  btnAddBlackList.Enabled = false;
                     ViewBag.AddBlackListEnabled = "false";
 
-                  //  btnShortLeave.Enabled = false;
+                    //  btnShortLeave.Enabled = false;
                     ViewBag.ShortLeaveEnabled = "false";
 
-                 //   btnShortLeave.ConfirmText = "此座位已暂停使用，请重新选择";
+                    //   btnShortLeave.ConfirmText = "此座位已暂停使用，请重新选择";
                     ViewBag.btnShortLeaveConfirmText = "此座位已暂停使用，请重新选择";
 
-                  //  btnLeave.Enabled = false;
+                    //  btnLeave.Enabled = false;
                     ViewBag.btnLeave = "false";
 
-                  //  btnAllotSeat.Enabled = false;
+                    //  btnAllotSeat.Enabled = false;
                     ViewBag.btnAllotSeatEnabled = "false";
 
                 }
@@ -128,42 +129,42 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
                             //lblCardNo.Text = "无";
                             ViewBag.CardNo = "无";
 
-                           // lblName.Text = "无";
+                            // lblName.Text = "无";
                             ViewBag.Name = "无";
 
-                           // lblSeatStatus.Text = "空闲";
+                            // lblSeatStatus.Text = "空闲";
                             ViewBag.SeatStatus = "空闲";
 
-                         //   lblTimeLength.Text = "";
+                            //   lblTimeLength.Text = "";
                             ViewBag.TimeLength = "";
 
-                          //  txtSeat.Text = seat.ShortSeatNo;
+                            //  txtSeat.Text = seat.ShortSeatNo;
                             ViewBag.Seat = seat.ShortSeatNo;
 
-                           // btnAddBlackList.Enabled = false;
+                            // btnAddBlackList.Enabled = false;
                             ViewBag.AddBlackListEnabled = "false";
 
-                           // btnShortLeave.Enabled = false;
+                            // btnShortLeave.Enabled = false;
                             ViewBag.ShortLeaveEnabled = "false";
 
-                           // btnShortLeave.Text = "暂离";
+                            // btnShortLeave.Text = "暂离";
                             ViewBag.btnShortLeave = "暂离";
 
-                         //   btnShortLeave.ConfirmText = "是否确定把该读者设置为暂离？";
+                            //   btnShortLeave.ConfirmText = "是否确定把该读者设置为暂离？";
                             ViewBag.btnShortLeaveConfirmText = "是否确定把该读者设置为暂离";
 
-                          //  btnLeave.Enabled = false;
+                            //  btnLeave.Enabled = false;
                             ViewBag.btnLeave = "false";
 
-                          //  btnAllotSeat.Enabled = true;
+                            //  btnAllotSeat.Enabled = true;
                             ViewBag.btnAllotSeatEnabled = "false";
                         }
                         else if (seat.SeatUsedState == SeatManage.EnumType.EnterOutLogType.ShortLeave)
                         {
-                          //  txtCardNo.Text = seat.UserCardNo;
+                            //  txtCardNo.Text = seat.UserCardNo;
                             ViewBag.CardNo = seat.UserCardNo;
 
-                         //   txtCardNo1.Text = seat.UserCardNo;
+                            //   txtCardNo1.Text = seat.UserCardNo;
                             ViewBag.txtCardNo1 = seat.UserCardNo;
 
                             //txtReaderName.Text = seat.UserName;
@@ -172,25 +173,25 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
                             //txtSeat.Text = seat.ShortSeatNo;
                             ViewBag.Seat = seat.ShortSeatNo;
 
-                         //   lblCardNo.Text = seat.UserCardNo;
+                            //   lblCardNo.Text = seat.UserCardNo;
                             ViewBag.CardNo = seat.UserCardNo;
 
-                           // lblName.Text = seat.UserName;
+                            // lblName.Text = seat.UserName;
                             ViewBag.Name = seat.UserName;
 
-                         //   lblSeatStatus.Text = SeatManage.SeatManageComm.SeatComm.ConvertReaderState(seat.SeatUsedState);
+                            //   lblSeatStatus.Text = SeatManage.SeatManageComm.SeatComm.ConvertReaderState(seat.SeatUsedState);
                             ViewBag.SeatStatus = SeatManage.SeatManageComm.SeatComm.ConvertReaderState(seat.SeatUsedState);
 
                             //lblTimeLength.Text = string.Format("{0:MM月dd日 HH:mm:ss}", seat.BeginUsedTime);
                             ViewBag.TimeLength = string.Format("{0:MM月dd日 HH:mm:ss}", seat.BeginUsedTime);
 
-                           // btnAddBlackList.Enabled = true;
+                            // btnAddBlackList.Enabled = true;
                             ViewBag.AddBlackListEnabled = "true";
 
-                           // btnShortLeave.Enabled = true;
+                            // btnShortLeave.Enabled = true;
                             ViewBag.ShortLeaveEnabled = "true";
 
-                           // btnShortLeave.Text = "取消暂离";
+                            // btnShortLeave.Text = "取消暂离";
                             ViewBag.btnShortLeave = "取消暂离";
 
                             //btnShortLeave.ConfirmText = "是否取消此读者的暂离状态，并还原为在座状态？";
@@ -199,52 +200,52 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
                             //btnLeave.Enabled = true;
                             ViewBag.btnLeave = "true";
 
-                          //  btnAllotSeat.Enabled = false;
+                            //  btnAllotSeat.Enabled = false;
                             ViewBag.btnAllotSeatEnabled = "false";
 
                         }
                         else
                         {
-                          //  txtCardNo.Text = seat.UserCardNo;
+                            //  txtCardNo.Text = seat.UserCardNo;
                             ViewBag.CardNo = seat.UserCardNo;
 
-                          //  txtCardNo1.Text = seat.UserCardNo;
+                            //  txtCardNo1.Text = seat.UserCardNo;
                             ViewBag.txtCardNo1 = seat.UserCardNo;
 
-                          //  txtReaderName.Text = seat.UserName;
+                            //  txtReaderName.Text = seat.UserName;
                             ViewBag.ReaderNameText = seat.UserName;
 
-                         //   txtSeat.Text = seat.ShortSeatNo;
+                            //   txtSeat.Text = seat.ShortSeatNo;
                             ViewBag.Seat = seat.ShortSeatNo;
 
-                          //  lblCardNo.Text = seat.UserCardNo;
+                            //  lblCardNo.Text = seat.UserCardNo;
                             ViewBag.CardNo = seat.UserCardNo;
 
-                         //   lblName.Text = seat.UserName;
+                            //   lblName.Text = seat.UserName;
                             ViewBag.Name = seat.UserName;
 
-                        //    lblSeatStatus.Text = SeatManage.SeatManageComm.SeatComm.ConvertReaderState(seat.SeatUsedState);
+                            //    lblSeatStatus.Text = SeatManage.SeatManageComm.SeatComm.ConvertReaderState(seat.SeatUsedState);
                             ViewBag.SeatStatus = SeatManage.SeatManageComm.SeatComm.ConvertReaderState(seat.SeatUsedState);
 
-                          //  lblTimeLength.Text = string.Format("{0:MM月dd日 HH:mm:ss}", seat.BeginUsedTime);
+                            //  lblTimeLength.Text = string.Format("{0:MM月dd日 HH:mm:ss}", seat.BeginUsedTime);
                             ViewBag.TimeLength = string.Format("{0:MM月dd日 HH:mm:ss}", seat.BeginUsedTime);
 
-                         //   btnAddBlackList.Enabled = true;
+                            //   btnAddBlackList.Enabled = true;
                             ViewBag.AddBlackListEnabled = "true";
 
-                          //  btnShortLeave.Enabled = true;
+                            //  btnShortLeave.Enabled = true;
                             ViewBag.ShortLeaveEnabled = "true";
 
-                           // btnShortLeave.Text = "暂离";
+                            // btnShortLeave.Text = "暂离";
                             ViewBag.btnShortLeave = "暂离";
 
-                          //  btnShortLeave.ConfirmText = "是否确定把该读者设置为暂离？";
+                            //  btnShortLeave.ConfirmText = "是否确定把该读者设置为暂离？";
                             ViewBag.btnShortLeaveConfirmText = "是否确定把该读者设置为暂离？";
 
-                           // btnLeave.Enabled = true;
+                            // btnLeave.Enabled = true;
                             ViewBag.btnLeave = "true";
 
-                           // btnAllotSeat.Enabled = false;
+                            // btnAllotSeat.Enabled = false;
                             ViewBag.btnAllotSeatEnabled = "false";
                         }
                     }
@@ -258,8 +259,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             }
         }
 
-        
-        public JsonResult ShortLeave(string seatNo, string seatShortNo, string used,string isShortLeave)
+        public JsonResult ShortLeave(string seatNo, string seatShortNo, string used, string isShortLeave)
         {
             JsonResult ret = null;
             SeatManage.ClassModel.EnterOutLogInfo enterOutLog = SeatManage.Bll.T_SM_EnterOutLog.GetUsingEnterOutLogBySeatNo(seatNo);
@@ -426,7 +426,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
         /// <param name="CardNo"></param>
         /// <param name="addBlackListRemark"></param>
         /// <returns></returns>
-        public JsonResult SureAddBlacklist(string seatNo, string seatShortNo, string used,string CardNo,string addBlackListRemark)
+        public JsonResult SureAddBlacklist(string seatNo, string seatShortNo, string used, string CardNo, string addBlackListRemark)
         {
             addBlackListRemark = string.IsNullOrEmpty(addBlackListRemark) ? "未备注" : addBlackListRemark;
 
@@ -547,7 +547,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             return ret;
         }
 
-        public JsonResult SureAllotSeat(string seatNo, string seatShortNo, string used,string cardNo)
+        public JsonResult SureAllotSeat(string seatNo, string seatShortNo, string used, string cardNo)
         {
             JsonResult ret = null;
 
@@ -622,13 +622,13 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
         }
 
         /// <summary>
-        /// 分配座位
+        /// 座位处理界面
         /// </summary>
         /// <param name="seatNo"></param>
         /// <param name="seatShortNo"></param>
         /// <param name="used"></param>
         /// <returns></returns>
-        public ActionResult SeatHandle(string seatNo,string seatShortNo,string used)
+        public ActionResult SeatHandle(string seatNo, string seatShortNo, string used)
         {
             BindSingleSeat(seatNo, seatShortNo, used);
 
@@ -652,13 +652,47 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             return html;
         }
 
-        
+
         public ActionResult SeatGraph(string roomId)
         {
             ViewBag.roomId = roomId;
             return View();
         }
 
+        #endregion
+
+        /// <summary>
+        /// 在座读者列表
+        /// </summary>
+        /// <param name="roomId"></param>
+        /// <returns></returns>
+        public ViewResult MonitorListMode(string roomId)
+        {
+            DataTable dt = LogQueryHelper.UsingSeatReader(roomId);
+
+            StringBuilder sb = new StringBuilder();
+            sb.Append("{");
+            sb.Append("\"form.paginate.pageNo\": 1,");
+            sb.Append("\"form.paginate.totalRows\": 100,");
+            sb.Append("	\"rows\": [");
+            foreach (DataRow item in dt.Rows)
+            {
+                sb.Append("{\"CardNo\": \"" + item["CardNo"] + "\",\"ReaderName\": \"" + item["ReaderName"] + "\",\"ReadingRoomName\": \"" + item["ReadingRoomName"] + "\",\"SeatShortNum\": \"" + item["SeatShortNum"] + "\",\"Status\": \"" + item["Status"] + "\",\"EnterOutTime\": \"" + item["EnterOutTime"] + "\",\"Remark\": \"" + item["Remark"] + "\"}");
+                sb.Append(",");
+            }
+            sb.Remove(sb.Length - 1, 1);
+            sb.Append("]");
+            sb.Append("}");
+            string data = sb.ToString();
+            ViewBag.roomId = roomId;
+            ViewBag.Data = data;
+            return View();
+        }
+
+        /// <summary>
+        /// 主页列表
+        /// </summary>
+        /// <returns></returns>
         private string MonitorGraphModeDataBind()
         {
             string result = "";
