@@ -1,0 +1,1032 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ReadingRoomSetting</title>
+    <!--框架必需start-->
+    <script type="text/javascript" src="~/quickui/libs/js/jquery.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/language/cn.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/framework.js"></script>
+    <link href="~/quickui/libs/css/import_basic.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" id="skin" prePath="~/quickui/" />
+    <link rel="stylesheet" type="text/css" id="customSkin" />
+    <!--框架必需end-->
+    <link rel="stylesheet" type="text/css" href="~/quickui/style/style.css" />
+
+    <script src="~/quickui/libs/js/table/quiGrid.js" type="text/javascript"></script>
+
+    <!--引入提示组件start-->
+    <script type="text/javascript" src="/quickui/libs/js/popup/toast.js"></script>
+    <script type="text/javascript" src="/quickui/libs/js/popup/notice.js"></script>
+    <!--引入提示组件end-->
+
+    <script>
+        function CBcheck(id) {
+            if ($("#" + id + "")[0].checked == true) {
+                document.getElementById(id + "Table").style.display = "block";
+            }
+            else {
+                document.getElementById(id + "Table").style.display = "none";
+            }
+        }
+
+    </script>
+</head>
+<body>
+    <form>
+        <div id="layout1">
+            <div position="top" style="" panelTitle="阅览室设置">
+                <div style="width:100%;">
+                    <table class="tableStyle" formMode="view">
+                        <tr>
+                            <th colspan="2">选座方式设置</th>
+                        </tr>
+                        <tr>
+                            <td width="20%">选座方式设置：</td>
+                            <td width="80%">
+                                <input type="radio" id="SeatSelectDefaultMode1" name="SeatSelectDefaultMode" value="1" /><label for="SeatSelectDefaultMode1" class="hand">手动选座</label>
+                                <input type="radio" id="SeatSelectDefaultMode0" name="SeatSelectDefaultMode" value="0" /><label for="SeatSelectDefaultMode0" class="hand">自动选座</label>
+                                <input type="radio" id="SeatSelectDefaultMode2" name="SeatSelectDefaultMode" value="2" /><label for="SeatSelectDefaultMode2" class="hand">自选选座</label>
+                                <input type="checkbox" id="SeatSelectAdMode" name="SeatSelectAdMode"  onclick="CBcheck('SeatSelectAdMode')" /><label for="SeatSelectAdMode" class="hand">启用高级设置</label>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td width="20%">选座次数限制：</td>
+                            <td width="80%">
+                                <input type="checkbox" id="SeatSelectPos" name="SeatSelectPos" /><label for="SeatSelectPos" class="hand">启用</label>
+                                <input type="text" id="SelectSeatPosTimes" style="width:50px" size="25" />分钟内<input type="text" id="SelectSeatPosCount" style="width:50px" size="25" />次
+                            </td>
+
+                        </tr>
+                    </table>
+                    <table  formMode="view" id="SeatSelectAdModeTable" style="display: none;width:100%">
+                        <tr>
+                            <th colspan="2" align="center">选座方式高级设置</th>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <table width="100%" formMode="view" cellspacing="0" cellpadding="5" border="1">
+                                    <tr>
+                                        <td align="left">
+                                            计划日期
+                                        </td>
+                                        <td align="left">
+                                            时间段
+                                        </td>
+                                        <td align="left">
+                                            选座方式
+                                        </td>
+                                        <td align="left"></td>
+                                    </tr>
+                                    <!--周一-->
+                                    <tr>
+                                        <td  valign="middle" width="150px" >
+                                            <input type="checkbox" id="SeatSelectAdModeDay1" name="SeatSelectAdModeDay1" /><label for="SeatSelectAdModeDay1" class="hand">周一</label>
+                                        </td>
+                                        <td  valign="middle"  width="400px">
+                                            时间段1：
+                                            <input type="text" id="SeatSelectAdModeDay1_Time1_StartH" style="width:50px" size="25" />
+                                            <input type="text" id="SeatSelectAdModeDay1_Time1_StartM" style="width:50px" size="25" />
+                                            至
+                                            <input type="text" id="SeatSelectAdModeDay1_Time1_EndH" style="width:50px" size="25" />
+                                            <input type="text" id="SeatSelectAdModeDay1_Time1_EndM" style="width:50px" size="25" />
+                                        </td>
+                                        <td  valign="middle" width="300px">
+
+                                            <input type="radio" id="SeatSelectAdModeDay1_Time1_SelectMode1" name="SeatSelectAdModeDay1_Time1_SelectMode" value="1" /><label for="SeatSelectAdModeDay1_Time1_SelectMode1" class="hand">手动选座</label>
+                                            <input type="radio" id="SeatSelectAdModeDay1_Time1_SelectMode0" name="SeatSelectAdModeDay1_Time1_SelectMode" value="0" /><label for="SeatSelectAdModeDay1_Time1_SelectMode0" class="hand">自动选座</label>
+                                            <input type="radio" id="SeatSelectAdModeDay1_Time1_SelectMode2" name="SeatSelectAdModeDay1_Time1_SelectMode" value="2" checked="checked" /><label for="SeatSelectAdModeDay1_Time1_SelectMode2" class="hand">自选选座</label>
+                                        </td>
+                                        <td valign="middle" width="100px">
+                                            <span id="SeatSelectAdModeDay1_Time1_Error" title="" style="color: Red;"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            时间段2：
+                                            <input type="text" id="SeatSelectAdModeDay1_Time2_StartH"  style="width:50px" size="25" />
+                                            <input type="text" id="SeatSelectAdModeDay1_Time2_StartM"  style="width:50px" size="25" />
+                                            至
+                                            <input type="text" id="SeatSelectAdModeDay1_Time2_EndH" style="width:50px" size="25"/>
+                                            <input type="text" id="SeatSelectAdModeDay1_Time2_EndM" style="width:50px" size="25"/>
+                                        </td>
+                                        <td  valign="top">
+                                            <input type="radio" id="SeatSelectAdModeDay1_Time2_SelectMode1" name="SeatSelectAdModeDay1_Time2_SelectMode" value="1" /><label for="SeatSelectAdModeDay1_Time2_SelectMode1" class="hand">手动选座</label>
+                                            <input type="radio" id="SeatSelectAdModeDay1_Time2_SelectMode0" name="SeatSelectAdModeDay1_Time2_SelectMode" value="0" /><label for="SeatSelectAdModeDay1_Time2_SelectMode0" class="hand">自动选座</label>
+                                            <input type="radio" id="SeatSelectAdModeDay1_Time2_SelectMode2" name="SeatSelectAdModeDay1_Time2_SelectMode" value="2" checked="checked" /><label for="SeatSelectAdModeDay1_Time2_SelectMode2" class="hand">自选选座</label>
+                                        </td>
+                                        <td>
+                                            <span id="SeatSelectAdModeDay1_Time2_Error" title="" style="color: Red;"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            时间段3：
+                                            <input type="text" id="SeatSelectAdModeDay1_Time3_StartH" style="width:50px" size="25"/>
+                                            <input type="text" id="SeatSelectAdModeDay1_Time3_StartM" style="width:50px" size="25"/>
+                                            至
+                                            <input type="text" id="SeatSelectAdModeDay1_Time3_EndH" style="width:50px" size="25"/>
+                                            <input type="text" id="SeatSelectAdModeDay1_Time3_EndM" style="width:50px" size="25"/>
+                                        </td>
+                                        <td>
+                                            <input type="radio" id="SeatSelectAdModeDay1_Time3_SelectMode1" name="SeatSelectAdModeDay1_Time3_SelectMode" value="1" /><label for="SeatSelectAdModeDay1_Time3_SelectMode1" class="hand">手动选座</label>
+                                            <input type="radio" id="SeatSelectAdModeDay1_Time3_SelectMode0" name="SeatSelectAdModeDay1_Time3_SelectMode" value="0" /><label for="SeatSelectAdModeDay1_Time3_SelectMode0" class="hand">自动选座</label>
+                                            <input type="radio" id="SeatSelectAdModeDay1_Time3_SelectMode2" name="SeatSelectAdModeDay1_Time3_SelectMode" value="2" checked="checked" /><label for="SeatSelectAdModeDay1_Time3_SelectMode2" class="hand">自选选座</label>
+                                        </td>
+                                        <td>
+                                            <span id="SeatSelectAdModeDay1_Time3_Error" title="" style="color: Red;"></span>
+                                        </td>
+                                    </tr>
+                                    <!--周二-->
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" id="SeatSelectAdModeDay2" name="SeatSelectAdModeDay2" /><label for="SeatSelectAdModeDay2" class="hand">周二</label>
+                                        </td>
+                                        <td>
+                                            时间段1：
+                                            <input type="text" id="SeatSelectAdModeDay2_Time1_StartH" style="width:50px" size="25"/>
+                                            <input type="text" id="SeatSelectAdModeDay2_Time1_StartM" style="width:50px" size="25"/>
+                                            至
+                                            <input type="text" id="SeatSelectAdModeDay2_Time1_EndH" style="width:50px" size="25"/>
+                                            <input type="text" id="SeatSelectAdModeDay2_Time1_EndM" style="width:50px" size="25"/>
+                                        </td>
+                                        <td>
+
+                                            <input type="radio" id="SeatSelectAdModeDay2_Time1_SelectMode1" name="SeatSelectAdModeDay2_Time1_SelectMode" value="1" /><label for="SeatSelectAdModeDay2_Time1_SelectMode1" class="hand">手动选座</label>
+                                            <input type="radio" id="SeatSelectAdModeDay2_Time1_SelectMode0" name="SeatSelectAdModeDay2_Time1_SelectMode" value="0" /><label for="SeatSelectAdModeDay2_Time1_SelectMode0" class="hand">自动选座</label>
+                                            <input type="radio" id="SeatSelectAdModeDay2_Time1_SelectMode2" name="SeatSelectAdModeDay2_Time1_SelectMode" value="2" checked="checked" /><label for="SeatSelectAdModeDay2_Time1_SelectMode2" class="hand">自选选座</label>
+                                        </td>
+                                        <td>
+                                            <span id="SeatSelectAdModeDay2_Time1_Error" title="" style="color: Red;"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            时间段2：
+                                            <input type="text" id="SeatSelectAdModeDay2_Time2_StartH" style="width:50px" size="25"/>
+                                            <input type="text" id="SeatSelectAdModeDay2_Time2_StartM" style="width:50px" size="25"/>
+                                            至
+                                            <input type="text" id="SeatSelectAdModeDay2_Time2_EndH" style="width:50px" size="25"/>
+                                            <input type="text" id="SeatSelectAdModeDay2_Time2_EndM" style="width:50px" size="25"/>
+                                        </td>
+                                        <td  valign="top">
+                                            <input type="radio" id="SeatSelectAdModeDay2_Time2_SelectMode1" name="SeatSelectAdModeDay2_Time2_SelectMode" value="1" /><label for="SeatSelectAdModeDay2_Time2_SelectMode1" class="hand">手动选座</label>
+                                            <input type="radio" id="SeatSelectAdModeDay2_Time2_SelectMode0" name="SeatSelectAdModeDay2_Time2_SelectMode" value="0" /><label for="SeatSelectAdModeDay2_Time2_SelectMode0" class="hand">自动选座</label>
+                                            <input type="radio" id="SeatSelectAdModeDay2_Time2_SelectMode2" name="SeatSelectAdModeDay2_Time2_SelectMode" value="2" checked="checked" /><label for="SeatSelectAdModeDay2_Time2_SelectMode2" class="hand">自选选座</label>
+                                        </td>
+                                        <td>
+                                            <span id="SeatSelectAdModeDay2_Time2_Error" title="" style="color: Red;"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            时间段3：
+                                            <input type="text" id="SeatSelectAdModeDay2_Time3_StartH" style="width:50px" size="25"/>
+                                            <input type="text" id="SeatSelectAdModeDay2_Time3_StartM" style="width:50px" size="25"/>
+                                            至
+                                            <input type="text" id="SeatSelectAdModeDay2_Time3_EndH" style="width:50px" size="25"/>
+                                            <input type="text" id="SeatSelectAdModeDay2_Time3_EndM" style="width:50px" size="25"/>
+                                        </td>
+                                        <td>
+                                            <input type="radio" id="SeatSelectAdModeDay2_Time3_SelectMode1" name="SeatSelectAdModeDay2_Time3_SelectMode" value="1" /><label for="SeatSelectAdModeDay2_Time3_SelectMode1" class="hand">手动选座</label>
+                                            <input type="radio" id="SeatSelectAdModeDay2_Time3_SelectMode0" name="SeatSelectAdModeDay2_Time3_SelectMode" value="0" /><label for="SeatSelectAdModeDay2_Time3_SelectMode0" class="hand">自动选座</label>
+                                            <input type="radio" id="SeatSelectAdModeDay2_Time3_SelectMode2" name="SeatSelectAdModeDay2_Time3_SelectMode" value="2" checked="checked" /><label for="SeatSelectAdModeDay2_Time3_SelectMode2" class="hand">自选选座</label>
+                                        </td>
+                                        <td>
+                                            <span id="SeatSelectAdModeDay2_Time3_Error" title="" style="color: Red;"></span>
+                                        </td>
+                                    </tr>
+                                    <!--周三-->
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" id="SeatSelectAdModeDay1" name="SeatSelectAdModeDay1" /><label for="SeatSelectAdModeDay1" class="hand">周三</label>
+                                        </td>
+                                        <td>
+                                            时间段1：
+                                            <input type="text" id="SeatSelectAdModeDay3_Time1_StartH" style="width:50px" size="25"/>
+                                            <input type="text" id="SeatSelectAdModeDay3_Time1_StartM" style="width:50px" size="25"/>
+                                            至
+                                            <input type="text" id="SeatSelectAdModeDay3_Time1_EndH" style="width:50px" size="25"/>
+                                            <input type="text" id="SeatSelectAdModeDay3_Time1_EndM" style="width:50px" size="25"/>
+                                        </td>
+                                        <td>
+
+                                            <input type="radio" id="SeatSelectAdModeDay3_Time1_SelectMode1" name="SeatSelectAdModeDay3_Time1_SelectMode" value="1" /><label for="SeatSelectAdModeDay3_Time1_SelectMode1" class="hand">手动选座</label>
+                                            <input type="radio" id="SeatSelectAdModeDay3_Time1_SelectMode0" name="SeatSelectAdModeDay3_Time1_SelectMode" value="0" /><label for="SeatSelectAdModeDay3_Time1_SelectMode0" class="hand">自动选座</label>
+                                            <input type="radio" id="SeatSelectAdModeDay3_Time1_SelectMode2" name="SeatSelectAdModeDay3_Time1_SelectMode" value="2" checked="checked" /><label for="SeatSelectAdModeDay3_Time1_SelectMode2" class="hand">自选选座</label>
+                                        </td>
+                                        <td>
+                                            <span id="SeatSelectAdModeDay3_Time1_Error" title="" style="color: Red;"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            时间段2：
+                                            <input type="text" id="SeatSelectAdModeDay3_Time2_StartH" style="width:50px" size="25"/>
+                                            <input type="text" id="SeatSelectAdModeDay3_Time2_StartM" style="width:50px" size="25"/>
+                                            至
+                                            <input type="text" id="SeatSelectAdModeDay3_Time2_EndH" style="width:50px" size="25"/>
+                                            <input type="text" id="SeatSelectAdModeDay3_Time2_EndM" style="width:50px" size="25"/>
+                                        </td>
+                                        <td  valign="top">
+                                            <input type="radio" id="SeatSelectAdModeDay3_Time2_SelectMode1" name="SeatSelectAdModeDay3_Time2_SelectMode" value="1" /><label for="SeatSelectAdModeDay3_Time2_SelectMode1" class="hand">手动选座</label>
+                                            <input type="radio" id="SeatSelectAdModeDay3_Time2_SelectMode0" name="SeatSelectAdModeDay3_Time2_SelectMode" value="0" /><label for="SeatSelectAdModeDay3_Time2_SelectMode0" class="hand">自动选座</label>
+                                            <input type="radio" id="SeatSelectAdModeDay3_Time2_SelectMode2" name="SeatSelectAdModeDay3_Time2_SelectMode" value="2" checked="checked" /><label for="SeatSelectAdModeDay3_Time2_SelectMode2" class="hand">自选选座</label>
+                                        </td>
+                                        <td>
+                                            <span id="SeatSelectAdModeDay3_Time2_Error" title="" style="color: Red;"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            时间段3：
+                                            <input type="text" id="SeatSelectAdModeDay3_Time3_StartH" style="width:50px" size="25"/>
+                                            <input type="text" id="SeatSelectAdModeDay3_Time3_StartM" style="width:50px" size="25"/>
+                                            至
+                                            <input type="text" id="SeatSelectAdModeDay3_Time3_EndH" style="width:50px" size="25"/>
+                                            <input type="text" id="SeatSelectAdModeDay3_Time3_EndM" style="width:50px" size="25"/>
+                                        </td>
+                                        <td>
+                                            <input type="radio" id="SeatSelectAdModeDay3_Time3_SelectMode1" name="SeatSelectAdModeDay3_Time3_SelectMode" value="1" /><label for="SeatSelectAdModeDay3_Time3_SelectMode1" class="hand">手动选座</label>
+                                            <input type="radio" id="SeatSelectAdModeDay3_Time3_SelectMode0" name="SeatSelectAdModeDay3_Time3_SelectMode" value="0" /><label for="SeatSelectAdModeDay3_Time3_SelectMode0" class="hand">自动选座</label>
+                                            <input type="radio" id="SeatSelectAdModeDay3_Time3_SelectMode2" name="SeatSelectAdModeDay3_Time3_SelectMode" value="2" checked="checked" /><label for="SeatSelectAdModeDay3_Time3_SelectMode2" class="hand">自选选座</label>
+                                        </td>
+                                        <td>
+                                            <span id="SeatSelectAdModeDay3_Time3_Error" title="" style="color: Red;"></span>
+                                        </td>
+                                    </tr>
+                                    <!--周四-->
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" id="SeatSelectAdModeDay1" name="SeatSelectAdModeDay1" /><label for="SeatSelectAdModeDay1" class="hand">周四</label>
+                                        </td>
+                                        <td>
+                                            时间段1：
+                                            <input type="text" id="SeatSelectAdModeDay4_Time1_StartH" style="width:50px" size="25"/>
+                                            <input type="text" id="SeatSelectAdModeDay4_Time1_StartM" style="width:50px" size="25"/>
+                                            至
+                                            <input type="text" id="SeatSelectAdModeDay4_Time1_EndH" style="width:50px" size="25"/>
+                                            <input type="text" id="SeatSelectAdModeDay4_Time1_EndM" style="width:50px" size="25"/>
+                                        </td>
+                                        <td>
+
+                                            <input type="radio" id="SeatSelectAdModeDay4_Time1_SelectMode1" name="SeatSelectAdModeDay4_Time1_SelectMode" value="1" /><label for="SeatSelectAdModeDay4_Time1_SelectMode1" class="hand">手动选座</label>
+                                            <input type="radio" id="SeatSelectAdModeDay4_Time1_SelectMode0" name="SeatSelectAdModeDay4_Time1_SelectMode" value="0" /><label for="SeatSelectAdModeDay4_Time1_SelectMode0" class="hand">自动选座</label>
+                                            <input type="radio" id="SeatSelectAdModeDay4_Time1_SelectMode2" name="SeatSelectAdModeDay4_Time1_SelectMode" value="2" checked="checked" /><label for="SeatSelectAdModeDay4_Time1_SelectMode2" class="hand">自选选座</label>
+                                        </td>
+                                        <td>
+                                            <span id="SeatSelectAdModeDay4_Time1_Error" title="" style="color: Red;"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            时间段2：
+                                            <input type="text" id="SeatSelectAdModeDay4_Time2_StartH" style="width:50px" size="25"/>
+                                            <input type="text" id="SeatSelectAdModeDay4_Time2_StartM" style="width:50px" size="25"/>
+                                            至
+                                            <input type="text" id="SeatSelectAdModeDay4_Time2_EndH" style="width:50px" size="25"/>
+                                            <input type="text" id="SeatSelectAdModeDay4_Time2_EndM" style="width:50px" size="25"/>
+                                        </td>
+                                        <td  valign="top">
+                                            <input type="radio" id="SeatSelectAdModeDay4_Time2_SelectMode1" name="SeatSelectAdModeDay4_Time2_SelectMode" value="1" /><label for="SeatSelectAdModeDay4_Time2_SelectMode1" class="hand">手动选座</label>
+                                            <input type="radio" id="SeatSelectAdModeDay4_Time2_SelectMode0" name="SeatSelectAdModeDay4_Time2_SelectMode" value="0" /><label for="SeatSelectAdModeDay4_Time2_SelectMode0" class="hand">自动选座</label>
+                                            <input type="radio" id="SeatSelectAdModeDay4_Time2_SelectMode2" name="SeatSelectAdModeDay4_Time2_SelectMode" value="2" checked="checked" /><label for="SeatSelectAdModeDay4_Time2_SelectMode2" class="hand">自选选座</label>
+                                        </td>
+                                        <td>
+                                            <span id="SeatSelectAdModeDay4_Time2_Error" title="" style="color: Red;"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            时间段3：
+                                            <input type="text" id="SeatSelectAdModeDay4_Time3_StartH" style="width:50px" size="25"/>
+                                            <input type="text" id="SeatSelectAdModeDay4_Time3_StartM" style="width:50px" size="25"/>
+                                            至
+                                            <input type="text" id="SeatSelectAdModeDay4_Time3_EndH" style="width:50px" size="25"/>
+                                            <input type="text" id="SeatSelectAdModeDay4_Time3_EndM" style="width:50px" size="25"/>
+                                        </td>
+                                        <td>
+                                            <input type="radio" id="SeatSelectAdModeDay4_Time3_SelectMode1" name="SeatSelectAdModeDay4_Time3_SelectMode" value="1" /><label for="SeatSelectAdModeDay4_Time3_SelectMode1" class="hand">手动选座</label>
+                                            <input type="radio" id="SeatSelectAdModeDay4_Time3_SelectMode0" name="SeatSelectAdModeDay4_Time3_SelectMode" value="0" /><label for="SeatSelectAdModeDay4_Time3_SelectMode0" class="hand">自动选座</label>
+                                            <input type="radio" id="SeatSelectAdModeDay4_Time3_SelectMode2" name="SeatSelectAdModeDay4_Time3_SelectMode" value="2" checked="checked" /><label for="SeatSelectAdModeDay4_Time3_SelectMode2" class="hand">自选选座</label>
+                                        </td>
+                                        <td>
+                                            <span id="SeatSelectAdModeDay4_Time3_Error" title="" style="color: Red;"></span>
+                                        </td>
+                                    </tr>
+                                    <!--周五-->
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" id="SeatSelectAdModeDay5" name="SeatSelectAdModeDay5" /><label for="SeatSelectAdModeDay5" class="hand">周一</label>
+                                        </td>
+                                        <td>
+                                            时间段1：
+                                            <input type="text" id="SeatSelectAdModeDay5_Time1_StartH" style="width:50px" size="25"/>
+                                            <input type="text" id="SeatSelectAdModeDay5_Time1_StartM" style="width:50px" size="25"/>
+                                            至
+                                            <input type="text" id="SeatSelectAdModeDay5_Time1_EndH" style="width:50px" size="25"/>
+                                            <input type="text" id="SeatSelectAdModeDay5_Time1_EndM" style="width:50px" size="25"/>
+                                        </td>
+                                        <td>
+
+                                            <input type="radio" id="SeatSelectAdModeDay5_Time1_SelectMode1" name="SeatSelectAdModeDay5_Time1_SelectMode" value="1" /><label for="SeatSelectAdModeDay5_Time1_SelectMode1" class="hand">手动选座</label>
+                                            <input type="radio" id="SeatSelectAdModeDay5_Time1_SelectMode0" name="SeatSelectAdModeDay5_Time1_SelectMode" value="0" /><label for="SeatSelectAdModeDay5_Time1_SelectMode0" class="hand">自动选座</label>
+                                            <input type="radio" id="SeatSelectAdModeDay5_Time1_SelectMode2" name="SeatSelectAdModeDay5_Time1_SelectMode" value="2" checked="checked" /><label for="SeatSelectAdModeDay5_Time1_SelectMode2" class="hand">自选选座</label>
+                                        </td>
+                                        <td>
+                                            <span id="SeatSelectAdModeDay5_Time1_Error" title="" style="color: Red;"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            时间段2：
+                                            <input type="text" id="SeatSelectAdModeDay5_Time2_StartH" style="width:50px" size="25"/>
+                                            <input type="text" id="SeatSelectAdModeDay5_Time2_StartM" style="width:50px" size="25"/>
+                                            至
+                                            <input type="text" id="SeatSelectAdModeDay5_Time2_EndH" style="width:50px" size="25"/>
+                                            <input type="text" id="SeatSelectAdModeDay5_Time2_EndM" style="width:50px" size="25"/>
+                                        </td>
+                                        <td  valign="top">
+                                            <input type="radio" id="SeatSelectAdModeDay5_Time2_SelectMode1" name="SeatSelectAdModeDay5_Time2_SelectMode" value="1" /><label for="SeatSelectAdModeDay5_Time2_SelectMode1" class="hand">手动选座</label>
+                                            <input type="radio" id="SeatSelectAdModeDay5_Time2_SelectMode0" name="SeatSelectAdModeDay5_Time2_SelectMode" value="0" /><label for="SeatSelectAdModeDay5_Time2_SelectMode0" class="hand">自动选座</label>
+                                            <input type="radio" id="SeatSelectAdModeDay5_Time2_SelectMode2" name="SeatSelectAdModeDay5_Time2_SelectMode" value="2" checked="checked" /><label for="SeatSelectAdModeDay5_Time2_SelectMode2" class="hand">自选选座</label>
+                                        </td>
+                                        <td>
+                                            <span id="SeatSelectAdModeDay5_Time2_Error" title="" style="color: Red;"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            时间段3：
+                                            <input type="text" id="SeatSelectAdModeDay5_Time3_StartH" style="width:50px" size="25"/>
+                                            <input type="text" id="SeatSelectAdModeDay5_Time3_StartM" style="width:50px" size="25"/>
+                                            至
+                                            <input type="text" id="SeatSelectAdModeDay5_Time3_EndH" style="width:50px" size="25"/>
+                                            <input type="text" id="SeatSelectAdModeDay5_Time3_EndM" style="width:50px" size="25"/>
+                                        </td>
+                                        <td>
+                                            <input type="radio" id="SeatSelectAdModeDay5_Time3_SelectMode1" name="SeatSelectAdModeDay5_Time3_SelectMode" value="1" /><label for="SeatSelectAdModeDay5_Time3_SelectMode1" class="hand">手动选座</label>
+                                            <input type="radio" id="SeatSelectAdModeDay5_Time3_SelectMode0" name="SeatSelectAdModeDay5_Time3_SelectMode" value="0" /><label for="SeatSelectAdModeDay5_Time3_SelectMode0" class="hand">自动选座</label>
+                                            <input type="radio" id="SeatSelectAdModeDay5_Time3_SelectMode2" name="SeatSelectAdModeDay5_Time3_SelectMode" value="2" checked="checked" /><label for="SeatSelectAdModeDay5_Time3_SelectMode2" class="hand">自选选座</label>
+                                        </td>
+                                        <td>
+                                            <span id="SeatSelectAdModeDay5_Time3_Error" title="" style="color: Red;"></span>
+                                        </td>
+                                    </tr>
+                                    <!--周六-->
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" id="SeatSelectAdModeDay6" name="SeatSelectAdModeDay6" /><label for="SeatSelectAdModeDay1" class="hand">周六</label>
+                                        </td>
+                                        <td>
+                                            时间段1：
+                                            <input type="text" id="SeatSelectAdModeDay6_Time1_StartH" style="width:50px" size="25"/>
+                                            <input type="text" id="SeatSelectAdModeDay6_Time1_StartM" style="width:50px" size="25"/>
+                                            至
+                                            <input type="text" id="SeatSelectAdModeDay6_Time1_EndH" style="width:50px" size="25"/>
+                                            <input type="text" id="SeatSelectAdModeDay6_Time1_EndM" style="width:50px" size="25"/>
+                                        </td>
+                                        <td>
+
+                                            <input type="radio" id="SeatSelectAdModeDay6_Time1_SelectMode1" name="SeatSelectAdModeDay6_Time1_SelectMode" value="1" /><label for="SeatSelectAdModeDay6_Time1_SelectMode1" class="hand">手动选座</label>
+                                            <input type="radio" id="SeatSelectAdModeDay6_Time1_SelectMode0" name="SeatSelectAdModeDay6_Time1_SelectMode" value="0" /><label for="SeatSelectAdModeDay6_Time1_SelectMode0" class="hand">自动选座</label>
+                                            <input type="radio" id="SeatSelectAdModeDay6_Time1_SelectMode2" name="SeatSelectAdModeDay6_Time1_SelectMode" value="2" checked="checked" /><label for="SeatSelectAdModeDay6_Time1_SelectMode2" class="hand">自选选座</label>
+                                        </td>
+                                        <td>
+                                            <span id="SeatSelectAdModeDay6_Time1_Error" title="" style="color: Red;"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            时间段2：
+                                            <input type="text" id="SeatSelectAdModeDay6_Time2_StartH" style="width:50px" size="25"/>
+                                            <input type="text" id="SeatSelectAdModeDay6_Time2_StartM" style="width:50px" size="25"/>
+                                            至
+                                            <input type="text" id="SeatSelectAdModeDay6_Time2_EndH" style="width:50px" size="25"/>
+                                            <input type="text" id="SeatSelectAdModeDay6_Time2_EndM" style="width:50px" size="25"/>
+                                        </td>
+                                        <td  valign="top">
+                                            <input type="radio" id="SeatSelectAdModeDay6_Time2_SelectMode1" name="SeatSelectAdModeDay6_Time2_SelectMode" value="1" /><label for="SeatSelectAdModeDay6_Time2_SelectMode1" class="hand">手动选座</label>
+                                            <input type="radio" id="SeatSelectAdModeDay6_Time2_SelectMode0" name="SeatSelectAdModeDay6_Time2_SelectMode" value="0" /><label for="SeatSelectAdModeDay6_Time2_SelectMode0" class="hand">自动选座</label>
+                                            <input type="radio" id="SeatSelectAdModeDay6_Time2_SelectMode2" name="SeatSelectAdModeDay6_Time2_SelectMode" value="2" checked="checked" /><label for="SeatSelectAdModeDay6_Time2_SelectMode2" class="hand">自选选座</label>
+                                        </td>
+                                        <td>
+                                            <span id="SeatSelectAdModeDay6_Time2_Error" title="" style="color: Red;"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            时间段3：
+                                            <input type="text" id="SeatSelectAdModeDay6_Time3_StartH" style="width:50px" size="25"/>
+                                            <input type="text" id="SeatSelectAdModeDay6_Time3_StartM" style="width:50px" size="25"/>
+                                            至
+                                            <input type="text" id="SeatSelectAdModeDay6_Time3_EndH" style="width:50px" size="25"/>
+                                            <input type="text" id="SeatSelectAdModeDay6_Time3_EndM" style="width:50px" size="25"/>
+                                        </td>
+                                        <td>
+                                            <input type="radio" id="SeatSelectAdModeDay6_Time3_SelectMode1" name="SeatSelectAdModeDay6_Time3_SelectMode" value="1" /><label for="SeatSelectAdModeDay6_Time3_SelectMode1" class="hand">手动选座</label>
+                                            <input type="radio" id="SeatSelectAdModeDay6_Time3_SelectMode0" name="SeatSelectAdModeDay6_Time3_SelectMode" value="0" /><label for="SeatSelectAdModeDay6_Time3_SelectMode0" class="hand">自动选座</label>
+                                            <input type="radio" id="SeatSelectAdModeDay6_Time3_SelectMode2" name="SeatSelectAdModeDay6_Time3_SelectMode" value="2" checked="checked" /><label for="SeatSelectAdModeDay6_Time3_SelectMode2" class="hand">自选选座</label>
+                                        </td>
+                                        <td>
+                                            <span id="SeatSelectAdModeDay6_Time3_Error" title="" style="color: Red;"></span>
+                                        </td>
+                                    </tr>
+                                    <!--周日-->
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" id="SeatSelectAdModeDay0" name="SeatSelectAdModeDay0" /><label for="SeatSelectAdModeDay0" class="hand">周日</label>
+                                        </td>
+                                        <td>
+                                            时间段1：
+                                            <input type="text" id="SeatSelectAdModeDay0_Time1_StartH" style="width:50px" size="25"/>
+                                            <input type="text" id="SeatSelectAdModeDay0_Time1_StartM" style="width:50px" size="25"/>
+                                            至
+                                            <input type="text" id="SeatSelectAdModeDay0_Time1_EndH" style="width:50px" size="25"/>
+                                            <input type="text" id="SeatSelectAdModeDay0_Time1_EndM" style="width:50px" size="25"/>
+                                        </td>
+                                        <td>
+
+                                            <input type="radio" id="SeatSelectAdModeDay0_Time1_SelectMode1" name="SeatSelectAdModeDay0_Time1_SelectMode" value="1" /><label for="SeatSelectAdModeDay0_Time1_SelectMode1" class="hand">手动选座</label>
+                                            <input type="radio" id="SeatSelectAdModeDay0_Time1_SelectMode0" name="SeatSelectAdModeDay0_Time1_SelectMode" value="0" /><label for="SeatSelectAdModeDay0_Time1_SelectMode0" class="hand">自动选座</label>
+                                            <input type="radio" id="SeatSelectAdModeDay0_Time1_SelectMode2" name="SeatSelectAdModeDay0_Time1_SelectMode" value="2" checked="checked" /><label for="SeatSelectAdModeDay0_Time1_SelectMode2" class="hand">自选选座</label>
+                                        </td>
+                                        <td>
+                                            <span id="SeatSelectAdModeDay0_Time1_Error" title="" style="color: Red;"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            时间段2：
+                                            <input type="text" id="SeatSelectAdModeDay7_Time2_StartH" style="width:50px" size="25"/>
+                                            <input type="text" id="SeatSelectAdModeDay7_Time2_StartM" style="width:50px" size="25"/>
+                                            至
+                                            <input type="text" id="SeatSelectAdModeDay7_Time2_EndH" style="width:50px" size="25"/>
+                                            <input type="text" id="SeatSelectAdModeDay7_Time2_EndM" style="width:50px" size="25"/>
+                                        </td>
+                                        <td  valign="top">
+                                            <input type="radio" id="SeatSelectAdModeDay7_Time2_SelectMode1" name="SeatSelectAdModeDay7_Time2_SelectMode" value="1" /><label for="SeatSelectAdModeDay7_Time2_SelectMode1" class="hand">手动选座</label>
+                                            <input type="radio" id="SeatSelectAdModeDay7_Time2_SelectMode0" name="SeatSelectAdModeDay7_Time2_SelectMode" value="0" /><label for="SeatSelectAdModeDay7_Time2_SelectMode0" class="hand">自动选座</label>
+                                            <input type="radio" id="SeatSelectAdModeDay7_Time2_SelectMode2" name="SeatSelectAdModeDay7_Time2_SelectMode" value="2" checked="checked" /><label for="SeatSelectAdModeDay7_Time2_SelectMode2" class="hand">自选选座</label>
+                                        </td>
+                                        <td>
+                                            <span id="SeatSelectAdModeDay7_Time2_Error" title="" style="color: Red;"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            时间段3：
+                                            <input type="text" id="SeatSelectAdModeDay7_Time3_StartH" style="width:50px" size="25"/>
+                                            <input type="text" id="SeatSelectAdModeDay7_Time3_StartM" style="width:50px" size="25"/>
+                                            至
+                                            <input type="text" id="SeatSelectAdModeDay7_Time3_EndH" style="width:50px" size="25"/>
+                                            <input type="text" id="SeatSelectAdModeDay7_Time3_EndM" style="width:50px" size="25"/>
+                                        </td>
+                                        <td>
+                                            <input type="radio" id="SeatSelectAdModeDay7_Time3_SelectMode1" name="SeatSelectAdModeDay7_Time3_SelectMode" value="1" /><label for="SeatSelectAdModeDay7_Time3_SelectMode1" class="hand">手动选座</label>
+                                            <input type="radio" id="SeatSelectAdModeDay7_Time3_SelectMode0" name="SeatSelectAdModeDay7_Time3_SelectMode" value="0" /><label for="SeatSelectAdModeDay7_Time3_SelectMode0" class="hand">自动选座</label>
+                                            <input type="radio" id="SeatSelectAdModeDay7_Time3_SelectMode2" name="SeatSelectAdModeDay7_Time3_SelectMode" value="2" checked="checked" /><label for="SeatSelectAdModeDay7_Time3_SelectMode2" class="hand">自选选座</label>
+                                        </td>
+                                        <td>
+                                            <span id="SeatSelectAdModeDay7_Time3_Error" title="" style="color: Red;"></span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table class="tableStyle" formMode="view">
+                        <tr>
+                            <th colspan="2">临时离开设置</th>
+                        </tr>
+                        <tr>
+                            <td width="20%">座位保留时长：</td>
+                            <td width="80%">
+                                <input type="text" id="ShortLeaveDufaultTime" style="width:50px" size="25" />分钟
+                                <input type="checkbox" id="ShortLeaveAdMode" name="ShortLeaveAdMode" onclick="CBcheck('ShortLeaveAdMode')" /><label for="ShortLeaveAdMode" class="hand">启用高级设置</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="20%">管理员暂离设置：</td>
+                            <td width="80%">
+                                <input type="checkbox" id="ShortLeaveByAdmin" name="ShortLeaveByAdmin" /><label for="ShortLeaveByAdmin" class="hand">启用</label>
+                                座位保留时长  <input type="text" id="ShortLeaveByAdmin_LeaveTime" style="width:50px" size="25" />分钟
+                                <span id="ShortLeaveByAdmin_Error" title="" style="color: Red;"></span>
+                            </td>
+                        </tr>
+                    </table>
+                    <table id="ShortLeaveAdModeTable"  width="90%" style="display: none">
+                        <tr>
+                            <td colspan="2">
+                                <table width="100%" formMode="view" cellspacing="0" cellpadding="5" border="1">
+                                    <tr>
+                                        <th colspan="4">暂离高级设置</th>
+                                    </tr>
+                                    <tr>
+                                        <td align="center" valign="middle" width="100px">
+                                            计划
+                                        </td>
+                                        <td align="center" valign="middle" width="300px">
+                                            时间段
+                                        </td>
+                                        <td align="center" valign="middle" width="100px">
+                                            保留时长
+                                        </td>
+                                        <td valign="middle" width="100px"></td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="top">
+                                            <input type="checkbox" ID="ShortLeaveAdMode_Time1" Text="时间段1" /><label for="ShortLeaveAdMode_Time1" class="hand">时间段1</label>
+                                        </td>
+                                        <td valign="top">
+                                            <input type="text" ID="ShortLeaveAdMode_Time1_StartH" style="width:50px" size="25" />:
+                                            <input type="text" ID="ShortLeaveAdMode_Time1_StartM" style="width:50px" size="25" />
+                                            至
+                                            <input type="text" ID="ShortLeaveAdMode_Time1_EndH" style="width:50px" size="25" />:
+                                            <input type="text" ID="ShortLeaveAdMode_Time1_EndM" style="width:50px" size="25" />
+                                        </td>
+                                        <td valign="top">
+                                            <input type="text" ID="ShortLeaveAdMode_Time1_LeaveTime" style="width:50px" size="25" />
+                                            分钟
+                                        </td>
+                                        <td valign="top">
+                                            <span id="ShortLeaveAdMode_Time1_Error" title="" style="color: Red;"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="top">
+                                            <input type="checkbox" ID="ShortLeaveAdMode_Time2" Text="时间段2" /><label for="ShortLeaveAdMode_Time2" class="hand">时间段2</label>
+                                        </td>
+                                        <td valign="top">
+                                            <input type="text" ID="ShortLeaveAdMode_Time2_StartH" style="width:50px" size="25" />:
+                                            <input type="text" ID="ShortLeaveAdMode_Time2_StartM" style="width:50px" size="25" />
+                                            至
+                                            <input type="text" ID="ShortLeaveAdMode_Time2_EndH" style="width:50px" size="25" />:
+                                            <input type="text" ID="ShortLeaveAdMode_Time2_EndM" style="width:50px" size="25" />
+                                        </td>
+                                        <td  valign="top">
+                                            <input type="text" ID="ShortLeaveAdMode_Time2_LeaveTime" style="width:50px" size="25" />
+                                            分钟
+                                        </td>
+                                        <td valign="top">
+                                            <span id="ShortLeaveAdMode_Time2_Error" title="" style="color: Red;"></span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table class="tableStyle" formMode="view">
+                        <tr>
+                            <th colspan="2">开闭馆设置</th>
+                        </tr>
+                        <tr>
+                            <td width="20%">开馆时间：</td>
+                            <td width="80%">
+                                <input type="text" id="ReadingRoomDufaultOpenTimeH" style="width:50px" size="25" />
+                                <input type="text" id="ReadingRoomDufaultOpenTimeM" style="width:50px" size="25" />
+                                开馆预处理时长
+                                <input type="text" id="ReadingRoomBeforeOpenTime" style="width:50px" size="25" />分钟
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="20%">闭馆时间：</td>
+                            <td width="80%">
+                                <input type="text" id="ReadingRoomDufaultCloseTimeH" style="width:50px" size="25" />
+                                <input type="text" id="ReadingRoomDufaultCloseTimeM" style="width:50px" size="25" />
+                                闭馆预处理时长
+                                <input type="text" id="ReadingRoomBeforeCloseTime" style="width:50px" size="25" />分钟
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="20%">高级设置：</td>
+                            <td width="80%">
+                            <input type="checkbox" id="ReadingRoomOpenCloseAdMode" name="ReadingRoomOpenCloseAdMode" onclick="CBcheck('ReadingRoomOpenCloseAdMode')" /><label for="ReadingRoomOpenCloseAdMode" class="hand">启用高级设置</label>
+                            <input type="checkbox" id="ReadingRoomOpen24H" name="ReadingRoomOpen24H" /><label for="ReadingRoomOpen24H" class="hand">启用24小时不间断模式</label>          
+                            </td>
+                        </tr>
+                    </table>
+                    <table id="ReadingRoomOpenCloseAdModeTable"  width="100%" formMode="view" cellspacing="0" cellpadding="5" border="1" style="display: none">
+                        <tr>
+                            <td   valign="top" colspan="2">
+                                <table>
+                                    <tr>
+                                        <td width="100px"  style="font-weight: bold;">
+                                            计划日期
+                                        </td>
+                                        <td  width="100px" style="font-weight: bold;">
+                                            时段
+                                        </td>
+                                        <td width="400px"> 开馆时间</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td  valign="top">
+                                            <input type="checkbox" ID="ReadingRoomAdOpenTime_Day1" name="ReadingRoomAdOpenTime_Day1" /><label for="ReadingRoomAdOpenTime_Day1" class="hand">周一</label>
+                                        </td>
+                                        <td  valign="middle">
+                                            时段1：<br />
+                                            时段2：<br />
+                                            时段3：
+                                        </td>
+                                        <td  valign="top">
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day1_Time1_OpenH" 
+                                                         style="width:50px" size="25"/>:
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day1_Time1_OpenM" 
+                                                         style="width:50px" size="25"/>
+                                            至
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day1_Time1_CloseH" 
+                                                         style="width:50px" size="25"/>:
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day1_Time1_CloseM" 
+                                                         style="width:50px" size="25"/><br />
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day1_Time2_OpenH" 
+                                                         style="width:50px" size="25"/>:
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day1_Time2_OpenM" 
+                                                         style="width:50px" size="25">
+                                            至
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day1_Time2_CloseH" 
+                                                         style="width:50px" size="25"/>:
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day1_Time2_CloseM" 
+                                                         style="width:50px" size="25"/><br />
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day1_Time3_OpenH" 
+                                                         style="width:50px" size="25">:
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day1_Time3_OpenM" 
+                                                         style="width:50px" size="25">
+                                            至
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day1_Time3_CloseH" 
+                                                         style="width:50px" size="25"/>:
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day1_Time3_CloseM" 
+                                                         style="width:50px" size="25"/>
+                                        </td>
+                                        <td  valign="top">
+                                            <span id="ReadingRoomAdOpenTime_Day1_Time1_Error" title="" style="color: Red;"></span>
+                                            <br />
+                                            <span id="ReadingRoomAdOpenTime_Day1_Time2_Error" title="" style="color: Red;"></span>
+                                            <br />
+                                            <span id="ReadingRoomAdOpenTime_Day1_Time3_Error" title="" style="color: Red;"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td  valign="top">
+                                            <input type="checkbox" ID="ReadingRoomAdOpenTime_Day2" name="ReadingRoomAdOpenTime_Day2" /><label for="ReadingRoomAdOpenTime_Day2" class="hand">周二</label>
+                                        </td>
+                                        <td  valign="middle">
+                                            时段1：<br />
+                                            时段2：<br />
+                                            时段3：
+                                        </td>
+                                        <td  valign="top">
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day2_Time1_OpenH" 
+                                                         style="width:50px" size="25"/>:
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day2_Time1_OpenM" 
+                                                         style="width:50px" size="25"/>
+                                            至
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day2_Time1_CloseH" 
+                                                         style="width:50px" size="25"/>:
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day2_Time1_CloseM" 
+                                                         style="width:50px" size="25"/><br />
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day2_Time2_OpenH" 
+                                                         style="width:50px" size="25"/>:
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day2_Time2_OpenM" 
+                                                         style="width:50px" size="25"/>
+                                            至
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day2_Time2_CloseH" 
+                                                         style="width:50px" size="25"/>:
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day2_Time2_CloseM" 
+                                                         style="width:50px" size="25"/><br />
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day2_Time3_OpenH" 
+                                                         style="width:50px" size="25"/>:
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day2_Time3_OpenM" 
+                                                         style="width:50px" size="25"/>
+                                            至
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day2_Time3_CloseH" 
+                                                         style="width:50px" size="25"/>:
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day2_Time3_CloseM" 
+                                                         style="width:50px" size="25"/>
+                                        </td>
+                                        <td  valign="top">
+                                            <span id="ReadingRoomAdOpenTime_Day2_Time1_Error" title="" style="color: Red;"></span>
+                                            <br />
+                                            <span id="ReadingRoomAdOpenTime_Day2_Time2_Error" title="" style="color: Red;"></span>
+                                            <br />
+                                            <span id="ReadingRoomAdOpenTime_Day2_Time3_Error" title="" style="color: Red;"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td  valign="top">
+                                            <input type="checkbox" ID="ReadingRoomAdOpenTime_Day3" name="ReadingRoomAdOpenTime_Day3" /><label for="ReadingRoomAdOpenTime_Day3" class="hand">周三</label>
+                                        </td>
+                                        <td  valign="middle">
+                                            时段1：<br />
+                                            时段2：<br />
+                                            时段3：
+                                        </td>
+                                        <td  valign="top">
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day3_Time1_OpenH" 
+                                                         style="width:50px" size="25"/>:
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day3_Time1_OpenM" 
+                                                         style="width:50px" size="25"/>
+                                            至
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day3_Time1_CloseH" 
+                                                         style="width:50px" size="25"/>:
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day3_Time1_CloseM" 
+                                                         style="width:50px" size="25/"><br />
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day3_Time2_OpenH" 
+                                                         style="width:50px" size="25"/>:
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day3_Time2_OpenM" 
+                                                         style="width:50px" size="25"/>
+                                            至
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day3_Time2_CloseH" 
+                                                         style="width:50px" size="25"/>:
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day3_Time2_CloseM" 
+                                                         style="width:50px" size="25"/><br />
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day3_Time3_OpenH" 
+                                                         style="width:50px" size="25"/>:
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day3_Time3_OpenM" 
+                                                         style="width:50px" size="25"/>
+                                            至
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day3_Time3_CloseH" 
+                                                         style="width:50px" size="25"/>:
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day3_Time3_CloseM" 
+                                                         style="width:50px" size="25"/>
+                                        </td>
+                                        <td  valign="top">
+                                            <span id="ReadingRoomAdOpenTime_Day3_Time1_Error" title="" style="color: Red;"></span>
+                                            <br />
+                                            <span id="ReadingRoomAdOpenTime_Day3_Time2_Error" title="" style="color: Red;"></span>
+                                            <br />
+                                            <span id="ReadingRoomAdOpenTime_Day3_Time3_Error" title="" style="color: Red;"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td  valign="top">
+                                            <input type="checkbox" ID="ReadingRoomAdOpenTime_Day4" name="ReadingRoomAdOpenTime_Day4" /><label for="ReadingRoomAdOpenTime_Day4" class="hand">周四</label>
+                                        </td>
+                                        <td  valign="middle">
+                                            时段1：<br />
+                                            时段2：<br />
+                                            时段3：
+                                        </td>
+                                        <td  valign="top">
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day4_Time1_OpenH" 
+                                                         style="width:50px" size="25"/>:
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day4_Time1_OpenM" 
+                                                         style="width:50px" size="25"/>
+                                            至
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day4_Time1_CloseH" 
+                                                         style="width:50px" size="25"/>:
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day4_Time1_CloseM" 
+                                                         style="width:50px" size="25"/><br />
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day4_Time2_OpenH" 
+                                                         style="width:50px" size="25"/>:
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day4_Time2_OpenM" 
+                                                         style="width:50px" size="25"/>
+                                            至
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day4_Time2_CloseH" 
+                                                         style="width:50px" size="25"/>:
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day4_Time2_CloseM" 
+                                                         style="width:50px" size="25"/><br />
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day4_Time3_OpenH" 
+                                                         style="width:50px" size="25"/>:
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day4_Time3_OpenM" 
+                                                         style="width:50px" size="25"/>
+                                            至
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day4_Time3_CloseH" 
+                                                         style="width:50px" size="25"/>:
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day4_Time3_CloseM" 
+                                                         style="width:50px" size="25"/>
+                                        </td>
+                                        <td  valign="top">
+                                            <span id="ReadingRoomAdOpenTime_Day4_Time1_Error" title="" style="color: Red;"></span>
+                                            <br />
+                                            <span id="ReadingRoomAdOpenTime_Day4_Time2_Error" title="" style="color: Red;"></span>
+                                            <br />
+                                            <span id="ReadingRoomAdOpenTime_Day4_Time3_Error" title="" style="color: Red;"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td  valign="top">
+                                            <input type="checkbox" ID="ReadingRoomAdOpenTime_Day5" name="ReadingRoomAdOpenTime_Day5" /><label for="ReadingRoomAdOpenTime_Day5" class="hand">周五</label>
+                                        </td>
+                                        <td  valign="middle">
+                                            时段1：<br />
+                                            时段2：<br />
+                                            时段3：
+                                        </td>
+                                        <td  valign="top">
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day5_Time1_OpenH" 
+                                                         style="width:50px" size="25"/>:
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day5_Time1_OpenM" 
+                                                         style="width:50px" size="25"/>
+                                            至
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day5_Time1_CloseH" 
+                                                         style="width:50px" size="25"/>:
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day5_Time1_CloseM" 
+                                                         style="width:50px" size="25"/><br />
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day5_Time2_OpenH" 
+                                                         style="width:50px" size="25"/>:
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day5_Time2_OpenM" 
+                                                         style="width:50px" size="25"/>
+                                            至
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day5_Time2_CloseH" 
+                                                         style="width:50px" size="25"/>:
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day5_Time2_CloseM" 
+                                                         style="width:50px" size="25"/><br />
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day5_Time3_OpenH" 
+                                                         style="width:50px" size="25"/>:
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day5_Time3_OpenM" 
+                                                         style="width:50px" size="25"/>
+                                            至
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day5_Time3_CloseH" 
+                                                         style="width:50px" size="25"/>:
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day5_Time3_CloseM" 
+                                                         style="width:50px" size="25"/>
+                                        </td>
+                                        <td  valign="top">
+                                            <span id="ReadingRoomAdOpenTime_Day5_Time1_Error" title="" style="color: Red;"></span>
+                                            <br />
+                                            <span id="ReadingRoomAdOpenTime_Day5_Time2_Error" title="" style="color: Red;"></span>
+                                            <br />
+                                            <span id="ReadingRoomAdOpenTime_Day5_Time3_Error" title="" style="color: Red;"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td  valign="top">
+                                            <input type="checkbox" ID="ReadingRoomAdOpenTime_Day6" name="ReadingRoomAdOpenTime_Day6" /><label for="ReadingRoomAdOpenTime_Day6" class="hand">周六</label>
+                                            
+                                        </td>
+                                        <td  valign="middle">
+                                            时段1：<br />
+                                            时段2：<br />
+                                            时段3：
+                                        </td>
+                                        <td  valign="top">
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day6_Time1_OpenH" 
+                                                         style="width:50px" size="25"/>:
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day6_Time1_OpenM" 
+                                                         style="width:50px" size="25"/>
+                                            至
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day6_Time1_CloseH" 
+                                                         style="width:50px" size="25"/>:
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day6_Time1_CloseM" 
+                                                         style="width:50px" size="25"/><br />
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day6_Time2_OpenH" 
+                                                         style="width:50px" size="25"/>:
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day6_Time2_OpenM" 
+                                                         style="width:50px" size="25"/>
+                                            至
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day6_Time2_CloseH" 
+                                                         style="width:50px" size="25"/>:
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day6_Time2_CloseM" 
+                                                         style="width:50px" size="25"/><br />
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day6_Time3_OpenH" 
+                                                         style="width:50px" size="25"/>:
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day6_Time3_OpenM" 
+                                                         style="width:50px" size="25"/>
+                                            至
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day6_Time3_CloseH" 
+                                                         style="width:50px" size="25"/>:
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day6_Time3_CloseM" 
+                                                         style="width:50px" size="25"/>
+                                        </td>
+                                        <td  valign="top">
+                                            <span id="ReadingRoomAdOpenTime_Day6_Time1_Error" title="" style="color: Red;"></span>
+                                            <br />
+                                            <span id="ReadingRoomAdOpenTime_Day6_Time2_Error" title="" style="color: Red;"></span>
+                                            <br />
+                                            <span id="ReadingRoomAdOpenTime_Day6_Time3_Error" title="" style="color: Red;"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td  valign="top">
+                                            <input type="checkbox" ID="ReadingRoomAdOpenTime_Day0" name="ReadingRoomAdOpenTime_Day0" /><label for="ReadingRoomAdOpenTime_Day0" class="hand">周日</label>
+                                        </td>
+                                        <td  valign="middle">
+                                            时段1：<br />
+                                            时段2：<br />
+                                            时段3：
+                                        </td>
+                                        <td  valign="top">
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day0_Time1_OpenH"
+                                                   style="width:50px" size="25" />
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day0_Time1_OpenM" 
+                                                         style="width:50px" size="25"/>
+                                            至
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day0_Time1_CloseH" 
+                                                         style="width:50px" size="25"/>:
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day0_Time1_CloseM" 
+                                                         style="width:50px" size="25"/><br />
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day0_Time2_OpenH" 
+                                                         style="width:50px" size="25"/>:
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day0_Time2_OpenM" 
+                                                         style="width:50px" size="25"/>
+                                            至
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day0_Time2_CloseH" 
+                                                         style="width:50px" size="25"/>:
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day0_Time2_CloseM" 
+                                                         style="width:50px" size="25"/><br />
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day0_Time3_OpenH" 
+                                                         style="width:50px" size="25"/>:
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day0_Time3_OpenM" 
+                                                         style="width:50px" size="25"/>
+                                            至
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day0_Time3_CloseH" 
+                                                         style="width:50px" size="25">:
+                                            <input type="text" ID="ReadingRoomAdOpenTime_Day0_Time3_CloseM" 
+                                                         style="width:50px" size="25">
+                                        </td>
+                                        <td  valign="top">
+                                            <span id="ReadingRoomAdOpenTime_Day0_Time1_Error" title="" style="color: Red;"></span>
+                                            <br />
+                                            <span id="ReadingRoomAdOpenTime_Day0_Time2_Error" title="" style="color: Red;"></span>
+                                            <br />
+                                            <span id="ReadingRoomAdOpenTime_Day0_Time3_Error" title="" style="color: Red;"></span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table class="tableStyle" formMode="view">
+                        <tr>
+                            <th colspan="2">在座限时模式设置</th>
+                        </tr>
+                        <tr>
+                            <td width="20%">在座时长设置：</td>
+                            <td width="80%">
+                                <input type="checkbox" id="SeatTime" name="SeatTime" /><label for="SeatTime" class="hand">启用</label>      
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="20%">限制时长模式：</td>
+                            <td width="80%">
+                                <input type="radio" id="SeatTime_ModeFree" name="SeatTime_Mode" value="Free" /><label for="SeatTime_ModeFree" class="hand">计算在座时长</label>
+                                <input type="radio" id="SeatTime_ModeFixed" name="SeatTime_Mode" value="Fixed" /><label for="SeatTime_ModeFixed" class="hand">指定固定时间</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="20%">座位使用时长：</td>
+                            <td width="80%">
+                                <input type="text" id="SeatTime_SeatTime" style="width:50px" size="25" />分钟
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="20%">固定时段：</td>
+                            <td width="80%">
+                                <input type="text" id="SeatTime_TimeSpanList" style="width:350px" size="25" placeholder="示例:8:00;10:00;12:00" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="20%">超时处理方式：</td>
+                            <td width="80%">
+                                <input type="radio" id="SeatTime_OverTime_Mode8" name="SeatTime_OverTime_Mode" value="8" /><label for="SeatTime_OverTime_Mode8" class="hand">暂离</label>
+                                <input type="radio" id="SeatTime_OverTime_Mode0" name="SeatTime_OverTime_Mode" value="0" /><label for="SeatTime_OverTime_Mode0" class="hand">释放座位</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="20%">续时设置：</td>
+                            <td width="80%">
+                                <input type="checkbox" id="SeatTime_ContinueTime" name="SeatTime_ContinueTime" /><label for="SeatTime_ContinueTime" class="hand">允许续时</label> 
+                                续时时长：
+                                <input type="text" ID="SeatTime_ContinueTime_Time" style="width:50px" size="25"/>分钟
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="20%">可续时次数：</td>
+                            <td width="80%">
+                                <input type="text" ID="SeatTime_ContinueTime_ContinueCount" style="width:50px" size="25" />次（0为不限制次数）&nbsp;
+                                提前时间：<input type="text"  ID="SeatTime_ContinueTime_BeforeTime" style="width:50px" size="25" />分钟
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </form>
+</body>
+</html>
