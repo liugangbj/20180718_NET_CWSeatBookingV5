@@ -36,6 +36,34 @@
             }
         }
 
+        function CBcheckALL(id) {
+            if ($("#" + id + "")[0].checked == true) {
+                for (var i = 0; i < 100; i++) {
+                    $("#SameRoomSet_" + i).attr("checked", true);
+                }
+            }
+            else {
+                for (var i = 0; i < 100; i++) {
+                    $("#SameRoomSet_" + i).attr("checked", false);
+                }
+            }
+        }
+
+        function BLCBcheck(id) {
+            if ($("#" + id + "")[0].checked == true) {
+                document.getElementById(id + "Table").style.display = "block";
+
+                document.getElementById("IsRecordViolate").checked = $("#" + id + "")[0].checked;
+                document.getElementById("UseBlacklist").checked = $("#" + id + "")[0].checked;
+
+               // $("#IsRecordViolate").attr("checked", true); //IsRecordViolate
+               // $("#UseBlacklist").attr("checked", true); //UseBlacklist
+            }
+            else {
+                document.getElementById(id + "Table").style.display = "none";
+            }
+        }
+
     </script>
 </head>
 <body>
@@ -971,7 +999,7 @@
                             </td>
                         </tr>
                     </table>
-
+                    <!--在座限时模式设置start-->
                     <table class="tableStyle" formMode="view">
                         <tr>
                             <th colspan="2">在座限时模式设置</th>
@@ -1024,6 +1052,298 @@
                             </td>
                         </tr>
                     </table>
+                    <!--在座限时模式设置end-->
+                    <!--预约网站设置start-->
+                    <table class="tableStyle" formMode="view">
+                        <tr>
+                            <th colspan="2">预约网站设置</th>
+                        </tr>
+                        <tr>
+                            <td width="20%">允许座位操作：</td>
+                            <td width="80%">
+                                <input type="checkbox" id="ckbShortLeave" name="ckbShortLeave" /><label for="ckbShortLeave" class="hand">允许暂离此阅览室的座位</label>          
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="20%"></td>
+                            <td width="80%">
+                                <input type="checkbox" id="ckbDelayTime" name="ckbDelayTime" /><label for="ckbDelayTime" class="hand">允许续时此阅览室的座位</label>          
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="20%"></td>
+                            <td width="80%">
+                                <input type="checkbox" id="ckbLeave" name="ckbLeave" /><label for="ckbLeave" class="hand">允许释放座位此阅览室的座位</label>          
+                            </td>
+                        </tr>
+                    </table>
+                    <!--预约网站设置end-->
+
+                    <!--预约功能设置start-->
+
+
+                    <table class="tableStyle" formMode="view">
+                        <tr>
+                            <th colspan="2">预约功能设置</th>
+                        </tr>
+                        <tr>
+                            <td width="20%">预约模式：</td>
+                            <td width="80%">
+                                <input type="checkbox" id="SeatBook" name="SeatBook" /><label for="SeatBook" class="hand">启用座位预约（开馆预约）</label>
+                                <input type="checkbox" id="cbNowDayBook" name="cbNowDayBook" /><label for="cbNowDayBook" class="hand">启用当天及时预约</label>
+                                <input type="checkbox" id="cbSpecifiedBook" name="cbSpecifiedBook" /><label for="cbSpecifiedBook" class="hand">启用自定义时间预约</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="20%">隔天预约设置</td>
+                            <td width="80%">
+                               预约提前：<input type="text" id="SeatBook_BeforeBookDay" style="width:50px" size="25" />天
+                                        <span id="SeatBook_BeforeBookDay_Error" title="" style="color: Red;"></span>
+                                <br />
+                              开放预约时间：
+                                <input type="text" ID="SeatBook_BookTime_StartH"  style="width:50px" size="25" />:
+                                <input type="text" ID="SeatBook_BookTime_StartM"  style="width:50px" size="25" />
+                                至
+                                <input type="text" ID="SeatBook_BookTime_EndH"  style="width:50px" size="25" />:
+                                <input type="text" ID="SeatBook_BookTime_EndM" style="width:50px" size="25" />
+                                <span id="SeatBook_BookTime_Error" title="" style="color: Red;"></span>
+                                <br />
+                                不开放预约的日期：
+                                <input type="text" ID="SeatBook_CanNotSeatBookDate" Width="300px"  placeholder="示例:01-01~02-02;03-03~04-04"/>
+                                <span id="SeatBook_CanNotSeatBookDate_Error" title="" style="color: Red;"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="20%">预约时间段设置</td>
+                            <td width="80%">
+                                <input type="checkbox" id="SeatBook_SpecifiedTime" name="SeatBook_SpecifiedTime" /><label for="SeatBook_SpecifiedTime" class="hand">启用指定时间段</label>
+                                <span id="SeatBook_SpecifiedTime_Error" title="" style="color: Red;"></span>
+                                <br />
+                                指定预约的时段：<input type="text" ID="SeatBook_SpecifiedTimeList" Width="300px" placeholder="示例:8:00;10:00;12:00"/>
+                                                <span id="SeatBook_SpecifiedTimeList_Error" title="" style="color: Red;"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="20%">预约范围设置（隔天）：</td>
+                            <td width="80%">
+                                <input type="radio" id="SeatBook_SeatBookRadioSetted" name="SeatBespeak" value="SeatBook_SeatBookRadioSetted" /><label for="SeatBook_SeatBookRadioSetted" class="hand">指定可预约的座位</label>
+                                    <input type="button" id="btnSetBespeakSeat" value="指定预约座位" class="primary" />
+                                <br />
+                                <input type="radio" id="SeatBook_SeatBookRadioPercent" name="SeatBespeak" value="SeatBook_SeatBookRadioPercent" /><label for="SeatBook_SeatBookRadioPercent" class="hand">按照百分比预约座位</label>
+                                <input type="text" ID="SeatBook_SeatBookRadioPercent_Percent"  style="width:50px" size="25" />%
+                                <br />
+                                <span id="SeatBook_SeatBookRadioPercent_Percent_Error" title="" style="color: Red;"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="20%">当天预约设置：</td>
+                            <td width="80%">
+                                每天可预约座位<input type="text"  ID="SeatBook_BespeakSeatCount" style="width:50px" size="25"  />次（不计算取消的预约）
+                                        <span id="SeatBook_BespeakSeatCount_Error" title="" style="color: Red;"></span><br />
+
+                                 <input type="checkbox" id="SeatBook_SelectBespeakSeat" name="SeatBook_SelectBespeakSeat" /><label for="SeatBook_SelectBespeakSeat" class="hand">可以临时使用被预约的座位</label>
+                                 <input type="checkbox" id="SeatBook_BespeakSeatOnSeat" name="SeatBook_BespeakSeatOnSeat" /><label for="SeatBook_BespeakSeatOnSeat" class="hand">允许在座状态下预约座位</label>
+                                 <span id="SeatBook_SelectBespeakSeat_Error" title="" style="color: Red;"></span>
+                                 </td>
+                        </tr>
+                        <tr>
+                            <td width="20%">预约签到设置：</td>
+                            <td width="80%">
+                                可以提前
+                                <input type="text"  ID="SeatBook_SubmitBeforeTime" style="width:50px" size="25" />分种， 延迟<input type="text" ID="SeatBook_SubmitLateTime" style="width:50px" size="25"/>分钟签到（针对开馆预约和指定时间预约）
+                                    <br /><span id="SeatBook_SubmitTime_Error" title="" style="color: Red;"></span>
+                                及时预约座位保留时间：
+                                <input type="text"  ID="NowDayBookTime"  style="width:50px" size="25" />分钟(预约完成后请在此时间内刷卡确认座位)
+                                <span id="NowDayBookTime_Error" title="" style="color: Red;"></span>
+                            </td>
+                        </tr>
+
+                    </table>
+                    
+
+                    <!--预约功能设置end-->
+
+                    <!--黑名单设置start-->
+                    <table class="tableStyle" formMode="view">
+                        <tr>
+                            <th colspan="2">黑名单设置</th>
+                        </tr>
+                        <tr>
+                            <td width="20%">是否记录本阅览室的违规：</td>
+                            <td width="80%">
+                                <input type="checkbox" id="IsRecordViolate" name="IsRecordViolate" /><label for="IsRecordViolate" class="hand">启用（在单独阅览室黑名单模式下强制选中）</label> 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="20%">是否限制黑名单读者进入：</td>
+                            <td width="80%">
+                                <input type="checkbox" id="UseBlacklist" name="UseBlacklist" /><label for="UseBlacklist" class="hand">启用（在单独阅览室黑名单模式下强制选中）</label> 
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="20%">启用单独阅览室黑名单：</td>
+                            <td width="80%">
+                                <input type="checkbox" onclick="BLCBcheck('UseBlacklistSetting')"  id="UseBlacklistSetting" name="UseBlacklistSetting" /><label for="UseBlacklistSetting" class="hand">启用</label> 
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table  id="UseBlacklistSettingTable" width="100%" formMode="view" cellspacing="0" cellpadding="5" border="1" style="display: none">
+                        <tr>
+                            <td ></td>
+                            <td width="200px"  style="font-weight: bold;">
+                                进入黑名单的违规次数（次）：
+                            </td>
+                            <td width="300px"  style="font-weight: bold;">
+                                <input type="text" style="width:50px" size="25"  ID="RecordViolateCount"/>
+                            </td>
+                            <td width="300px"  style="font-weight: bold;">
+                                <span id="RecordViolateCount_Error" title="" style="color: Red;"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                离开黑名单方式
+                            </td>
+                            <td>
+                                <input type="radio" id="AutoLeave" name="leaveblacklist"/><label for="AutoLeave" class="hand">自动离开</label>
+                                <input type="radio" id="HardLeave" name="leaveblacklist"  /><label for="HardLeave" class="hand">手动离开</label>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                离开黑名单天数（天）：
+                            </td>
+                            <td>
+                                <input type="text" style="width:50px" size="25"  ID="LeaveBlackDays" />
+                            </td>
+                            <td>
+                                <span id="LeaveBlackDays_Error" title="" style="color: Red;"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                违规记录失效天数（天）：
+                            </td>
+                            <td>
+                                <input type="text" style="width:50px" size="25" ID="LeaveRecordViolateDays"/>
+                            </td>
+                            <td>
+                                <span id="LeaveRecordViolateDays_Error" title="" style="color: Red;"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                启用违规类型：
+                            </td>
+                            <td>
+                                <input type="checkbox" id="RecordViolate_LeaveByAdmin" name="RecordViolate_LeaveByAdmin" /><label for="RecordViolate_LeaveByAdmin" class="hand">被管理员释放座位</label> 
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <input type="checkbox" id="RecordViolate_ShortLeaveByAdmin" name="RecordViolate_ShortLeaveByAdmin" /><label for="RecordViolate_ShortLeaveByAdmin" class="hand">被管理员设置暂离，暂离超时</label> 
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <input type="checkbox" id="RecordViolate_SeatOverTime" name="RecordViolate_SeatOverTime" /><label for="RecordViolate_SeatOverTime" class="hand">在座超时</label> 
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <input type="checkbox" id="RecordViolate_ShortLeaveOverTime" name="RecordViolate_ShortLeaveOverTime" /><label for="RecordViolate_ShortLeaveOverTime" class="hand">暂离超时</label> 
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td ></td>
+                            <td ></td>
+                            <td >
+                                <input type="checkbox" id="RecordViolate_ShortLeaveByReader" name="RecordViolate_ShortLeaveByReader" /><label for="RecordViolate_ShortLeaveByReader" class="hand">被读者设置暂离，暂离超时</label> 
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td ></td>
+                            <td ></td>
+                            <td >
+                                <input type="checkbox" id="RecordViolate_BookOverTime" name="RecordViolate_BookOverTime" /><label for="RecordViolate_BookOverTime" class="hand">预约超时</label> 
+                            </td>
+                            <td></td>
+                        </tr>
+                    </table>
+                    <!--黑名单设置end-->
+
+                    <!--其他功能设置start-->
+                    <table class="tableStyle" formMode="view">
+                        <tr>
+                            <th colspan="2">其他功能设置</th>
+                        </tr>
+                        <tr>
+                            <td width="20%">座位号显示长度：</td>
+                            <td width="80%">
+                                <input type="text"  style="width:50px" size="25" ID="ShowSeatNumberCount"/>
+                                <span id="ShowSeatNumberCount_Error" title="" style="color: Red;"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="20%">无人值守模式：</td>
+                            <td width="80%">
+                                <input type="checkbox" ID="NoManMode" name="NoManMode" /><label for="NoManMode" class="hand">启用</label>
+                                &nbsp;&nbsp; 无人值守模式操作间隔：
+                                <input type="text" style="width:50px" size="25" ID="NoManMode_WaitTime"/>分钟
+                                <span id="NoManMode_WaitTime_Error" title="" style="color: Red;"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="20%">限制读者进入：</td>
+                            <td width="80%">
+                                <input type="checkbox" ID="ReaderLimit" name="ReaderLimit" /><label for="ReaderLimit" class="hand">启用</label>
+            
+                                <input type="radio" id="ReaderLimit_LimitMode_Writelist" name="limitReader" value="1" /><label for="ReaderLimit_LimitMode_Writelist" class="hand">允许进入</label>
+                                <input type="radio" id="ReaderLimit_LimitMode_Blacklist" name="limitReader" value="1" /><label for="ReaderLimit_LimitMode_Blacklist" class="hand">禁止进入</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="20%">读者类型：</td>
+                            <td width="80%">
+                                <!--加载读者类型-->
+                            </td>
+                        </tr>
+                    </table>
+                    <!--其他功能设置end-->
+
+                    <!--应用到其他阅览室start-->
+                    <table class="tableStyle" formMode="view">
+                        <tr>
+                            <th colspan="2">应用到其他阅览室</th>
+                        </tr>
+                        <tr>
+                            <td width="20%">所要应用的阅览室：</td>
+                            <td width="80%">
+                                <input type="checkbox" onclick="CBcheckALL('SelectAllRR')"  ID="SelectAllRR" name="SelectAllRR" /><label for="SelectAllRR" class="hand">选中全部阅览室</label>
+                                <br />
+                                <!--加载阅览室列表-->
+                            </td>
+                        </tr>
+                    </table>
+                    <!--应用到其他阅览室end-->
                 </div>
             </div>
         </div>
