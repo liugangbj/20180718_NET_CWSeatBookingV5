@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SeatManage.ClassModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -30,6 +31,46 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
         /// <returns></returns>
         public ViewResult ReadingRoomSetting(string id)
         {
+            AuthorizeVerify.FunctionAuthorizeInfo authorize = SeatManage.Bll.AuthorizationOperation.GetFunctionAuthorize();
+            SeatManage.ClassModel.ReadingRoomInfo room = SeatManage.Bll.T_SM_ReadingRoom.GetSingleRoomInfo(Request.QueryString["id"]);
+            if (room == null)
+            {
+                room = new SeatManage.ClassModel.ReadingRoomInfo();
+            }
+            SeatManage.ClassModel.ReadingRoomSetting roomSet = room.Setting;
+            if (roomSet == null)
+            {
+                roomSet = new SeatManage.ClassModel.ReadingRoomSetting();
+            }
+            //选座模式设置
+            ViewBag.SeatSelectDefaultMode = ((int)roomSet.SeatChooseMethod.DefaultChooseMethod).ToString();
+            ViewBag.SeatSelectPosChecked = roomSet.PosTimes.IsUsed;
+            ViewBag.SelectSeatPosCountText = roomSet.PosTimes.Times.ToString();
+            ViewBag.SelectSeatPosTimesText = roomSet.PosTimes.Minutes.ToString();
+            //高级选座按钮
+            ViewBag.SeatSelectAdMode = roomSet.SeatChooseMethod.UsedAdvancedSet;
+            foreach (KeyValuePair<DayOfWeek, SeatChooseMethodPlan> day in roomSet.SeatChooseMethod.AdvancedSelectSeatMode)
+            {
+                string dayNum = ((int)day.Value.Day).ToString();
+               // CheckBox DayCheck = FindControl("PanelSetting").FindControl("FormReadingRoomSet").FindControl("SeatSelectAdModeDay" + dayNum) as CheckBox;
+               // DayCheck.Checked = day.Value.Used;
+                for (int i = 0; i < day.Value.PlanOption.Count; i++)
+                {
+                    string[] begintime = day.Value.PlanOption[i].UsedTime.BeginTime.Split(':');
+                    string[] endtime = day.Value.PlanOption[i].UsedTime.EndTime.Split(':');
+
+                    //TextBox begintimeH = FindControl("PanelSetting").FindControl("FormReadingRoomSet").FindControl("SeatSelectAdModeDay" + dayNum + "_Time" + (i + 1) + "_StartH") as TextBox;
+                    //TextBox begintimeM = FindControl("PanelSetting").FindControl("FormReadingRoomSet").FindControl("SeatSelectAdModeDay" + dayNum + "_Time" + (i + 1) + "_StartM") as TextBox;
+                    //TextBox endtimeH = FindControl("PanelSetting").FindControl("FormReadingRoomSet").FindControl("SeatSelectAdModeDay" + dayNum + "_Time" + (i + 1) + "_EndH") as TextBox;
+                    //TextBox endtimeM = FindControl("PanelSetting").FindControl("FormReadingRoomSet").FindControl("SeatSelectAdModeDay" + dayNum + "_Time" + (i + 1) + "_EndM") as TextBox;
+                    //RadioButtonList selectmode = FindControl("PanelSetting").FindControl("FormReadingRoomSet").FindControl("SeatSelectAdModeDay" + dayNum + "_Time" + (i + 1) + "_SelectMode") as RadioButtonList;
+                    //begintimeH.Text = begintime[0];
+                    //begintimeM.Text = begintime[1];
+                    //endtimeH.Text = endtime[0];
+                    //endtimeM.Text = endtime[1];
+                    //selectmode.SelectedValue = ((int)day.Value.PlanOption[i].ChooseMethod).ToString();
+                }
+            }
 
             return View();
         }

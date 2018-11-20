@@ -4133,6 +4133,10 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AuthorizeVerify\AuthorizeVerify.csproj">
+      <Project>{7cee58ec-8892-40d3-8dc3-4231054851d3}</Project>
+      <Name>AuthorizeVerify</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EnumType\EnumType.csproj">
       <Project>{3e7c2198-f6b3-4fae-8ebf-2271e752dff3}</Project>
       <Name>EnumType</Name>
