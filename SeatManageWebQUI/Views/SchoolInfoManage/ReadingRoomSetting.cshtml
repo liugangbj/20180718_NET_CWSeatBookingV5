@@ -52,40 +52,253 @@
         function BLCBcheck(id) {
             if ($("#" + id + "")[0].checked == true) {
                 document.getElementById(id + "Table").style.display = "block";
-
                 document.getElementById("IsRecordViolate").checked = $("#" + id + "")[0].checked;
                 document.getElementById("UseBlacklist").checked = $("#" + id + "")[0].checked;
-
-                // $("#IsRecordViolate").attr("checked", true); //IsRecordViolate
-                // $("#UseBlacklist").attr("checked", true); //UseBlacklist
             }
             else {
                 document.getElementById(id + "Table").style.display = "none";
             }
         }
 
-        var SeatSelectDefaultMode = @ViewBag.SeatSelectDefaultMode;
-        var roomSetPosTimesIsUsed = '@ViewBag.SeatSelectPosChecked';
-        var SelectSeatPosCountText = @ViewBag.SelectSeatPosCountText;
-        var SelectSeatPosTimesText = @ViewBag.SelectSeatPosTimesText;
 
-        var SeatSelectAdMode =  '@ViewBag.SelectSeatPosTimesText';
         //设置选座模式
         $(document).ready(function () {
-            $("input[name='SeatSelectDefaultMode'][value='"+SeatSelectDefaultMode+"']").attr("checked",true); //设置选座模式
-            if(roomSetPosTimesIsUsed=='True'){     //设置是否启用选座次数限制
-                $("#SeatSelectPos").attr("checked",'true');
-            }else{
+            $("input[name='SeatSelectDefaultMode'][value='" +@ViewBag.VM.SeatSelectDefaultMode +"']").attr("checked", true); //设置选座模式
+
+            if ('@ViewBag.VM.SeatSelectPos' == 'True') {     //设置是否启用选座次数限制
+                $("#SeatSelectPos").attr("checked", 'true');
+            } else {
                 $("#SeatSelectPos").removeAttr("checked");
             }
-            $("#SelectSeatPosTimes").val(SelectSeatPosTimesText);//设置限制多少分钟内
-            $("#SelectSeatPosCount").val(SelectSeatPosCountText);//设置限制多少分钟内刷卡选座次数
+            $("#SelectSeatPosTimes").val(@ViewBag.VM.SelectSeatPosTimes);//设置限制多少分钟内
+            $("#SelectSeatPosCount").val(@ViewBag.VM.SelectSeatPosCount);//设置限制多少分钟内刷卡选座次数
 
-            if(SeatSelectAdMode=='True'){     //设置是否启用选座模式高级设置
-                $("#SeatSelectAdMode").attr("checked",'true');
-            }else{
+            if ('@ViewBag.VM.SeatSelectAdMode' == 'True') {     //设置是否启用选座模式高级设置
+                $("#SeatSelectAdMode").attr("checked", 'true');
+            } else {
                 $("#SeatSelectAdMode").removeAttr("checked");
             }
+
+
+            if ('@ViewBag.VM.SeatSelectAdModeDay1' == 'True') {
+                $("#SeatSelectAdModeDay1").attr("checked", 'true');
+            } else {
+                $("#SeatSelectAdModeDay1").removeAttr("checked");
+            }
+            if ('@ViewBag.VM.SeatSelectAdModeDay2' == 'True') {
+                $("#SeatSelectAdModeDay2").attr("checked", 'true');
+            } else {
+                $("#SeatSelectAdModeDay2").removeAttr("checked");
+            }
+            if ('@ViewBag.VM.SeatSelectAdModeDay3' == 'True') {
+                $("#SeatSelectAdModeDay3").attr("checked", 'true');
+            } else {
+                $("#SeatSelectAdModeDay3").removeAttr("checked");
+            }
+            if ('@ViewBag.VM.SeatSelectAdModeDay4' == 'True') {
+                $("#SeatSelectAdModeDay4").attr("checked", 'true');
+            } else {
+                $("#SeatSelectAdModeDay4").removeAttr("checked");
+            }
+            if ('@ViewBag.VM.SeatSelectAdModeDay5' == 'True') {
+                $("#SeatSelectAdModeDay5").attr("checked", 'true');
+            } else {
+                $("#SeatSelectAdModeDay5").removeAttr("checked");
+            }
+            if ('@ViewBag.VM.SeatSelectAdModeDay6' == 'True') {
+                $("#SeatSelectAdModeDay6").attr("checked", 'true');
+            } else {
+                $("#SeatSelectAdModeDay6").removeAttr("checked");
+            }
+            if ('@ViewBag.VM.SeatSelectAdModeDay0' == 'True') {
+                $("#SeatSelectAdModeDay0").attr("checked", 'true');
+            } else {
+                $("#SeatSelectAdModeDay0").removeAttr("checked");
+            }
+
+            //周一
+            $("#SeatSelectAdModeDay1_Time1_StartH").val(@ViewBag.VM.SeatSelectAdModeDay1_Time1_StartH);
+            $("#SeatSelectAdModeDay1_Time1_StartM").val(@ViewBag.VM.SeatSelectAdModeDay1_Time1_StartM);
+            $("#SeatSelectAdModeDay1_Time1_EndH").val(@ViewBag.VM.SeatSelectAdModeDay1_Time1_EndH);
+            $("#SeatSelectAdModeDay1_Time1_EndM").val(@ViewBag.VM.SeatSelectAdModeDay1_Time1_EndM);
+            $("input[name='SeatSelectAdModeDay1_Time1_SelectMode'][value='" +@ViewBag.VM.SeatSelectAdModeDay1_Time1_SelectMode +"']").attr("checked", true);
+
+
+            $("#SeatSelectAdModeDay1_Time2_StartH").val(@ViewBag.VM.SeatSelectAdModeDay1_Time2_StartH);
+            $("#SeatSelectAdModeDay1_Time2_StartM").val(@ViewBag.VM.SeatSelectAdModeDay1_Time2_StartM);
+            $("#SeatSelectAdModeDay1_Time2_EndH").val(@ViewBag.VM.SeatSelectAdModeDay1_Time2_EndH);
+            $("#SeatSelectAdModeDay1_Time2_EndM").val(@ViewBag.VM.SeatSelectAdModeDay1_Time2_EndM);
+            $("input[name='SeatSelectAdModeDay1_Time2_SelectMode'][value='" +@ViewBag.VM.SeatSelectAdModeDay1_Time2_SelectMode +"']").attr("checked", true);
+
+            $("#SeatSelectAdModeDay1_Time3_StartH").val(@ViewBag.VM.SeatSelectAdModeDay1_Time3_StartH);
+            $("#SeatSelectAdModeDay1_Time3_StartM").val(@ViewBag.VM.SeatSelectAdModeDay1_Time3_StartM);
+            $("#SeatSelectAdModeDay1_Time3_EndH").val(@ViewBag.VM.SeatSelectAdModeDay1_Time3_EndH);
+            $("#SeatSelectAdModeDay1_Time3_EndM").val(@ViewBag.VM.SeatSelectAdModeDay1_Time3_EndM);
+            $("input[name='SeatSelectAdModeDay1_Time3_SelectMode'][value='" +@ViewBag.VM.SeatSelectAdModeDay1_Time3_SelectMode +"']").attr("checked", true);
+
+
+            //周二
+            $("#SeatSelectAdModeDay2_Time1_StartH").val(@ViewBag.VM.SeatSelectAdModeDay2_Time1_StartH);
+            $("#SeatSelectAdModeDay2_Time1_StartM").val(@ViewBag.VM.SeatSelectAdModeDay2_Time1_StartM);
+            $("#SeatSelectAdModeDay2_Time1_EndH").val(@ViewBag.VM.SeatSelectAdModeDay2_Time1_EndH);
+            $("#SeatSelectAdModeDay2_Time1_EndM").val(@ViewBag.VM.SeatSelectAdModeDay2_Time1_EndM);
+            $("input[name='SeatSelectAdModeDay2_Time1_SelectMode'][value='" +@ViewBag.VM.SeatSelectAdModeDay2_Time1_SelectMode +"']").attr("checked", true);
+
+
+            $("#SeatSelectAdModeDay2_Time2_StartH").val(@ViewBag.VM.SeatSelectAdModeDay2_Time2_StartH);
+            $("#SeatSelectAdModeDay2_Time2_StartM").val(@ViewBag.VM.SeatSelectAdModeDay2_Time2_StartM);
+            $("#SeatSelectAdModeDay2_Time2_EndH").val(@ViewBag.VM.SeatSelectAdModeDay2_Time2_EndH);
+            $("#SeatSelectAdModeDay2_Time2_EndM").val(@ViewBag.VM.SeatSelectAdModeDay2_Time2_EndM);
+            $("input[name='SeatSelectAdModeDay2_Time2_SelectMode'][value='" +@ViewBag.VM.SeatSelectAdModeDay2_Time2_SelectMode +"']").attr("checked", true);
+
+            $("#SeatSelectAdModeDay2_Time3_StartH").val(@ViewBag.VM.SeatSelectAdModeDay2_Time3_StartH);
+            $("#SeatSelectAdModeDay2_Time3_StartM").val(@ViewBag.VM.SeatSelectAdModeDay2_Time3_StartM);
+            $("#SeatSelectAdModeDay2_Time3_EndH").val(@ViewBag.VM.SeatSelectAdModeDay2_Time3_EndH);
+            $("#SeatSelectAdModeDay2_Time3_EndM").val(@ViewBag.VM.SeatSelectAdModeDay2_Time3_EndM);
+            $("input[name='SeatSelectAdModeDay2_Time3_SelectMode'][value='" +@ViewBag.VM.SeatSelectAdModeDay2_Time3_SelectMode +"']").attr("checked", true);
+
+            //周三
+            $("#SeatSelectAdModeDay3_Time1_StartH").val(@ViewBag.VM.SeatSelectAdModeDay3_Time1_StartH);
+            $("#SeatSelectAdModeDay3_Time1_StartM").val(@ViewBag.VM.SeatSelectAdModeDay3_Time1_StartM);
+            $("#SeatSelectAdModeDay3_Time1_EndH").val(@ViewBag.VM.SeatSelectAdModeDay3_Time1_EndH);
+            $("#SeatSelectAdModeDay3_Time1_EndM").val(@ViewBag.VM.SeatSelectAdModeDay3_Time1_EndM);
+            $("input[name='SeatSelectAdModeDay3_Time1_SelectMode'][value='" +@ViewBag.VM.SeatSelectAdModeDay3_Time1_SelectMode +"']").attr("checked", true);
+
+
+            $("#SeatSelectAdModeDay3_Time2_StartH").val(@ViewBag.VM.SeatSelectAdModeDay3_Time2_StartH);
+            $("#SeatSelectAdModeDay3_Time2_StartM").val(@ViewBag.VM.SeatSelectAdModeDay3_Time2_StartM);
+            $("#SeatSelectAdModeDay3_Time2_EndH").val(@ViewBag.VM.SeatSelectAdModeDay3_Time2_EndH);
+            $("#SeatSelectAdModeDay3_Time2_EndM").val(@ViewBag.VM.SeatSelectAdModeDay3_Time2_EndM);
+            $("input[name='SeatSelectAdModeDay3_Time2_SelectMode'][value='" +@ViewBag.VM.SeatSelectAdModeDay3_Time2_SelectMode +"']").attr("checked", true);
+
+            $("#SeatSelectAdModeDay3_Time3_StartH").val(@ViewBag.VM.SeatSelectAdModeDay3_Time3_StartH);
+            $("#SeatSelectAdModeDay3_Time3_StartM").val(@ViewBag.VM.SeatSelectAdModeDay3_Time3_StartM);
+            $("#SeatSelectAdModeDay3_Time3_EndH").val(@ViewBag.VM.SeatSelectAdModeDay3_Time3_EndH);
+            $("#SeatSelectAdModeDay3_Time3_EndM").val(@ViewBag.VM.SeatSelectAdModeDay3_Time3_EndM);
+            $("input[name='SeatSelectAdModeDay3_Time3_SelectMode'][value='" +@ViewBag.VM.SeatSelectAdModeDay3_Time3_SelectMode +"']").attr("checked", true);
+
+            //周四
+            $("#SeatSelectAdModeDay4_Time1_StartH").val(@ViewBag.VM.SeatSelectAdModeDay4_Time1_StartH);
+            $("#SeatSelectAdModeDay4_Time1_StartM").val(@ViewBag.VM.SeatSelectAdModeDay4_Time1_StartM);
+            $("#SeatSelectAdModeDay4_Time1_EndH").val(@ViewBag.VM.SeatSelectAdModeDay4_Time1_EndH);
+            $("#SeatSelectAdModeDay4_Time1_EndM").val(@ViewBag.VM.SeatSelectAdModeDay4_Time1_EndM);
+            $("input[name='SeatSelectAdModeDay4_Time1_SelectMode'][value='" +@ViewBag.VM.SeatSelectAdModeDay4_Time1_SelectMode +"']").attr("checked", true);
+
+
+            $("#SeatSelectAdModeDay4_Time2_StartH").val(@ViewBag.VM.SeatSelectAdModeDay4_Time2_StartH);
+            $("#SeatSelectAdModeDay4_Time2_StartM").val(@ViewBag.VM.SeatSelectAdModeDay4_Time2_StartM);
+            $("#SeatSelectAdModeDay4_Time2_EndH").val(@ViewBag.VM.SeatSelectAdModeDay4_Time2_EndH);
+            $("#SeatSelectAdModeDay4_Time2_EndM").val(@ViewBag.VM.SeatSelectAdModeDay4_Time2_EndM);
+            $("input[name='SeatSelectAdModeDay4_Time2_SelectMode'][value='" +@ViewBag.VM.SeatSelectAdModeDay4_Time2_SelectMode +"']").attr("checked", true);
+
+            $("#SeatSelectAdModeDay4_Time3_StartH").val(@ViewBag.VM.SeatSelectAdModeDay4_Time3_StartH);
+            $("#SeatSelectAdModeDay4_Time3_StartM").val(@ViewBag.VM.SeatSelectAdModeDay4_Time3_StartM);
+            $("#SeatSelectAdModeDay4_Time3_EndH").val(@ViewBag.VM.SeatSelectAdModeDay4_Time3_EndH);
+            $("#SeatSelectAdModeDay4_Time3_EndM").val(@ViewBag.VM.SeatSelectAdModeDay4_Time3_EndM);
+            $("input[name='SeatSelectAdModeDay4_Time3_SelectMode'][value='" +@ViewBag.VM.SeatSelectAdModeDay4_Time3_SelectMode +"']").attr("checked", true);
+
+            //周五
+            $("#SeatSelectAdModeDay5_Time1_StartH").val(@ViewBag.VM.SeatSelectAdModeDay5_Time1_StartH);
+            $("#SeatSelectAdModeDay5_Time1_StartM").val(@ViewBag.VM.SeatSelectAdModeDay5_Time1_StartM);
+            $("#SeatSelectAdModeDay5_Time1_EndH").val(@ViewBag.VM.SeatSelectAdModeDay5_Time1_EndH);
+            $("#SeatSelectAdModeDay5_Time1_EndM").val(@ViewBag.VM.SeatSelectAdModeDay5_Time1_EndM);
+            $("input[name='SeatSelectAdModeDay5_Time1_SelectMode'][value='" +@ViewBag.VM.SeatSelectAdModeDay5_Time1_SelectMode +"']").attr("checked", true);
+
+
+            $("#SeatSelectAdModeDay5_Time2_StartH").val(@ViewBag.VM.SeatSelectAdModeDay5_Time2_StartH);
+            $("#SeatSelectAdModeDay5_Time2_StartM").val(@ViewBag.VM.SeatSelectAdModeDay5_Time2_StartM);
+            $("#SeatSelectAdModeDay5_Time2_EndH").val(@ViewBag.VM.SeatSelectAdModeDay5_Time2_EndH);
+            $("#SeatSelectAdModeDay5_Time2_EndM").val(@ViewBag.VM.SeatSelectAdModeDay5_Time2_EndM);
+            $("input[name='SeatSelectAdModeDay5_Time2_SelectMode'][value='" +@ViewBag.VM.SeatSelectAdModeDay5_Time2_SelectMode +"']").attr("checked", true);
+
+            $("#SeatSelectAdModeDay5_Time3_StartH").val(@ViewBag.VM.SeatSelectAdModeDay5_Time3_StartH);
+            $("#SeatSelectAdModeDay5_Time3_StartM").val(@ViewBag.VM.SeatSelectAdModeDay5_Time3_StartM);
+            $("#SeatSelectAdModeDay5_Time3_EndH").val(@ViewBag.VM.SeatSelectAdModeDay5_Time3_EndH);
+            $("#SeatSelectAdModeDay5_Time3_EndM").val(@ViewBag.VM.SeatSelectAdModeDay5_Time3_EndM);
+            $("input[name='SeatSelectAdModeDay5_Time3_SelectMode'][value='" +@ViewBag.VM.SeatSelectAdModeDay5_Time3_SelectMode +"']").attr("checked", true);
+
+            //周六
+            $("#SeatSelectAdModeDay6_Time1_StartH").val(@ViewBag.VM.SeatSelectAdModeDay6_Time1_StartH);
+            $("#SeatSelectAdModeDay6_Time1_StartM").val(@ViewBag.VM.SeatSelectAdModeDay6_Time1_StartM);
+            $("#SeatSelectAdModeDay6_Time1_EndH").val(@ViewBag.VM.SeatSelectAdModeDay6_Time1_EndH);
+            $("#SeatSelectAdModeDay6_Time1_EndM").val(@ViewBag.VM.SeatSelectAdModeDay6_Time1_EndM);
+            $("input[name='SeatSelectAdModeDay6_Time1_SelectMode'][value='" +@ViewBag.VM.SeatSelectAdModeDay6_Time1_SelectMode +"']").attr("checked", true);
+
+
+            $("#SeatSelectAdModeDay6_Time2_StartH").val(@ViewBag.VM.SeatSelectAdModeDay6_Time2_StartH);
+            $("#SeatSelectAdModeDay6_Time2_StartM").val(@ViewBag.VM.SeatSelectAdModeDay6_Time2_StartM);
+            $("#SeatSelectAdModeDay6_Time2_EndH").val(@ViewBag.VM.SeatSelectAdModeDay6_Time2_EndH);
+            $("#SeatSelectAdModeDay6_Time2_EndM").val(@ViewBag.VM.SeatSelectAdModeDay6_Time2_EndM);
+            $("input[name='SeatSelectAdModeDay6_Time2_SelectMode'][value='" +@ViewBag.VM.SeatSelectAdModeDay6_Time2_SelectMode +"']").attr("checked", true);
+
+            $("#SeatSelectAdModeDay6_Time3_StartH").val(@ViewBag.VM.SeatSelectAdModeDay6_Time3_StartH);
+            $("#SeatSelectAdModeDay6_Time3_StartM").val(@ViewBag.VM.SeatSelectAdModeDay6_Time3_StartM);
+            $("#SeatSelectAdModeDay6_Time3_EndH").val(@ViewBag.VM.SeatSelectAdModeDay6_Time3_EndH);
+            $("#SeatSelectAdModeDay6_Time3_EndM").val(@ViewBag.VM.SeatSelectAdModeDay6_Time3_EndM);
+            $("input[name='SeatSelectAdModeDay6_Time3_SelectMode'][value='" +@ViewBag.VM.SeatSelectAdModeDay6_Time3_SelectMode +"']").attr("checked", true);
+
+            //周日
+            $("#SeatSelectAdModeDay0_Time1_StartH").val(@ViewBag.VM.SeatSelectAdModeDay0_Time1_StartH);
+            $("#SeatSelectAdModeDay0_Time1_StartM").val(@ViewBag.VM.SeatSelectAdModeDay0_Time1_StartM);
+            $("#SeatSelectAdModeDay0_Time1_EndH").val(@ViewBag.VM.SeatSelectAdModeDay0_Time1_EndH);
+            $("#SeatSelectAdModeDay0_Time1_EndM").val(@ViewBag.VM.SeatSelectAdModeDay0_Time1_EndM);
+            $("input[name='SeatSelectAdModeDay0_Time1_SelectMode'][value='" +@ViewBag.VM.SeatSelectAdModeDay0_Time1_SelectMode +"']").attr("checked", true);
+
+
+            $("#SeatSelectAdModeDay0_Time2_StartH").val(@ViewBag.VM.SeatSelectAdModeDay0_Time2_StartH);
+            $("#SeatSelectAdModeDay0_Time2_StartM").val(@ViewBag.VM.SeatSelectAdModeDay0_Time2_StartM);
+            $("#SeatSelectAdModeDay0_Time2_EndH").val(@ViewBag.VM.SeatSelectAdModeDay0_Time2_EndH);
+            $("#SeatSelectAdModeDay0_Time2_EndM").val(@ViewBag.VM.SeatSelectAdModeDay0_Time2_EndM);
+            $("input[name='SeatSelectAdModeDay0_Time2_SelectMode'][value='" +@ViewBag.VM.SeatSelectAdModeDay0_Time2_SelectMode +"']").attr("checked", true);
+
+            $("#SeatSelectAdModeDay0_Time3_StartH").val(@ViewBag.VM.SeatSelectAdModeDay0_Time3_StartH);
+            $("#SeatSelectAdModeDay0_Time3_StartM").val(@ViewBag.VM.SeatSelectAdModeDay0_Time3_StartM);
+            $("#SeatSelectAdModeDay0_Time3_EndH").val(@ViewBag.VM.SeatSelectAdModeDay0_Time3_EndH);
+            $("#SeatSelectAdModeDay0_Time3_EndM").val(@ViewBag.VM.SeatSelectAdModeDay0_Time3_EndM);
+            $("input[name='SeatSelectAdModeDay0_Time3_SelectMode'][value='" +@ViewBag.VM.SeatSelectAdModeDay0_Time3_SelectMode +"']").attr("checked", true);
+
+            //暂离
+            $("#ShortLeaveDufaultTime").val(@ViewBag.VM.ShortLeaveDufaultTime);
+
+            if ('@ViewBag.VM.ShortLeaveAdMode' == 'True') {
+                $("#ShortLeaveAdMode").attr("checked", 'true');
+            } else {
+                $("#ShortLeaveAdMode").removeAttr("checked");
+            }
+
+            if ('@ViewBag.VM.ShortLeaveByAdmin' == 'True') {
+                $("#ShortLeaveByAdmin").attr("checked", 'true');
+            } else {
+                $("#ShortLeaveByAdmin").removeAttr("checked");
+            }
+
+            $("#ShortLeaveByAdmin_LeaveTime").val(@ViewBag.VM.ShortLeaveByAdmin_LeaveTime);
+
+            //暂离高级设置
+            if ('@ViewBag.VM.ShortLeaveAdMode_Time1' == 'True') {
+                $("#ShortLeaveAdMode_Time1").attr("checked", 'true');
+            } else {
+                $("#ShortLeaveAdMode_Time1").removeAttr("checked");
+            }
+
+            if ('@ViewBag.VM.ShortLeaveAdMode_Time2' == 'True') {
+                $("#ShortLeaveAdMode_Time2").attr("checked", 'true');
+            } else {
+                $("#ShortLeaveAdMode_Time2").removeAttr("checked");
+            }
+
+            $("#ShortLeaveAdMode_Time1_StartH").val(@ViewBag.VM.ShortLeaveAdMode_Time1_StartH);
+            $("#ShortLeaveAdMode_Time1_StartM").val(@ViewBag.VM.ShortLeaveAdMode_Time1_StartM);
+            $("#ShortLeaveAdMode_Time1_EndH").val(@ViewBag.VM.ShortLeaveAdMode_Time1_EndH);
+            $("#ShortLeaveAdMode_Time1_EndM").val(@ViewBag.VM.ShortLeaveAdMode_Time1_EndM);
+            $("#ShortLeaveAdMode_Time1_LeaveTime").val(@ViewBag.VM.ShortLeaveAdMode_Time1_LeaveTime);
+
+            $("#ShortLeaveAdMode_Time2_StartH").val(@ViewBag.VM.ShortLeaveAdMode_Time2_StartH);
+            $("#ShortLeaveAdMode_Time2_StartM").val(@ViewBag.VM.ShortLeaveAdMode_Time2_StartM);
+            $("#ShortLeaveAdMode_Time2_EndH").val(@ViewBag.VM.ShortLeaveAdMode_Time2_EndH);
+            $("#ShortLeaveAdMode_Time2_EndM").val(@ViewBag.VM.ShortLeaveAdMode_Time2_EndM);
+            $("#ShortLeaveAdMode_Time2_LeaveTime").val(@ViewBag.VM.ShortLeaveAdMode_Time2_LeaveTime);
+
 
         });
 

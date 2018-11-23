@@ -243,6 +243,7 @@
     <Compile Include="Controllers\FunctionPages\Code\WorkSync.cs" />
     <Compile Include="Controllers\FunctionPages\Code\ZipHelper.cs" />
     <Compile Include="Controllers\FunctionPages\LogManageController.cs" />
+    <Compile Include="Controllers\FunctionPages\Model\RoomSettingViewModel.cs" />
     <Compile Include="Controllers\FunctionPages\Model\SeatHandleViewModel.cs" />
     <Compile Include="Controllers\FunctionPages\ReaderLogController.cs" />
     <Compile Include="Controllers\FunctionPages\RegulationRulesSettingController.cs" />
