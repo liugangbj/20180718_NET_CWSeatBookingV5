@@ -299,6 +299,28 @@
             $("#ShortLeaveAdMode_Time2_EndM").val(@ViewBag.VM.ShortLeaveAdMode_Time2_EndM);
             $("#ShortLeaveAdMode_Time2_LeaveTime").val(@ViewBag.VM.ShortLeaveAdMode_Time2_LeaveTime);
 
+            //开闭馆
+            $("#ReadingRoomDufaultOpenTimeH").val(@ViewBag.VM.ReadingRoomDufaultOpenTimeH);
+            $("#ReadingRoomDufaultOpenTimeM").val(@ViewBag.VM.ReadingRoomDufaultOpenTimeM);
+            $("#ReadingRoomBeforeOpenTime").val(@ViewBag.VM.ReadingRoomBeforeOpenTime);
+
+            $("#ReadingRoomDufaultCloseTimeH").val(@ViewBag.VM.ReadingRoomDufaultCloseTimeH);
+            $("#ReadingRoomDufaultCloseTimeM").val(@ViewBag.VM.ReadingRoomDufaultCloseTimeM);
+            $("#ReadingRoomBeforeCloseTime").val(@ViewBag.VM.ReadingRoomBeforeCloseTime);
+
+            if ('@ViewBag.VM.ReadingRoomOpen24H' == 'True') {
+                $("#ReadingRoomOpen24H").attr("checked", 'true');
+            } else {
+                $("#ReadingRoomOpen24H").removeAttr("checked");
+            }
+
+            if ('@ViewBag.VM.ReadingRoomOpenCloseAdMode' == 'True') {
+                $("#ReadingRoomOpenCloseAdMode").attr("checked", 'true');
+            } else {
+                $("#ReadingRoomOpenCloseAdMode").removeAttr("checked");
+            }
+
+
 
         });
 
