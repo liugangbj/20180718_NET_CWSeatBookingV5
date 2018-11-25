@@ -150,10 +150,26 @@ function BespeakSeatNowDayClick(urlParameters) {
 }
 //预约座位设置窗口
 function BespeakSeatSettingClick(seatNo, urlParameters) {
+    //alert(seatNo + "$$" + urlParameters);
     if (urlParameters == "" || urlParameters == NaN) {
         return;
     }
-    X("seatBespeakSettingWindow").box_show("BespeakSeatSettingWindow.aspx?" + urlParameters, '预约座位设置');
+    $.ajax({
+        url: "/SchoolInfoManage/BespeakSeatSettingCanBook?" + urlParameters,
+     //   data: { username: $.trim($username.val()), password: $password.val() },
+        type: "post",
+        dataType: "json",
+        success: function (data) {
+            if (data.status == "yes") {
+                loadBespeakSeatSettingLayout();
+            } else {
+          
+            }
+        }
+    });
+
+
+    //X("seatBespeakSettingWindow").box_show("BespeakSeatSettingWindow.aspx?" + urlParameters, '预约座位设置');
     //var seatStatus = $("#seatStatus").val();
     //nobook表示座位未设置预约，canbook表示当前座位已设置预约
 //    if (seatStatus == "nobook" || seatStatus == "" || seatStatus == NaN) {
@@ -238,12 +254,13 @@ function loadBespeakSeatNowDayLayout() {
     });
 
 }
-function loadBespeakSeatSettingLayout() {
-    var roomNum = $("#hiddenRoomNum").val();
+function loadBespeakSeatSettingLayout() { //可预约座位
+    // var roomNum = $("#hiddenRoomNum").val();
+    var roomNum = roomId;
     $.ajax({ //一个Ajax过程 
         type: "post", //使用get方法访问后台
         dataType: "html", //返回json格式的数据 
-        url: "BespeakSeatGraph.ashx", //要访问的后台地址
+        url: "/SchoolInfoManage/DrawBespeakSeatSettingLayout",//"BespeakSeatGraph.ashx", //要访问的后台地址
         data: { "roomNum": roomNum, "divTransparentTop": divTop, "divTransparentLeft": divleft }, //要发送的数据
 
         // complete: function () { $("#load").hide(); }, //AJAX请求完成时隐藏loading提示

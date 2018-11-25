@@ -127,34 +127,7 @@
 			        diag.OkButtonText = "保 存";
 			        //顺序很重要，diag.show()之前添加确定按钮事件，show之后添加新按钮
 			        diag.OKEvent = function() {
-			           // var inputValue = diag.innerFrame.contentWindow.document.getElementById('a').value;
-			            //取值提交
-			            //选座方式设置
-			            //var SeatSelectDefaultMode=$('input:radio[name="SeatSelectDefaultMode"]:checked').val();
-			            
-                        //if ($("#SeatSelectPos").get(0).checked) {
-                        //    var SeatSelectPos = "True";
-                        //}
-                        //else{
-                        //    var SeatSelectPos = "False";
-                        //}
-                        //var SelectSeatPosTimes =  $("#SelectSeatPosTimes").val();
-                        //var SelectSeatPosCount =  $("#SelectSeatPosCount").val();
-                        //if ($("#SeatSelectAdMode").get(0).checked) {
-                        //    var SeatSelectAdMode = "True";
-                        //}
-                        //else{
-                        //    var SeatSelectAdMode = "False";
-			            //}
-
 			            var inputValue = diag.innerFrame.contentWindow.myTest();
-			          
-			            //alert(diag.innerFrame.contentWindow.document.getElementById('form1').serialize());
-
-
-
-
-
 			        };
 			        diag.show();
 			    }

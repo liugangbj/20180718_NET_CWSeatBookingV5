@@ -555,7 +555,7 @@
             $("#SeatBook_SpecifiedTimeList").val('@ViewBag.VM.SeatBook_SpecifiedTimeList');
 
             var SeatBespeakValue = '@ViewBag.VM.SeatBespeak';
-            $("input[name='SeatBespeak'][value=" + SeatBespeakValue + "]").attr("checked", true);
+            $("input[name='SeatBespeak'][value=" + SeatBespeakValue + "]").attr("checked", true);//SeatBespeak
             $("#SeatBook_SeatBookRadioPercent_Percent").val(@ViewBag.VM.SeatBook_SeatBookRadioPercent_Percent);
 
             $("#SeatBook_BespeakSeatCount").val(@ViewBag.VM.SeatBook_BespeakSeatCount);
@@ -656,6 +656,22 @@
 
         });
 
+        //指定隔天预约座位
+        function btnSetBespeakSeatClick() {
+
+            var diag = new top.Dialog();
+            diag.Title = "指定可预约座位";
+            diag.URL = "/SchoolInfoManage/BespeakSeatSetting?id=" + @ViewBag.RoomNo;
+            diag.Width = 1200;
+            diag.Height = 800;
+            diag.OkButtonText = "保 存";
+            //顺序很重要，diag.show()之前添加确定按钮事件，show之后添加新按钮
+            diag.OKEvent = function () {
+                var inputValue = diag.innerFrame.contentWindow.myTest();
+            };
+            diag.show();
+
+        }
 
     </script>
 </head>
@@ -1726,10 +1742,10 @@
                         <tr>
                             <td width="20%">预约范围设置（隔天）：</td>
                             <td width="80%">
-                                <input type="radio" id="SeatBook_SeatBookRadioSetted" name="SeatBespeak" value="SeatBook_SeatBookRadioSetted" /><label for="SeatBook_SeatBookRadioSetted" class="hand">指定可预约的座位</label>
-                                    <input type="button" id="btnSetBespeakSeat" value="指定预约座位" class="primary" />
+                                <input type="radio" id="SeatBook_SeatBookRadioSetted" name="SeatBespeak" value="AppointSeat" /><label for="SeatBook_SeatBookRadioSetted" class="hand">指定可预约的座位</label>
+                                    <input type="button" onclick="btnSetBespeakSeatClick()" id="btnSetBespeakSeat" value="指定预约座位" class="primary" />
                                 <br />
-                                <input type="radio" id="SeatBook_SeatBookRadioPercent" name="SeatBespeak" value="SeatBook_SeatBookRadioPercent" /><label for="SeatBook_SeatBookRadioPercent" class="hand">按照百分比预约座位</label>
+                                <input type="radio" id="SeatBook_SeatBookRadioPercent" name="SeatBespeak" value="Percentage" /><label for="SeatBook_SeatBookRadioPercent" class="hand">按照百分比预约座位</label>
                                 <input type="text" ID="SeatBook_SeatBookRadioPercent_Percent" name="SeatBook_SeatBookRadioPercent_Percent"  style="width:50px" size="25" />%
                                 <br />
                                 <span id="SeatBook_SeatBookRadioPercent_Percent_Error" title="" style="color: Red;"></span>
@@ -1951,10 +1967,6 @@
     </form>
     <script>
         function myTest() {
-
-
-            alert($("#form1").serialize());
-
             $.ajax({
                 url:"/SchoolInfoManage/SaveReadingRoomSetting", //你的路由地址
                 type:"post",

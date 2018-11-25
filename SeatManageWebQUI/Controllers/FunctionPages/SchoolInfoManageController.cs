@@ -28,6 +28,74 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             return View();
         }
 
+        public JsonResult BespeakSeatSettingCanBook(string seatNo,string canBook,string roomNo)
+        {
+            JsonResult result = null;
+            SeatManage.ClassModel.SeatLayout _SeatLayout = SeatManage.Bll.T_SM_SeatBespeak.GetBeseakSeatSettingLayout(roomNo);
+            if (canBook == "nobook")
+            {
+
+                foreach (SeatManage.ClassModel.Seat seat in _SeatLayout.Seats.Values)
+                {
+                    if (seat.SeatNo == seatNo)
+                    {
+                        seat.CanBeBespeak = false;
+                        _SeatLayout.RoomNo = roomNo;
+                        if (SeatManage.Bll.T_SM_ReadingRoom.UpdateSeatLayout(_SeatLayout) == SeatManage.EnumType.HandleResult.Failed)
+                        {
+                            result = Json(new { status = "no", message = "设置失败" }, JsonRequestBehavior.AllowGet);
+                        }
+                        else
+                        {
+                            result = Json(new { status = "yes", message = "设置成功" }, JsonRequestBehavior.AllowGet);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                foreach (SeatManage.ClassModel.Seat seat in _SeatLayout.Seats.Values)
+                {
+                    if (seat.SeatNo == seatNo)
+                    {
+                        seat.CanBeBespeak = true;
+                        _SeatLayout.RoomNo = roomNo;
+                        if (SeatManage.Bll.T_SM_ReadingRoom.UpdateSeatLayout(_SeatLayout) == SeatManage.EnumType.HandleResult.Failed)
+                        {
+                            result = Json(new { status = "no", message = "设置失败" }, JsonRequestBehavior.AllowGet);
+                        }
+                        else
+                        {
+                            result= Json(new { status = "yes", message = "设置成功" }, JsonRequestBehavior.AllowGet);
+                        }
+                    }
+                }
+            }
+            return result;
+        }
+
+        public string DrawBespeakSeatSettingLayout(string roomNum,string divTransparentTop,string divTransparentLeft)
+        {
+            string html = "";
+            Code.SeatLayoutTools tool = new Code.SeatLayoutTools();
+            html = tool.drowBespeakSeatSettingHtml(roomNum, divTransparentTop, divTransparentLeft);
+            return html;
+        }
+
+        /// <summary>
+        /// 指定（隔天）可预约座位
+        /// </summary>
+        /// <returns></returns>
+        public ViewResult BespeakSeatSetting(string id)
+        {
+            ViewBag.RoomNo = id;
+            return View();
+        }
+
+        /// <summary>
+        /// 保存阅览室设置
+        /// </summary>
+        /// <returns></returns>
         public JsonResult SaveReadingRoomSetting()
         {
             JsonResult result = null;
@@ -275,12 +343,12 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
                 return Json(new { status = "no", message = "预约设置，请设置指定的预约时间！" }, JsonRequestBehavior.AllowGet);
             }
 
-
-            if (Request.Params["SeatBook_SeatBookRadioPercent"]==null?false:true)
+            string isSeatBook_SeatBookRadioPercent = Request.Params["SeatBespeak"];// == null ? false : true;
+            if (isSeatBook_SeatBookRadioPercent== "Percentage")
             {
                 roomSet.SeatBespeak.BespeakArea.BespeakType = BespeakAreaType.Percentage;
             }
-            else if (Request.Params["SeatBook_SeatBookRadioSetted"]==null?false:true)
+            else //if (Request.Params["SeatBook_SeatBookRadioSetted"]==null?false:true)
             {
                 roomSet.SeatBespeak.BespeakArea.BespeakType = BespeakAreaType.AppointSeat;
             }
@@ -328,7 +396,8 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             roomSet.BlackListSetting.ViolateTimes = int.Parse(Request.Params["RecordViolateCount"]);
             roomSet.BlackListSetting.LimitDays = int.Parse(Request.Params["LeaveBlackDays"]);
             roomSet.BlackListSetting.ViolateFailDays = int.Parse(Request.Params["LeaveRecordViolateDays"]);
-            if (Request.Params["AutoLeave"] == null ? false : true)
+           bool isAutoLeave = Request.Params["AutoLeave"] == null ? false : true;
+            if (isAutoLeave)
             {
                 roomSet.BlackListSetting.LeaveBlacklist = LeaveBlacklistMode.AutomaticMode;
             }
@@ -348,7 +417,9 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             roomSet.NoManagement.Used = Request.Params["NoManMode"] == null ? false : true;
             roomSet.NoManagement.OperatingInterval = double.Parse(Request.Params["NoManMode_WaitTime"]);
             roomSet.LimitReaderEnter.Used = Request.Params["ReaderLimit"] == null ? false : true;
-            if (Request.Params["ReaderLimit_LimitMode_Writelist"]==null?false:true)
+
+            bool isReaderLimit_LimitMode_Writelist = Request.Params["ReaderLimit_LimitMode_Writelist"] == null ? false : true;
+            if (isReaderLimit_LimitMode_Writelist)
             {
                 roomSet.LimitReaderEnter.CanEnter = true;
             }
@@ -531,13 +602,13 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
 
             if (roomSet.SeatBespeak.BespeakArea.BespeakType == BespeakAreaType.Percentage)
             {
-                vm.SeatBespeak = "SeatBook_SeatBookRadioPercent";
+                vm.SeatBespeak = "Percentage";
 
                 vm.SeatBook_SeatBookRadioPercent = "true";
             }
             else if (roomSet.SeatBespeak.BespeakArea.BespeakType == BespeakAreaType.AppointSeat)
             {
-                vm.SeatBespeak = "SeatBook_SeatBookRadioPercent_Percent";
+                vm.SeatBespeak = "AppointSeat";
                 vm.SeatBook_SeatBookRadioSetted = "true";
             }
             vm.SeatBook_SeatBookRadioPercent_Percent = ((roomSet.SeatBespeak.BespeakArea.Scale) * 100).ToString();
