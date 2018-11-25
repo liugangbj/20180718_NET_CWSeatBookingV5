@@ -517,6 +517,8 @@ namespace SeatManageWebQUI.Controllers.FunctionPages.Model
 
         public string SeatBook_SeatBookRadioSetted { get; set; }
         public string btnSetBespeakSeat { get; set; }
+
+        public string SeatBespeak { get; set; }
         public string SeatBook_SeatBookRadioPercent { get; set; }
         public string SeatBook_SeatBookRadioPercent_Percent { get; set; }
         public string SeatBook_SeatBookRadioPercent_Percent_Error { get; set; }
@@ -552,6 +554,8 @@ namespace SeatManageWebQUI.Controllers.FunctionPages.Model
 
         public string RecordViolateCount { get; set; }
         public string RecordViolateCount_Error { get; set; }
+
+        public string leaveblacklist { get; set; }
         public string AutoLeave { get; set; }
         public string HardLeave { get; set; }
 
@@ -576,6 +580,8 @@ namespace SeatManageWebQUI.Controllers.FunctionPages.Model
         public string ReaderLimit { get; set; }
         public string ReaderLimit_LimitMode_Writelist { get; set; }
         public string ReaderLimit_LimitMode_Blacklist { get; set; }
+
+        public string limitReader { get; set; }
         #endregion
 
         #region 应用到其他阅览室
