@@ -100,6 +100,7 @@ namespace SeatManageWebQUI.Controllers
 
             foreach (SysMenuInfo item in listSysMenu)
             {
+                if (item.MenuID <= 3  ) continue; //不加载系统设置功能
                 menuString.Append("	{ \"id\":\""+ item.MenuID+ "\", \"parentId\":\"0\", \"name\":\""+item.MenuName+"\", \"isParent\": \"true\",\"backgroundPosition\":\"0px - 80px\",\"img\":\"./ skin / topIcons / icon01.png\"},");
                 foreach (SysMenuInfo subItem in item.ChildMenu)
                 {
