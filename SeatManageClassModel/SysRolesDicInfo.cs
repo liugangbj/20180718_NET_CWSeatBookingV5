@@ -51,5 +51,17 @@ namespace SeatManage.ClassModel
             get { return _RoleMenu; }
             set { _RoleMenu = value; }
         }
+
+        public override string ToString()
+        {
+            System.Text.StringBuilder sb = new StringBuilder();
+            foreach (var item in RoleMenu)
+            {
+                sb.Append(item.MenuName);
+                sb.Append("|");
+            }
+            
+            return sb.ToString().TrimEnd('|');
+        }
     }
 }

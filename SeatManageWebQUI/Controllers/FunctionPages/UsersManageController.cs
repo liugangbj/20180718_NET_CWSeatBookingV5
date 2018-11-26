@@ -1,4 +1,5 @@
-﻿using SeatManage.ClassModel;
+﻿using SeatManage.Bll;
+using SeatManage.ClassModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             return View();
         }
 
+        #region 用戶管理
         public JsonResult RemoveUser(string LoginId)
         {
             JsonResult result = null;
@@ -23,7 +25,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             user.LoginId = LoginId;
             if (user.LoginId == "admin" || user.LoginId == "user" || user.LoginId == "reader")
             {
-                return Json(new { status = "no", message = "删除失败["+LoginId+"]是保留用戶，不能刪除" }, JsonRequestBehavior.AllowGet);
+                return Json(new { status = "no", message = "删除失败[" + LoginId + "]是保留用戶，不能刪除" }, JsonRequestBehavior.AllowGet);
             }
             if (!SeatManage.Bll.Users_ALL.DeleteUser(user))
             {
@@ -33,7 +35,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             {
                 result = Json(new { status = "yes", message = "删除成功" }, JsonRequestBehavior.AllowGet);
             }
-           return result;
+            return result;
         }
 
 
@@ -64,7 +66,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
                     {
                         user.ReloID.Add(int.Parse(role.RoleID));
                     }
-                    
+
                 }
                 user.UserRoomRight = new ManagerPotency();
                 user.UserRoomRight.RightRoomList = new List<ReadingRoomInfo>();
@@ -74,7 +76,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
                     if (Request.Params["room_" + room.No] != null)
                     {
                         user.UserRoomRight.RightRoomList.Add(new SeatManage.ClassModel.ReadingRoomInfo() { No = room.No });
-                    } 
+                    }
                 }
                 saveOrUpdateIsOk = SeatManage.Bll.Users_ALL.AddNewUser(user);
 
@@ -113,7 +115,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             return result;
         }
 
-        public ActionResult AddOrEdit(string op,string LoginId)
+        public ActionResult AddOrEdit(string op, string LoginId)
         {
             SeatManage.ClassModel.UserInfo user = new SeatManage.ClassModel.UserInfo();
             StringBuilder roleHtml = new StringBuilder();
@@ -134,7 +136,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
                     roomHtml.Append("<input type=\"checkbox\"  ID=\"room_" + room.No + "\" name=\"room_" + room.No + "\" /><label for=\"room_" + room.No + "\" class=\"hand\">" + room.Name + "</label>");
                 }
             }
-            else if(op == "edit")
+            else if (op == "edit")
             {
                 user = SeatManage.Bll.Users_ALL.GetUserInfo(LoginId);
                 if (user != null)
@@ -147,9 +149,9 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
                     string str = "<input type=\"checkbox\"  ID=\"role_" + role.RoleID + "\" name=\"role_" + role.RoleID + "\" /><label for=\"role_" + role.RoleID + "\" class=\"hand\">" + role.RoleName + "</label>";
                     foreach (int userRole in user.ReloID)
                     {
-                        if(userRole == int.Parse(role.RoleID))
+                        if (userRole == int.Parse(role.RoleID))
                         {
-                             str = "<input type=\"checkbox\" checked=\"true\"  ID=\"role_" + role.RoleID + "\" name=\"role_" + role.RoleID + "\" /><label for=\"role_" + role.RoleID + "\" class=\"hand\">" + role.RoleName + "</label>";
+                            str = "<input type=\"checkbox\" checked=\"true\"  ID=\"role_" + role.RoleID + "\" name=\"role_" + role.RoleID + "\" /><label for=\"role_" + role.RoleID + "\" class=\"hand\">" + role.RoleName + "</label>";
                         }
                     }
                     roleHtml.Append(str);
@@ -226,10 +228,6 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
         public ActionResult UserInfo()
         {
             List<SeatManage.ClassModel.UserInfo> userlist = SeatManage.Bll.Users_ALL.GetUsers();
-            //if (!string.IsNullOrEmpty(searchInput))
-            //{
-            //    userlist = userlist.Where(x => x.LoginId.Contains(searchInput) || x.UserName.Contains(searchInput)).ToList<UserInfo>();
-            //}
 
             StringBuilder sb = new StringBuilder();
             sb.Append("{");
@@ -239,14 +237,16 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             foreach (UserInfo item in userlist)
             {
                 string UserTypeStr = "";
-                if (item.UserType== SeatManage.EnumType.UserType.Admin)
+                if (item.UserType == SeatManage.EnumType.UserType.Admin)
                 {
                     UserTypeStr = "管理员";
 
-                }else if(item.UserType== SeatManage.EnumType.UserType.Reader)
+                }
+                else if (item.UserType == SeatManage.EnumType.UserType.Reader)
                 {
                     UserTypeStr = "读者";
-                }else
+                }
+                else
                 {
                     UserTypeStr = "未知";
                 }
@@ -264,9 +264,39 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             string data = sb.ToString();
             ViewBag.Data = data;
             return View();
-        }
+        } 
+        #endregion
+
+
         public ActionResult RoleManage()
         {
+           // List<SeatManage.ClassModel.UserInfo> userlist = SeatManage.Bll.Users_ALL.GetUsers();
+            List<SeatManage.ClassModel.SysRolesDicInfo> listSysRolesDicInfo = new List<SeatManage.ClassModel.SysRolesDicInfo>();
+            listSysRolesDicInfo = SeatManage.Bll.SysRolesDic.GetRoleList(null, null);
+
+            StringBuilder sb = new StringBuilder();
+            sb.Append("{");
+            sb.Append("\"form.paginate.pageNo\": 1,");
+            sb.Append("\"form.paginate.totalRows\": 100,");
+            sb.Append("	\"rows\": [");
+            foreach (SysRolesDicInfo item in listSysRolesDicInfo)
+            {
+                StringBuilder FuncStr = new StringBuilder();
+                List<SysMenuInfo> menu = SysMenu.GetUserRoleMenus(item.RoleID);
+                foreach (var it in menu)
+                {
+                    FuncStr.Append(it.MenuName);
+                    FuncStr.Append("|");
+                }
+
+                sb.Append("{\"RoleName\": '" + item.RoleName + "',\"FuncStr\": '" + FuncStr.ToString().TrimEnd('|') + "'}");
+                sb.Append(",");
+            }
+            sb.Remove(sb.Length - 1, 1);
+            sb.Append("]");
+            sb.Append("}");
+            string data = sb.ToString();
+            ViewBag.Data = data;
             return View();
         }
     }
