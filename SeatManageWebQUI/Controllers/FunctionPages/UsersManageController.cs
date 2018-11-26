@@ -16,6 +16,27 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             return View();
         }
 
+        public JsonResult RemoveUser(string LoginId)
+        {
+            JsonResult result = null;
+            SeatManage.ClassModel.UserInfo user = new SeatManage.ClassModel.UserInfo();
+            user.LoginId = LoginId;
+            if (user.LoginId == "admin" || user.LoginId == "user" || user.LoginId == "reader")
+            {
+                return Json(new { status = "no", message = "删除失败["+LoginId+"]是保留用戶，不能刪除" }, JsonRequestBehavior.AllowGet);
+            }
+            if (!SeatManage.Bll.Users_ALL.DeleteUser(user))
+            {
+                result = Json(new { status = "no", message = "删除失败" }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                result = Json(new { status = "yes", message = "删除成功" }, JsonRequestBehavior.AllowGet);
+            }
+           return result;
+        }
+
+
         public JsonResult SaveOrUpdate()
         {
             JsonResult result = null;
@@ -33,7 +54,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
                 SeatManage.ClassModel.UserInfo user = new SeatManage.ClassModel.UserInfo();
                 user.LoginId = LoginId;
                 user.UserName = txtUserName;
-                user.Password = txtPassword;
+                user.Password = SeatManage.SeatManageComm.MD5Algorithm.GetMD5Str32(txtPassword);   // user.Password = SeatManage.SeatManageComm.MD5Algorithm.GetMD5Str32(txtPassword.Text.Trim());
                 user.Remark = txtRemark;
                 user.IsUsing = IsUsing ? SeatManage.EnumType.LogStatus.Valid : SeatManage.EnumType.LogStatus.Fail;
                 user.ReloID = new List<int>();
@@ -47,9 +68,10 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
                 }
                 user.UserRoomRight = new ManagerPotency();
                 user.UserRoomRight.RightRoomList = new List<ReadingRoomInfo>();
+                user.UserRoomRight.LoginID = LoginId;
                 foreach (var room in roomlist)
                 {
-                    if (Request.Params["room_" + room.Name] != null)
+                    if (Request.Params["room_" + room.No] != null)
                     {
                         user.UserRoomRight.RightRoomList.Add(new SeatManage.ClassModel.ReadingRoomInfo() { No = room.No });
                     } 
@@ -59,7 +81,13 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             }
             else //编辑
             {
-                SeatManage.ClassModel.UserInfo user = SeatManage.Bll.Users_ALL.GetUserInfo(Request.Params["LoginId"]);
+
+                SeatManage.ClassModel.UserInfo user = SeatManage.Bll.Users_ALL.GetUserInfo(LoginId);
+                user.LoginId = LoginId;
+                user.UserName = txtUserName;
+                user.Password = SeatManage.SeatManageComm.MD5Algorithm.GetMD5Str32(txtPassword);
+                user.Remark = txtRemark;
+                user.IsUsing = IsUsing ? SeatManage.EnumType.LogStatus.Valid : SeatManage.EnumType.LogStatus.Fail;
                 user.ReloID.Clear();
                 foreach (var role in rolelist)
                 {
@@ -70,9 +98,10 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
 
                 }
                 user.UserRoomRight.RightRoomList.Clear();
+                user.UserRoomRight.LoginID = LoginId;
                 foreach (var room in roomlist)
                 {
-                    if (Request.Params["room_" + room.Name] != null)
+                    if (Request.Params["room_" + room.No] != null)
                     {
                         user.UserRoomRight.RightRoomList.Add(new SeatManage.ClassModel.ReadingRoomInfo() { No = room.No });
                     }

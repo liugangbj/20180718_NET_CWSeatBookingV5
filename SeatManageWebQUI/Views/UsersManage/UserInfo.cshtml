@@ -52,7 +52,7 @@
             <div class="buttonGroup" style="width: 320px;">
                 <span class="leftButton icon_add" onclick="addOrEdit('add')">新增</span>
                 <span class="leftButton icon_add" onclick="addOrEdit('edit')">编辑</span>
-                <span class="centerButton icon_delete" onclick="deleteUnit()">删除</span>
+                <span class="centerButton icon_delete" onclick="remove()">删除</span>
                 <span class="centerButton icon_import" onclick="showImportDialog()">导入</span>
                 <div class="popupMenu">
                     <span class="rightButton icon_export">导出</span>
@@ -157,6 +157,39 @@
             top.Dialog.open({URL:"../../sample_skin/demo/oa_52.html",Title:"设置预警",Width:400,Height:250});
         }
 
+        function remove(){
+            var selectData = grid.getSelectedRow(); 
+         //   var LoginId = selectData.LoginId;
+
+            if(selectData==null)
+            {
+                top.Toast('showErrorToast', '请选中要删除的行');
+            }else if(selectData.LoginId == "admin" || selectData.LoginId == "user" || selectData.LoginId == "reader")
+            {
+                top.Toast('showErrorToast', selectData.LoginId+'是保留用戶不能刪除');
+            }else{
+                top.Dialog.confirm("确认删除"+selectData.LoginId+"编号的记录吗",
+                    function(){
+                        $.ajax({
+                            url: "/UsersManage/RemoveUser",
+                            data: { LoginId: selectData.LoginId },
+                            type: "post",
+                            dataType: "json",
+                            success: function (data) {
+                                if (data.status == "yes") {
+                                    location.href='/UsersManage/UserInfo'
+                                    top.Toast('showSuccessToast', data.message);
+                                } else {
+                                    top.Toast('showErrorToast', data.message);
+                                }
+                            }
+                        });
+                    },
+                    function(){
+                        //点击了取消
+                    });
+            }
+        }
 
         function addOrEdit(op){
             
@@ -170,13 +203,14 @@
             var diag = new top.Dialog();
             diag.Title = '操作窗口';
             diag.URL = url;
-            diag.Width=550;
-            diag.Height=500;
+            diag.Width=800;
+            diag.Height=600;
             diag.OkButtonText = "保 存";
             //顺序很重要，diag.show()之前添加确定按钮事件，show之后添加新按钮
             diag.OKEvent = function() {
                 //var inputValue = diag.innerFrame.contentWindow.myTest();
                 var inputValue = diag.innerFrame.contentWindow.myTest();
+                grid.loadData();
             };
             diag.show();
 
