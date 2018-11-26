@@ -723,6 +723,33 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
         }
         public ActionResult DeviceStatusInfo()
         {
+            List<SeatManage.ClassModel.TerminalInfoV2> clientlist = SeatManage.Bll.TerminalOperatorService.GetAllTeminalInfo();
+            StringBuilder sb = new StringBuilder();
+            sb.Append("{");
+            sb.Append("\"form.paginate.pageNo\": 1,");
+            sb.Append("\"form.paginate.totalRows\": 100,");
+            sb.Append("	\"rows\": [");
+            foreach (TerminalInfoV2 item in clientlist)
+            {
+                string date = "";
+                if (item.StatusUpdateTime == null)
+                {
+                    date = "暂无记录";
+                }
+                else
+                {
+                    date = item.StatusUpdateTime.ToString();
+                }
+                string PrinterStatus = item.PrinterStatus ? "打印机有纸" : "打印机缺纸";
+                sb.Append("{\"DeviceNum\": " + item.ClientNo + ",\"Describe\": \"" + item.Describe + "\",\"PrintedTimes\": \"" + item.PrintedTimes + "\",\"LastPrintTimes\": \"" + item.LastPrintTimes + "\",\"Date\": \"" + date + "\",\"PrinterStatus\": \"" + PrinterStatus + "\"}");
+                sb.Append(",");
+            }
+            sb.Remove(sb.Length - 1, 1);
+            sb.Append("]");
+            sb.Append("}");
+            string data = sb.ToString();
+            ViewBag.Data = data;
+
             return View();
         }
     }

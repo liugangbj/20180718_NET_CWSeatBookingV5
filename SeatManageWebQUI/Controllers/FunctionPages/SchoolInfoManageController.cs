@@ -21,14 +21,52 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
         }
         public ActionResult SchoolInfo()
         {
-            return View();
-        }
-        public ActionResult LibraryInfo()
-        {
+            // List<SeatManage.ClassModel.LibraryInfo> librarylist = SeatManage.Bll.T_SM_Library.GetLibraryInfoList(null, null, null);
+            List<SeatManage.ClassModel.School> schoollist = SeatManage.Bll.T_SM_School.GetSchoolInfoList(null, null);
+            StringBuilder sb = new StringBuilder();
+            sb.Append("{");
+            sb.Append("\"form.paginate.pageNo\": 1,");
+            sb.Append("\"form.paginate.totalRows\": 100,");
+            sb.Append("	\"rows\": [");
+            foreach (School item in schoollist)
+            {
+                sb.Append("{\"No\": " + item.No + ",\"Name\": \"" + item.Name + "\"}");
+                sb.Append(",");
+            }
+            sb.Remove(sb.Length - 1, 1);
+            sb.Append("]");
+            sb.Append("}");
+            string data = sb.ToString();
+            ViewBag.Data = data;
+
             return View();
         }
 
-        public JsonResult BespeakSeatSettingCanBook(string seatNo,string canBook,string roomNo)
+        public ActionResult LibraryInfo()
+        {
+          //  List<SeatManage.ClassModel.ReadingRoomInfo> listReadingRoom = SeatManage.Bll.ClientConfigOperate.GetReadingRooms(null);
+            List<SeatManage.ClassModel.LibraryInfo> librarylist = SeatManage.Bll.T_SM_Library.GetLibraryInfoList(null, null, null);
+            StringBuilder sb = new StringBuilder();
+            sb.Append("{");
+            sb.Append("\"form.paginate.pageNo\": 1,");
+            sb.Append("\"form.paginate.totalRows\": 100,");
+            sb.Append("	\"rows\": [");
+            foreach (LibraryInfo item in librarylist)
+            {
+                sb.Append("{\"No\": " + item.No + ",\"Name\": \"" + item.Name + "\",\"SchoolName\": \"" + item.School.Name + "\"}");
+                sb.Append(",");
+            }
+            sb.Remove(sb.Length - 1, 1);
+            sb.Append("]");
+            sb.Append("}");
+            string data = sb.ToString();
+            ViewBag.Data = data;
+
+            return View();
+        }
+
+        #region 阅览室设置
+        public JsonResult BespeakSeatSettingCanBook(string seatNo, string canBook, string roomNo)
         {
             JsonResult result = null;
             SeatManage.ClassModel.SeatLayout _SeatLayout = SeatManage.Bll.T_SM_SeatBespeak.GetBeseakSeatSettingLayout(roomNo);
@@ -66,7 +104,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
                         }
                         else
                         {
-                            result= Json(new { status = "yes", message = "设置成功" }, JsonRequestBehavior.AllowGet);
+                            result = Json(new { status = "yes", message = "设置成功" }, JsonRequestBehavior.AllowGet);
                         }
                     }
                 }
@@ -74,7 +112,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             return result;
         }
 
-        public string DrawBespeakSeatSettingLayout(string roomNum,string divTransparentTop,string divTransparentLeft)
+        public string DrawBespeakSeatSettingLayout(string roomNum, string divTransparentTop, string divTransparentLeft)
         {
             string html = "";
             Code.SeatLayoutTools tool = new Code.SeatLayoutTools();
@@ -100,7 +138,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
         {
             JsonResult result = null;
 
-            string currentNo =Request.Params["currentNo"].ToString();
+            string currentNo = Request.Params["currentNo"].ToString();
             SeatManage.ClassModel.ReadingRoomInfo room = SeatManage.Bll.T_SM_ReadingRoom.GetSingleRoomInfo(currentNo);
             if (room == null)
             {
@@ -146,7 +184,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
                         DateTime endtime = new DateTime();
                         if (!DateTime.TryParse(begintimeH + ":" + begintimeM, out begintime))
                         {
-                           return Json(new { status = "no", message = "选座设置高级设置，时间设置错误！" }, JsonRequestBehavior.AllowGet);
+                            return Json(new { status = "no", message = "选座设置高级设置，时间设置错误！" }, JsonRequestBehavior.AllowGet);
                         }
                         if (!DateTime.TryParse(endtimeH + ":" + endtimeM, out endtime))
                         {
@@ -174,7 +212,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
                 string endtimeH = Request.Params["ShortLeaveAdMode_Time" + (i + 1) + "_EndH"];//) as TextBox;
                 string endtimeM = Request.Params["ShortLeaveAdMode_Time" + (i + 1) + "_EndM"];//) as TextBox;
                 string leavetime = Request.Params["ShortLeaveAdMode_Time" + (i + 1) + "_LeaveTime"];//) as TextBox;
-                bool used = Request.Params["ShortLeaveAdMode_Time" + (i + 1)]==null?false:true;//) as CheckBox;
+                bool used = Request.Params["ShortLeaveAdMode_Time" + (i + 1)] == null ? false : true;//) as CheckBox;
 
                 DateTime begintime = new DateTime();
                 DateTime endtime = new DateTime();
@@ -214,7 +252,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             roomSet.RoomOpenSet.DefaultOpenTime.EndTime = closetime.ToShortTimeString();
             roomSet.RoomOpenSet.OpenBeforeTimeLength = int.Parse(Request.Params["ReadingRoomBeforeOpenTime"]);
             roomSet.RoomOpenSet.CloseBeforeTimeLength = int.Parse(Request.Params["ReadingRoomBeforeCloseTime"]);
-            roomSet.RoomOpenSet.UninterruptibleModel = Request.Params["ReadingRoomOpen24H"]==null?false:true;
+            roomSet.RoomOpenSet.UninterruptibleModel = Request.Params["ReadingRoomOpen24H"] == null ? false : true;
 
             //高级设置
             roomSet.RoomOpenSet.UsedAdvancedSet = Request.Params["ReadingRoomOpenCloseAdMode"] == null ? false : true;
@@ -294,7 +332,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             }
 
             //预约功能设置
-            roomSet.SeatBespeak.Used = Request.Params["SeatBook"] == null ? false : true; 
+            roomSet.SeatBespeak.Used = Request.Params["SeatBook"] == null ? false : true;
             roomSet.SeatBespeak.AllowDelayTime = Request.Params["ckbDelayTime"] == null ? false : true;
             roomSet.SeatBespeak.AllowLeave = Request.Params["ckbLeave"] == null ? false : true; ;
             roomSet.SeatBespeak.AllowShortLeave = Request.Params["ckbShortLeave"] == null ? false : true;
@@ -344,7 +382,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             }
 
             string isSeatBook_SeatBookRadioPercent = Request.Params["SeatBespeak"];// == null ? false : true;
-            if (isSeatBook_SeatBookRadioPercent== "Percentage")
+            if (isSeatBook_SeatBookRadioPercent == "Percentage")
             {
                 roomSet.SeatBespeak.BespeakArea.BespeakType = BespeakAreaType.Percentage;
             }
@@ -396,7 +434,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             roomSet.BlackListSetting.ViolateTimes = int.Parse(Request.Params["RecordViolateCount"]);
             roomSet.BlackListSetting.LimitDays = int.Parse(Request.Params["LeaveBlackDays"]);
             roomSet.BlackListSetting.ViolateFailDays = int.Parse(Request.Params["LeaveRecordViolateDays"]);
-           bool isAutoLeave = Request.Params["AutoLeave"] == null ? false : true;
+            bool isAutoLeave = Request.Params["AutoLeave"] == null ? false : true;
             if (isAutoLeave)
             {
                 roomSet.BlackListSetting.LeaveBlacklist = LeaveBlacklistMode.AutomaticMode;
@@ -445,7 +483,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             //SameRoomSet_101004
             if (SeatManage.Bll.T_SM_ReadingRoom.UpdateReadingRoom(room))
             {
-                result = Json(new { status = "yes", message = "阅览室["+room.Name+"]设置成功" }, JsonRequestBehavior.AllowGet);
+                result = Json(new { status = "yes", message = "阅览室[" + room.Name + "]设置成功" }, JsonRequestBehavior.AllowGet);
                 List<SeatManage.ClassModel.ReadingRoomInfo> rooms = SeatManage.Bll.ClientConfigOperate.GetReadingRooms(null);
                 foreach (ReadingRoomInfo item in rooms)
                 {
@@ -457,7 +495,8 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
                         {
 
                             result = Json(new { status = "yes", message = "阅览室批量操作成功" }, JsonRequestBehavior.AllowGet);
-                        }else
+                        }
+                        else
                         {
                             result = Json(new { status = "no", message = "保存失败" }, JsonRequestBehavior.AllowGet);
                         }
@@ -490,11 +529,11 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
                 roomSet = new SeatManage.ClassModel.ReadingRoomSetting();
             }
             RoomSettingViewModel vm = new RoomSettingViewModel();
-            
+
             //选座模式设置
             vm.SeatSelectDefaultMode = ((int)roomSet.SeatChooseMethod.DefaultChooseMethod).ToString();
 
-            vm.SeatSelectPos= roomSet.PosTimes.IsUsed.ToString();
+            vm.SeatSelectPos = roomSet.PosTimes.IsUsed.ToString();
             vm.SelectSeatPosTimes = roomSet.PosTimes.Minutes.ToString();
             vm.SelectSeatPosCount = roomSet.PosTimes.Times.ToString();
 
@@ -510,7 +549,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
                     string[] begintime = day.Value.PlanOption[i].UsedTime.BeginTime.Split(':');
                     string[] endtime = day.Value.PlanOption[i].UsedTime.EndTime.Split(':');
 
-                    vm.GetType().GetProperty("SeatSelectAdModeDay" + dayNum + "_Time" + (i + 1) + "_StartH").SetValue(vm, begintime[0],null);
+                    vm.GetType().GetProperty("SeatSelectAdModeDay" + dayNum + "_Time" + (i + 1) + "_StartH").SetValue(vm, begintime[0], null);
                     vm.GetType().GetProperty("SeatSelectAdModeDay" + dayNum + "_Time" + (i + 1) + "_StartM").SetValue(vm, begintime[1], null);
                     vm.GetType().GetProperty("SeatSelectAdModeDay" + dayNum + "_Time" + (i + 1) + "_EndH").SetValue(vm, endtime[0], null);
                     vm.GetType().GetProperty("SeatSelectAdModeDay" + dayNum + "_Time" + (i + 1) + "_EndM").SetValue(vm, endtime[1], null);
@@ -527,11 +566,11 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
                 string[] begintime = roomSet.SeatHoldTime.AdvancedSeatHoldTime[i].UsedTime.BeginTime.Split(':');
                 string[] endtime = roomSet.SeatHoldTime.AdvancedSeatHoldTime[i].UsedTime.EndTime.Split(':');
 
-                vm.GetType().GetProperty("ShortLeaveAdMode_Time" + (i + 1) + "_StartH").SetValue(vm, begintime[0],null);
+                vm.GetType().GetProperty("ShortLeaveAdMode_Time" + (i + 1) + "_StartH").SetValue(vm, begintime[0], null);
                 vm.GetType().GetProperty("ShortLeaveAdMode_Time" + (i + 1) + "_StartM").SetValue(vm, begintime[1], null);
                 vm.GetType().GetProperty("ShortLeaveAdMode_Time" + (i + 1) + "_EndH").SetValue(vm, endtime[0], null);
                 vm.GetType().GetProperty("ShortLeaveAdMode_Time" + (i + 1) + "_EndM").SetValue(vm, endtime[1], null);
-                vm.GetType().GetProperty("ShortLeaveAdMode_Time" + (i + 1)+ "_LeaveTime").SetValue(vm, roomSet.SeatHoldTime.AdvancedSeatHoldTime[i].HoldTimeLength.ToString(), null);
+                vm.GetType().GetProperty("ShortLeaveAdMode_Time" + (i + 1) + "_LeaveTime").SetValue(vm, roomSet.SeatHoldTime.AdvancedSeatHoldTime[i].HoldTimeLength.ToString(), null);
                 vm.GetType().GetProperty("ShortLeaveAdMode_Time" + (i + 1)).SetValue(vm, roomSet.SeatHoldTime.AdvancedSeatHoldTime[i].Used.ToString(), null);
             }
             //开闭馆计划设置
@@ -551,8 +590,8 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             //    open24htr.Style["display"] = "none";
             //}
             //高级设置
-            vm.ReadingRoomOpenCloseAdMode= roomSet.RoomOpenSet.UsedAdvancedSet.ToString();
-            
+            vm.ReadingRoomOpenCloseAdMode = roomSet.RoomOpenSet.UsedAdvancedSet.ToString();
+
             foreach (KeyValuePair<DayOfWeek, RoomOpenPlanSet> day in roomSet.RoomOpenSet.RoomOpenPlan)
             {
                 string dayNum = ((int)day.Value.Day).ToString();
@@ -583,11 +622,11 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
                 vm.SeatTime_TimeSpanList += roomSet.SeatUsedTimeLimit.FixedTimes[i].ToShortTimeString() + ";";
             }
             //预约功能设置ckbDelayTime
-             vm.ckbDelayTime = roomSet.SeatBespeak.AllowDelayTime.ToString();
-             vm.ckbLeave = roomSet.SeatBespeak.AllowLeave.ToString();
-             vm.ckbShortLeave = roomSet.SeatBespeak.AllowShortLeave.ToString();
+            vm.ckbDelayTime = roomSet.SeatBespeak.AllowDelayTime.ToString();
+            vm.ckbLeave = roomSet.SeatBespeak.AllowLeave.ToString();
+            vm.ckbShortLeave = roomSet.SeatBespeak.AllowShortLeave.ToString();
 
-             vm.SeatBook = roomSet.SeatBespeak.Used.ToString();
+            vm.SeatBook = roomSet.SeatBespeak.Used.ToString();
 
             vm.SeatBook_BeforeBookDay = roomSet.SeatBespeak.BespeakBeforeDays.ToString();
             string[] beginbooktime = roomSet.SeatBespeak.CanBespeatTimeSpace.BeginTime.Split(':');
@@ -686,7 +725,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             {
                 if (roominfo.No != room.No)
                 {
-                    sbHtml.Append("<input type=\"checkbox\"  ID=\"SameRoomSet_" + roominfo.No + "\" name=\"SameRoomSet_" + roominfo.No + "\" /><label for=\"SameRoomSet_" + roominfo.No + "\" class=\"hand\">"+ roominfo.Name+ "</label>");
+                    sbHtml.Append("<input type=\"checkbox\"  ID=\"SameRoomSet_" + roominfo.No + "\" name=\"SameRoomSet_" + roominfo.No + "\" /><label for=\"SameRoomSet_" + roominfo.No + "\" class=\"hand\">" + roominfo.Name + "</label>");
                 }
             }
             ViewBag.RoomListHtml = sbHtml.ToString();
@@ -719,6 +758,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             ViewBag.Data = data;
 
             return View();
-        }
+        } 
+        #endregion
     }
 }
