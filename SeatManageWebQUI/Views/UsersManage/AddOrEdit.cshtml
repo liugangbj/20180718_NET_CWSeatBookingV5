@@ -1,0 +1,135 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+    <!--框架必需start-->
+    <script type="text/javascript" src="~/quickui/libs/js/jquery.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/language/cn.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/framework.js"></script>
+    <link href="~/quickui/libs/css/import_basic.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" id="skin" prePath="~/quickui/" />
+    <link rel="stylesheet" type="text/css" id="customSkin" />
+    <!--框架必需end-->
+    <link rel="stylesheet" type="text/css" href="~/quickui/style/style.css" />
+
+    <script src="~/quickui/libs/js/table/quiGrid.js" type="text/javascript"></script>
+
+    <!--引入提示组件start-->
+    <script type="text/javascript" src="/quickui/libs/js/popup/toast.js"></script>
+    <script type="text/javascript" src="/quickui/libs/js/popup/notice.js"></script>
+    <!--引入提示组件end-->
+
+    <script>
+
+        $(document).ready(function () {
+
+            if ('add' == '@ViewBag.op') {
+
+            } else {
+
+                $("#LoginId").val('@ViewBag.User.LoginId');
+                $("#txtUserName").val('@ViewBag.User.UserName');
+                $("#txtRemark").val('@ViewBag.User.Remark');
+                if ('@ViewBag.User.IsUsing' == 'Valid') {
+                    $("#IsUsing").attr("checked", "true");
+                } else {
+                    $("#IsUsing").removeAttr("checked");
+                }
+                $("#LoginId").attr("disabled", true);
+            }
+
+            $("#divRoleList").html('@Html.Raw(ViewBag.roleHtml)');
+            $("#divRoomList").html('@Html.Raw(ViewBag.roomHtml)');
+        });
+
+
+
+    </script>
+</head>
+<body>
+    <div style="width:100%;">
+        <form id="form1" name="form1">
+            <table class="tableStyle" formMode="transparent">
+                <tr>
+                    <td>登录ID：</td>
+                    <td><input type="text" name="LoginId" id="LoginId" placeholder="输入登录账号(必填)" /></td>
+                </tr>
+                <tr>
+                    <td>姓名：</td>
+                    <td><input type="text" id="txtUserName" name="txtUserName" placeholder="输入登录账号(必填)" /></td>
+                </tr>
+                <tr>
+                    <td>新密码：</td>
+                    <td>
+                        <input type="password" id="txtPassword" name="txtPassword"  />
+                    </td>
+                </tr>
+                <tr>
+                    <td>验证密码：</td>
+                    <td>
+                        <input type="password" id="txtPassword_d" name="txtPassword_d" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>备注信息：</td>
+                    <td>
+                        <textarea name="txtRemark" id="txtRemark" placeholder="输入备注信息"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>是否启用：</td>
+                    <td>
+                        <input type="checkbox" id="IsUsing" name="IsUsing"  /><label for="IsUsing" class="hand">启用</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>角色选择：</td>
+                    <td>
+                        <div id="divRoleList">
+
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>权限选择：</td>
+                    <td>
+                        <div id="divRoomList">
+
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+    <script>
+
+        function myTest() {
+            $.ajax({
+                url: "/UsersManage/SaveOrUpdate?op=@ViewBag.op", //你的路由地址
+                type: "post",
+                dataType: "json",
+                data: $("#form1").serialize(),
+                timeout: 30000,
+                success: function (data) {
+                    if (data.status == "yes") {
+                        top.Toast('showSuccessToast', data.message);
+                    } else {
+                        top.Toast('showErrorToast', data.message);
+                    }
+                },
+                error: function () {
+                    top.Toast('showErrorToast', '发生不可预计错误，请重新尝试');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

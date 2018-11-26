@@ -4122,6 +4122,7 @@
     <Content Include="Views\SeatMonitor\MonitorListMode.cshtml" />
     <Content Include="Views\SchoolInfoManage\ReadingRoomSetting.cshtml" />
     <Content Include="Views\SchoolInfoManage\BespeakSeatSetting.cshtml" />
+    <Content Include="Views\UsersManage\AddOrEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

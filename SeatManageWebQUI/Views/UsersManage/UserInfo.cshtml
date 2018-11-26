@@ -28,169 +28,159 @@
 
     <script>
 
-        //$(document).ready(function(){
-        //    $("#search").click(function(){
-        //        var $strWhere = $("#strWhere");
-        //        $.ajax({
-        //            url: "/UsersManage/UserInfo",
-        //            data: { strWhere: $.trim($strWhere.val()) },
-        //            type: "post",
-        //            dataType: "json",
-        //            success: function (data) {
-        //                if (data.status == "yes") {
-        //                } else {
-        //                }
-        //            }
-        //        });
-        //    });
-        //});
-
-        function searchHandler(){
-            var query = $("#queryForm").formToArray(); 
-            
-            grid.setOptions({ params : query});
-            //页号重置为1
-            grid.setNewPage(1);
-            grid.loadData();//加载数据
-        }
 
     </script>
     <style>
-        .oppContent{
-    width: 340px;
-    height: 40px;
-    float: left;
-}
-.searchContent{
-    width: 440px;
-    height: 40px;
-    position: absolute;
-    right: 0;
-}
+        .oppContent {
+            width: 340px;
+            height: 40px;
+            float: left;
+        }
 
+        .searchContent {
+            width: 440px;
+            height: 40px;
+            position: absolute;
+            right: 0;
+        }
     </style>
 </head>
 <body>
-    
-        <div class="page_content">
-            <div class="oppContent">
-                <div class="buttonGroup" style="width: 320px;">
-                    <span class="leftButton icon_add" onclick="addUnit()">新增</span>
-                    <span class="centerButton icon_delete" onclick="deleteUnit()">删除</span>
-                    <span class="centerButton icon_import" onclick="showImportDialog()">导入</span>
-                    <div class="popupMenu">
-                        <span class="rightButton icon_export">导出</span>
-                        <div class="clear"></div>
-                        <div class="popupMenu_con">
-                            <a href="javascript:;" onclick="exportPageData()"><span>导出当前页</span></a>
-                            <a href="javascript:;" onclick="exportTotalData()"><span>导出全部数据</span></a>
-                        </div>
+
+    <div class="page_content">
+        <div class="oppContent">
+            <div class="buttonGroup" style="width: 320px;">
+                <span class="leftButton icon_add" onclick="addOrEdit('add')">新增</span>
+                <span class="leftButton icon_add" onclick="addOrEdit('edit')">编辑</span>
+                <span class="centerButton icon_delete" onclick="deleteUnit()">删除</span>
+                <span class="centerButton icon_import" onclick="showImportDialog()">导入</span>
+                <div class="popupMenu">
+                    <span class="rightButton icon_export">导出</span>
+                    <div class="clear"></div>
+                    <div class="popupMenu_con">
+                        <a href="javascript:;" onclick="exportPageData()"><span>导出当前页</span></a>
+                        <a href="javascript:;" onclick="exportTotalData()"><span>导出全部数据</span></a>
                     </div>
                 </div>
             </div>
-            <div class="searchContent">
-                <form action="/UsersManage/ActionResult" id="queryForm" method="post">
-                    <input type="hidden" id="parentId" name="parentId" value="1" />
-                    <table style="float: right;">
-                        <tr>
-                            <td>
-                                <input type="text" placeholder="姓名" id="searchInput" name="searchInput" />
-                                <input type="text" style="width:2px;display:none;" />
-                            </td>
-                            <td><button type="submit" id="search" class="primary" ><span class="icon_find">查询</span></button></td>
-                            <td><button type="button" onclick="resetSearch()"><span class="icon_clear">重置</span></button></td>
-                        </tr>
-                    </table>
-                </form>
-            </div>
-            <div class="clear"></div>
-         
-                <div class="infoCard infoCard2">
-                    <div class="title">
-                        <span>用户列表</span>
-                    </div>
-                    <div id="dataBasic"></div>
-                </div>
-          
         </div>
-    
+        <div class="searchContent">
+            <form id="queryForm" name="queryForm" method="post">
+                <table style="float: right;">
+                    <tr>
+                        <td>
+                            <input type="text" placeholder="姓名" id="UserName" name="UserName" value="@ViewBag.strWhere" />
+                        </td>
+                        <td><button type="button" onclick="searchHandler()" id="search" class="primary"><span class="icon_find">查询</span></button></td>
+                        <td><button type="button" onclick="resetSearch()"><span class="icon_clear">重置</span></button></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div class="clear"></div>
+
+        <div class="infoCard infoCard2">
+            <div class="title">
+                <span>用户列表</span>
+            </div>
+            <div id="dataBasic"></div>
+        </div>
+
+    </div>
+
     <script type="text/javascript">
         var grid = null;
-        var data = @MvcHtmlString.Create(@ViewBag.Data);
-			//数据表格使用
-        var gridData = data;
+        var dd = @MvcHtmlString.Create(@ViewBag.Data);
+        //数据表格使用
+        var gridData = dd;
 
-			function initComplete() {
-				grid = $("#dataBasic").quiGrid({
-					columns: [{
-					    display: '登录账号',
-					    name: 'LoginId',
-							width: "15%"
-						},{
-						    display: '用户姓名',
-						    name: 'UserName',
-							width: "20%"
-						},{
-						    display: '用户类型',
-						    name: 'UserType',
-							width: "20%"
-						}, {
-						    display: '用户状态',
-						    name: 'IsUsing',
-						    width: "10%"
-						}, {
-						    display: '备注',
-						    name: 'Remark',
-						    width: "35%"
-						}
-					],
-					data: gridData,
-					sortName: 'UserName',
-					rownumbers: true,
-					checkbox: false,
-					height: '99%',
-					width: "99%",
-					pageSize: 100,
-					percentWidthMode: true,
-					onAfterShowData: onAfterShowData
-				});
-			}
+        function initComplete() {
+            grid = $("#dataBasic").quiGrid({
+                columns: [{
+                    display: '登录账号',
+                    name: 'LoginId',
+                    width: "15%"
+                },{
+                    display: '用户姓名',
+                    name: 'UserName',
+                    width: "20%"
+                },{
+                    display: '用户类型',
+                    name: 'UserType',
+                    width: "20%"
+                }, {
+                    display: '用户状态',
+                    name: 'IsUsing',
+                    width: "10%"
+                }, {
+                    display: '备注',
+                    name: 'Remark',
+                    width: "35%"
+                }
+                ],
+                data: gridData,
+                sortName: 'UserName',
+                rownumbers: true,
+                checkbox: false,
+                height: '99%',
+                width: "99%",
+                pageSize: 100,
+                percentWidthMode: true,
+                onAfterShowData: onAfterShowData
+            });
+        }
 
-			function onAfterShowData(data) {
+        function onAfterShowData(data) {
 
-				$("#dataBasic").find(".popupMenu").each(function() {
-					$(this).hover(function() {
-						$(this).find(".popupMenu_con").show();
-					}, function() {
-						$(this).find(".popupMenu_con").hide();
-					});
-				})
-			}
+            $("#dataBasic").find(".popupMenu").each(function() {
+                $(this).hover(function() {
+                    $(this).find(".popupMenu_con").show();
+                }, function() {
+                    $(this).find(".popupMenu_con").hide();
+                });
+            })
+        }
 
-			function earlyWarning(){
-				top.Dialog.open({URL:"../../sample_skin/demo/oa_52.html",Title:"设置预警",Width:400,Height:250});
-			}
+        function resetSearch()
+        {
+            $("#UserName").val("");
+            location.href = "/UsersManage/UserInfoQuery";
+        }
 
 
-			function onSetting(){
-			    var selectData = grid.getSelectedRow();
-			    if(selectData==null)
-			    {
-			        top.Toast('showErrorToast', '请选中要设置的阅览室');
-			    }else{
-			        var diag = new top.Dialog();
-			        diag.Title = "阅览室设置";
-			        diag.URL = "/SchoolInfoManage/ReadingRoomSetting?id="+selectData.No;
-			        diag.Width=1200;
-			        diag.Height=800;
-			        diag.OkButtonText = "保 存";
-			        //顺序很重要，diag.show()之前添加确定按钮事件，show之后添加新按钮
-			        diag.OKEvent = function() {
-			            var inputValue = diag.innerFrame.contentWindow.myTest();
-			        };
-			        diag.show();
-			    }
-			}
+        function searchHandler(){
+            var $strWhere = $("#UserName");
+            location.href = "/UsersManage/UserInfoQuery?strWhere="+$strWhere.val();
+        }
+
+        function earlyWarning(){
+            top.Dialog.open({URL:"../../sample_skin/demo/oa_52.html",Title:"设置预警",Width:400,Height:250});
+        }
+
+
+        function addOrEdit(op){
+            
+            var url = "";
+            if(op == 'add'){
+                url = "/UsersManage/AddOrEdit?op="+op+"&LoginId=0";
+            }else if(op == 'edit'){
+                var selectData = grid.getSelectedRow(); 
+                url = "/UsersManage/AddOrEdit?op="+op+"&LoginId="+selectData.LoginId;
+            }
+            var diag = new top.Dialog();
+            diag.Title = '操作窗口';
+            diag.URL = url;
+            diag.Width=550;
+            diag.Height=500;
+            diag.OkButtonText = "保 存";
+            //顺序很重要，diag.show()之前添加确定按钮事件，show之后添加新按钮
+            diag.OKEvent = function() {
+                //var inputValue = diag.innerFrame.contentWindow.myTest();
+                var inputValue = diag.innerFrame.contentWindow.myTest();
+            };
+            diag.show();
+
+        }
 
     </script>
 </body>
