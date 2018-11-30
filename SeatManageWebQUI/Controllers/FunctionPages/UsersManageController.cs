@@ -38,7 +38,10 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             return result;
         }
 
-
+        /// <summary>
+        /// 保存或者更新
+        /// </summary>
+        /// <returns></returns>
         public JsonResult SaveOrUpdate()
         {
             JsonResult result = null;
@@ -177,9 +180,8 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             return View();
         }
 
-        public ActionResult UserInfoQuery(string strWhere)
+        public string QueryUserInfo(string strWhere)
         {
-            //JsonResult result = null;
             List<SeatManage.ClassModel.UserInfo> userlist = SeatManage.Bll.Users_ALL.GetUsers();
             if (!string.IsNullOrEmpty(strWhere))
             {
@@ -219,16 +221,12 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             sb.Append("]");
             sb.Append("}");
             string data = sb.ToString();
-            ViewBag.Data = data;
-            ViewBag.strWhere = strWhere;
-            //result = Json(new { status = "yes", message = "模糊查询成功" }, JsonRequestBehavior.AllowGet);
-            return View("UserInfo");
+            return data;
         }
 
         public ActionResult UserInfo()
         {
             List<SeatManage.ClassModel.UserInfo> userlist = SeatManage.Bll.Users_ALL.GetUsers();
-
             StringBuilder sb = new StringBuilder();
             sb.Append("{");
             sb.Append("\"form.paginate.pageNo\": 1,");
@@ -264,7 +262,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             string data = sb.ToString();
             ViewBag.Data = data;
             return View();
-        } 
+        }
         #endregion
 
 
@@ -299,5 +297,8 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             ViewBag.Data = data;
             return View();
         }
+
+
+
     }
 }

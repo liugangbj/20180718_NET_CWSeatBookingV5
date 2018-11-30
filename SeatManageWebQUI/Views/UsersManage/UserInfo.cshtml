@@ -68,7 +68,7 @@
                 <table style="float: right;">
                     <tr>
                         <td>
-                            <input type="text" placeholder="姓名" id="UserName" name="UserName" value="@ViewBag.strWhere" />
+                            <input type="text" placeholder="姓名" id="UserName" name="UserName" />
                         </td>
                         <td><button type="button" onclick="searchHandler()" id="search" class="primary"><span class="icon_find">查询</span></button></td>
                         <td><button type="button" onclick="resetSearch()"><span class="icon_clear">重置</span></button></td>
@@ -124,42 +124,31 @@
                 height: '99%',
                 width: "99%",
                 pageSize: 100,
-                percentWidthMode: true,
-                onAfterShowData: onAfterShowData
+                percentWidthMode: true
             });
-        }
-
-        function onAfterShowData(data) {
-
-            $("#dataBasic").find(".popupMenu").each(function() {
-                $(this).hover(function() {
-                    $(this).find(".popupMenu_con").show();
-                }, function() {
-                    $(this).find(".popupMenu_con").hide();
-                });
-            })
-        }
-
-        function resetSearch()
-        {
-            $("#UserName").val("");
-            location.href = "/UsersManage/UserInfoQuery";
         }
 
 
         function searchHandler(){
-            var $strWhere = $("#UserName");
-            location.href = "/UsersManage/UserInfoQuery?strWhere="+$strWhere.val();
-        }
+            var $strWhere = $("#UserName").val();
+            console.log($strWhere);
 
-        function earlyWarning(){
-            top.Dialog.open({URL:"../../sample_skin/demo/oa_52.html",Title:"设置预警",Width:400,Height:250});
+            $.ajax({
+                url: "/UsersManage/QueryUserInfo",
+                data: { strWhere: $strWhere },
+                type: "post",
+                dataType: "text",
+                success: function (data) {
+                    var obj = eval('(' + data + ')');
+                    grid.loadData(obj);
+                },error:function (data){
+                    alert(data);
+                }
+            });
         }
 
         function remove(){
             var selectData = grid.getSelectedRow(); 
-         //   var LoginId = selectData.LoginId;
-
             if(selectData==null)
             {
                 top.Toast('showErrorToast', '请选中要删除的行');
@@ -176,8 +165,9 @@
                             dataType: "json",
                             success: function (data) {
                                 if (data.status == "yes") {
-                                    location.href='/UsersManage/UserInfo'
+                                    //location.href='/UsersManage/UserInfo'
                                     top.Toast('showSuccessToast', data.message);
+                                    searchHandler();
                                 } else {
                                     top.Toast('showErrorToast', data.message);
                                 }
@@ -197,6 +187,12 @@
                 url = "/UsersManage/AddOrEdit?op="+op+"&LoginId=0";
             }else if(op == 'edit'){
                 var selectData = grid.getSelectedRow(); 
+
+                if(selectData==null)
+                {
+                    top.Toast('showErrorToast', '请选中要编辑的行');
+                }
+
                 url = "/UsersManage/AddOrEdit?op="+op+"&LoginId="+selectData.LoginId;
             }
             var diag = new top.Dialog();
@@ -209,7 +205,8 @@
             diag.OKEvent = function() {
                 //var inputValue = diag.innerFrame.contentWindow.myTest();
                 var inputValue = diag.innerFrame.contentWindow.myTest();
-                grid.loadData();
+                searchHandler();
+                diag.close();
             };
             diag.show();
 
