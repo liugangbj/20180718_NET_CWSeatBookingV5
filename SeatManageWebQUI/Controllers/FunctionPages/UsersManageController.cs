@@ -1,4 +1,5 @@
-﻿using SeatManage.Bll;
+﻿using Newtonsoft.Json;
+using SeatManage.Bll;
 using SeatManage.ClassModel;
 using System;
 using System.Collections.Generic;
@@ -42,7 +43,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
         /// 保存或者更新
         /// </summary>
         /// <returns></returns>
-        public JsonResult SaveOrUpdate()
+        public ContentResult SaveOrUpdate()
         {
             JsonResult result = null;
             List<SeatManage.ClassModel.SysRolesDicInfo> rolelist = SeatManage.Bll.SysRolesDic.GetRoleList(null, null);
@@ -115,7 +116,8 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             }
 
             result = saveOrUpdateIsOk ? Json(new { status = "yes", message = "保存成功" }, JsonRequestBehavior.AllowGet) : Json(new { status = "no", message = "保存失败" }, JsonRequestBehavior.AllowGet);
-            return result;
+            var jsonstr = JsonConvert.SerializeObject(result);
+            return Content(jsonstr);
         }
 
         public ActionResult AddOrEdit(string op, string LoginId)
