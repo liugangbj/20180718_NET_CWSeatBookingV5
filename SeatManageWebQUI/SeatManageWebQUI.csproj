@@ -4123,6 +4123,7 @@
     <Content Include="Views\SchoolInfoManage\ReadingRoomSetting.cshtml" />
     <Content Include="Views\SchoolInfoManage\BespeakSeatSetting.cshtml" />
     <Content Include="Views\UsersManage\AddOrEdit.cshtml" />
+    <Content Include="Views\SeatBespeak\BespeakSeatLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

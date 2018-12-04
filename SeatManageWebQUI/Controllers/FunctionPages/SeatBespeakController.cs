@@ -144,6 +144,11 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             return result;
         }
 
+        public ActionResult BespeakSeatLayout()
+        {
+            return View();
+        }
+
         public string BindingGrid(string libno,string SelectedDate)
         {
             StringBuilder sb = new StringBuilder();

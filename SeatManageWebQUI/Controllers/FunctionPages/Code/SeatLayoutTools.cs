@@ -484,5 +484,11 @@ namespace SeatManageWebQUI.Controllers.FunctionPages.Code
             }
         }
 
+        // SeatLayoutHandle//
+        public string drowBespeakSeatLayOutHtml(string roomNum, string  date,string divTransparentTop,string divTransparentLeft)
+        {
+
+            return "";
+        }
     }
 }
