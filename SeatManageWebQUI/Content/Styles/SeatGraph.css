@@ -20,7 +20,7 @@ body
 {
     position: absolute;
     /*background: #5074A7;*/
-    background: #95adce;
+    background: #a8a8aa;
     width: 1245px;
     height: 685px;
     top: 0px;
@@ -33,7 +33,7 @@ body
 .SeatLayout
 {
     position: absolute;
-    background: #95adce;
+    background: #a8a8aa;
     float: right;
     overflow: hidden;
 }

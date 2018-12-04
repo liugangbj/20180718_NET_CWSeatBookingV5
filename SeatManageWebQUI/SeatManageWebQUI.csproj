@@ -4124,6 +4124,7 @@
     <Content Include="Views\SchoolInfoManage\BespeakSeatSetting.cshtml" />
     <Content Include="Views\UsersManage\AddOrEdit.cshtml" />
     <Content Include="Views\SeatBespeak\BespeakSeatLayout.cshtml" />
+    <Content Include="Views\SeatBespeak\BespeakSubmitWindow.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

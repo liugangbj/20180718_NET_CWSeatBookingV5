@@ -139,7 +139,9 @@ function BespeakSeatClick(urlParameters) {
     if (urlParameters == "" || urlParameters == NaN) {
         return;
     }
-    X("seatBespeakWindow").box_show("../SeatBespeak/BespeakSubmitWindow.aspx?parameters=" + urlParameters, '座位预约');
+    alert(urlParameters);
+
+  //  X("seatBespeakWindow").box_show("../SeatBespeak/BespeakSubmitWindow.aspx?parameters=" + urlParameters, '座位预约');
 }
 //座位预约确认窗口(当天)
 function BespeakSeatNowDayClick(urlParameters) {
@@ -214,13 +216,14 @@ function loadSeatLayout() {
 
 }
 function loadBespeakSeatLayout() {
-    var roomNum = $("#hiddenRoomNum").val();
-    var bespeakDate = $("#hiddenDate").val();
+   // var roomNum = $("#hiddenRoomNum").val();
+  //  var bespeakDate = $("#hiddenDate").val();
 
     $.ajax({ //一个Ajax过程 
         type: "post", //使用get方法访问后台
         dataType: "html", //返回json格式的数据 
-        url: "SeatLayoutHandle.ashx", //要访问的后台地址
+       // url: "SeatLayoutHandle.ashx", //要访问的后台地址
+        url: "/SeatBespeak/drowBespeakSeatLayOutHtml", //要访问的后台地址
         data: { "roomNum": roomNum, "date": bespeakDate, "divTransparentTop": divTop, "divTransparentLeft": divleft }, //要发送的数据
 
         // complete: function () { $("#load").hide(); }, //AJAX请求完成时隐藏loading提示
