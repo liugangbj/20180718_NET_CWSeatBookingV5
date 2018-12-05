@@ -115,7 +115,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
         }
 
         /// <summary>
-        /// 校验指定房间和日期是否能预约
+        /// 校验指定房间能预约
         /// </summary>
         /// <param name="set"></param>
         /// <param name="nowDate"></param>
@@ -148,7 +148,12 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             return true;
         }
 
-
+        /// <summary>
+        /// 校验指定日期日期是否能预约
+        /// </summary>
+        /// <param name="set"></param>
+        /// <param name="nowDate"></param>
+        /// <returns></returns>
         private bool timeCanBespeak(SeatManage.ClassModel.SeatBespeakSet set, DateTime nowDate)
         {
             try
@@ -225,45 +230,14 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             return new SeatLayoutTools().drowBespeakSeatLayOutHtml(roomNum, date, divTransparentTop, divTransparentLeft);
         }
 
-        /// <summary>
-        /// 判断座位是否符合预约条件
-        /// </summary>
-        /// <returns></returns>
-        protected bool IsCanBespeak()
-        {
-            bool result = true;
-            DateTime nowDate = SeatManage.Bll.ServiceDateTime.Now;
-            SeatManage.ClassModel.ReadingRoomSetting set = SeatManage.Bll.T_SM_ReadingRoom.GetSingleRoomInfo(roomNo).Setting;
-            if (!set.SeatBespeak.Used)
-            {
-                WriteLogs("阅览室布局页面");
-                Response.Write("<html><head><title>系统安全提示</title><script>alert('阅览室没有开放预约');</script></head><body></body></html>");
-                Response.End();
-            }
-            if (!dateBespeak(set.SeatBespeak, nowDate, date))
-            {
-                WriteLogs("阅览室布局页面");
-                Response.Write("<html><head><title>系统安全提示</title><script>alert('该日期不能预约');</script></head><body></body></html>");
-                Response.End();
-            }
-            if (!timeCanBespeak(set.SeatBespeak, nowDate))
-            {
-                WriteLogs("阅览室布局页面");
-                Response.Write("<html><head><title>系统安全提示</title><script>alert('"+ string.Format("预约时间为：{0}到{1}", set.SeatBespeak.CanBespeatTimeSpace.BeginTime, set.SeatBespeak.CanBespeatTimeSpace.EndTime) + "');</script></head><body></body></html>");
-                Response.End();
-            }
-            return result;
-        }
-
         public string BindBespeakModel2TimeSelect(string seatNo, string seatShortNo, string dateString,string roomNo)
         {
             SeatManage.ClassModel.ReadingRoomInfo room = SeatManage.Bll.T_SM_ReadingRoom.GetSingleRoomInfo(roomNo);
             SeatManage.Bll.T_SM_ReadingRoom bllReadingRoom = new SeatManage.Bll.T_SM_ReadingRoom();
             StringBuilder sb = new StringBuilder();
-            sb.Append("{\"list\":[");
             DateTime date = DateTime.Parse(dateString);
             DateTime minTime = DateTime.Parse(date.ToShortDateString() + " " + bllReadingRoom.GetRoomOpenTimeByDate(room.Setting, date.ToShortDateString()).BeginTime);
-
+            sb.Append("<select onchange=\"selChange()\" prompt=\"请选择\" id=\"timeSelect\">");
             while (true)
             {
                 minTime = minTime.AddMinutes(10);
@@ -275,17 +249,84 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
                 {
                     continue;
                 }
-                sb.Append("{\"key\":\"" + minTime.ToShortTimeString() + "\",\"value\":\"" + minTime.ToShortTimeString() + "\"},");
+                sb.Append("<option value=\""+ minTime.ToShortTimeString() + "\">"+ minTime.ToShortTimeString() + "</option>");
             }
-            sb.Remove(sb.Length - 1, 1);
-            sb.Append("]}");
+
+            sb.Append("</select>");
+
+            string roomOpenTime = bllReadingRoom.GetRoomOpenTimeByDate(room.Setting, DateTime.Parse(dateString).ToShortDateString()).BeginTime;
+            ViewBag.lblEndDate = bespeakSureTimeSpan(room.Setting, "1",dateString);
             return sb.ToString(); ;
         }
 
-        string seatNo = "";
-        string seatShortNo = "";
-        string date = "";
-        string roomNo = "";
+        public string SelectTimeChange(string roomNo,string selValue)
+        {
+            SeatManage.ClassModel.ReadingRoomInfo room = SeatManage.Bll.T_SM_ReadingRoom.GetSingleRoomInfo(roomNo);
+            DateTime bespeakTime = DateTime.Parse(selValue);
+            DateTime bespeakBeginTime = bespeakTime.AddMinutes(-double.Parse(room.Setting.SeatBespeak.ConfirmTime.BeginTime));
+            DateTime bespeakEndTime = bespeakTime.AddMinutes(double.Parse(room.Setting.SeatBespeak.ConfirmTime.EndTime));
+            return string.Format("{0}至{1}", bespeakBeginTime.ToShortTimeString(), bespeakEndTime.ToShortTimeString());
+        }
+
+        /// <summary>
+        /// 确认按钮
+        /// </summary>
+        /// <returns></returns>
+        public ContentResult btnBespeakSubmit(string rblModelSelectedValue, string date, string roomOpenTimeValue,string TimeSelectedText,string roomNo,string seatNo)
+        {
+            SeatManage.ClassModel.BespeakLogInfo bespeakModel = new SeatManage.ClassModel.BespeakLogInfo();
+            bespeakModel.BsepeakState = SeatManage.EnumType.BookingStatus.Waiting;
+            DateTime bespeatDate = DateTime.Parse(string.Format("{0} {1}", DateTime.Parse(date).ToShortDateString(), roomOpenTimeValue));
+            if (rblModelSelectedValue == "1")
+            {
+               bespeatDate = DateTime.Parse(string.Format("{0} {1}", DateTime.Parse(date).ToShortDateString(), TimeSelectedText));
+            }
+            bespeakModel.BsepeakTime = bespeatDate;
+            bespeakModel.CardNo = this.LoginId;
+            bespeakModel.ReadingRoomNo = roomNo.Trim();
+            bespeakModel.Remark = string.Format("读者通过Web页面预约座位");
+            bespeakModel.SeatNo = seatNo;
+            bespeakModel.SubmitTime = SeatManage.Bll.ServiceDateTime.Now;
+            JsonResult jsonResult = null;
+            try
+            {
+                SeatManage.ClassModel.ReadingRoomInfo room = SeatManage.Bll.T_SM_ReadingRoom.GetSingleRoomInfo(bespeakModel.ReadingRoomNo);
+                if (!room.Setting.IsCanBespeakSeat(bespeakModel.BsepeakTime))
+                {
+                    jsonResult = Json(new { status = "no", message = "对不起不能预约当前日期的座位，请刷新页面重新选择日期。" }, JsonRequestBehavior.AllowGet);
+                }
+                if (bespeakModel.SubmitTime > bespeakModel.BsepeakTime)
+                {
+                    jsonResult = Json(new { status = "no", message = "对不起不能预约时间错误，请刷新页面重新选择日期。" }, JsonRequestBehavior.AllowGet);
+                }
+                if (room.Setting.SeatBespeak.BespeakArea.BespeakType == BespeakAreaType.Percentage)
+                {
+                    List<BespeakLogInfo> bespeaklogs = SeatManage.Bll.T_SM_SeatBespeak.GetNotCheckedBespeakLogInfo(new List<string>() { bespeakModel.ReadingRoomNo }, bespeakModel.BsepeakTime);
+                    double canbookCount = (double)((double)(room.SeatList.Seats.Count - room.SeatList.Seats.Where(u => u.Value.IsSuspended).ToArray().Count()) * room.Setting.SeatBespeak.BespeakArea.Scale);
+                    if (bespeaklogs.Count >= canbookCount)
+                    {
+                        jsonResult = Json(new { status = "no", message = "对不起当前阅览室已经没有可预约的座位。" }, JsonRequestBehavior.AllowGet);
+                    }
+                }
+
+                SeatManage.EnumType.HandleResult result = SeatManage.Bll.T_SM_SeatBespeak.AddBespeakLogInfo(bespeakModel);
+                if (result == SeatManage.EnumType.HandleResult.Successed)
+                {
+                    jsonResult = Json(new { status = "yes", message = "座位预约成功，请在规定的时间内刷卡确认。" }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    jsonResult = Json(new { status = "no", message = "预约失败，该座位已经被别人预约。" }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                jsonResult = Json(new { status = "no", message = string.Format("执行预约操作遇到错误：{0}", ex.Message) }, JsonRequestBehavior.AllowGet);
+            }
+            var jsonstr = JsonConvert.SerializeObject(jsonResult);
+            return Content(jsonstr);
+        }
+
         /// <summary>
         ///打开预约确认端口
         /// </summary>
@@ -312,24 +353,153 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
                 Response.End();
             }
             SeatManageWebV5.Code.BespeakSubmitWindowParamModel bespeakSubmitModel = new BespeakSubmitWindowParamModel(parm);
-            seatNo = bespeakSubmitModel.SeatNo;
-            seatShortNo = bespeakSubmitModel.ShortSeatNo;
-            date = DateTime.FromBinary(long.Parse(bespeakSubmitModel.BespeakDate)).ToString();
-            roomNo = bespeakSubmitModel.RoomNo;
+            string   seatNo = bespeakSubmitModel.SeatNo;
+            string  seatShortNo = bespeakSubmitModel.ShortSeatNo;
+            string  date = DateTime.FromBinary(long.Parse(bespeakSubmitModel.BespeakDate)).ToString();
+            string roomNo = bespeakSubmitModel.RoomNo;
             DateTime nowDate = SeatManage.Bll.ServiceDateTime.Now;
 
-            if (!IsCanBespeak())
+            if (!IsCanBespeak(roomNo, date))
             {
                 WriteLogs("阅览室布局页面");
                 Response.Write("<html><head><title>系统安全提示</title><script>alert('请通过正确方式访问网站');</script></head><body></body></html>");
                 Response.End();
             }
+            SeatManage.ClassModel.ReadingRoomInfo room = SeatManage.Bll.T_SM_ReadingRoom.GetSingleRoomInfo(roomNo);
+            List<SeatManage.ClassModel.BespeakLogInfo> list = SeatManage.Bll.T_SM_SeatBespeak.GetBespeakLogInfoBySeatNo(seatNo, DateTime.Parse(date));
+            SeatManage.Bll.T_SM_ReadingRoom bllReadingRoom = new SeatManage.Bll.T_SM_ReadingRoom();
+            string roomOpenTime = bllReadingRoom.GetRoomOpenTimeByDate(room.Setting, DateTime.Parse(date).ToShortDateString()).BeginTime;
 
+            //判断自己是否已经预约座位
+            List<SeatManage.EnumType.BookingStatus> bespeakStatus = new List<SeatManage.EnumType.BookingStatus>();
+            bespeakStatus.Add(SeatManage.EnumType.BookingStatus.Waiting);
+            List<SeatManage.ClassModel.BespeakLogInfo> readerBespeaklist = SeatManage.Bll.T_SM_SeatBespeak.GetBespeakLogInfoByCardNo(this.LoginId, DateTime.Parse(date));//.GetBespeakList(this.LoginId, null, date, 0, bespeakStatus);
+            if (readerBespeaklist.Count > 0)
+            {
+                Response.Write("<html><head><title>系统提示</title><script>alert('您选择的日期已经预约了座位，请先取消原来的预约。');</script></head><body></body></html>");
+                Response.End();
+            }
+            //判断座位是否被别人预约
+            List<SeatManage.ClassModel.BespeakLogInfo> listBespeakLogInfo = SeatManage.Bll.T_SM_SeatBespeak.GetBespeakLogInfoBySeatNo(seatNo, DateTime.Parse(date));
+
+            //roomOpenTime = bllReadingRoom.GetRoomOpenTimeByDate(room.Setting, DateTime.Parse(date).ToShortDateString()).BeginTime;
+           // this.lblEndDate.Text = bespeakSureTimeSpan(room.Setting);
+            for (int i = 0; i < listBespeakLogInfo.Count; i++)
+            {
+                if (list[i].BsepeakState == SeatManage.EnumType.BookingStatus.Waiting)
+                {
+                    Response.Write("<html><head><title>系统提示</title><script>alert('座位已经被别人预约，请预约其他座位');</script></head><body></body></html>");
+                    Response.End();
+                }
+            }
+            //判断是否已加入黑名单
+            List<SeatManage.ClassModel.BlackListInfo> blacklistInfoByCardNo = SeatManage.Bll.T_SM_Blacklist.GetBlackListInfo(this.LoginId);
+            SeatManage.ClassModel.RegulationRulesSetting rulesSet = SeatManage.Bll.T_SM_SystemSet.GetRegulationRulesSetting();
+            if (room.Setting.UsedBlacklistLimit && blacklistInfoByCardNo.Count > 0)
+            {
+                if (room.Setting.BlackListSetting.Used)
+                {
+                    bool isblack = false;
+                    foreach (SeatManage.ClassModel.BlackListInfo blinfo in blacklistInfoByCardNo)
+                    {
+                        if (blinfo.ReadingRoomID == room.No)
+                        {
+                            isblack = true;
+                            break;
+                        }
+                    }
+                    if (isblack)
+                    {
+                        Response.Write("<html><head><title>系统提示</title><script>alert('你已进入黑名单，不能在该阅览室预约座位');</script></head><body></body></html>");
+                        Response.End();
+                    }
+                }
+                else
+                {
+                    Response.Write("<html><head><title>系统提示</title><script>alert('你已进入黑名单，不能在该阅览室预约座位');</script></head><body></body></html>");
+                    Response.End();
+                }
+            }
+            if (room.Setting.LimitReaderEnter.Used)
+            {
+                SeatManage.ClassModel.ReaderInfo readerInfo = SeatManage.Bll.EnterOutOperate.GetReaderInfo(this.LoginId);
+                string[] litype = room.Setting.LimitReaderEnter.ReaderTypes.Split(';');
+                if (!room.Setting.LimitReaderEnter.CanEnter)
+                {
+                    foreach (string type in litype)
+                    {
+                        if (type == readerInfo.ReaderType)
+                        {
+                            Response.Write("<html><head><title>系统提示</title><script>alert('你的读者类型不能在该阅览室预约座位');</script></head><body></body></html>");
+                            Response.End();
+                        }
+                    }
+                }
+                else
+                {
+                    bool isintype = false;
+                    foreach (string type in litype)
+                    {
+                        if (type == readerInfo.ReaderType)
+                        {
+                            isintype = true;
+                            break;
+                        }
+                    }
+                    if (!isintype)
+                    {
+                        Response.Write("<html><head><title>系统提示</title><script>alert('你的读者类型不能在该阅览室预约座位');</script></head><body></body></html>");
+                        Response.End();
+                    }
+                }
+            }
+            ViewBag.roomOpenTime = roomOpenTime;
+            ViewBag.lblEndDate = bespeakSureTimeSpan(room.Setting, "0", date);
             ViewBag.seatNo = seatNo;
             ViewBag.seatShortNo = seatShortNo;
             ViewBag.date = date;
             ViewBag.roomNo = roomNo;
             return View();
+        }
+
+        /// <summary>
+        ///单选按钮切换回开馆预约的时候调用
+        /// </summary>
+        /// <param name="roomNo"></param>
+        /// <param name="rblModelSelectedValue"></param>
+        /// <param name="date"></param>
+        /// <returns></returns>
+      public  string bespeakSureTimeSpan(string roomNo, string rblModelSelectedValue, string date)
+        {
+            SeatManage.Bll.T_SM_ReadingRoom bllReadingRoom = new SeatManage.Bll.T_SM_ReadingRoom();
+            SeatManage.ClassModel.ReadingRoomInfo room = SeatManage.Bll.T_SM_ReadingRoom.GetSingleRoomInfo(roomNo);
+            DateTime bespeakTime = Convert.ToDateTime(bllReadingRoom.GetRoomOpenTimeByDate(room.Setting, date).BeginTime);
+            if (rblModelSelectedValue == "1")
+            {
+                if (room.Setting.SeatBespeak.SpecifiedTime)
+                {
+                    bespeakTime = room.Setting.SeatBespeak.SpecifiedTimeList[0];
+                }
+            }
+            DateTime bespeakBeginTime = bespeakTime.AddMinutes(-double.Parse(room.Setting.SeatBespeak.ConfirmTime.BeginTime));
+            DateTime bespeakEndTime = bespeakTime.AddMinutes(double.Parse(room.Setting.SeatBespeak.ConfirmTime.EndTime));
+            return string.Format("{0}至{1}", bespeakBeginTime.ToShortTimeString(), bespeakEndTime.ToShortTimeString());
+        }
+
+        string bespeakSureTimeSpan(SeatManage.ClassModel.ReadingRoomSetting set,string rblModelSelectedValue,string date)
+        {
+            SeatManage.Bll.T_SM_ReadingRoom bllReadingRoom = new SeatManage.Bll.T_SM_ReadingRoom();
+            DateTime bespeakTime = Convert.ToDateTime(bllReadingRoom.GetRoomOpenTimeByDate(set, date).BeginTime);
+            if (rblModelSelectedValue == "1")
+            {
+                if (set.SeatBespeak.SpecifiedTime)
+                {
+                    bespeakTime = set.SeatBespeak.SpecifiedTimeList[0];
+                }
+            }
+            DateTime bespeakBeginTime = bespeakTime.AddMinutes(-double.Parse(set.SeatBespeak.ConfirmTime.BeginTime));
+            DateTime bespeakEndTime = bespeakTime.AddMinutes(double.Parse(set.SeatBespeak.ConfirmTime.EndTime));
+            return string.Format("{0}至{1}", bespeakBeginTime.ToShortTimeString(), bespeakEndTime.ToShortTimeString());
         }
 
         /// <summary>

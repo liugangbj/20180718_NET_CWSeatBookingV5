@@ -139,18 +139,24 @@ function BespeakSeatClick(urlParameters) {
     if (urlParameters == "" || urlParameters == NaN) {
         return;
     }
-    alert(urlParameters);
+  //  alert(urlParameters);
     var diag = new top.Dialog();
     diag.Title = "座位操作";
     diag.URL = "/SeatBespeak/BespeakSubmitWindow?parm=" + urlParameters;
-    diag.Width = 600;
-    diag.Height = 400;
-    diag.OkButtonText = "关闭";
+    diag.Width = 450;
+    diag.Height = 300;
+
+
+    diag.ShowButtonRow = true;
+    diag.ShowOkButton = false;
+    diag.CancelButtonText = " 关 闭 ";
     //顺序很重要，diag.show()之前添加确定按钮事件，show之后添加新按钮
-    diag.OKEvent = function () {
-        diag.close();
-    };
     diag.show();
+
+    diag.addButton("next", " 提交 ", function () {
+        var inputValue = diag.innerFrame.contentWindow.submitForm();
+    });
+
   //  X("seatBespeakWindow").box_show("../SeatBespeak/BespeakSubmitWindow.aspx?parameters=" + urlParameters, '座位预约');
 }
 //座位预约确认窗口(当天)

@@ -32,51 +32,110 @@
                 <tr>
                     <td>所在阅览室：</td>
                     <td>
-                        <input type="text" value="@ViewBag.roomNo" id="roomNo" />
+                        <input type="text" value="@ViewBag.roomNo" id="roomNo" readonly="readonly" />
                     </td>
+                    <td></td>
                 </tr>
                 <tr>
                     <td>座位号：</td>
                     <td>
-                        <input type="text" value="@ViewBag.seatShortNo" id="roomNo" />
+                        <input type="text" value="@ViewBag.seatShortNo" id="seatShortNo" readonly="readonly" />
                     </td>
+                    <td></td>
                 </tr>
                 <tr>
                     <td>预约日期：</td>
                     <td>
-                        <input type="text" value="@ViewBag.date" id="roomNo" />
+                        <input type="text" value="@ViewBag.date" id="date"  readonly="readonly"/>
                     </td>
+                    <td></td>
                 </tr>
                 <tr>
                     <td>预约模式：</td>
                     <td>
-                        <input type="radio" id="BespeakModel1" name="BespeakModel" value="开馆预约" checked="checked" /><label for="BespeakModel1" class="hand">开馆预约</label>
-                        <input type="radio" id="BespeakModel2" name="BespeakModel" value="指定时间" /><label for="BespeakModel2" class="hand">指定时间</label>
-                        <br />
-                        <div id="divSelectTime">
-
-                        </div>
+                        <input type="radio" id="BespeakModel1" name="BespeakModel" value="0" checked="checked" /><label for="BespeakModel1" class="hand">开馆预约</label>
+                        <input type="radio" id="BespeakModel2" name="BespeakModel" value="1" /><label for="BespeakModel2" class="hand">指定时间</label>
+                        <div id="divSelectTime"></div>
                     </td>
+                    <td align="left"></td>
                 </tr>
                 <tr>
                     <td>签到时间：</td>
                     <td>
-
+                        <div id="divlblEndDate">
+                            @ViewBag.lblEndDate
+                        </div>
                     </td>
+                    <td></td>
                 </tr>
             </table>
         </form>
 
         <script>
 
-            $(document).ready(function () {
-                document.getElementById("selectTime").style.display = "none";
-                $('input[type=radio][name=BespeakModel]').change(function () {
-                    if (this.value == '指定时间') {
-                        document.getElementById("selectTime").style.display = "block";
+
+            function submitForm() {
+                var $rblModelSelectedValue = $("input:radio[name=BespeakModel]:checked").val();//$("input[name=BespeakModel][checked]").val();
+                var $TimeSelectedText = "";
+
+                if ($("#timeSelect").length > 0) {
+                    $TimeSelectedText = $('#timeSelect').val();
+                }
+
+                $.ajax({
+                    url: "/SeatBespeak/btnBespeakSubmit", //你的路由地址
+                    type: "post",
+                    data: { rblModelSelectedValue: $rblModelSelectedValue, date: '@ViewBag.date', roomOpenTimeValue: '@ViewBag.roomOpenTime', TimeSelectedText: $TimeSelectedText, roomNo: '@ViewBag.roomNo', seatNo: '@ViewBag.seatNo' },
+                    dataType: "text",
+                    timeout: 30000,
+                    success: function (data) {
+                        var obj = eval('(' + data + ')');
+                        if (obj.status == "yes") {
+                            top.Toast('showSuccessToast', obj.message);
+                        } else {
+                            top.Toast('showErrorToast', obj.message);
+                        }
                     }
-                    else if (this.value == '开馆预约') {
-                        document.getElementById("selectTime").style.display = "none";
+                });
+            }
+
+            function selChange() {
+                var checkValue = $("#timeSelect").val();
+                $.ajax({
+                    url: "/SeatBespeak/SelectTimeChange?roomNo=@ViewBag.roomNo&selValue=" + checkValue, //你的路由地址
+                    type: "post",
+                    dataType: "text",
+                    timeout: 30000,
+                    success: function (data) {
+                        $("#divlblEndDate").html(data);
+                    }
+                });
+            }
+
+            $(document).ready(function () {
+                $('input[type=radio][name=BespeakModel]').change(function () {
+                    if (this.value == '1') {
+                        $.ajax({
+                            url: "/SeatBespeak/BindBespeakModel2TimeSelect?seatNo=@ViewBag.seatNo&seatShortNo=@ViewBag.seatShortNo&dateString=@ViewBag.date&roomNo=@ViewBag.roomNo", //你的路由地址
+                            type: "post",
+                            dataType: "text",
+                            timeout: 30000,
+                            success: function (data) {
+                                $("#divSelectTime").html(data);
+                            }
+                        });
+                    }
+                    else if (this.value == '0') {
+                        $("#divSelectTime").html("");
+                        $.ajax({
+                            url: "/SeatBespeak/bespeakSureTimeSpan?roomNo=@ViewBag.roomNo&rblModelSelectedValue=0&date=@ViewBag.date", //你的路由地址
+                            type: "post",
+                            dataType: "text",
+                            timeout: 30000,
+                            success: function (data) {
+                                $("#divlblEndDate").html(data);
+                            }
+                        });
                     }
                 });
             });
