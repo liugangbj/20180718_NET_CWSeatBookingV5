@@ -21,9 +21,11 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
         }
         public ActionResult BespeakSelfSeat()
         {
+
             return View();
         }
-        public JsonResult CheckBooking(string SelectedDate,string roomNo,string canBespeakAmountStr)
+        #region 隔天
+        public JsonResult CheckBooking(string SelectedDate, string roomNo, string canBespeakAmountStr)
         {
             JsonResult result = null;
             DateTime nowDate = SeatManage.Bll.ServiceDateTime.Now;
@@ -32,7 +34,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             string roomSet = room.Setting.ToString();
             if (string.IsNullOrEmpty(roomSet))
             {
-                result = Json(new { status = "no", message = "该阅览室没有配置"  }, JsonRequestBehavior.AllowGet);
+                result = Json(new { status = "no", message = "该阅览室没有配置" }, JsonRequestBehavior.AllowGet);
             }
             else if (selectedDate.CompareTo(nowDate) <= 0)
             {
@@ -62,14 +64,14 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
                     }
                     else
                     {
-                        
+
                         string urlParametersStr = SeatManage.SeatManageComm.AESAlgorithm.DESEncode(string.Format("roomNo={0}&date={1}", roomNo, selectedDate.ToBinary()));
-                        result = Json(new { status = "yes", message = "预约座位", urlParameters=urlParametersStr }, JsonRequestBehavior.AllowGet);
+                        result = Json(new { status = "yes", message = "预约座位", urlParameters = urlParametersStr }, JsonRequestBehavior.AllowGet);
                     }
                 }
                 catch (Exception ex)
                 {
-                    
+
                     result = Json(new { status = "no", message = ex.ToString() }, JsonRequestBehavior.AllowGet);
                 }
             }
@@ -82,7 +84,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
 
         public ActionResult BespeakSeatLayout()
         {
-            
+
             if (!OpVerifiction())
             {
                 Response.Write("<html><head><title>系统安全提示</title><script>alert('请使用正常方式访问网站');location.href='/Login'</script></head><body></body></html>");
@@ -92,7 +94,8 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             {
                 Response.Write("<html><head><title>系统安全提示</title><script>alert('你的操作不合法，请使用正确途径预约座位');location.href='/Login'</script></head><body></body></html>");
                 Response.End();
-            }else
+            }
+            else
             {
                 string Param = Request.Params["Param"].ToString();
                 BespeakSubmitWindowParamModel par = new BespeakSubmitWindowParamModel(Request.QueryString["Param"]);
@@ -110,7 +113,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
                 ViewBag.bespeakDate = bespeakDate;
                 ViewBag.roomNum = roomNum;
             }
-          
+
             return View();
         }
 
@@ -197,7 +200,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
                 }
                 if (!timeCanBespeak(set.SeatBespeak, nowDate))
                 {
-                    Response.Write("<html><head><title>系统安全提示</title><script>alert('"+ string.Format("预约时间为：{0}到{1}", set.SeatBespeak.CanBespeatTimeSpace.BeginTime, set.SeatBespeak.CanBespeatTimeSpace.EndTime) + "');location.href='/Login'</script></head><body></body></html>");
+                    Response.Write("<html><head><title>系统安全提示</title><script>alert('" + string.Format("预约时间为：{0}到{1}", set.SeatBespeak.CanBespeatTimeSpace.BeginTime, set.SeatBespeak.CanBespeatTimeSpace.EndTime) + "');location.href='/Login'</script></head><body></body></html>");
                     Response.End();
                 }
                 return result;
@@ -208,7 +211,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             }
 
         }
-        
+
 
         /// <summary>
         /// 绘制预约座位图
@@ -230,7 +233,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             return new SeatLayoutTools().drowBespeakSeatLayOutHtml(roomNum, date, divTransparentTop, divTransparentLeft);
         }
 
-        public string BindBespeakModel2TimeSelect(string seatNo, string seatShortNo, string dateString,string roomNo)
+        public string BindBespeakModel2TimeSelect(string seatNo, string seatShortNo, string dateString, string roomNo)
         {
             SeatManage.ClassModel.ReadingRoomInfo room = SeatManage.Bll.T_SM_ReadingRoom.GetSingleRoomInfo(roomNo);
             SeatManage.Bll.T_SM_ReadingRoom bllReadingRoom = new SeatManage.Bll.T_SM_ReadingRoom();
@@ -249,17 +252,17 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
                 {
                     continue;
                 }
-                sb.Append("<option value=\""+ minTime.ToShortTimeString() + "\">"+ minTime.ToShortTimeString() + "</option>");
+                sb.Append("<option value=\"" + minTime.ToShortTimeString() + "\">" + minTime.ToShortTimeString() + "</option>");
             }
 
             sb.Append("</select>");
 
             string roomOpenTime = bllReadingRoom.GetRoomOpenTimeByDate(room.Setting, DateTime.Parse(dateString).ToShortDateString()).BeginTime;
-            ViewBag.lblEndDate = bespeakSureTimeSpan(room.Setting, "1",dateString);
+            ViewBag.lblEndDate = bespeakSureTimeSpan(room.Setting, "1", dateString);
             return sb.ToString(); ;
         }
 
-        public string SelectTimeChange(string roomNo,string selValue)
+        public string SelectTimeChange(string roomNo, string selValue)
         {
             SeatManage.ClassModel.ReadingRoomInfo room = SeatManage.Bll.T_SM_ReadingRoom.GetSingleRoomInfo(roomNo);
             DateTime bespeakTime = DateTime.Parse(selValue);
@@ -272,14 +275,14 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
         /// 确认按钮
         /// </summary>
         /// <returns></returns>
-        public ContentResult btnBespeakSubmit(string rblModelSelectedValue, string date, string roomOpenTimeValue,string TimeSelectedText,string roomNo,string seatNo)
+        public string btnBespeakSubmit(string rblModelSelectedValue, string date, string roomOpenTimeValue, string TimeSelectedText, string roomNo, string seatNo)
         {
             SeatManage.ClassModel.BespeakLogInfo bespeakModel = new SeatManage.ClassModel.BespeakLogInfo();
             bespeakModel.BsepeakState = SeatManage.EnumType.BookingStatus.Waiting;
             DateTime bespeatDate = DateTime.Parse(string.Format("{0} {1}", DateTime.Parse(date).ToShortDateString(), roomOpenTimeValue));
             if (rblModelSelectedValue == "1")
             {
-               bespeatDate = DateTime.Parse(string.Format("{0} {1}", DateTime.Parse(date).ToShortDateString(), TimeSelectedText));
+                bespeatDate = DateTime.Parse(string.Format("{0} {1}", DateTime.Parse(date).ToShortDateString(), TimeSelectedText));
             }
             bespeakModel.BsepeakTime = bespeatDate;
             bespeakModel.CardNo = this.LoginId;
@@ -324,7 +327,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
                 jsonResult = Json(new { status = "no", message = string.Format("执行预约操作遇到错误：{0}", ex.Message) }, JsonRequestBehavior.AllowGet);
             }
             var jsonstr = JsonConvert.SerializeObject(jsonResult);
-            return Content(jsonstr);
+            return jsonstr;
         }
 
         /// <summary>
@@ -353,9 +356,9 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
                 Response.End();
             }
             SeatManageWebV5.Code.BespeakSubmitWindowParamModel bespeakSubmitModel = new BespeakSubmitWindowParamModel(parm);
-            string   seatNo = bespeakSubmitModel.SeatNo;
-            string  seatShortNo = bespeakSubmitModel.ShortSeatNo;
-            string  date = DateTime.FromBinary(long.Parse(bespeakSubmitModel.BespeakDate)).ToString();
+            string seatNo = bespeakSubmitModel.SeatNo;
+            string seatShortNo = bespeakSubmitModel.ShortSeatNo;
+            string date = DateTime.FromBinary(long.Parse(bespeakSubmitModel.BespeakDate)).ToString();
             string roomNo = bespeakSubmitModel.RoomNo;
             DateTime nowDate = SeatManage.Bll.ServiceDateTime.Now;
 
@@ -376,19 +379,21 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             List<SeatManage.ClassModel.BespeakLogInfo> readerBespeaklist = SeatManage.Bll.T_SM_SeatBespeak.GetBespeakLogInfoByCardNo(this.LoginId, DateTime.Parse(date));//.GetBespeakList(this.LoginId, null, date, 0, bespeakStatus);
             if (readerBespeaklist.Count > 0)
             {
-                Response.Write("<html><head><title>系统提示</title><script>alert('您选择的日期已经预约了座位，请先取消原来的预约。');</script></head><body></body></html>");
+                //top.Dialog.close();
+
+                Response.Write("<html><head><title>系统提示</title><script>alert('您选择的日期已经预约了座位，请先取消原来的预约。');top.Dialog.close();</script></head><body></body></html>");
                 Response.End();
             }
             //判断座位是否被别人预约
             List<SeatManage.ClassModel.BespeakLogInfo> listBespeakLogInfo = SeatManage.Bll.T_SM_SeatBespeak.GetBespeakLogInfoBySeatNo(seatNo, DateTime.Parse(date));
 
             //roomOpenTime = bllReadingRoom.GetRoomOpenTimeByDate(room.Setting, DateTime.Parse(date).ToShortDateString()).BeginTime;
-           // this.lblEndDate.Text = bespeakSureTimeSpan(room.Setting);
+            // this.lblEndDate.Text = bespeakSureTimeSpan(room.Setting);
             for (int i = 0; i < listBespeakLogInfo.Count; i++)
             {
                 if (list[i].BsepeakState == SeatManage.EnumType.BookingStatus.Waiting)
                 {
-                    Response.Write("<html><head><title>系统提示</title><script>alert('座位已经被别人预约，请预约其他座位');</script></head><body></body></html>");
+                    Response.Write("<html><head><title>系统提示</title><script>alert('座位已经被别人预约，请预约其他座位');top.Dialog.close();</script></head><body></body></html>");
                     Response.End();
                 }
             }
@@ -410,13 +415,13 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
                     }
                     if (isblack)
                     {
-                        Response.Write("<html><head><title>系统提示</title><script>alert('你已进入黑名单，不能在该阅览室预约座位');</script></head><body></body></html>");
+                        Response.Write("<html><head><title>系统提示</title><script>alert('你已进入黑名单，不能在该阅览室预约座位');top.Dialog.close();</script></head><body></body></html>");
                         Response.End();
                     }
                 }
                 else
                 {
-                    Response.Write("<html><head><title>系统提示</title><script>alert('你已进入黑名单，不能在该阅览室预约座位');</script></head><body></body></html>");
+                    Response.Write("<html><head><title>系统提示</title><script>alert('你已进入黑名单，不能在该阅览室预约座位');top.Dialog.close();</script></head><body></body></html>");
                     Response.End();
                 }
             }
@@ -430,7 +435,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
                     {
                         if (type == readerInfo.ReaderType)
                         {
-                            Response.Write("<html><head><title>系统提示</title><script>alert('你的读者类型不能在该阅览室预约座位');</script></head><body></body></html>");
+                            Response.Write("<html><head><title>系统提示</title><script>alert('你的读者类型不能在该阅览室预约座位');top.Dialog.close();</script></head><body></body></html>");
                             Response.End();
                         }
                     }
@@ -448,7 +453,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
                     }
                     if (!isintype)
                     {
-                        Response.Write("<html><head><title>系统提示</title><script>alert('你的读者类型不能在该阅览室预约座位');</script></head><body></body></html>");
+                        Response.Write("<html><head><title>系统提示</title><script>alert('你的读者类型不能在该阅览室预约座位');top.Dialog.close();</script></head><body></body></html>");
                         Response.End();
                     }
                 }
@@ -469,7 +474,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
         /// <param name="rblModelSelectedValue"></param>
         /// <param name="date"></param>
         /// <returns></returns>
-      public  string bespeakSureTimeSpan(string roomNo, string rblModelSelectedValue, string date)
+        public string bespeakSureTimeSpan(string roomNo, string rblModelSelectedValue, string date)
         {
             SeatManage.Bll.T_SM_ReadingRoom bllReadingRoom = new SeatManage.Bll.T_SM_ReadingRoom();
             SeatManage.ClassModel.ReadingRoomInfo room = SeatManage.Bll.T_SM_ReadingRoom.GetSingleRoomInfo(roomNo);
@@ -486,7 +491,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             return string.Format("{0}至{1}", bespeakBeginTime.ToShortTimeString(), bespeakEndTime.ToShortTimeString());
         }
 
-        string bespeakSureTimeSpan(SeatManage.ClassModel.ReadingRoomSetting set,string rblModelSelectedValue,string date)
+        string bespeakSureTimeSpan(SeatManage.ClassModel.ReadingRoomSetting set, string rblModelSelectedValue, string date)
         {
             SeatManage.Bll.T_SM_ReadingRoom bllReadingRoom = new SeatManage.Bll.T_SM_ReadingRoom();
             DateTime bespeakTime = Convert.ToDateTime(bllReadingRoom.GetRoomOpenTimeByDate(set, date).BeginTime);
@@ -525,13 +530,21 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
         /// <param name="libno"></param>
         /// <param name="SelectedDate"></param>
         /// <returns></returns>
-        public string BindingGrid(string libno,string SelectedDate)
+        public string BindingGrid(string libno, string SelectedDate)
         {
-            StringBuilder sb = new StringBuilder();
-          //  string libno = ddlLibrary.SelectedValue;
-            DateTime date = DateTime.Parse(SelectedDate);
-            DataTable dt = LogQueryHelper.BespeakRoomList(date, libno);
+            string dateStr = String.IsNullOrEmpty(SelectedDate) ? DateTime.Now.AddDays(1).ToShortDateString() : SelectedDate;
+            string libnoStr = libno;
+            if (string.IsNullOrEmpty(libno))
+            {
+                List<SeatManage.ClassModel.LibraryInfo> listLibrary = new List<SeatManage.ClassModel.LibraryInfo>();
+                listLibrary = SeatManage.Bll.T_SM_Library.GetLibraryInfoList(null, null, null);
+                libnoStr = listLibrary[0].No;
+            }
 
+
+            StringBuilder sb = new StringBuilder();
+            DateTime date = DateTime.Parse(dateStr);
+            DataTable dt = LogQueryHelper.BespeakRoomList(date, libnoStr);
             sb.Append("{");
             sb.Append("\"form.paginate.pageNo\": 1,");
             sb.Append("\"form.paginate.totalRows\": 100,");
@@ -550,8 +563,16 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
 
         public ActionResult BespeakSeat()
         {
+            string data = BindingGrid(string.Empty, string.Empty);
+            ViewBag.InitData = data;
+            ViewBag.InitDay = DateTime.Now.AddDays(1).ToShortDateString(); ;
             return View();
-        }
+        } 
+        #endregion
+
+
+
+
         public ActionResult BespeakNowDaySeat()
         {
             return View();

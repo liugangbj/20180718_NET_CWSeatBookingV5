@@ -90,10 +90,11 @@
                     timeout: 30000,
                     success: function (data) {
                         var obj = eval('(' + data + ')');
-                        if (obj.status == "yes") {
-                            top.Toast('showSuccessToast', obj.message);
+                        if (obj.Data.status == "yes") {
+                            top.Toast('showSuccessToast', obj.Data.message);
+                            top.Dialog.close();
                         } else {
-                            top.Toast('showErrorToast', obj.message);
+                            top.Toast('showErrorToast', obj.Data.message);
                         }
                     }
                 });

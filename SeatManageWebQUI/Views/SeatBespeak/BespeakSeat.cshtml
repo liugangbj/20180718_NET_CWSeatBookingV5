@@ -4,7 +4,6 @@
 }
 
 <!DOCTYPE html>
-
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
@@ -18,15 +17,12 @@
     <link rel="stylesheet" type="text/css" id="customSkin" />
     <!--框架必需end-->
     <link rel="stylesheet" type="text/css" href="~/quickui/style/style.css" />
-
     <script src="~/quickui/libs/js/table/quiGrid.js" type="text/javascript"></script>
-
     <!--引入提示组件start-->
     <script type="text/javascript" src="/quickui/libs/js/popup/toast.js"></script>
     <script type="text/javascript" src="/quickui/libs/js/popup/notice.js"></script>
     <!--引入提示组件end-->
     <script type="text/javascript" src="/quickui/libs/js/form/datePicker/WdatePicker.js"></script>
-
     <style>
         .oppContent {
             width: 340px;
@@ -47,28 +43,20 @@
         <div>
             <select prompt="请选择图书馆"  selectedIdx ="0" url="/SeatBespeak/BindLibaray" id="selectLib"></select>
             选择日期：
-            <input type="text" class="date" id="dpStartDate" onchange="dpStartDateOnchange();" />
+            <input type="text" class="date" value="@ViewBag.InitDay"  id="dpStartDate" onchange="dpStartDateOnchange();" />
         </div>
-        
         <div class="clear"></div>
-
         <div class="infoCard infoCard2">
             <div class="title">
                 <span>隔天预约</span>
             </div>
             <div id="dataBasic"></div>
         </div>
-
     </div>
 
     <script>
-
-        $(function () {
-         
-
-        });
-
         var grid = null;
+        var gridData = @MvcHtmlString.Create(@ViewBag.InitData);;
 
         function initComplete() {
             grid = $("#dataBasic").quiGrid({
@@ -102,7 +90,7 @@
                      }
                  }
                 ],
-              //  data: gridData,
+                data: gridData,
                 sortName: 'UserName',
                 rownumbers: false,
                 checkbox: false,
@@ -111,6 +99,7 @@
                 pageSize: 100,
                 percentWidthMode: true
             });
+
         }
 
         function booking(roomNum, CanBespeakAmcount) {
@@ -138,6 +127,7 @@
                             diag.OkButtonText = "确定";
                             //顺序很重要，diag.show()之前添加确定按钮事件，show之后添加新按钮
                             diag.OKEvent = function () {
+                                window.location.reload();
                                 diag.close();
                             };
                             diag.show();
