@@ -10,17 +10,132 @@
     <meta name="viewport" content="width=device-width" />
     <title>BespeakNowDaySeat</title>
     <!--框架必需start-->
-    <script type="text/javascript" src="/quickui/libs/js/jquery.js"></script>
-    <script type="text/javascript" src="/quickui/libs/js/language/cn.js"></script>
-    <script type="text/javascript" src="/quickui/libs/js/framework.js"></script>
-    <link href="/quickui/libs/css/import_basic.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" type="text/css" id="skin" prePath="/quickui/system/style16_accordion_blue/skin/" />
+    <script type="text/javascript" src="~/quickui/libs/js/jquery.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/language/cn.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/framework.js"></script>
+    <link href="~/quickui/libs/css/import_basic.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" id="skin" prePath="~/quickui/" />
     <link rel="stylesheet" type="text/css" id="customSkin" />
     <!--框架必需end-->
+    <link rel="stylesheet" type="text/css" href="~/quickui/style/style.css" />
+    <script src="~/quickui/libs/js/table/quiGrid.js" type="text/javascript"></script>
+    <!--引入提示组件start-->
+    <script type="text/javascript" src="/quickui/libs/js/popup/toast.js"></script>
+    <script type="text/javascript" src="/quickui/libs/js/popup/notice.js"></script>
+    <!--引入提示组件end-->
+    <script type="text/javascript" src="/quickui/libs/js/form/datePicker/WdatePicker.js"></script>
+    <style>
+        .oppContent {
+            width: 340px;
+            height: 40px;
+            float: left;
+        }
+
+        .searchContent {
+            width: 440px;
+            height: 40px;
+            position: absolute;
+            right: 0;
+        }
+    </style>
 </head>
 <body>
-    <div> 
-        BespeakNowDaySeat
+    <div class="page_content">
+        <div>
+            <select prompt="请选择图书馆" selectedIdx="0" url="/SeatBespeak/BindLibaray" id="selectLib"></select>
+        </div>
+        <div class="clear"></div>
+        <div class="infoCard infoCard2">
+            <div class="title">
+                <span>当天预约</span>
+            </div>
+            <div id="dataBasic"></div>
+        </div>
     </div>
+    <script>
+        var grid = null;
+        var gridData = @MvcHtmlString.Create(@ViewBag.InitData);
+
+        function initComplete() {
+            grid = $("#dataBasic").quiGrid({
+                columns: [{
+                    display: '阅览室编号',
+                    name: 'roomNum',
+                    width: "15%"
+                }, {
+                    display: '阅览室名称',
+                    name: 'roomName',
+                    width: "35%"
+                }, {
+                    display: '所属图书馆',
+                    name: 'libraryName',
+                    width: "20%"
+                }, {
+                    display: '座位总数',
+                    name: 'SeatAmount',
+                    width: "10%"
+                }, {
+                    display: '剩余座位数',
+                    name: 'SurplusBespeskAmcount',
+                    width: "10%"
+                },
+                 {
+                     display: '操作', align: 'left', width: '10%',
+                     render: function (rowdata, rowindex, value, column) {
+                         return '<div class="grid_opp_container">'
+                                 + ' <span class="grid_opp_edit" onclick="booking(' + rowdata.roomNum + ',' + rowdata.SurplusBespeskAmcount + ')">预约</span>'
+                             + '</div>';
+                     }
+                 }
+                ],
+                data: gridData,
+                sortName: 'roomNum',
+                rownumbers: false,
+                checkbox: false,
+                height: '99%',
+                width: "99%",
+                pageSize: 100,
+                percentWidthMode: true
+            });
+
+        }
+
+
+        function booking(roomNum, CanBespeakAmcount) {
+
+            $.ajax({
+                url: "/SeatBespeak/CheckingBespeakNowDay",
+                data: { roomNo: roomNum, canBespeakAmountString: CanBespeakAmcount },
+                type: "post",
+                dataType: "text",
+                success: function (data) {
+                    var obj = eval('(' + data + ')');
+                    if (obj.status == 'no') {
+                        top.Toast('showErrorToast', obj.message);
+                    } else {
+
+                        //加载布局图
+                        //var diag = new top.Dialog();
+                        //diag.Title = "座位视图";
+                        //diag.URL = "/SeatBespeak/BespeakSeatLayout?Param=" + obj.urlParameters;
+                        //diag.Width = 1200;
+                        //diag.Height = 800;
+                        //diag.OkButtonText = "确定";
+                        ////顺序很重要，diag.show()之前添加确定按钮事件，show之后添加新按钮
+                        //diag.OKEvent = function () {
+                        //    window.location.reload();
+                        //    diag.close();
+                        //};
+                        //diag.show();
+                    }
+                }, error: function (data) {
+                    alert(data);
+                }
+            });
+
+
+        }
+
+    </script>
 </body>
 </html>

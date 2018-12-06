@@ -24,6 +24,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
 
             return View();
         }
+
         #region 隔天
         public JsonResult CheckBooking(string SelectedDate, string roomNo, string canBespeakAmountStr)
         {
@@ -567,16 +568,117 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             ViewBag.InitData = data;
             ViewBag.InitDay = DateTime.Now.AddDays(1).ToShortDateString(); ;
             return View();
-        } 
+        }
         #endregion
 
-
+        /// <summary>
+        /// 绑定预约阅览室列表(当天)
+        /// </summary>
+        /// <param name="libno"></param>
+        /// <param name="SelectedDate"></param>
+        /// <returns></returns>
+        public string BindingNowDatGrid(string libno)
+        {
+            string libnoStr = libno;
+            if (string.IsNullOrEmpty(libno))
+            {
+                List<SeatManage.ClassModel.LibraryInfo> listLibrary = new List<SeatManage.ClassModel.LibraryInfo>();
+                listLibrary = SeatManage.Bll.T_SM_Library.GetLibraryInfoList(null, null, null);
+                libnoStr = listLibrary[0].No;
+            }
+            StringBuilder sb = new StringBuilder();
+            DataTable dt = LogQueryHelper.NowDayBespeakRoomInfo(libnoStr);
+            sb.Append("{");
+            sb.Append("\"form.paginate.pageNo\": 1,");
+            sb.Append("\"form.paginate.totalRows\": 100,");
+            sb.Append("	\"rows\": [");
+            foreach (DataRow r in dt.Rows)
+            {
+                sb.Append("{\"roomNum\": '" + r["roomNum"] + "',\"roomName\": \"" + r["roomName"] + "\",\"libraryName\": \"" + r["libraryName"] + "\",\"SeatAmount\": \"" + r["SeatAmount"] + "\",\"SurplusBespeskAmcount\": \"" + r["SurplusBespeskAmcount"] + "\"}");
+                sb.Append(",");
+            }
+            sb.Remove(sb.Length - 1, 1);
+            sb.Append("]");
+            sb.Append("}");
+            return sb.ToString();
+        }
 
 
         public ActionResult BespeakNowDaySeat()
         {
+            string data = BindingNowDatGrid(string.Empty);
+            ViewBag.InitData = data;
             return View();
         }
+
+
+        public JsonResult CheckingBespeakNowDay(string roomNo,string canBespeakAmountString)
+        {
+            JsonResult result = null;
+            DateTime nowDate = SeatManage.Bll.ServiceDateTime.Now;
+            ReadingRoomInfo room = SeatManage.Bll.T_SM_ReadingRoom.GetSingleRoomInfo(roomNo);
+            string roomSet = room.Setting.ToString();
+            if (string.IsNullOrEmpty(roomSet))
+            {
+                result = Json(new { status = "no", message = "该阅览室没有配置" }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                try
+                {
+                    SeatManage.ClassModel.ReadingRoomSetting set = new SeatManage.ClassModel.ReadingRoomSetting(roomSet);
+                    int canBespeakAmount = int.Parse(canBespeakAmountString);
+
+                    if (NowReadingRoomState.ReadingRoomOpenState(set.RoomOpenSet, nowDate) == SeatManage.EnumType.ReadingRoomStatus.Close)
+                    {
+                        result = Json(new { status = "no", message = "阅览室没有开放" }, JsonRequestBehavior.AllowGet);
+                    }
+                    else if (!set.SeatBespeak.Used || !set.SeatBespeak.NowDayBespeak)
+                    {
+                        result = Json(new { status = "no", message = "阅览室没有开放预约" }, JsonRequestBehavior.AllowGet);
+                    }
+                    else if (canBespeakAmount <= 0)
+                    {
+                        result = Json(new { status = "no", message = "没有空余座位" }, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        string roomNum = room.No;
+                        string urlParametersString = SeatManage.SeatManageComm.AESAlgorithm.DESEncode(string.Format("roomNo={0}", roomNum));
+                        result = Json(new { status = "yes", message = "预约座位", urlParameters = urlParametersString }, JsonRequestBehavior.AllowGet);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result = Json(new { status = "no", message = string.Format("阅览室设置不正确：{0}", ex.Message) }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            return result;
+        }
+
+
+        public ActionResult BespeakNowDaySeatLayout()
+        {
+            string roomNum = "";
+            if (!OpVerifiction())
+            {
+                Response.Write("<html><head><title>系统安全提示</title><script>alert('请使用正常方式访问网站');location.href='/Login'</script></head><body></body></html>");
+                Response.End();
+            }
+            else if (string.IsNullOrEmpty(Request.QueryString["Param"]))
+            {
+                Response.Write("<html><head><title>系统安全提示</title><script>alert('请使用正常方式访问网站');location.href='/Login'</script></head><body></body></html>");
+                Response.End();
+            }
+            else
+            {
+                BespeakSubmitWindowParamModel par = new BespeakSubmitWindowParamModel(Request.QueryString["Param"]);
+                roomNum = par.RoomNo;
+            }
+            ViewBag.RoomNo = roomNum;
+            return View();
+        }
+
         public ActionResult BespeakProcess()
         {
             return View();

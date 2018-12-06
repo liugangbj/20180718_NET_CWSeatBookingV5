@@ -56,7 +56,7 @@
 
     <script>
         var grid = null;
-        var gridData = @MvcHtmlString.Create(@ViewBag.InitData);;
+        var gridData = @MvcHtmlString.Create(@ViewBag.InitData);
 
         function initComplete() {
             grid = $("#dataBasic").quiGrid({
@@ -91,7 +91,7 @@
                  }
                 ],
                 data: gridData,
-                sortName: 'UserName',
+                sortName: 'roomNum',
                 rownumbers: false,
                 checkbox: false,
                 height: '99%',
