@@ -158,7 +158,20 @@ function BespeakSeatNowDayClick(urlParameters) {
     if (urlParameters == "" || urlParameters == NaN) {
         return;
     }
-    X("bespeakHandleWindow").box_show("../SeatBespeak/BespeakNowDayHandle.aspx?parameters=" + urlParameters, '座位预约');
+    var diag = new top.Dialog();
+    diag.Title = "座位操作";
+    diag.URL = "/SeatBespeak/BespeakNowDayHandle?parameters=" + urlParameters;
+    diag.Width = 450;
+    diag.Height = 300;
+    diag.ShowButtonRow = true;
+    diag.ShowOkButton = false;
+    diag.CancelButtonText = " 关 闭 ";
+    //顺序很重要，diag.show()之前添加确定按钮事件，show之后添加新按钮
+    diag.show();
+    diag.addButton("next", " 提交 ", function () {
+        diag.innerFrame.contentWindow.submitForm();
+    });
+  //  X("bespeakHandleWindow").box_show("../SeatBespeak/BespeakNowDayHandle.aspx?parameters=" + urlParameters, '座位预约');
 }
 //预约座位设置窗口
 function BespeakSeatSettingClick(seatNo, urlParameters) {
@@ -248,12 +261,13 @@ function loadBespeakSeatLayout() {
 
 }
 function loadBespeakSeatNowDayLayout() {
-    var roomNum = $("#hiddenRoomNum").val();
+    //var roomNum = $("#hiddenRoomNum").val();
 
     $.ajax({ //一个Ajax过程 
         type: "post", //使用get方法访问后台
         dataType: "html", //返回json格式的数据 
-        url: "NowBespeakSeatLayout.ashx", //要访问的后台地址
+        url: "/SeatBespeak/NowBespeakSeatLayoutHTML",
+        //url: "NowBespeakSeatLayout.ashx", //要访问的后台地址
         data: { "roomNum": roomNum, "divTransparentTop": divTop, "divTransparentLeft": divleft }, //要发送的数据
 
         // complete: function () { $("#load").hide(); }, //AJAX请求完成时隐藏loading提示

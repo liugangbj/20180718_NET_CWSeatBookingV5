@@ -113,20 +113,19 @@
                     if (obj.status == 'no') {
                         top.Toast('showErrorToast', obj.message);
                     } else {
-
                         //加载布局图
-                        //var diag = new top.Dialog();
-                        //diag.Title = "座位视图";
-                        //diag.URL = "/SeatBespeak/BespeakSeatLayout?Param=" + obj.urlParameters;
-                        //diag.Width = 1200;
-                        //diag.Height = 800;
-                        //diag.OkButtonText = "确定";
-                        ////顺序很重要，diag.show()之前添加确定按钮事件，show之后添加新按钮
-                        //diag.OKEvent = function () {
-                        //    window.location.reload();
-                        //    diag.close();
-                        //};
-                        //diag.show();
+                        var diag = new top.Dialog();
+                        diag.Title = "座位视图";
+                        diag.URL = "/SeatBespeak/BespeakNowDaySeatLayout?Param=" + obj.urlParameters;
+                        diag.Width = 1200;
+                        diag.Height = 800;
+                        diag.OkButtonText = "确定";
+                        //顺序很重要，diag.show()之前添加确定按钮事件，show之后添加新按钮
+                        diag.OKEvent = function () {
+                            window.location.reload();
+                            diag.close();
+                        };
+                        diag.show();
                     }
                 }, error: function (data) {
                     alert(data);
