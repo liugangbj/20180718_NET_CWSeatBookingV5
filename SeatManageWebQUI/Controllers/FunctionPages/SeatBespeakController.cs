@@ -681,7 +681,6 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
 
         public string NowBespeakSeatLayoutHTML(string roomNum,string divTransparentTop,string divTransparentLeft)
         {
-
             return new SeatLayoutTools().DrawNowBespeakSeatLayoutHTML(roomNum,divTransparentTop,divTransparentLeft);
         }
 
@@ -866,46 +865,77 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             return result;
         }
 
-        public string BindBespeakModel2TimeSelectNowDay(string seatNo, string seatShortNo, string dateString, string roomNo)
+
+        public string RbtnBespeakModelChange(string roomNo,string rblModelSelectedValue)
         {
             SeatManage.ClassModel.ReadingRoomInfo room = SeatManage.Bll.T_SM_ReadingRoom.GetSingleRoomInfo(roomNo);
-            SeatManage.Bll.T_SM_ReadingRoom bllReadingRoom = new SeatManage.Bll.T_SM_ReadingRoom();
-            StringBuilder sb = new StringBuilder();
-            DateTime date = DateTime.Parse(dateString);
-            DateTime minTime = date.AddMinutes(10 - date.Minute % 10);
-            sb.Append("<select onchange=\"selChange()\" prompt=\"请选择\" id=\"timeSelect\">");
-            while (true)
-            {
-                minTime = minTime.AddMinutes(10);
-                if (minTime.Date > date.Date)
-                {
-                    break;
-                }
-                if (NowReadingRoomState.ReadingRoomOpenState(room.Setting.RoomOpenSet, minTime) == SeatManage.EnumType.ReadingRoomStatus.Close)
-                {
-                    continue;
-                }
-                sb.Append("<option value=\"" + minTime.ToShortTimeString() + "\">" + minTime.ToShortTimeString() + "</option>");
-            }
-            sb.Append("</select>");
-
-
-
-            return sb.ToString() ;
-        }
-
-
-        public string bespeakSureTimeSpanNowDay(string roomNo,string rblModelSelectedValue,string date)
-        {
-            SeatManage.ClassModel.ReadingRoomInfo room = SeatManage.Bll.T_SM_ReadingRoom.GetSingleRoomInfo(roomNo);
-            DateTime bespeakTime = DateTime.Parse(date);
             string lblEndDate = "";
+            StringBuilder sb = new StringBuilder();
             if (rblModelSelectedValue == "0")
             {
-                lblEndDate = string.Format("{0}至{1}", bespeakTime.ToShortTimeString(), bespeakTime.AddMinutes(room.Setting.SeatBespeak.SeatKeepTime).ToShortTimeString());
+                lblEndDate = SelectTimeChangeNowDay(roomNo, DateTime.Now.ToString());//string.Format("{0}至{1}", bespeakTime.ToShortTimeString(), bespeakTime.AddMinutes(room.Setting.SeatBespeak.SeatKeepTime).ToShortTimeString());
             }
+            else if(rblModelSelectedValue == "1")
+            {
+                
+                //DateTime date = DateTime.Parse(dateString);
+                DateTime minTime = DateTime.Now.AddMinutes(10 - DateTime.Now.Minute % 10);
+                sb.Append("<select onchange=\"selChange()\" prompt=\"请选择\" id=\"timeSelect\">");
+                while (true)
+                {
+                    minTime = minTime.AddMinutes(10);
+                    if (minTime.Date > DateTime.Now.Date)
+                    {
+                        break;
+                    }
+                    if (NowReadingRoomState.ReadingRoomOpenState(room.Setting.RoomOpenSet, minTime) == SeatManage.EnumType.ReadingRoomStatus.Close)
+                    {
+                        continue;
+                    }
+                    sb.Append("<option value=\"" + minTime.ToShortTimeString() + "\">" + minTime.ToShortTimeString() + "</option>");
+                }
+                sb.Append("</select>");
+            }
+            ViewBag.lblEndDate = lblEndDate;
+            return sb.ToString();
+        }
+
+        public string SelectTimeChangeNowDay(string roomNo,string selValue)
+        {
+            SeatManage.ClassModel.ReadingRoomInfo room = SeatManage.Bll.T_SM_ReadingRoom.GetSingleRoomInfo(roomNo);
+            DateTime bespeakTime = DateTime.Parse(selValue);
+            DateTime bespeakBeginTime = bespeakTime.AddMinutes(-double.Parse(room.Setting.SeatBespeak.ConfirmTime.BeginTime));
+            DateTime bespeakEndTime = bespeakTime.AddMinutes(double.Parse(room.Setting.SeatBespeak.ConfirmTime.EndTime));
+            string  lblEndDate = string.Format("{0}至{1}", bespeakBeginTime.ToShortTimeString(), bespeakEndTime.ToShortTimeString());
             return lblEndDate;
         }
+
+
+        public string btnBespeakSubmitNowDay(string roomNo, string dateString,string rblModelSelectedValue,string DropDownList_FreeTimeSelectedText)
+        {
+            SeatManage.ClassModel.BespeakLogInfo bespeakModel = new SeatManage.ClassModel.BespeakLogInfo();
+            bespeakModel.BsepeakState = SeatManage.EnumType.BookingStatus.Waiting;
+            bespeakModel.BsepeakTime = DateTime.Parse(dateString);
+            bespeakModel.CardNo = this.LoginId;
+            bespeakModel.ReadingRoomNo = roomNo.Trim();
+            if (rblModelSelectedValue == "1")
+            {
+                //if (!DropDownList_Time.Hidden == true)
+                //{
+                //    bespeakModel.BsepeakTime = DateTime.Parse(string.Format("{0} {1}", date.ToShortDateString(), DropDownList_Time.SelectedText));
+                //}
+                //else
+                //{
+                    bespeakModel.BsepeakTime = DateTime.Parse(string.Format("{0} {1}", DateTime.Parse(dateString).ToShortDateString(), DropDownList_FreeTimeSelectedText));
+              //  }
+            }
+
+
+
+            return "";
+        }
+
+
 
         public ActionResult BespeakProcess()
         {

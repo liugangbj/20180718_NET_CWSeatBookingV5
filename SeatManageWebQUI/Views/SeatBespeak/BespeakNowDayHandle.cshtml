@@ -73,34 +73,75 @@
         </form>
 
         <script>
+            function submitFormNowDay() {
+                var $rblModelSelectedValue = $("input:radio[name=BespeakModel]:checked").val();//$("input[name=BespeakModel][checked]").val();
+                var $TimeSelectedText = "";
+
+                if ($("#timeSelect").length > 0) {
+                    $TimeSelectedText = $('#timeSelect').val();
+                }
+
+                $.ajax({
+                    url: "/SeatBespeak/btnBespeakSubmitNowDay", //你的路由地址
+                    type: "post",
+                    data: { rblModelSelectedValue: $rblModelSelectedValue, date: '@ViewBag.date', roomOpenTimeValue: '@ViewBag.roomOpenTime', TimeSelectedText: $TimeSelectedText, roomNo: '@ViewBag.roomNo', seatNo: '@ViewBag.seatNo' },
+                    dataType: "text",
+                    timeout: 30000,
+                    success: function (data) {
+                        var obj = eval('(' + data + ')');
+                        if (obj.Data.status == "yes") {
+                            top.Toast('showSuccessToast', obj.Data.message);
+                            top.Dialog.close();
+                        } else {
+                            top.Toast('showErrorToast', obj.Data.message);
+                        }
+                    }
+                });
+            }
+
+
             $(document).ready(function () {
                 $('input[type=radio][name=BespeakModel]').change(function () {
                     if (this.value == '1') {
                         $.ajax({
-                            url: "/SeatBespeak/BindBespeakModel2TimeSelectNowDay?seatNo=@ViewBag.seatNo&seatShortNo=@ViewBag.seatShortNo&dateString=@ViewBag.date&roomNo=@ViewBag.roomNo", //你的路由地址
+                            url: "/SeatBespeak/RbtnBespeakModelChange?roomNo=@ViewBag.roomNo&rblModelSelectedValue=1", //你的路由地址
                             type: "post",
                             dataType: "text",
                             timeout: 30000,
                             success: function (data) {
                                 $("#divSelectTime").html(data);
-                               // $("#divlblEndDate").html('@ViewBag.lblEndDate');
+                                $("#divlblEndDate").html('@ViewBag.lblEndDate');
                             }
                         });
                     }
                     else if (this.value == '0') {
                         $("#divSelectTime").html("");
                         $.ajax({
-                            url: "/SeatBespeak/bespeakSureTimeSpanNowDay?roomNo=@ViewBag.roomNo&rblModelSelectedValue=0&date=@ViewBag.date", //你的路由地址
+                            url: "/SeatBespeak/RbtnBespeakModelChange?roomNo=@ViewBag.roomNo&rblModelSelectedValue=0", //你的路由地址
                             type: "post",
                             dataType: "text",
                             timeout: 30000,
                             success: function (data) {
-                                $("#divlblEndDate").html(data);
+                                $("#divlblEndDate").html('@ViewBag.lblEndDate');
                             }
                         });
                     }
                 });
             });
+
+            function selChange() {
+                var checkValue = $("#timeSelect").val();
+                $.ajax({
+                    url: "/SeatBespeak/SelectTimeChangeNowDay?roomNo=@ViewBag.roomNo&selValue=" + checkValue, //你的路由地址
+                    type: "post",
+                    dataType: "text",
+                    timeout: 30000,
+                    success: function (data) {
+                        $("#divlblEndDate").html(data);
+                    }
+                });
+            }
+
         </script>
 
     </div>
