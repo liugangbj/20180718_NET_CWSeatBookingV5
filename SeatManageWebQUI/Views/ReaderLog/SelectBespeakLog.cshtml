@@ -52,7 +52,7 @@
                     <tr>
                         <td>开始时间</td>
                         <td>
-                            <input type="text" dateFmt="yyyy/MM/dd" placeholder="开始日期" class="date" id="c" name="beginDate" />
+                            <input type="text" dateFmt="yyyy/MM/dd" placeholder="开始日期" class="date" id="beginDate" name="beginDate" />
                         </td>
                         <td>结束时间</td>
                         <td>
@@ -88,7 +88,14 @@
 
             function initComplete() {
                 grid = $("#dataBasic").quiGrid({
-                    columns: [{
+                    columns: [
+                        {
+                            display: 'BespeakID',
+                            name: 'BespeakID',
+                            width: "10%",
+                            hide:true
+                        },
+                        {
                         display: '阅览室名字',
                         name: 'ReadingRoomName',
                         width: "10%"
@@ -115,8 +122,15 @@
                     }, {
                         display: '备注',
                         name: 'Remark',
-                        width: "40%"
-                    }
+                        width: "30%"
+                    },
+                      { display: '操作', align: 'left', width:"10%",
+                          render: function (rowdata, rowindex, value, column){
+                              return ' <div class="grid_opp_container">'
+                                      + '<span class="grid_opp_delete" onclick="onDelete(' + rowdata.BespeakID+','+rowindex + ')">删除</span>'
+                                  + '</div>';
+                          }
+                      }
                     ],
                     data: gridData,
                     sortName: 'BespeakTime',
@@ -127,11 +141,43 @@
                     pageSize: 100,
                     percentWidthMode: true
                 });
+
+
+            }
+
+
+            function onDelete(BespeakID,rowindex)
+            {
+                var row = grid.getRow(rowindex); 
+                if(row.BsepeakState!='等待确认'){
+                    top.Toast('showErrorToast', '只能删除状态为[等待确认]的预约记录，删除失败');
+                }
+                else{
+                    top.Dialog.confirm("确认删除吗",
+                        function(){
+                            $.ajax({
+                                url: "/ReaderLog/BespeakLogRemove",
+                                data: { BespeakID: BespeakID },
+                                type: "post",
+                                dataType: "json",
+                                success: function (data) {
+                                    if (data.status == "yes") {
+                                        top.Toast('showSuccessToast', data.message);
+                                        searchHandler();
+                                    } else {
+                                        top.Toast('showErrorToast', data.message);
+                                    }
+                                }
+                            });
+                        },
+                        function(){
+                            //点击了取消
+                        });
+                }
             }
 
 
             $(function () {
-                var myDate = new Date();
                 $("#beginDate").val('@ViewBag.nowDay');
                 $("#endDate").val('@ViewBag.after7Day');
 
@@ -150,8 +196,9 @@
                     type: "post",
                     dataType: "text",
                     success: function (data) {
-                      //  alert(data);
-                        var obj = eval('(' + data + ')');
+                      //  console.log(data);
+                        var obj = eval('(' + data + ')');     // JSON.parse(data); // eval('(' + data + ')');
+                        //alert(obj);
                         grid.loadData(obj);
                     },error:function (data){
                         alert(data);

@@ -10,17 +10,146 @@
     <meta name="viewport" content="width=device-width" />
     <title>SelectEnterOutLog</title>
     <!--框架必需start-->
-    <script type="text/javascript" src="/quickui/libs/js/jquery.js"></script>
-    <script type="text/javascript" src="/quickui/libs/js/language/cn.js"></script>
-    <script type="text/javascript" src="/quickui/libs/js/framework.js"></script>
-    <link href="/quickui/libs/css/import_basic.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" type="text/css" id="skin" prePath="/quickui/system/style16_accordion_blue/skin/" />
+    <script type="text/javascript" src="~/quickui/libs/js/jquery.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/language/cn.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/framework.js"></script>
+    <link href="~/quickui/libs/css/import_basic.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" id="skin" prePath="~/quickui/" />
     <link rel="stylesheet" type="text/css" id="customSkin" />
     <!--框架必需end-->
+    <link rel="stylesheet" type="text/css" href="~/quickui/style/style.css" />
+
+    <script src="~/quickui/libs/js/table/quiGrid.js" type="text/javascript"></script>
+
+    <!--引入提示组件start-->
+    <script type="text/javascript" src="/quickui/libs/js/popup/toast.js"></script>
+    <script type="text/javascript" src="/quickui/libs/js/popup/notice.js"></script>
+    <!--引入提示组件end-->
+    <script type="text/javascript" src="/quickui/libs/js/form/datePicker/WdatePicker.js"></script>
+    <style>
+        .oppContent {
+            width: 340px;
+            height: 40px;
+            float: left;
+        }
+
+
+
+        .searchContent {
+            width: 100%;
+            height: 40px;
+            position: absolute;
+            left: 0;
+        }
+    </style>
 </head>
 <body>
-    <div> 
-        SelectEnterOutLog
+    <div class="page_content">
+        <div class="searchContent">
+            <form id="queryForm" name="queryForm" method="post">
+                <table style="float: left;">
+                    <tr>
+                        <td>开始时间</td>
+                        <td>
+                            <input type="text" dateFmt="yyyy/MM/dd" placeholder="开始日期" class="date" id="beginDate" name="beginDate" />
+                        </td>
+                        <td>结束时间</td>
+                        <td>
+                            <input type="text" dateFmt="yyyy/MM/dd" placeholder="结束日期" class="date" id="endDate" name="endDate" />
+                        </td>
+                        <td>所在阅览室</td>
+                        <td>
+                            <div id="divRoomSelect"></div>
+                        </td>
+                        <td><button type="button" onclick="searchHandler()" id="search" class="primary"><span class="icon_find">查询</span></button></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div class="clear"></div>
+        <br />
+        <div class="infoCard infoCard2">
+            <div class="title">
+                <span>进出记录列表</span>
+            </div>
+            <div id="dataBasic"></div>
+        </div>
     </div>
+    <script>
+
+        var RoomList = '@Html.Raw(ViewBag.RoomList)';
+
+        var grid = null;
+        var dd = @MvcHtmlString.Create(@ViewBag.Data);
+        //数据表格使用
+        var gridData = dd;
+
+        function initComplete() {
+            grid = $("#dataBasic").quiGrid({
+                columns: [
+                    {
+                        display: '所在阅览室',
+                        name: 'ReadingRoomName',
+                        width: "15%",
+                        hide:true
+                    },
+                    {
+                        display: '座位号',
+                        name: 'SeatShortNum',
+                        width: "15%"
+                    },{
+                        display: '状态',
+                        name: 'Status',
+                        width: "15%"
+                    },{
+                        display: '进出时间',
+                        name: 'EnterOutTime',
+                        width: "15%"
+                    }, {
+                        display: '详细信息',
+                        name: 'Remark',
+                        width: "40%"
+                    }
+                ],
+                data: gridData,
+                sortName: 'EnterOutTime',
+                rownumbers: true,
+                checkbox: false,
+                height: '99%',
+                width: "99%",
+                pageSize: 100,
+                percentWidthMode: true
+            });
+        }
+
+
+        $(function () {
+            $("#beginDate").val('@ViewBag.before7Day');
+            $("#endDate").val('@ViewBag.nowDay');
+            $("#divRoomSelect").html(RoomList);
+        });
+
+
+        function searchHandler(){
+            var $beginDateString = $("#beginDate").val();
+            var $endDateString = $("#endDate").val();
+            var $roomNoString = $("#selRooms").val();
+
+            $.ajax({
+                url: "/ReaderLog/GetEnterOutGridString",
+                data: { beginDateString: $beginDateString,endDateString: $endDateString,roomNoString: $roomNoString },
+                type: "post",
+                dataType: "text",
+                success: function (data) {
+                    var obj = eval('(' + data + ')'); 
+                    grid.loadData(obj);
+                },error:function (data){
+                    alert(data);
+                }
+            });
+        }
+
+    </script>
+
 </body>
 </html>
