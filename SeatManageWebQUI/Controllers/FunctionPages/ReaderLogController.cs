@@ -119,6 +119,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
         }
         #endregion
 
+        #region 进出记录查询
         /// <summary>
         /// 进出记录查询
         /// </summary>
@@ -130,7 +131,8 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
         {
             DateTime serviceDate = SeatManage.Bll.ServiceDateTime.Now;
             string cardNo = this.LoginId;
-            DateTime startDate = string.IsNullOrEmpty(beginDateString)?DateTime.Now.AddDays(-7).Date: DateTime.Parse(beginDateString);
+            DateTime startDate = string.IsNullOrEmpty(beginDateString) ? DateTime.Now.AddDays(-7).Date : DateTime.Parse(beginDateString);
+
             StringBuilder sb = new StringBuilder();
             if (startDate.Date < SeatManage.Bll.ServiceDateTime.Now.AddDays(-30).Date)
             {
@@ -162,13 +164,14 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
         }
 
 
-        public ActionResult SelectEnterOutLog(string beginDateString, string endDateString, string roomNoString)
+        public ActionResult SelectEnterOutLog()
         {
             string nowDay = DateTime.Now.ToShortDateString();
             string before7Day = DateTime.Now.AddDays(-7).ToShortDateString();
             ViewBag.nowDay = nowDay;
             ViewBag.before7Day = before7Day;
             StringBuilder sb = new StringBuilder();
+
             List<SeatManage.ClassModel.ReadingRoomInfo> roomList = SeatManage.Bll.ClientConfigOperate.GetReadingRooms(null);
             if (roomList.Count > 0)
             {
@@ -180,13 +183,113 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
                 }
                 sb.Append("</select>");
             }
-            ViewBag.Data = GetEnterOutGridString(beginDateString, endDateString, roomNoString);
+            ViewBag.Data = GetEnterOutGridString(null, null, null);
             ViewBag.RoomList = sb.ToString();
             return View();
+        }
+        #endregion
+
+        private DataTable GetUserInfoDateTable(string starttime, string endtime,string roomNo,string logstatus,string blacklist)
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("ID", typeof(string));
+            dt.Columns.Add("CardNo", typeof(string));
+            dt.Columns.Add("ReaderName", typeof(string));
+            dt.Columns.Add("AddTime", typeof(string));
+            dt.Columns.Add("ReadingRoom", typeof(string));
+            dt.Columns.Add("Seat", typeof(string));
+            dt.Columns.Add("LogStatus", typeof(string));
+            dt.Columns.Add("BlacklistStatus", typeof(string));
+            dt.Columns.Add("Remark", typeof(string));
+            List<SeatManage.ClassModel.ViolationRecordsLogInfo> VRlist = SeatManage.Bll.T_SM_ViolateDiscipline.GetViolationRecords(
+                this.LoginId,
+                roomNo,
+                starttime,
+                endtime,
+                (SeatManage.EnumType.LogStatus)int.Parse(logstatus),
+                (SeatManage.EnumType.LogStatus)int.Parse(blacklist));
+            foreach (SeatManage.ClassModel.ViolationRecordsLogInfo vrinfo in VRlist)
+            {
+
+                DataRow dr = dt.NewRow();
+                dr["ID"] = vrinfo.ID;
+                dr["CardNo"] = vrinfo.CardNo;
+                dr["ReaderName"] = vrinfo.ReaderName;
+                dr["AddTime"] = vrinfo.EnterOutTime;
+                dr["ReadingRoom"] = vrinfo.ReadingRoomName;
+                dr["Seat"] = vrinfo.SeatID;
+                if (vrinfo.Flag == LogStatus.Valid)
+                {
+                    dr["LogStatus"] = "有效记录";
+                }
+                else
+                {
+                    dr["LogStatus"] = "失效记录";
+                }
+                if (vrinfo.BlacklistID != "-1")
+                {
+                    dr["BlacklistStatus"] = "已加入黑名单";
+                }
+                else
+                {
+                    dr["BlacklistStatus"] = "未处理";
+                }
+                dr["Remark"] = vrinfo.Remark;
+                dt.Rows.Add(dr);
+            }
+            return dt;
+        }
+
+        public string ViolateDisciplineGridString(string beginDateString,string endDateString,string roomNoString,string selRecStatus,string selIsInBlack)
+        {
+            beginDateString = string.IsNullOrEmpty(beginDateString) ? DateTime.Now.AddDays(-7).ToShortDateString(): beginDateString;
+            endDateString = string.IsNullOrEmpty(endDateString) ? DateTime.Now.ToShortDateString() : endDateString;
+            selRecStatus = string.IsNullOrEmpty(selRecStatus) ? "-1" : selRecStatus;
+            selIsInBlack = string.IsNullOrEmpty(selIsInBlack) ? "-1" : selIsInBlack;
+            DataTable dt = GetUserInfoDateTable(beginDateString, DateTime.Parse(endDateString).AddHours(23).AddMinutes(59).ToString(),roomNoString,selRecStatus,selIsInBlack);
+            StringBuilder sb = new StringBuilder();
+            sb.Append("{");
+            sb.Append("\"form.paginate.pageNo\": 1,");
+            sb.Append("\"form.paginate.totalRows\": 100,");
+            sb.Append("	\"rows\": [");
+            foreach (DataRow r in dt.Rows)
+            {
+                sb.Append("{\"ID\": '" + r["ID"] + "',\"AddTime\": '" + r["AddTime"] + "',\"ReadingRoom\": \"" + r["ReadingRoom"] + "\",\"Seat\": \"" + r["Seat"] + "\",\"LogStatus\": \"" + r["LogStatus"] + "\",\"BlacklistStatus\": \"" + r["BlacklistStatus"] + "\",\"Remark\": \"" + r["Remark"] + "\"}");
+                sb.Append(",");
+            }
+            if (dt.Rows.Count > 0)
+            {
+                sb.Remove(sb.Length - 1, 1);
+            }
+            sb.Append("]");
+            sb.Append("}");
+
+            return sb.ToString();
         }
 
         public ActionResult SelectViolateDiscipline()
         {
+            string nowDay = DateTime.Now.ToShortDateString();
+            string before7Day = DateTime.Now.AddDays(-7).ToShortDateString();
+            ViewBag.nowDay = nowDay;
+            ViewBag.before7Day = before7Day;
+            //绑定阅览室下拉列表
+            List<SeatManage.ClassModel.ReadingRoomInfo> roomlist = SeatManage.Bll.ClientConfigOperate.GetReadingRooms(null);
+            roomlist.Insert(0, new SeatManage.ClassModel.ReadingRoomInfo() { Name = "所有阅览室", No = "" });
+            StringBuilder sbroomList = new StringBuilder();
+            List<SeatManage.ClassModel.ReadingRoomInfo> roomList = SeatManage.Bll.ClientConfigOperate.GetReadingRooms(null);
+            if (roomList.Count > 0)
+            {
+                sbroomList.Append("<select  id=\"selRooms\" name=\"selRooms\">");
+                sbroomList.Append("<option value=\"\">所有阅览室</option>");
+                foreach (var item in roomList)
+                {
+                    sbroomList.Append("<option value=\"" + item.No + "\">" + item.Name + "</option>");
+                }
+                sbroomList.Append("</select>");
+            }
+            ViewBag.Data = ViolateDisciplineGridString(null,null, string.Empty,"-1","-1");
+            ViewBag.RoomList = sbroomList.ToString();
             return View();
         }
 
