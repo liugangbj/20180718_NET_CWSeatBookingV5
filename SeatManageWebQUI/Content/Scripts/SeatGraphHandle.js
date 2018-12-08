@@ -158,6 +158,8 @@ function BespeakSeatNowDayClick(urlParameters) {
     if (urlParameters == "" || urlParameters == NaN) {
         return;
     }
+  //  alert(urlParameters);
+   
     var diag = new top.Dialog();
     diag.Title = "座位操作";
     diag.URL = "/SeatBespeak/BespeakNowDayHandle?parameters=" + urlParameters;
@@ -169,7 +171,9 @@ function BespeakSeatNowDayClick(urlParameters) {
     //顺序很重要，diag.show()之前添加确定按钮事件，show之后添加新按钮
     diag.show();
     diag.addButton("next", " 提交 ", function () {
-        diag.innerFrame.contentWindow.submitForm();
+        
+   
+        diag.innerFrame.contentWindow.submitFormNowDay();
     });
   //  X("bespeakHandleWindow").box_show("../SeatBespeak/BespeakNowDayHandle.aspx?parameters=" + urlParameters, '座位预约');
 }

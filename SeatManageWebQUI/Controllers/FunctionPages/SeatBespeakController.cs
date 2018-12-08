@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using SeatManage.ClassModel;
+using SeatManage.EnumType;
 using SeatManageWebQUI.Controllers.FunctionPages.Code;
 using SeatManageWebV5.Code;
 using System;
@@ -459,6 +460,13 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
                     }
                 }
             }
+
+            string isOpenRadio = "0";
+            if (room.Setting.SeatBespeak.SpecifiedBespeak)//是否开启指定时间预约功能
+            {
+                isOpenRadio = "1";
+            }
+            ViewBag.isOpenRadio = isOpenRadio;
             ViewBag.roomOpenTime = roomOpenTime;
             ViewBag.lblEndDate = bespeakSureTimeSpan(room.Setting, "0", date);
             ViewBag.seatNo = seatNo;
@@ -841,9 +849,15 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
                 }
             }
 
+            string isOpenRadio = "0";
+            if (room.Setting.SeatBespeak.SpecifiedBespeak)//是否开启指定时间预约功能
+            {
+                isOpenRadio = "1";
+            }
+            ViewBag.isOpenRadio = isOpenRadio;
             ViewBag.seatNo = seatNo;
             ViewBag.seatShortNo = seatShortNo;
-            ViewBag.date = date.ToShortDateString();
+            ViewBag.date = SeatManage.Bll.ServiceDateTime.Now;//date.ToShortDateString();
             ViewBag.roomNo = roomNo;
             ViewBag.lblEndDate = string.Format("{0}至{1}", date.ToShortTimeString(), date.AddMinutes(room.Setting.SeatBespeak.SeatKeepTime).ToShortTimeString());
             return View();
@@ -911,8 +925,9 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
         }
 
 
-        public string btnBespeakSubmitNowDay(string roomNo, string dateString,string rblModelSelectedValue,string DropDownList_FreeTimeSelectedText)
+        public JsonResult btnBespeakSubmitNowDay(string roomNo,string seatNo, string dateString,string rblModelSelectedValue,string DropDownList_FreeTimeSelectedText)
         {
+            JsonResult returnResult = null;
             SeatManage.ClassModel.BespeakLogInfo bespeakModel = new SeatManage.ClassModel.BespeakLogInfo();
             bespeakModel.BsepeakState = SeatManage.EnumType.BookingStatus.Waiting;
             bespeakModel.BsepeakTime = DateTime.Parse(dateString);
@@ -920,19 +935,56 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             bespeakModel.ReadingRoomNo = roomNo.Trim();
             if (rblModelSelectedValue == "1")
             {
-                //if (!DropDownList_Time.Hidden == true)
-                //{
-                //    bespeakModel.BsepeakTime = DateTime.Parse(string.Format("{0} {1}", date.ToShortDateString(), DropDownList_Time.SelectedText));
-                //}
-                //else
-                //{
-                    bespeakModel.BsepeakTime = DateTime.Parse(string.Format("{0} {1}", DateTime.Parse(dateString).ToShortDateString(), DropDownList_FreeTimeSelectedText));
-              //  }
+                 bespeakModel.BsepeakTime = DateTime.Parse(string.Format("{0} {1}", DateTime.Parse(dateString).ToShortDateString(), DropDownList_FreeTimeSelectedText));
             }
 
+            SeatManage.ClassModel.ReadingRoomInfo room = SeatManage.Bll.T_SM_ReadingRoom.GetSingleRoomInfo(bespeakModel.ReadingRoomNo);
+            if (room.Setting.ReadingRoomOpenState(DateTime.Now) == ReadingRoomStatus.Close)
+            {
+                returnResult = Json(new { status = "no", message = "当前时间阅览室未开放" }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                bespeakModel.Remark = string.Format("读者通过Web页面预约当天座位");
+                bespeakModel.SeatNo = seatNo;
+                bespeakModel.SubmitTime = DateTime.Parse(dateString);
+                if (bespeakModel.BsepeakTime < bespeakModel.SubmitTime)
+                {
+                    returnResult = Json(new { status = "no", message = "对不起，预约的时间不正确，请刷新页面重新选择" }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    try
+                    {
+                        List<SeatManage.ClassModel.BespeakLogInfo> seatbespeakLog = SeatManage.Bll.T_SM_SeatBespeak.GetBespeakLogInfoBySeatNo(seatNo, DateTime.Parse(dateString));
+                        Seat seatInfo = SeatManage.Bll.T_SM_Seat.GetSeatInfoBySeatNo(seatNo);
+                        SeatManage.EnumType.HandleResult result = SeatManage.Bll.T_SM_SeatBespeak.AddBespeakLogInfo(bespeakModel);
+                        if (bespeakModel.BsepeakTime == DateTime.Now.Date && seatInfo.SeatUsedState != EnterOutLogType.Leave) //如果启用预约，判断选择的日期是否为当天的日期
+                        {
+                            returnResult = Json(new { status = "no", message = "对不起，你所预约的座位正在使用。" }, JsonRequestBehavior.AllowGet);
+                        }
 
-
-            return "";
+                       else if (seatbespeakLog.Count > 0)
+                        {
+                            returnResult = Json(new { status = "no", message = "对不起，该座位已经被别人预约。" }, JsonRequestBehavior.AllowGet);
+                        }
+                       
+                        else if (result == SeatManage.EnumType.HandleResult.Successed)
+                        {
+                            returnResult = Json(new { status = "yes", message = "座位预约成功，请在规定的时间内刷卡确认。" }, JsonRequestBehavior.AllowGet);
+                        }
+                        else
+                        {
+                            returnResult = Json(new { status = "no", message = "对不起，该座位已经被别人预约。" }, JsonRequestBehavior.AllowGet);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        returnResult = Json(new { status = "no", message = string.Format("执行预约操作遇到错误：{0}", ex.Message) }, JsonRequestBehavior.AllowGet);
+                    }
+                }
+            }
+            return returnResult;
         }
 
 

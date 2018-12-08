@@ -115,7 +115,14 @@
                 });
             }
 
-            $(document).ready(function () {
+        $(document).ready(function () {
+
+            var isOpenRadio = '@ViewBag.isOpenRadio';
+
+            if (isOpenRadio == "1")//1：开通 0：不开通
+            {
+                $("#BespeakModel2").attr("disabled", false);
+
                 $('input[type=radio][name=BespeakModel]').change(function () {
                     if (this.value == '1') {
                         $.ajax({
@@ -141,6 +148,12 @@
                         });
                     }
                 });
+            } else {
+
+                $("#BespeakModel2").attr("disabled", true);
+            }
+
+
             });
 
     </script>
