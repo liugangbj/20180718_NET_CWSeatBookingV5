@@ -33,6 +33,8 @@
             float: left;
         }
 
+
+
         .searchContent {
             width: 100%;
             height: 40px;
@@ -43,37 +45,121 @@
 
 </head>
 <body>
-    <div class="searchContent">
-        <form id="queryForm" name="queryForm" method="post">
-            <table style="float: left;">
-                <tr>
-                    <td>开始时间</td>
-                    <td>
-                      <input type="text" dateFmt="yyyy/MM/dd" placeholder="开始日期" class="date" id="beginDate" name="beginDate" />
-                    </td>
-                    <td>结束时间</td>
-                    <td>
-                        <input type="text" dateFmt="yyyy/MM/dd" placeholder="结束日期" class="date" id="endDate" name="endDate" />
-                    </td>
-                    <td>预约状态</td>
-                    <td>
-                        <select prompt="预约状态"  url="/ReaderLog/GetBespeakEnumKeyValue" id="selStatus"></select>
-                    </td>
-                    <td><button type="button" onclick="searchHandler()" id="search" class="primary"><span class="icon_find">查询</span></button></td>
-                </tr>
-            </table>
-        </form>
-    </div>
+    <div class="page_content">
+        <div class="searchContent">
+            <form id="queryForm" name="queryForm" method="post">
+                <table style="float: left;">
+                    <tr>
+                        <td>开始时间</td>
+                        <td>
+                            <input type="text" dateFmt="yyyy/MM/dd" placeholder="开始日期" class="date" id="c" name="beginDate" />
+                        </td>
+                        <td>结束时间</td>
+                        <td>
+                            <input type="text" dateFmt="yyyy/MM/dd" placeholder="结束日期" class="date" id="endDate" name="endDate" />
+                        </td>
+                        <td>预约状态</td>
+                        <td>
+                            <div id="BespeakEnum"></div>
 
-    <script>
+                        </td>
+                        <td><button type="button" onclick="searchHandler()" id="search" class="primary"><span class="icon_find">查询</span></button></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div class="clear"></div>
+        <br />
+        <div class="infoCard infoCard2">
+            <div class="title">
+                <span>预约记录列表</span>
+            </div>
+            <div id="dataBasic"></div>
+        </div>
+        </div>
+        <script>
 
-        $(function () {
-            var myDate = new Date();
-            $("#beginDate").val('@ViewBag.nowDay');
-            $("#endDate").val('@ViewBag.after7Day');
-        });
+            var ddSelect = '@Html.Raw(ViewBag.BespeakEnumKeyValue)';
 
-    </script>
+            var grid = null;
+            var dd = @MvcHtmlString.Create(@ViewBag.Data);
+            //数据表格使用
+            var gridData = dd;
+
+            function initComplete() {
+                grid = $("#dataBasic").quiGrid({
+                    columns: [{
+                        display: '阅览室名字',
+                        name: 'ReadingRoomName',
+                        width: "10%"
+                    },{
+                        display: '座位号',
+                        name: 'SeatNum',
+                        width: "10%"
+                    },{
+                        display: '预约状态',
+                        name: 'BsepeakState',
+                        width: "10%"
+                    }, {
+                        display: '提交时间',
+                        name: 'SubmitTime',
+                        width: "10%"
+                    }, {
+                        display: '预约时间',
+                        name: 'BespeakTime',
+                        width: "10%"
+                    }, {
+                        display: '取消时间',
+                        name: 'CancelTime',
+                        width: "10%"
+                    }, {
+                        display: '备注',
+                        name: 'Remark',
+                        width: "40%"
+                    }
+                    ],
+                    data: gridData,
+                    sortName: 'BespeakTime',
+                    rownumbers: true,
+                    checkbox: false,
+                    height: '99%',
+                    width: "99%",
+                    pageSize: 100,
+                    percentWidthMode: true
+                });
+            }
+
+
+            $(function () {
+                var myDate = new Date();
+                $("#beginDate").val('@ViewBag.nowDay');
+                $("#endDate").val('@ViewBag.after7Day');
+
+                $("#BespeakEnum").html(ddSelect);
+            });
+
+
+            function searchHandler(){
+                var $beginDateString = $("#beginDate").val();
+                var $endDateString = $("#endDate").val();
+                var $statusString = $("#selStatus").val();
+
+                $.ajax({
+                    url: "/ReaderLog/GetGridString",
+                    data: { beginDateString: $beginDateString,endDateString: $endDateString,statusString: $statusString },
+                    type: "post",
+                    dataType: "text",
+                    success: function (data) {
+                      //  alert(data);
+                        var obj = eval('(' + data + ')');
+                        grid.loadData(obj);
+                    },error:function (data){
+                        alert(data);
+                    }
+                });
+            }
+
+        </script>
 
 </body>
 </html>
