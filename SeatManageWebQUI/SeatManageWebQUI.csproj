@@ -2105,6 +2105,9 @@
     <Content Include="lib\Microsoft.Office.Interop.Excel.dll" />
     <Content Include="lib\Newtonsoft.Json.dll" />
     <Content Include="lib\Wilco.SyntaxHighlighter.dll" />
+    <Content Include="lib\shortleaveseat.png" />
+    <Content Include="lib\delayseat.png" />
+    <Content Include="lib\leaveseat.png" />
     <Content Include="quickui\libs\css\framework\basic.css" />
     <Content Include="quickui\libs\css\framework\code.css" />
     <Content Include="quickui\libs\css\framework\form.css" />
