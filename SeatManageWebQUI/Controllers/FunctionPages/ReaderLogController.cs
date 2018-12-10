@@ -189,7 +189,8 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
         }
         #endregion
 
-        private DataTable GetUserInfoDateTable(string starttime, string endtime,string roomNo,string logstatus,string blacklist)
+        #region 违规记录
+        private DataTable GetUserInfoDateTable(string starttime, string endtime, string roomNo, string logstatus, string blacklist)
         {
             DataTable dt = new DataTable();
             dt.Columns.Add("ID", typeof(string));
@@ -240,13 +241,13 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             return dt;
         }
 
-        public string ViolateDisciplineGridString(string beginDateString,string endDateString,string roomNoString,string selRecStatus,string selIsInBlack)
+        public string ViolateDisciplineGridString(string beginDateString, string endDateString, string roomNoString, string selRecStatus, string selIsInBlack)
         {
-            beginDateString = string.IsNullOrEmpty(beginDateString) ? DateTime.Now.AddDays(-7).ToShortDateString(): beginDateString;
+            beginDateString = string.IsNullOrEmpty(beginDateString) ? DateTime.Now.AddDays(-7).ToShortDateString() : beginDateString;
             endDateString = string.IsNullOrEmpty(endDateString) ? DateTime.Now.ToShortDateString() : endDateString;
             selRecStatus = string.IsNullOrEmpty(selRecStatus) ? "-1" : selRecStatus;
             selIsInBlack = string.IsNullOrEmpty(selIsInBlack) ? "-1" : selIsInBlack;
-            DataTable dt = GetUserInfoDateTable(beginDateString, DateTime.Parse(endDateString).AddHours(23).AddMinutes(59).ToString(),roomNoString,selRecStatus,selIsInBlack);
+            DataTable dt = GetUserInfoDateTable(beginDateString, DateTime.Parse(endDateString).AddHours(23).AddMinutes(59).ToString(), roomNoString, selRecStatus, selIsInBlack);
             StringBuilder sb = new StringBuilder();
             sb.Append("{");
             sb.Append("\"form.paginate.pageNo\": 1,");
@@ -288,17 +289,112 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
                 }
                 sbroomList.Append("</select>");
             }
-            ViewBag.Data = ViolateDisciplineGridString(null,null, string.Empty,"-1","-1");
+            ViewBag.Data = ViolateDisciplineGridString(null, null, string.Empty, "-1", "-1");
             ViewBag.RoomList = sbroomList.ToString();
             return View();
+        }
+        #endregion
+
+
+        /// <summary>
+        /// 获取数据列表
+        /// </summary>
+        /// <returns></returns>
+        private DataTable GetBlackListUserInfoDateTable(string starttime, string endtime,string selRecStatus)
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("ID", typeof(string));
+            dt.Columns.Add("CardNo", typeof(string));
+            dt.Columns.Add("ReaderName", typeof(string));
+            dt.Columns.Add("AddTime", typeof(string));
+            dt.Columns.Add("LeaveTime", typeof(string));
+            dt.Columns.Add("LogStatus", typeof(string));
+            dt.Columns.Add("Remark", typeof(string));
+            List<SeatManage.ClassModel.BlackListInfo> Blistlistlist = SeatManage.Bll.T_SM_Blacklist.GetAllBlackListInfo(
+                this.LoginId,
+                (SeatManage.EnumType.LogStatus)int.Parse(selRecStatus),
+                starttime,
+                endtime);
+            foreach (SeatManage.ClassModel.BlackListInfo bllist in Blistlistlist)
+            {
+
+                DataRow dr = dt.NewRow();
+                dr["ID"] = bllist.ID;
+                dr["CardNo"] = bllist.CardNo;
+                dr["ReaderName"] = bllist.ReaderName;
+                dr["AddTime"] = bllist.AddTime;
+                dr["LeaveTime"] = bllist.OutTime;
+                if (bllist.BlacklistState == LogStatus.Valid)
+                {
+                    dr["LogStatus"] = "处罚中";
+                }
+                else
+                {
+                    dr["LogStatus"] = "已过期";
+                }
+                dr["Remark"] = bllist.ReMark;
+                dt.Rows.Add(dr);
+            }
+            return dt;
+        }
+
+        public string GetBlackListString(string beginDateString,string endDateString,string selRecStatus)
+        {
+            beginDateString = string.IsNullOrEmpty(beginDateString) ? DateTime.Now.AddDays(-7).ToShortDateString() : beginDateString;
+            endDateString = string.IsNullOrEmpty(endDateString) ? DateTime.Now.ToShortDateString() : endDateString;
+            selRecStatus = string.IsNullOrEmpty(selRecStatus) ? "-1" : selRecStatus;
+            DataTable dt = GetBlackListUserInfoDateTable(beginDateString, string.Format("{0} {1}", endDateString, "23:59:59"), selRecStatus);
+
+            StringBuilder sb = new StringBuilder();
+            sb.Append("{");
+            sb.Append("\"form.paginate.pageNo\": 1,");
+            sb.Append("\"form.paginate.totalRows\": 100,");
+            sb.Append("	\"rows\": [");
+            foreach (DataRow r in dt.Rows)
+            {
+                sb.Append("{\"ID\": '" + r["ID"] + "',\"AddTime\": '" + r["AddTime"] + "',\"LeaveTime\": \"" + r["LeaveTime"] + "\",\"LogStatus\": \"" + r["LogStatus"] + "\",\"Remark\": \"" + r["Remark"] + "\"}");
+                sb.Append(",");
+            }
+            if (dt.Rows.Count > 0)
+            {
+                sb.Remove(sb.Length - 1, 1);
+            }
+            sb.Append("]");
+            sb.Append("}");
+
+            return sb.ToString();
         }
 
         public ActionResult SelectBlacklist()
         {
+            string nowDay = DateTime.Now.ToShortDateString();
+            string before7Day = DateTime.Now.AddDays(-7).ToShortDateString();
+            ViewBag.nowDay = nowDay;
+            ViewBag.before7Day = before7Day;
+            ViewBag.Data = GetBlackListString(null, null, string.Empty);
             return View();
         }
         public ActionResult SelectNoticeLog()
         {
+            DataTable dt = LogQueryHelper.ReaderNoticeList(this.LoginId);
+            StringBuilder sb = new StringBuilder();
+            sb.Append("{");
+            sb.Append("\"form.paginate.pageNo\": 1,");
+            sb.Append("\"form.paginate.totalRows\": 100,");
+            sb.Append("	\"rows\": [");
+            foreach (DataRow r in dt.Rows)
+            {
+                sb.Append("{\"NoticeId\": '" + r["NoticeId"] + "',\"AddTime\": '" + r["AddTime"] + "',\"NoticeContent\": \"" + r["NoticeContent"] + "\"}");
+                sb.Append(",");
+            }
+            if (dt.Rows.Count > 0)
+            {
+                sb.Remove(sb.Length - 1, 1);
+            }
+            sb.Append("]");
+            sb.Append("}");
+
+            ViewBag.Data = sb.ToString();
             return View();
         }
 
