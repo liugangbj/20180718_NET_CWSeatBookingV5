@@ -699,7 +699,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
         {
             string data = BindingGrid(string.Empty, string.Empty);
             ViewBag.InitData = data;
-            ViewBag.InitDay = DateTime.Now.AddDays(1).ToShortDateString(); ;
+            ViewBag.InitDay = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd");
             return View();
         }
         #endregion

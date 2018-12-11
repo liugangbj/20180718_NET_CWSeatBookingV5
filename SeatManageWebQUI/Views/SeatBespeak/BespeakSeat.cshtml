@@ -43,7 +43,8 @@
         <div>
             <select prompt="请选择图书馆"  selectedIdx ="0" url="/SeatBespeak/BindLibaray" id="selectLib"></select>
             选择日期：
-            <input type="text" class="date" value="@ViewBag.InitDay"  id="dpStartDate" onchange="dpStartDateOnchange();" />
+            <input type="text" class="date" value="@ViewBag.InitDay"  id="dpStartDate" />
+            <input type="button" value="查询" class="primary" id="btnQuery" onclick="btnQueryClick()" />
         </div>
         <div class="clear"></div>
         <div class="infoCard infoCard2">
@@ -139,7 +140,8 @@
             }
         }
 
-        function dpStartDateOnchange() {
+        function btnQueryClick()
+        {
             var $dateValue = $("#dpStartDate").val();
             var $libValue = $("#selectLib").val();
             if ($libValue == "") {
@@ -161,6 +163,10 @@
                     }
                 });
             }
+        }
+
+        function dpStartDateOnchange() {
+
         }
 
     </script>

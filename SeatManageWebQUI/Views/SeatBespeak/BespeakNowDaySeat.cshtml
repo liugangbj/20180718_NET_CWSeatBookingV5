@@ -44,6 +44,7 @@
         <div>
             <select prompt="请选择图书馆" selectedIdx="0" url="/SeatBespeak/BindLibaray" id="selectLib"></select>
         </div>
+        <input type="button" value="查询" onclick="btnQueryClick()" class="primary" />
         <div class="clear"></div>
         <div class="infoCard infoCard2">
             <div class="title">
@@ -133,6 +134,26 @@
             });
 
 
+        }
+
+
+
+        function btnQueryClick(){
+
+            var $libValue = $("#selectLib").val();
+
+            $.ajax({
+                url: "/SeatBespeak/BindingNowDatGrid",
+                data: { libno: $libValue },
+                type: "post",
+                dataType: "text",
+                success: function (data) {
+                    var obj = eval('(' + data + ')');
+                    grid.loadData(obj);
+                }, error: function (data) {
+                    alert(data);
+                }
+            });
         }
 
     </script>
