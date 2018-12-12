@@ -80,12 +80,12 @@
                     <tr>
                         <td>阅览室编号：</td>
                         <td>
-                            <input type="text" style="width:300px;" id="schoolId" name="schoolId" readonly="readonly" />
+                            <input type="text" style="width:300px;" id="roomId" name="roomId" readonly="readonly" />
                         </td>
                     </tr>
                     <tr>
                         <td>阅览室名字：</td>
-                        <td><input type="text" style="width:300px;" id="schoolName" name="schoolName" /></td>
+                        <td><input type="text" style="width:300px;" id="roomName" name="roomName" /></td>
                     </tr>
                     <tr>
                         <td>所属图书馆：</td>
@@ -171,27 +171,50 @@
 
         //点击树节点
         function onClick1(event, treeId, treeNode, clickFlag) {
-            setForm(treeNode.tName, treeNode.parentId);
+
+            var schoolId = "";
+            var schoolName = "";
+            var libId = "";
+            var libName = "";
+            var roomId = "";
+            var roomName = "";
+
+            if (treeNode.tName == "school")
+            {
+                schoolId = treeNode.id;
+                schoolName = treeNode.name;
+            }
+            else if (treeNode.tName == "lib")
+            {
+                libId = treeNode.id;
+                libName = treeNode.name;
+            }
+            else if (treeNode.tName == "room")
+            {
+                roomId = treeNode.id;
+                roomName = treeNode.name;
+            }
+            setForm(treeNode.tName, treeNode.parentId, schoolId, schoolName, libId, libName, roomId, roomName);
         }
 
         //设置表单值
-        //function setForm(val1, val2, val3, val4) {
-        //    $("#selectNode").val(val1 == 'null' ? '' : val1);
-        //    $("#nodeDes").val(val2 == 'null' ? '' : val2);
-        //    $("#nodePerson").val(val3 == 'null' ? '' : val3);
-        //    $("#nodePhone").val(val4 == 'null' ? '' : val4);
-        //}
-
-        function setForm(tName, parentId)
+        function setForm(tName, parentId, schoolId, schoolName, libId, libName, roomId, roomName)
         {
             if (tName == "school") {
                 $("#divSchoolForm").show();
                 $("#divLibForm").hide();
                 $("#divRoomForm").hide();
+
+                $("#schoolId").val(schoolId);
+                $("#schoolName").val(schoolName);
+
             } else if (tName == "lib") {
                 $("#divSchoolForm").hide();
                 $("#divLibForm").show();
                 $("#divRoomForm").hide();
+
+                $("#libId").val(libId);
+                $("#libName").val(libName);
 
                 $.ajax({
                     type: 'POST',
@@ -213,6 +236,9 @@
                 $("#divSchoolForm").hide();
                 $("#divLibForm").hide();
                 $("#divRoomForm").show();
+
+                $("#roomId").val(roomId);
+                $("#roomName").val(roomName);
 
                 $.ajax({
                     type: 'POST',
