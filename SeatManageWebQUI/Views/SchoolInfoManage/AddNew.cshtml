@@ -1,0 +1,149 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AddNew</title>
+    <!--框架必需start-->
+    <script type="text/javascript" src="~/quickui/libs/js/jquery.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/language/cn.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/framework.js"></script>
+    <link href="~/quickui/libs/css/import_basic.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" id="skin" prePath="~/quickui/" />
+    <link rel="stylesheet" type="text/css" id="customSkin" />
+    <!--框架必需end-->
+    <link rel="stylesheet" type="text/css" href="~/quickui/style/style.css" />
+    <script src="~/quickui/libs/js/table/quiGrid.js" type="text/javascript"></script>
+    <!--引入提示组件start-->
+    <script type="text/javascript" src="/quickui/libs/js/popup/toast.js"></script>
+    <script type="text/javascript" src="/quickui/libs/js/popup/notice.js"></script>
+    <!--引入提示组件end-->
+    <!--树组件start -->
+    <script type="text/javascript" src="/quickui/libs/js/tree/ztree/ztree.js"></script>
+    <link href="/quickui/libs/js/tree/ztree/ztree.css" rel="stylesheet" type="text/css" />
+    <!--树组件end -->
+    <!--布局控件start-->
+    <script type="text/javascript" src="/quickui/libs/js/nav/layout.js"></script>
+    <!--布局控件end-->
+    <script src="/quickui/libs/js/form/validationRule.js" type="text/javascript"></script>
+    <script src="/quickui/libs/js/form/validation.js" type="text/javascript"></script>
+</head>
+<body>
+    <div style="padding-left:5px;" id="divSchoolForm">
+        <form id="form1">
+            <table>
+                <tr>
+                    <td>校区编号：</td>
+                    <td>
+                        <input type="text" style="width:300px;" id="schoolId" name="schoolId" class="validate[required,custom[noSpecialCaracters]]"  />
+                    </td>
+                </tr>
+                <tr>
+                    <td>校区名字：</td>
+                    <td><input type="text" style="width:300px;" id="schoolName" name="schoolName" class="validate[required,custom[noSpecialCaracters]]"  /></td>
+                </tr>
+            </table>
+            </form>
+</div>
+    <div style="padding-left:5px;" id="divLibForm">
+        <form id="form2">
+            <table>
+                <tr>
+                    <td>图书馆编号：</td>
+                    <td>
+                        <input type="text" style="width:300px;" id="libId" name="libId" class="validate[required,custom[noSpecialCaracters]]"  />
+                    </td>
+                </tr>
+                <tr>
+                    <td>图书馆名字：</td>
+                    <td><input type="text" style="width:300px;" id="libName" name="libName" class="validate[required,custom[noSpecialCaracters]]"  /></td>
+                </tr>
+                <tr>
+                    <td>所属校区：</td>
+                    <td>
+                        <select id="selectSchool" name="selectSchool" url="/SchoolInfoManage/GetSelectSchool" ></select>
+                    </td>
+                </tr>
+            </table>
+            </form>
+</div>
+    <div style="padding-left:5px;" id="divRoomForm">
+        <form id="form3">
+            <table>
+                <tr>
+                    <td>阅览室编号：</td>
+                    <td>
+                        <input type="text" style="width:300px;" id="roomId" name="roomId" class="validate[required,custom[noSpecialCaracters]]"  />
+                    </td>
+                </tr>
+                <tr>
+                    <td>阅览室名字：</td>
+                    <td><input type="text" style="width:300px;" id="roomName" name="roomName" class="validate[required,custom[noSpecialCaracters]]"  /></td>
+                </tr>
+                <tr>
+                    <td>所属图书馆：</td>
+                    <td>
+                        <select id="selectLib" name="selectLib" url="/SchoolInfoManage/GetSelectLib"></select>
+                    </td>
+                </tr>
+            </table>
+            </form>
+</div>
+
+    <script>
+
+        var arg = '@ViewBag.Arg';
+
+        $(document).ready(function () {
+
+            $("#divSchoolForm").hide();
+            $("#divLibForm").hide();
+            $("#divRoomForm").hide();
+                
+            if (arg == "school") $("#divSchoolForm").show();
+            if (arg == "lib") $("#divLibForm").show();
+            if (arg == "room") $("#divRoomForm").show();
+        });
+
+
+        function myTest() {
+            var formIndex = "0";
+            var valid = $(containerId).validationEngine({ returnIsValid: true });
+            if (arg == "school") {
+                formIndex = "1";
+               
+            }
+            if (arg == "lib") {
+                formIndex = "2";
+            }
+            if (arg == "room") {
+                formIndex = "3";
+            }
+
+            $.ajax({
+                url: "/SchoolInfoManage/SaveAddNew", //你的路由地址
+                type: "post",
+                dataType: "json",
+                data: $("#form" + formIndex).serialize(),
+                timeout: 30000,
+                success: function (data) {
+                    if (data.status == "yes") {
+                        top.Toast('showSuccessToast', data.message);
+                    } else {
+                        top.Toast('showErrorToast', data.message);
+                    }
+                },
+                error: function () {
+                    top.Toast('showErrorToast', '发生不可预计错误，请重新尝试');
+                }
+            });
+
+        }
+    </script>
+</body>
+</html>

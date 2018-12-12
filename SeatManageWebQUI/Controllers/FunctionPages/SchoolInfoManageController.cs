@@ -20,6 +20,19 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             return View();
         }
 
+        public JsonResult SaveAddNew()
+        {
+            JsonResult result = Json(new { status = "yes", message = "保存成功" }, JsonRequestBehavior.AllowGet);
+
+            return result;
+        }
+
+        public ActionResult AddNew(string arg)
+        {
+            ViewBag.Arg = arg;
+            return View();
+        }
+
         public string GetSelectSchool()
         {
             List<SeatManage.ClassModel.School> schoollist = SeatManage.Bll.T_SM_School.GetSchoolInfoList(null, null);

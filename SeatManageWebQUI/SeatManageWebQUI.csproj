@@ -4130,6 +4130,7 @@
     <Content Include="Views\SeatBespeak\BespeakSubmitWindow.cshtml" />
     <Content Include="Views\SeatBespeak\BespeakNowDaySeatLayout.cshtml" />
     <Content Include="Views\SeatBespeak\BespeakNowDayHandle.cshtml" />
+    <Content Include="Views\SchoolInfoManage\AddNew.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
