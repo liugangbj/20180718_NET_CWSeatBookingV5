@@ -18,95 +18,221 @@
     <link rel="stylesheet" type="text/css" id="customSkin" />
     <!--框架必需end-->
     <link rel="stylesheet" type="text/css" href="~/quickui/style/style.css" />
-
     <script src="~/quickui/libs/js/table/quiGrid.js" type="text/javascript"></script>
-
     <!--引入提示组件start-->
     <script type="text/javascript" src="/quickui/libs/js/popup/toast.js"></script>
     <script type="text/javascript" src="/quickui/libs/js/popup/notice.js"></script>
     <!--引入提示组件end-->
+    <!--树组件start -->
+    <script type="text/javascript" src="/quickui/libs/js/tree/ztree/ztree.js"></script>
+    <link href="/quickui/libs/js/tree/ztree/ztree.css" rel="stylesheet" type="text/css" />
+    <!--树组件end -->
+    <!--布局控件start-->
+    <script type="text/javascript" src="/quickui/libs/js/nav/layout.js"></script>
+    <!--布局控件end-->
 </head>
 <body>
 
-    <div class="page_content">
-        <div class="demo_operation">
-            <div class="box_tool_min padding_top2 padding_bottom2 padding_right5">
-                <div class="center">
-                    <div class="left">
-                        <div class="right">
-                            <div class="padding_top5 padding_left10">
-                                <a href="javascript:addUnit();"><span class="icon_add">新增</span></a>
-                                <div class="box_tool_line"></div>
-                                <a href="javascript:onSetting();"><span class="icon_ok">设置</span></a>
-                                <div class="box_tool_line"></div>
-                                <a href="javascript:onEdit();"><span class="icon_edit">修改</span></a>
-                                <div class="box_tool_line"></div>
-                                <a href="javascript:removeItem();"><span class="icon_delete">删除</span></a>
-                                <div class="box_tool_line"></div>
-                                <div class="clear"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="clear"></div>
+    <div id="layout1">
+        <div position="center" style="" panelTitle="节点维护">
+            <div id="orgContent" style="overflow-y:auto;">
+                <ul id="tree-1" class="ztree"></ul>
             </div>
         </div>
-        <div class="infoCard infoCard2">
-            <div class="title">
-                <span>菜单列表</span>
+        <div position="right" style="" panelTitle="节点详情">
+            <div style="padding-left:5px;" id="divSchoolForm">
+                <table>
+                    <tr>
+                        <td>校区编号：</td>
+                        <td>
+                            <input type="text" style="width:300px;" id="schoolId" name="schoolId" readonly="readonly" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>校区名字：</td>
+                        <td><input type="text" style="width:300px;" id="schoolName" name="schoolName" /></td>
+                    </tr>
+                </table>
             </div>
-            <div id="dataBasic"></div>
+            <div style="padding-left:5px;" id="divLibForm">
+                <table>
+                    <tr>
+                        <td>图书馆编号：</td>
+                        <td>
+                            <input type="text" style="width:300px;" id="libId" name="libId" readonly="readonly" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>图书馆名字：</td>
+                        <td><input type="text" style="width:300px;" id="libName" name="libName" /></td>
+                    </tr>
+                    <tr>
+                        <td>所属校区：</td>
+                        <td>
+                          <select id="selectSchool" name="selectSchool" >
+                          </select>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div style="padding-left:5px;" id="divRoomForm">
+                <table>
+                    <tr>
+                        <td>阅览室编号：</td>
+                        <td>
+                            <input type="text" style="width:300px;" id="schoolId" name="schoolId" readonly="readonly" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>阅览室名字：</td>
+                        <td><input type="text" style="width:300px;" id="schoolName" name="schoolName" /></td>
+                    </tr>
+                    <tr>
+                        <td>所属图书馆：</td>
+                        <td>
+                            <select id="selectLib" name="selectLib" url="/SchoolInfoManage/GetSelectLib">
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
-
-    <script type="text/javascript">
-        var grid = null;
-        var data = @MvcHtmlString.Create(@ViewBag.Data);
-			//数据表格使用
-        var gridData = data;
-
-			function initComplete() {
-				grid = $("#dataBasic").quiGrid({
-					columns: [{
-					    display: '学校编号',
-					    name: 'No',
-							width: "20%"
-						},{
-						    display: '校区名称',
-						    name: 'Name',
-							width: "80%"
-						}
-					],
-					data: gridData,
-					sortName: 'No',
-					rownumbers: true,
-					checkbox: false,
-					height: '99%',
-					width: "99%",
-					pageSize: 100,
-					percentWidthMode: true,
-					onAfterShowData: onAfterShowData
-				});
-			}
-
-			function onAfterShowData(data) {
-
-				$("#dataBasic").find(".popupMenu").each(function() {
-					$(this).hover(function() {
-						$(this).find(".popupMenu_con").show();
-					}, function() {
-						$(this).find(".popupMenu_con").hide();
-					});
-				})
-			}
-
-			function earlyWarning(){
-				top.Dialog.open({URL:"../../sample_skin/demo/oa_52.html",Title:"设置预警",Width:400,Height:250});
-			}
+    <div id="pb1"></div><span id="pb1-label"></span>
 
 
+    <script>
+        var setting1 = {
+            view: {
+                //addHoverDom: addHoverDom,
+                //removeHoverDom: removeHoverDom,
+                selectedMulti: false
+            },
+            edit: {
+                enable: true,
+                renameTitle:"修改",
+                removeTitle:"删除"
+            },
+            callback: {
+                onClick: onClick1
+                ////不允许拖拽
+                //beforeDrag: beforeDrag1,
+                ////修改前确认
+                //beforeEditName: beforeEditName1,
+                ////修改完时的处理
+                //beforeRename: beforeRename1,
+                ////修改成功后处理
+                //onRename: onRename1,
+                ////删除前确认
+                //beforeRemove: beforeRemove1
+            }};
 
+        var zNodes1 = "";
+
+       
+        //初始化函数
+        function initComplete() {
+            var layout = $("#layout1").layout({ rightWidth: 1100 });
+            //layout.setRightCollapse(true);
+
+            //初始化树
+            getOrgTreeData();
+
+            $("#divSchoolForm").hide();
+            $("#divLibForm").hide();
+            $("#divRoomForm").hide();
+        }
+
+        //获取数据初始化树
+        function getOrgTreeData() {
+            //var _progress;
+            //_progress = $("#pb1").progressCtrl({ skin: '/quickui/libs/images/loading/progress.png', width: 300 });
+            //setTimeout(function () { _progress.progressCtrl(50); }, 300);
+            $.ajax({
+                type: 'POST',
+                url: '/SchoolInfoManage/GetTreeData',
+                data: null,
+                success: function (result) {
+                    var obj = eval('(' + result + ')');
+                    zNodes1 = obj;
+                    $.fn.zTree.init($("#tree-1"), setting1, zNodes1);
+                },
+                error: function (a) {
+                    top.Toast("showErrorToast", "访问服务器端出错！");
+                },
+                dataType: 'text'
+            });
+        }
+
+        //获取树对象
+        function getTree() {
+            return $.fn.zTree.getZTreeObj("tree-1");
+        }
+
+        //点击树节点
+        function onClick1(event, treeId, treeNode, clickFlag) {
+            setForm(treeNode.tName, treeNode.parentId);
+        }
+
+        //设置表单值
+        //function setForm(val1, val2, val3, val4) {
+        //    $("#selectNode").val(val1 == 'null' ? '' : val1);
+        //    $("#nodeDes").val(val2 == 'null' ? '' : val2);
+        //    $("#nodePerson").val(val3 == 'null' ? '' : val3);
+        //    $("#nodePhone").val(val4 == 'null' ? '' : val4);
+        //}
+
+        function setForm(tName, parentId)
+        {
+            if (tName == "school") {
+                $("#divSchoolForm").show();
+                $("#divLibForm").hide();
+                $("#divRoomForm").hide();
+            } else if (tName == "lib") {
+                $("#divSchoolForm").hide();
+                $("#divLibForm").show();
+                $("#divRoomForm").hide();
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/SchoolInfoManage/GetSelectSchool',
+                    data: null,
+                    success: function (result) {
+                        var obj = eval('(' + result + ')');
+                        $("#selectSchool").data("data", obj)
+                        $("#selectSchool").render();
+                        $("#selectSchool").setValue(parentId);
+                    },
+                    error: function (a) {
+                        top.Toast("showErrorToast", "访问服务器端出错！");
+                    },
+                    dataType: 'text'
+                });
+
+            } else if (tName == "room") {
+                $("#divSchoolForm").hide();
+                $("#divLibForm").hide();
+                $("#divRoomForm").show();
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/SchoolInfoManage/GetSelectLib',
+                    data: null,
+                    success: function (result) {
+                        var obj = eval('(' + result + ')');
+                        $("#selectLib").data("data", obj)
+                        $("#selectLib").render();
+                        $("#selectLib").setValue(parentId);
+                    },
+                    error: function (a) {
+                        top.Toast("showErrorToast", "访问服务器端出错！");
+                    },
+                    dataType: 'text'
+                });
+            }
+        }
 
     </script>
+    
 </body>
 </html>

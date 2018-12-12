@@ -19,32 +19,81 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
         {
             return View();
         }
-        public ActionResult SchoolInfo()
+
+        public string GetSelectSchool()
         {
-            // List<SeatManage.ClassModel.LibraryInfo> librarylist = SeatManage.Bll.T_SM_Library.GetLibraryInfoList(null, null, null);
             List<SeatManage.ClassModel.School> schoollist = SeatManage.Bll.T_SM_School.GetSchoolInfoList(null, null);
             StringBuilder sb = new StringBuilder();
-            sb.Append("{");
-            sb.Append("\"form.paginate.pageNo\": 1,");
-            sb.Append("\"form.paginate.totalRows\": 100,");
-            sb.Append("	\"rows\": [");
-            foreach (School item in schoollist)
+            sb.Append("{\"list\":[");
+            foreach (var item in schoollist)
             {
-                sb.Append("{\"No\": " + item.No + ",\"Name\": \"" + item.Name + "\"}");
-                sb.Append(",");
+                sb.Append("{\"key\":\"" + item.Name + "\",\"value\":\"" + item.No + "\"},");
             }
             sb.Remove(sb.Length - 1, 1);
-            sb.Append("]");
-            sb.Append("}");
-            string data = sb.ToString();
-            ViewBag.Data = data;
+            sb.Append("]}");
+            return sb.ToString();
+        }
 
+        public string GetSelectLib()
+        {
+            List<SeatManage.ClassModel.LibraryInfo> listLibrary = new List<SeatManage.ClassModel.LibraryInfo>();
+            listLibrary = SeatManage.Bll.T_SM_Library.GetLibraryInfoList(null, null, null);
+            StringBuilder sb = new StringBuilder();
+            sb.Append("{\"list\":[");
+            foreach (var item in listLibrary)
+            {
+                sb.Append("{\"key\":\"" + item.Name + "\",\"value\":\"" + item.No + "\"},");
+            }
+            sb.Remove(sb.Length - 1, 1);
+            sb.Append("]}");
+            return sb.ToString();
+        }
+
+        public string GetTreeData()
+        {
+            string result = null;
+            List<SeatManage.ClassModel.School> schoollist = SeatManage.Bll.T_SM_School.GetSchoolInfoList(null, null);
+            List<SeatManage.ClassModel.LibraryInfo> librarylist = SeatManage.Bll.T_SM_Library.GetLibraryInfoList(null, null, null);
+            List<SeatManage.ClassModel.ReadingRoomInfo> listReadingRoom = SeatManage.Bll.ClientConfigOperate.GetReadingRooms(null);
+            StringBuilder sb = new StringBuilder();
+            sb.Append(" [");
+            foreach (var c in schoollist)
+            {
+                sb.Append("{ id: '" + c.No + "', parentId: '0', name: \"" + c.Name + "\",open: true ,tName:'school'},");
+                foreach (var l in librarylist)
+                {
+                    if (l.School.No == c.No)
+                    {
+                        sb.Append("{ id: '" + l.No + "', parentId: '" + c.No + "', name: \"" + l.Name + "\",open: true,tName:'lib' },");
+                    }
+                    foreach (var r in listReadingRoom)
+                    {
+                        if (r.Libaray.No == l.No)
+                        {
+                            sb.Append("{ id: '" + r.No + "', parentId: '" + l.No + "', name: \"" + r.Name + "\",open: true ,tName:'room'},");
+                        }
+                    }
+                }
+            }
+            if (schoollist.Count > 0)
+            {
+                sb.Remove(sb.Length - 1, 1);
+            }
+            sb.Append("]");
+            result = sb.ToString();
+            return result;
+        }
+
+
+
+        #region school manager
+        public ActionResult SchoolInfo()
+        {
             return View();
         }
 
         public ActionResult LibraryInfo()
         {
-          //  List<SeatManage.ClassModel.ReadingRoomInfo> listReadingRoom = SeatManage.Bll.ClientConfigOperate.GetReadingRooms(null);
             List<SeatManage.ClassModel.LibraryInfo> librarylist = SeatManage.Bll.T_SM_Library.GetLibraryInfoList(null, null, null);
             StringBuilder sb = new StringBuilder();
             sb.Append("{");
@@ -56,15 +105,18 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
                 sb.Append("{\"No\": " + item.No + ",\"Name\": \"" + item.Name + "\",\"SchoolName\": \"" + item.School.Name + "\"}");
                 sb.Append(",");
             }
-            sb.Remove(sb.Length - 1, 1);
+            if (librarylist.Count > 0)
+            {
+                sb.Remove(sb.Length - 1, 1);
+            }
             sb.Append("]");
             sb.Append("}");
             string data = sb.ToString();
             ViewBag.Data = data;
-
             return View();
         }
 
+        #endregion
         #region 阅览室设置
         public JsonResult BespeakSeatSettingCanBook(string seatNo, string canBook, string roomNo)
         {
