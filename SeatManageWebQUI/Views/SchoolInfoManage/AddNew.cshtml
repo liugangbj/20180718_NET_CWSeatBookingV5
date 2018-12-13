@@ -40,12 +40,12 @@
                 <tr>
                     <td>校区编号：</td>
                     <td>
-                        <input type="text" style="width:300px;" id="schoolId" name="schoolId" class="validate[required,custom[noSpecialCaracters]]"  />
+                        <input type="text" style="width:300px;" id="schoolId" name="schoolId" class="validate[required,custom[noSpecialCaracters],length[0,1]]"  />
                     </td>
                 </tr>
                 <tr>
                     <td>校区名字：</td>
-                    <td><input type="text" style="width:300px;" id="schoolName" name="schoolName" class="validate[required,custom[noSpecialCaracters]]"  /></td>
+                    <td><input type="text" style="width:300px;" id="schoolName" name="schoolName" class="validate[required]"  /></td>
                 </tr>
             </table>
             </form>
@@ -56,12 +56,18 @@
                 <tr>
                     <td>图书馆编号：</td>
                     <td>
-                        <input type="text" style="width:300px;" id="libId" name="libId" class="validate[required,custom[noSpecialCaracters]]"  />
+                        <input type="text" style="width:300px;" id="libId" name="libId" class="validate[required,custom[noSpecialCaracters],length[2,2]]]"  />
                     </td>
                 </tr>
                 <tr>
                     <td>图书馆名字：</td>
-                    <td><input type="text" style="width:300px;" id="libName" name="libName" class="validate[required,custom[noSpecialCaracters]]"  /></td>
+                    <td><input type="text" style="width:300px;" id="libName" name="libName" class="validate[required]"  /></td>
+                </tr>
+                <tr>
+                    <td>区域划分：</td>
+                    <td>
+                        <textarea id="txtArea" name="txtArea" placeholder="区域之间用分号(;)隔开，没有划分区域请留空"></textarea>
+                    </td>
                 </tr>
                 <tr>
                     <td>所属校区：</td>
@@ -83,12 +89,18 @@
                 </tr>
                 <tr>
                     <td>阅览室名字：</td>
-                    <td><input type="text" style="width:300px;" id="roomName" name="roomName" class="validate[required,custom[noSpecialCaracters]]"  /></td>
+                    <td><input type="text" style="width:300px;" id="roomName" name="roomName" class="validate[required]"  /></td>
                 </tr>
                 <tr>
                     <td>所属图书馆：</td>
                     <td>
                         <select id="selectLib" name="selectLib" url="/SchoolInfoManage/GetSelectLib"></select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>所属区域：</td>
+                    <td>
+                        <select id="selectArea" name="selectArea" url="/SchoolInfoManage/GetSelectArea"></select>
                     </td>
                 </tr>
             </table>
@@ -107,41 +119,52 @@
                 
             if (arg == "school") $("#divSchoolForm").show();
             if (arg == "lib") $("#divLibForm").show();
-            if (arg == "room") $("#divRoomForm").show();
+            if (arg == "room")
+            {
+                $("#divRoomForm").show();
+            }
         });
 
+        function validateForm(containerId) {
+            var valid = $(containerId).validationEngine({ returnIsValid: true });
+            if (valid == true) {
+                top.Toast("showNoticeToast", '进行提交处理');
+            } else {
+                top.Toast("showErrorToast", '表单填写不正确，请按要求填写！');
+            }
+        }
 
         function myTest() {
             var formIndex = "0";
-            var valid = $(containerId).validationEngine({ returnIsValid: true });
-            if (arg == "school") {
-                formIndex = "1";
-               
-            }
-            if (arg == "lib") {
-                formIndex = "2";
-            }
-            if (arg == "room") {
-                formIndex = "3";
-            }
+            
 
-            $.ajax({
-                url: "/SchoolInfoManage/SaveAddNew", //你的路由地址
-                type: "post",
-                dataType: "json",
-                data: $("#form" + formIndex).serialize(),
-                timeout: 30000,
-                success: function (data) {
-                    if (data.status == "yes") {
-                        top.Toast('showSuccessToast', data.message);
-                    } else {
-                        top.Toast('showErrorToast', data.message);
+            if (arg == "school") formIndex = "1";
+            if (arg == "lib")    formIndex = "2";
+            if (arg == "room") formIndex = "3";
+
+            var valid = $("#form" + formIndex).validationEngine({ returnIsValid: true });
+
+            if (valid) {
+                $.ajax({
+                    url: "/SchoolInfoManage/SaveAddNew?arg=" + arg, //你的路由地址
+                    type: "post",
+                    dataType: "json",
+                    data: $("#form" + formIndex).serialize(),
+                    timeout: 30000,
+                    success: function (data) {
+                        if (data.status == "yes") {
+                            top.Toast('showSuccessToast', data.message);
+                        } else {
+                            top.Toast('showErrorToast', data.message);
+                        }
+                    },
+                    error: function () {
+                        top.Toast('showErrorToast', '发生不可预计错误，请重新尝试');
                     }
-                },
-                error: function () {
-                    top.Toast('showErrorToast', '发生不可预计错误，请重新尝试');
-                }
-            });
+                });
+            } else {
+                top.Toast("showErrorToast", '表单填写不正确，请按要求填写！');
+            }
 
         }
     </script>

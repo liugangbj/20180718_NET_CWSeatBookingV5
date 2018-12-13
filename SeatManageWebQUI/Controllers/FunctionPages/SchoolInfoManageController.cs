@@ -20,10 +20,80 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             return View();
         }
 
-        public JsonResult SaveAddNew()
+        public JsonResult SaveAddNew(string arg)
         {
-            JsonResult result = Json(new { status = "yes", message = "保存成功" }, JsonRequestBehavior.AllowGet);
+            JsonResult result = null;
 
+            if (arg == "school")
+            {
+                SeatManage.ClassModel.School newschool = new SeatManage.ClassModel.School();
+                newschool.No = Request.Params["schoolId"].ToString();
+                newschool.Name = Request.Params["schoolName"].ToString();
+                List<SeatManage.ClassModel.School> schoollist = SeatManage.Bll.T_SM_School.GetSchoolInfoList(null, null);
+                foreach (SeatManage.ClassModel.School school in schoollist)
+                {
+                    if (school.No == newschool.No || school.Name == newschool.Name)
+                    {
+                        result = Json(new { status = "no", message = "校区编号或学校名称已存在，请重新输入！" }, JsonRequestBehavior.AllowGet);
+                    }
+                    else if (SeatManage.Bll.T_SM_School.AddNewSchool(newschool))
+                    {
+                        result = Json(new { status = "yes", message = "校区添加成功！" }, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        result = Json(new { status = "no", message = "校区添加失败，请重新尝试！" }, JsonRequestBehavior.AllowGet);
+                    }
+                }
+            }
+            else if (arg == "lib")
+            {
+                SeatManage.ClassModel.LibraryInfo newlibrary = new SeatManage.ClassModel.LibraryInfo();
+                newlibrary.No = Request.Params["libId"].ToString();
+                newlibrary.Name = Request.Params["libName"].ToString();
+                newlibrary.School.No = Request.Params["selectSchool"].ToString();
+
+                if (Request.Params["txtArea"] != "") //区域处理
+                {
+                    string[] areaList = Request.Params["txtArea"].Trim().Split(';');
+                    for (int i = 0; i < areaList.Length; i++)
+                    {
+                        if (areaList[i].Trim() != "")
+                        {
+                            SeatManage.ClassModel.AreaInfo Area = new SeatManage.ClassModel.AreaInfo();
+                            Area.AreaName = areaList[i];
+                            Area.AreaNo = i;
+                            newlibrary.AreaList.Add(Area);
+                        }
+                    }
+                }
+
+                List<SeatManage.ClassModel.LibraryInfo> librarylist = SeatManage.Bll.T_SM_Library.GetLibraryInfoList(null, null, null);
+                bool isExist = false;
+                foreach (SeatManage.ClassModel.LibraryInfo library in librarylist)
+                {
+                    if (library.No == newlibrary.No || library.Name == newlibrary.Name)
+                    {
+                        result = Json(new { status = "no", message = "图书馆编号或图书馆名称已存在，请重新输入！" }, JsonRequestBehavior.AllowGet);
+                        isExist = true;
+                    }
+                }
+                if (!isExist)
+                {
+                    if (SeatManage.Bll.T_SM_Library.AddNewLibrary(newlibrary))
+                    {
+                        result = Json(new { status = "yes", message = "图书馆添加成功！" }, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        result = Json(new { status = "no", message = "图书馆添加失败！" }, JsonRequestBehavior.AllowGet);
+                    }
+                }
+            }
+            else if (arg == "room")
+            {
+
+            }
             return result;
         }
 
@@ -31,6 +101,25 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
         {
             ViewBag.Arg = arg;
             return View();
+        }
+
+        public string GetSelectArea(string libNo)//查询区域列表
+        {
+            List<SeatManage.ClassModel.LibraryInfo> listLibrary = new List<SeatManage.ClassModel.LibraryInfo>();
+            listLibrary = SeatManage.Bll.T_SM_Library.GetLibraryInfoList(null, libNo, null);
+            StringBuilder sb = new StringBuilder();
+            List<AreaInfo> listArea = listLibrary[0].AreaList;
+
+            sb.Append("{\"list\":[");
+            foreach (var item in listArea)
+            {
+                sb.Append("{\"key\":\"" + item.AreaNo + "\",\"value\":\"" + item.AreaName + "\"},");
+            }
+            if(listArea.Count>0) sb.Remove(sb.Length - 1, 1);
+            sb.Append("]}");
+
+
+            return sb.ToString();
         }
 
         public string GetSelectSchool()
