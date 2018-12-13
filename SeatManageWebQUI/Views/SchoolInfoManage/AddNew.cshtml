@@ -84,7 +84,7 @@
                 <tr>
                     <td>阅览室编号：</td>
                     <td>
-                        <input type="text" style="width:300px;" id="roomId" name="roomId" class="validate[required,custom[noSpecialCaracters]]"  />
+                        <input type="text" style="width:300px;" id="roomId" name="roomId" class="validate[required,custom[noSpecialCaracters,length[6,6]]]"  />
                     </td>
                 </tr>
                 <tr>
@@ -94,13 +94,13 @@
                 <tr>
                     <td>所属图书馆：</td>
                     <td>
-                        <select id="selectLib" name="selectLib" url="/SchoolInfoManage/GetSelectLib"></select>
+                        <select id="selectLib" onchange="libChange();" name="selectLib" url="/SchoolInfoManage/GetSelectLib"></select>
                     </td>
                 </tr>
                 <tr>
                     <td>所属区域：</td>
                     <td>
-                        <select id="selectArea" name="selectArea" url="/SchoolInfoManage/GetSelectArea"></select>
+                        <select id="selectArea"  name="selectArea" ></select>
                     </td>
                 </tr>
             </table>
@@ -132,6 +132,22 @@
             } else {
                 top.Toast("showErrorToast", '表单填写不正确，请按要求填写！');
             }
+        }
+
+        function libChange() {
+            var selectLibNo = $("#selectLib").val();
+            $.ajax({
+                url: "/SchoolInfoManage/GetSelectArea?libNo=" + selectLibNo, //你的路由地址
+                type: "post",
+                dataType: "text",
+                timeout: 30000,
+                success: function (data) {
+                    var obj = eval('(' + data + ')');
+                    $("#selectArea").data("data", obj)
+                    //刷新下拉框
+                    $("#selectArea").render();
+                }
+            });
         }
 
         function myTest() {

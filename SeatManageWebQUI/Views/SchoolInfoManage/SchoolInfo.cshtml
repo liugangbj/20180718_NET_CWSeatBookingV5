@@ -107,6 +107,12 @@
                             </select>
                         </td>
                     </tr>
+                    <tr>
+                        <td>所属区域：</td>
+                        <td>
+                            <select id="selectArea" name="selectArea" url="/SchoolInfoManage/GetSelectArea"></select>
+                        </td>
+                    </tr>
                 </table>
                 <button type="button" onclick="addNew('room')" class="primary">保存</button>
                 <input type="button" onclick="roomSetting()" value="阅览室设置" class="success" />
@@ -209,12 +215,13 @@
             {
                 roomId = treeNode.id;
                 roomName = treeNode.name;
+                areaNo = treeNode.areaNo;
             }
-            setForm(treeNode.tName, treeNode.parentId, schoolId, schoolName, libId, libName, roomId, roomName);
+            setForm(treeNode.tName, treeNode.parentId, schoolId, schoolName, libId, libName, roomId, roomName, areaNo);
         }
 
         //设置表单值
-        function setForm(tName, parentId, schoolId, schoolName, libId, libName, roomId, roomName)
+        function setForm(tName, parentId, schoolId, schoolName, libId, libName, roomId, roomName, areaNo)
         {
             if (tName == "school") {
                 $("#divSchoolForm").show();
@@ -249,6 +256,9 @@
                 });
 
             } else if (tName == "room") {
+
+                alert(areaNo);
+
                 $("#divSchoolForm").hide();
                 $("#divLibForm").hide();
                 $("#divRoomForm").show();
@@ -271,6 +281,24 @@
                     },
                     dataType: 'text'
                 });
+
+                //加载所属区域
+                $.ajax({
+                    type: 'POST',
+                    url: '/SchoolInfoManage/GetSelectArea?libNo=' + libNo,
+                    data: null,
+                    success: function (result) {
+                        var obj = eval('(' + result + ')');
+                        $("#selectArea").data("data", obj)
+                        $("#selectArea").render();
+                        $("#selectArea").setValue(areaNo);
+                    },
+                    error: function (a) {
+                        top.Toast("showErrorToast", "访问服务器端出错！");
+                    },
+                    dataType: 'text'
+                });
+
             }
         }
 

@@ -92,6 +92,34 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             }
             else if (arg == "room")
             {
+                SeatManage.ClassModel.ReadingRoomInfo modelReadingRoom = SeatManage.Bll.T_SM_ReadingRoom.GetSingleRoomInfo(Request.Params["roomId"].Trim());
+                if (modelReadingRoom == null)
+                {
+                    modelReadingRoom = new SeatManage.ClassModel.ReadingRoomInfo();
+                    modelReadingRoom.SeatList = new SeatManage.ClassModel.SeatLayout();
+                    modelReadingRoom.Setting = new SeatManage.ClassModel.ReadingRoomSetting();
+                }
+                string readRoomNo = Request.Params["roomId"].Trim();//txtReadRoomNo.Text;
+                string readRoomName = Request.Params["roomName"].Trim();//txtReadRoomName.Text;
+                string libraryNo = Request.Params["selectLib"];
+                string AreaName = Request.Params["selectArea"] == null ? "" : Request.Params["selectArea"].Trim();
+
+                modelReadingRoom.No = readRoomNo;
+                modelReadingRoom.Name = readRoomName;
+                modelReadingRoom.Libaray.No = libraryNo;
+                modelReadingRoom.Area.AreaName = AreaName;
+                if (SeatManage.Bll.T_SM_ReadingRoom.ReadingRoomIsExists(readRoomNo))
+                {
+                    result = Json(new { status = "no", message = "阅览室编号重复！" }, JsonRequestBehavior.AllowGet);
+                }
+                if (SeatManage.Bll.T_SM_ReadingRoom.AddNewReadingRoom(modelReadingRoom))
+                {
+                    result = Json(new { status = "yes", message = "阅览室添加成功！" }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    result = Json(new { status = "no", message = "阅览室添加失败，请重新尝试" }, JsonRequestBehavior.AllowGet);
+                }
 
             }
             return result;
@@ -113,7 +141,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             sb.Append("{\"list\":[");
             foreach (var item in listArea)
             {
-                sb.Append("{\"key\":\"" + item.AreaNo + "\",\"value\":\"" + item.AreaName + "\"},");
+                sb.Append("{\"key\":\"" + item.AreaName + "\",\"value\":\"" + item.AreaName + "\"},");
             }
             if(listArea.Count>0) sb.Remove(sb.Length - 1, 1);
             sb.Append("]}");
@@ -161,18 +189,21 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             sb.Append(" [");
             foreach (var c in schoollist)
             {
-                sb.Append("{ id: '" + c.No + "', parentId: '0', name: \"" + c.Name + "\",open: true ,tName:'school'},");
+                sb.Append("{ id: '" + c.No + "', parentId: '0', name: \"" + c.Name + "\",open: true ,tName:'school',areaNo:''},");
                 foreach (var l in librarylist)
                 {
                     if (l.School.No == c.No)
                     {
-                        sb.Append("{ id: '" + l.No + "', parentId: '" + c.No + "', name: \"" + l.Name + "\",open: true,tName:'lib' },");
+                        sb.Append("{ id: '" + l.No + "', parentId: '" + c.No + "', name: \"" + l.Name + "\",open: true,tName:'lib',areaNo:'' },");
                     }
                     foreach (var r in listReadingRoom)
                     {
-                        if (r.Libaray.No == l.No)
+                        if (r.Libaray.No == l.No && r.Libaray.School.No==c.No)
                         {
-                            sb.Append("{ id: '" + r.No + "', parentId: '" + l.No + "', name: \"" + r.Name + "\",open: true ,tName:'room'},");
+                            List<SeatManage.ClassModel.LibraryInfo> listLibrary = new List<SeatManage.ClassModel.LibraryInfo>();
+                            listLibrary = SeatManage.Bll.T_SM_Library.GetLibraryInfoList(null, l.No, null);
+
+                            sb.Append("{ id: '" + r.No + "', parentId: '" + l.No + "', name: \"" + r.Name + "\",open: true ,tName:'room',areaNo:'"+ r.Area.AreaNo+"'},");
                         }
                     }
                 }
