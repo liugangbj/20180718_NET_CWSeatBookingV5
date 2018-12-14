@@ -20,6 +20,169 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             return View();
         }
 
+        public JsonResult DeletePasswordConfirm(string arg,string id)
+        {
+            JsonResult result = null;
+            if (!string.IsNullOrEmpty(Request.Params["pass1"].Trim()) && !string.IsNullOrEmpty(Request.Params["pass2"].Trim()))
+            {
+                //密码是Juneberry_NJZBWX
+                if (Request.Params["pass1"].Trim() == Request.Params["pass2"].Trim() && SeatManage.SeatManageComm.MD5Algorithm.GetMD5Str32(Request.Params["pass1"].Trim()) == "88C5884397D51468FA04ACFA46483AE4")
+                {
+                    switch (Request.QueryString["arg"])
+                    {
+                        case "school":
+                            SeatManage.ClassModel.School school = new SeatManage.ClassModel.School();
+                            school.No = id;
+                            if (!SeatManage.Bll.T_SM_School.DeleteSchool(school))
+                            {
+                                result = Json(new { status = "no", message = "校区删除失败！" }, JsonRequestBehavior.AllowGet);
+                            }
+                            else
+                            {
+                                result = Json(new { status = "yes", message = "校区删除成功！" }, JsonRequestBehavior.AllowGet);
+                            }
+                            break;
+                        case "lib":
+                            SeatManage.ClassModel.LibraryInfo library = new SeatManage.ClassModel.LibraryInfo();
+                            library.No = id;
+                            if (!SeatManage.Bll.T_SM_Library.DeleteLibrary(library))
+                            {
+                                result = Json(new { status = "no", message = "图书馆删除失败！" }, JsonRequestBehavior.AllowGet);
+                            }
+                            else
+                            {
+                                result = Json(new { status = "yes", message = "图书馆删除成功！" }, JsonRequestBehavior.AllowGet);
+                            }
+                            break;
+                        case "room":
+                            SeatManage.ClassModel.ReadingRoomInfo room = new SeatManage.ClassModel.ReadingRoomInfo();
+                            room.No = id;
+                            if (!SeatManage.Bll.T_SM_ReadingRoom.DeleteReadingRoom(room))
+                            {
+                                result = Json(new { status = "no", message = "阅览室删除失败！" }, JsonRequestBehavior.AllowGet);
+                            }
+                            else
+                            {
+                                result = Json(new { status = "yes", message = "阅览室删除成功！" }, JsonRequestBehavior.AllowGet);
+                            }
+                            break;
+                    }
+                }
+                else
+                {
+                    result = Json(new { status = "no", message = "验证密码输入错误！" }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            else
+            {
+                result = Json(new { status = "no", message = "验证密码输入错误！" }, JsonRequestBehavior.AllowGet);
+            }
+            return result;
+        }
+
+        public ActionResult DeletePassword(string Flag, string No,string Name)
+        {
+            ViewBag.Flag = Flag;
+            ViewBag.No = No;
+            ViewBag.Name = Name;
+            return View();
+        }
+
+        public JsonResult SaveUpdate(string arg)
+        {
+            JsonResult result = null;
+            if (arg == "school")
+            {
+                SeatManage.ClassModel.School newschool = new SeatManage.ClassModel.School();
+                newschool.No = Request.Params["schoolId"].Trim();
+                newschool.Name = Request.Params["schoolName"].Trim();
+                List<SeatManage.ClassModel.School> schoollist = SeatManage.Bll.T_SM_School.GetSchoolInfoList(null, null);
+                foreach (SeatManage.ClassModel.School school in schoollist)
+                {
+                    if (school.No != newschool.No && school.Name == newschool.Name)
+                    {
+                        result = Json(new { status = "no", message = "校区编号或学校名称已存在，请重新输入！" }, JsonRequestBehavior.AllowGet);
+                    }
+                }
+                if (SeatManage.Bll.T_SM_School.UpdataSchoolInfo(newschool))
+                {
+                    result = Json(new { status = "yes", message = "校区修改成功！" }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    result = Json(new { status = "no", message = "校区修改失败,请重新尝试！" }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            else if (arg == "lib")
+            {
+                SeatManage.ClassModel.LibraryInfo newlibrary = new SeatManage.ClassModel.LibraryInfo();
+                newlibrary.No = Request.Params["libId"].Trim();
+                newlibrary.Name = Request.Params["libName"].Trim();
+                newlibrary.School.No = Request.Params["selectSchool"].Trim();
+
+                if (Request.Params["txtArea"].Trim() != "")
+                {
+                    string[] areaList = Request.Params["txtArea"].Trim().Split(';');
+                    for (int i = 0; i < areaList.Length; i++)
+                    {
+                        if (areaList[i].Trim() != "")
+                        {
+                            SeatManage.ClassModel.AreaInfo Area = new SeatManage.ClassModel.AreaInfo();
+                            Area.AreaName = areaList[i];
+                            Area.AreaNo = i;
+                            newlibrary.AreaList.Add(Area);
+                        }
+                    }
+                }
+                List<SeatManage.ClassModel.LibraryInfo> librarylist = SeatManage.Bll.T_SM_Library.GetLibraryInfoList(null, null, null);
+                foreach (SeatManage.ClassModel.LibraryInfo library in librarylist)
+                {
+                    if (library.No != newlibrary.No && library.Name == newlibrary.Name)
+                    {
+                        result = Json(new { status = "no", message = "图书馆名称已存在，请重新输入！" }, JsonRequestBehavior.AllowGet);
+                    }
+                }
+                if (SeatManage.Bll.T_SM_Library.UpdataLibraryInfo(newlibrary))
+                {
+                    result = Json(new { status = "yes", message = "图书馆信息修改成功！" }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    result = Json(new { status = "no", message = "图书馆修改失败，请重新尝试！" }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            else if (arg == "room")
+            {
+                SeatManage.ClassModel.ReadingRoomInfo modelReadingRoom = SeatManage.Bll.T_SM_ReadingRoom.GetSingleRoomInfo(Request.Params["roomId"]);
+                if (modelReadingRoom == null)
+                {
+                    modelReadingRoom = new SeatManage.ClassModel.ReadingRoomInfo();
+                    modelReadingRoom.SeatList = new SeatManage.ClassModel.SeatLayout();
+                    modelReadingRoom.Setting = new SeatManage.ClassModel.ReadingRoomSetting();
+                }
+                string readRoomNo = Request.Params["roomId"];//txtReadRoomNo.Text;
+                string readRoomName = Request.Params["roomName"];//txtReadRoomName.Text;
+                string libraryNo = Request.Params["selectLib"];//ddlLibrary.SelectedValue;
+                string AreaName = Request.Params["selectArea"] == null ? "" : Request.Params["selectArea"];//ddlArea.SelectedText;
+
+                modelReadingRoom.No = readRoomNo;
+                modelReadingRoom.Name = readRoomName;
+                modelReadingRoom.Libaray.No = libraryNo;
+                modelReadingRoom.Area.AreaName = AreaName;
+                {
+                    if (SeatManage.Bll.T_SM_ReadingRoom.UpdateReadingRoom(modelReadingRoom))
+                    {
+                        result = Json(new { status = "yes", message = "阅览室信息修改成功！" }, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        result = Json(new { status = "yes", message = "阅览室信息修改失败，请重新尝试！" }, JsonRequestBehavior.AllowGet);
+                    }
+                }
+            }
+            return result;
+        }
+
         public JsonResult SaveAddNew(string arg)
         {
             JsonResult result = null;
@@ -131,6 +294,21 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             return View();
         }
 
+        public string GetSelectAreaText(string libNo)//查询区域列表
+        {
+            string text = "";
+            List<SeatManage.ClassModel.LibraryInfo> library = SeatManage.Bll.T_SM_Library.GetLibraryInfoList(null, libNo, null);
+            if (library.Count > 0)
+            {
+                foreach (SeatManage.ClassModel.AreaInfo area in library[0].AreaList)
+                {
+                    text += area.AreaName + ";";
+                }
+            }
+            return text;
+        }
+
+
         public string GetSelectArea(string libNo)//查询区域列表
         {
             List<SeatManage.ClassModel.LibraryInfo> listLibrary = new List<SeatManage.ClassModel.LibraryInfo>();
@@ -203,7 +381,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
                             List<SeatManage.ClassModel.LibraryInfo> listLibrary = new List<SeatManage.ClassModel.LibraryInfo>();
                             listLibrary = SeatManage.Bll.T_SM_Library.GetLibraryInfoList(null, l.No, null);
 
-                            sb.Append("{ id: '" + r.No + "', parentId: '" + l.No + "', name: \"" + r.Name + "\",open: true ,tName:'room',areaNo:'"+ r.Area.AreaNo+"'},");
+                            sb.Append("{ id: '" + r.No + "', parentId: '" + l.No + "', name: \"" + r.Name + "\",open: true ,tName:'room',areaNo:'"+ r.Area.AreaName+"'},");
                         }
                     }
                 }
