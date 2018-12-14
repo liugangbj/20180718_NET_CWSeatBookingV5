@@ -10,17 +10,164 @@
     <meta name="viewport" content="width=device-width" />
     <title>EnterOutLog</title>
     <!--框架必需start-->
-    <script type="text/javascript" src="/quickui/libs/js/jquery.js"></script>
-    <script type="text/javascript" src="/quickui/libs/js/language/cn.js"></script>
-    <script type="text/javascript" src="/quickui/libs/js/framework.js"></script>
-    <link href="/quickui/libs/css/import_basic.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" type="text/css" id="skin" prePath="/quickui/system/style16_accordion_blue/skin/" />
+    <script type="text/javascript" src="~/quickui/libs/js/jquery.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/language/cn.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/framework.js"></script>
+    <link href="~/quickui/libs/css/import_basic.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" id="skin" prePath="~/quickui/" />
     <link rel="stylesheet" type="text/css" id="customSkin" />
     <!--框架必需end-->
+    <link rel="stylesheet" type="text/css" href="~/quickui/style/style.css" />
+    <script src="~/quickui/libs/js/table/quiGrid.js" type="text/javascript"></script>
+    <!--引入提示组件start-->
+    <script type="text/javascript" src="/quickui/libs/js/popup/toast.js"></script>
+    <script type="text/javascript" src="/quickui/libs/js/popup/notice.js"></script>
+    <!--引入提示组件end-->
+    <script type="text/javascript" src="/quickui/libs/js/form/datePicker/WdatePicker.js"></script>
+    <script src="/quickui/libs/js/form/validationRule.js" type="text/javascript"></script>
+    <script src="/quickui/libs/js/form/validation.js" type="text/javascript"></script>
 </head>
 <body>
-    <div> 
-        EnterOutLog
+    <div class="page_content">
+        <div class="searchContent">
+            <form id="queryForm" name="queryForm" method="post">
+                <table style="float: left;">
+                    <tr>
+                        <td>查询方式</td>
+                        <td>
+                            <select id="selectCardNoOrSeatNo" name="selectCardNoOrSeatNo">
+                                <option value="cardNo">按学号查询</option>
+                                <option value="seatNum">按座位号查询</option>
+                            </select>
+                        </td>
+                        <td>学号或者座位号</td>
+                        <td>
+                            <input type="text" id="txtNum" name="txtNum" class="validate[required]" />
+                        </td>
+                        <td>所在阅览室</td>
+                        <td>
+                            <select url="/LogManage/GetRoomData" id="selectRooms" name="selectRooms"></select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>开始时间</td>
+                        <td>
+                            <input type="text" dateFmt="yyyy/MM/dd" placeholder="开始日期" class="date" id="beginDate" name="beginDate" />
+                        </td>
+                        <td>结束时间</td>
+                        <td>
+                            <input type="text" dateFmt="yyyy/MM/dd" placeholder="结束日期" class="date" id="endDate" name="endDate" />
+                        </td>
+                        <td>
+                            <button type="button" onclick="searchHandler()" id="search" class="primary"><span class="icon_find">查询</span></button>
+                            <input type="checkbox" id="chkSearchMH" name="chkSearchMH" value="启用模糊查询" /><label for="chkSearchMH" class="hand">启用模糊查询</label>
+                        </td>
+                        <td></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div class="clear"></div>
+        <br />
+        <div class="infoCard infoCard2">
+            <div class="title">
+                <span>进出记录列表</span>
+            </div>
+            <div id="dataBasic"></div>
+        </div>
     </div>
+
+    <script>
+
+        function initComplete() {
+            grid = $("#dataBasic").quiGrid({
+                columns: [
+                    {
+                        display: '学号',
+                        name: 'CardNo',
+                        width: "10%"
+                    },
+                    {
+                        display: '姓名',
+                        name: 'ReaderName',
+                        width: "10%"
+                    }, {
+                        display: '所在阅览室',
+                        name: 'ReadingRoomName',
+                        width: "10%"
+                    }, {
+                        display: '座位号',
+                        name: 'SeatShortNum',
+                        width: "10%"
+                    }, {
+                        display: '状态',
+                        name: 'Status',
+                        width: "10%"
+                    }, {
+                        display: '进出时间',
+                        name: 'EnterOutTime',
+                        width: "10%"
+                    }, {
+                        display: '详细信息',
+                        name: 'Remark',
+                        width: "40%"
+                    }
+                ],
+               // data: gridData,
+                sortName: 'EnterOutTime',
+                rownumbers: true,
+                checkbox: false,
+                height: '99%',
+                width: "99%",
+                pageSize: 100,
+                percentWidthMode: true
+            });
+        }
+
+        function validateForm(containerId) {
+            var valid = $(containerId).validationEngine({ returnIsValid: true });
+
+            if ($("#selectCardNoOrSeatNo") == "seatNum" && $("#selectRooms") == "")
+            {
+                valid = false;
+            }
+
+            if (valid == true) {
+                top.Toast("showNoticeToast", '进行提交处理');
+            } else {
+                top.Toast("showErrorToast", '表单填写不正确，请按要求填写！');
+            }
+        }
+
+        function searchHandler()
+        {
+            var valid = $("#queryForm").validationEngine({ returnIsValid: true });
+            if (valid) {
+                $.ajax({
+                    url: "/LogManage/GetEnterOutData", //你的路由地址
+                    type: "post",
+                    dataType: "text",
+                    data: $("#queryForm").serialize(),
+                    timeout: 30000,
+                    success: function (data) {
+                        console.log(data);
+                        var obj = eval('(' + data + ')');
+                        grid.loadData(obj);
+                    },
+                    error: function () {
+                        top.Toast('showErrorToast', '发生不可预计错误，请重新尝试');
+                    }
+                });
+            } else {
+                top.Toast("showErrorToast", '选择座位号查询请选择阅览室，否则请输入学号！');
+            }
+        }
+
+        $(function () {
+            $("#beginDate").val('@ViewBag.before1Day');
+            $("#endDate").val('@ViewBag.nowDay');
+        });
+
+    </script>
 </body>
 </html>
