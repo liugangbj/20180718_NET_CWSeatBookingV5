@@ -10,17 +10,160 @@
     <meta name="viewport" content="width=device-width" />
     <title>Blacklist</title>
     <!--框架必需start-->
-    <script type="text/javascript" src="/quickui/libs/js/jquery.js"></script>
-    <script type="text/javascript" src="/quickui/libs/js/language/cn.js"></script>
-    <script type="text/javascript" src="/quickui/libs/js/framework.js"></script>
-    <link href="/quickui/libs/css/import_basic.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" type="text/css" id="skin" prePath="/quickui/system/style16_accordion_blue/skin/" />
+    <script type="text/javascript" src="~/quickui/libs/js/jquery.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/language/cn.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/framework.js"></script>
+    <link href="~/quickui/libs/css/import_basic.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" id="skin" prePath="~/quickui/" />
     <link rel="stylesheet" type="text/css" id="customSkin" />
     <!--框架必需end-->
+    <link rel="stylesheet" type="text/css" href="~/quickui/style/style.css" />
+    <script src="~/quickui/libs/js/table/quiGrid.js" type="text/javascript"></script>
+    <!--引入提示组件start-->
+    <script type="text/javascript" src="/quickui/libs/js/popup/toast.js"></script>
+    <script type="text/javascript" src="/quickui/libs/js/popup/notice.js"></script>
+    <!--引入提示组件end-->
+    <script type="text/javascript" src="/quickui/libs/js/form/datePicker/WdatePicker.js"></script>
+    <script src="/quickui/libs/js/form/validationRule.js" type="text/javascript"></script>
+    <script src="/quickui/libs/js/form/validation.js" type="text/javascript"></script>
 </head>
 <body>
-    <div> 
-        Blacklist
+    <div class="page_content">
+        <div class="searchContent">
+            <form id="queryForm" name="queryForm" method="post">
+                <table style="float: left;">
+                    <tr>
+                        <td>学号：</td>
+                        <td>
+                            <input type="text" id="txtNum" name="txtNum" placeholder="为空则查询全部" />
+                        </td>
+                        <td>记录状态</td>
+                        <td>
+                            <select id="ddllogstatus" name="ddllogstatus">
+                                <option value="-1">查询全部</option>
+                                <option value="1">处罚中黑名单</option>
+                                <option value="0">过期黑名单</option>
+                            </select>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>开始时间</td>
+                        <td>
+                            <input type="text" dateFmt="yyyy/MM/dd" placeholder="开始日期" class="date" id="beginDate" name="beginDate" />
+                        </td>
+                        <td>结束时间</td>
+                        <td>
+                            <input type="text" dateFmt="yyyy/MM/dd" placeholder="结束日期" class="date" id="endDate" name="endDate" />
+                        </td>
+                        <td>
+                            <button type="button" onclick="searchHandler()" id="search" class="primary"><span class="icon_find">查询</span></button>
+                            <input type="checkbox" id="chkSearchMH" name="chkSearchMH" value="启用模糊查询" /><label for="chkSearchMH" class="hand">启用模糊查询</label>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div class="clear"></div>
+        <br />
+        <div class="infoCard infoCard2">
+            <div class="title">
+                <span>黑名单列表</span>
+            </div>
+            <div id="dataBasic"></div>
+        </div>
     </div>
+
+    <script>
+
+        $(function () {
+            $("#beginDate").val('@ViewBag.before7Day');
+            $("#endDate").val('@ViewBag.nowDay');
+        });
+
+        function initComplete() {
+            grid = $("#dataBasic").quiGrid({
+                columns: [
+                    {
+                        display: 'ID',
+                        name: 'ID',
+                        width: "1%",
+                        hide: true
+                    }, {
+                        display: '学号',
+                        name: 'CardNo',
+                        width: "5%"
+                    },
+                    {
+                        display: '姓名',
+                        name: 'ReaderName',
+                        width: "5%"
+                    }, {
+                        display: '加入时间',
+                        name: 'AddTime',
+                        width: "10%"
+                    }, {
+                        display: '离开时间',
+                        name: 'LeaveTime',
+                        width: "10%"
+                    }, {
+                        display: '离开方式',
+                        name: 'LeaveMode',
+                        width: "10%"
+                    }, {
+                        display: '记录状态',
+                        name: 'LogStatus',
+                        width: "10%"
+                    }, {
+                        display: '备注',
+                        name: 'Remark',
+                        width: "40%"
+                    }, 
+                    {
+                        display: '操作', align: 'left', width: "10%",
+                        render: function (rowdata, rowindex, value, column) {
+                            return '<div class="grid_opp_container">'
+                                    + '<span class="grid_opp_delete" onclick="onDelete(' + rowdata.ID + ',' + rowindex + ')">删除记录</span>'
+                                + '</div>';
+                        }
+                    }
+                ],
+                // data: gridData,
+                sortName: 'AddTime',
+                rownumbers: true,
+                checkbox: false,
+                height: '100%',
+                width: "100%",
+                pageSize: 100,
+                percentWidthMode: true
+            });
+        }
+
+
+
+        function searchHandler() {
+            $.ajax({
+                url: "/LogManage/GetBlackData", //你的路由地址
+                type: "post",
+                dataType: "text",
+                data: $("#queryForm").serialize(),
+                timeout: 30000,
+                success: function (data) {
+                    console.log(data);
+                    var obj = eval('(' + data + ')');
+                    grid.loadData(obj);
+                },
+                error: function () {
+                    top.Toast('showErrorToast', '发生不可预计错误，请重新尝试');
+                }
+            });
+        }
+
+        $(function () {
+            $("#beginDate").val('@ViewBag.before7Day');
+            $("#endDate").val('@ViewBag.nowDay');
+        });
+
+    </script>
 </body>
 </html>

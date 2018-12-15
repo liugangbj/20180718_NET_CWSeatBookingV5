@@ -323,8 +323,117 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             ViewBag.before7Day = before7Day;
             return View();
         }
+
+
+        private DataTable GetBlackTable(string starttime, string endtime,bool chkSearchMH,string txtNum,string ddllogstatus)
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("ID", typeof(string));
+            dt.Columns.Add("CardNo", typeof(string));
+            dt.Columns.Add("ReaderName", typeof(string));
+            dt.Columns.Add("AddTime", typeof(DateTime));
+            dt.Columns.Add("LeaveTime", typeof(DateTime));
+            dt.Columns.Add("LeaveMode", typeof(string));
+            dt.Columns.Add("LogStatus", typeof(string));
+            dt.Columns.Add("Remark", typeof(string));
+            List<SeatManage.ClassModel.BlackListInfo> Blistlistlist = new List<SeatManage.ClassModel.BlackListInfo>();
+            if (chkSearchMH == false)
+            {
+                Blistlistlist = SeatManage.Bll.T_SM_Blacklist.GetAllBlackListInfo(
+                    txtNum,
+                    (SeatManage.EnumType.LogStatus)int.Parse(ddllogstatus),
+                    starttime,
+                    endtime);
+            }
+            else
+            {
+                Blistlistlist = SeatManage.Bll.T_SM_Blacklist.GetAllBlackListInfo_ByFuzzySearch(
+                    txtNum,
+                    (SeatManage.EnumType.LogStatus)int.Parse(ddllogstatus),
+                    starttime,
+                    endtime);
+            }
+            foreach (SeatManage.ClassModel.BlackListInfo bllist in Blistlistlist)
+            {
+                DataRow dr = dt.NewRow();
+                dr["ID"] = bllist.ID;
+                dr["CardNo"] = bllist.CardNo;
+                dr["ReaderName"] = bllist.ReaderName;
+                dr["AddTime"] = bllist.AddTime;
+                dr["LeaveTime"] = bllist.OutTime;
+                if (bllist.OutBlacklistMode == SeatManage.EnumType.LeaveBlacklistMode.AutomaticMode)
+                {
+                    dr["LeaveMode"] = "自动离开";
+                }
+                else
+                {
+                    dr["LeaveMode"] = "手动释放";
+                }
+                if (bllist.BlacklistState == LogStatus.Valid)
+                {
+                    dr["LogStatus"] = "处罚中";
+                }
+                else
+                {
+                    dr["LogStatus"] = "已过期";
+                }
+                dr["Remark"] = bllist.ReMark;
+                dt.Rows.Add(dr);
+            }
+            return dt;
+        }
+
+        public string GetBlackData()
+        {
+            string result = "";
+            StringBuilder sb = new StringBuilder();
+
+            string starttime = "";
+            if (!string.IsNullOrEmpty(Request.Params["beginDate"]))
+            {
+                starttime = Request.Params["beginDate"] + " 0:00:00";
+            }
+            string endtime = "";
+            if (!string.IsNullOrEmpty(Request.Params["endDate"]))
+            {
+                endtime = Request.Params["endDate"] + " 23:59:59";
+            }
+            if (DateTime.Parse(starttime) >= DateTime.Parse(endtime))
+            {
+                result = "结束日期必须大于等于开始日期";
+            }
+
+            bool chkSearchMH = Request.Params["chkSearchMH"] == null ? false : true;
+            string txtNum = Request["txtNum"].Trim();
+            string ddllogstatus = Request.Params["ddllogstatus"].Trim();
+
+            DataTable dt = GetBlackTable(starttime, endtime,chkSearchMH,txtNum,ddllogstatus);
+
+            sb.Append("{");
+            sb.Append("\"form.paginate.pageNo\": 1,");
+            sb.Append("\"form.paginate.totalRows\": 100,");
+            sb.Append("	\"rows\": [");
+            foreach (DataRow r in dt.Rows)
+            {
+                sb.Append("{\"ID\": '" + r["ID"] + "',\"CardNo\": '" + r["CardNo"] + "',\"ReaderName\": \"" + r["ReaderName"] + "\",\"AddTime\": \"" + r["AddTime"] + "\",\"LeaveTime\": \"" + r["LeaveTime"] + "\",\"LeaveMode\": \"" + r["LeaveMode"] + "\",\"LogStatus\": \"" + r["LogStatus"] + "\",\"Remark\": \"" + r["Remark"] + "\"}");
+                sb.Append(",");
+            }
+            if (dt.Rows.Count > 0)
+            {
+                sb.Remove(sb.Length - 1, 1);
+            }
+            sb.Append("]");
+            sb.Append("}");
+            result = sb.ToString();
+            return result;
+        }
+
         public ActionResult Blacklist()
         {
+            string nowDay = DateTime.Now.ToShortDateString();
+            string before7Day = DateTime.Now.AddDays(-7).ToShortDateString();
+            ViewBag.nowDay = nowDay;
+            ViewBag.before7Day = before7Day;
             return View();
         }
     }
