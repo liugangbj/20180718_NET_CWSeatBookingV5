@@ -10,17 +10,190 @@
     <meta name="viewport" content="width=device-width" />
     <title>ViolateDiscipline</title>
     <!--框架必需start-->
-    <script type="text/javascript" src="/quickui/libs/js/jquery.js"></script>
-    <script type="text/javascript" src="/quickui/libs/js/language/cn.js"></script>
-    <script type="text/javascript" src="/quickui/libs/js/framework.js"></script>
-    <link href="/quickui/libs/css/import_basic.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" type="text/css" id="skin" prePath="/quickui/system/style16_accordion_blue/skin/" />
+    <script type="text/javascript" src="~/quickui/libs/js/jquery.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/language/cn.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/framework.js"></script>
+    <link href="~/quickui/libs/css/import_basic.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" id="skin" prePath="~/quickui/" />
     <link rel="stylesheet" type="text/css" id="customSkin" />
     <!--框架必需end-->
+    <link rel="stylesheet" type="text/css" href="~/quickui/style/style.css" />
+    <script src="~/quickui/libs/js/table/quiGrid.js" type="text/javascript"></script>
+    <!--引入提示组件start-->
+    <script type="text/javascript" src="/quickui/libs/js/popup/toast.js"></script>
+    <script type="text/javascript" src="/quickui/libs/js/popup/notice.js"></script>
+    <!--引入提示组件end-->
+    <script type="text/javascript" src="/quickui/libs/js/form/datePicker/WdatePicker.js"></script>
+    <script src="/quickui/libs/js/form/validationRule.js" type="text/javascript"></script>
+    <script src="/quickui/libs/js/form/validation.js" type="text/javascript"></script>
 </head>
 <body>
-    <div> 
-        ViolateDiscipline
+    <div class="page_content">
+        <div class="searchContent">
+            <form id="queryForm" name="queryForm" method="post">
+                <table style="float: left;">
+                    <tr>
+                        <td>学号：</td>
+                        <td>
+                            <input type="text" id="txtNum" name="txtNum" placeholder="为空则查询全部" />
+                        </td>
+                        <td>阅览室</td>
+                        <td>
+                            <select url="/LogManage/GetRoomData" id="selectRooms" name="selectRooms"></select>
+                        </td>
+                        <td>黑名单状态</td>
+                        <td>
+                            <select id="selectblacklist" name="selectblacklist">
+                                <option value="-1">查询全部</option>
+                                <option value="1">被记录黑名单</option>
+                                <option value="0" selected="selected">没有被记录黑名单</option>
+                            </select>
+                        </td>
+                        <td>违规类型</td>
+                        <td>
+                            <select id="selectVrType" name="selectVrType">
+                                <option value="-1" selected="selected">查询全部</option>
+                                <option value="0">预约超时</option>
+                                <option value="2">在座超时</option>
+                                <option value="3">暂离超时</option>
+                                <option value="4">被管理员设为暂离，暂离超时</option>
+                                <option value="5">被读者设为暂离，暂离超时</option>
+                                <option value="1">被管理员设置离开</option>
+                                <option value="8">离开未刷卡</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>开始时间</td>
+                        <td>
+                            <input type="text" dateFmt="yyyy/MM/dd" placeholder="开始日期" class="date" id="beginDate" name="beginDate" />
+                        </td>
+                        <td>结束时间</td>
+                        <td>
+                            <input type="text" dateFmt="yyyy/MM/dd" placeholder="结束日期" class="date" id="endDate" name="endDate" />
+                        </td>
+                        <td>记录状态</td>
+                        <td>
+                            <select id="selectlogstatus" name="selectlogstatus">
+                                <option value="-1"  selected="selected">查询全部</option>
+                                <option value="1">有效记录</option>
+                                <option value="0">失效记录</option>
+                            </select>
+
+                        </td>
+                        <td>
+                            <button type="button" onclick="searchHandler()" id="search" class="primary"><span class="icon_find">查询</span></button>
+                            <input type="checkbox" id="chkSearchMH" name="chkSearchMH" value="启用模糊查询" /><label for="chkSearchMH" class="hand">启用模糊查询</label>
+                        </td>
+                        <td></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div class="clear"></div>
+        <br />
+        <div class="infoCard infoCard2">
+            <div class="title">
+                <span>违规记录列表</span>
+            </div>
+            <div id="dataBasic"></div>
+        </div>
     </div>
+
+    <script>
+
+        $(function () {
+            $("#beginDate").val('@ViewBag.before7Day');
+            $("#endDate").val('@ViewBag.nowDay');
+        });
+
+        function initComplete() {
+            grid = $("#dataBasic").quiGrid({
+                columns: [
+                    {
+                        display: 'ID',
+                        name: 'ID',
+                        width: "1%",
+                        hide: true
+                    }, {
+                        display: '学号',
+                        name: 'CardNo',
+                        width: "5%"
+                    },
+                    {
+                        display: '姓名',
+                        name: 'ReaderName',
+                        width: "5%"
+                    }, {
+                        display: '违规时间',
+                        name: 'AddTime',
+                        width: "10%"
+                    }, {
+                        display: '所在阅览室',
+                        name: 'ReadingRoom',
+                        width: "10%"
+                    }, {
+                        display: '座位号',
+                        name: 'Seat',
+                        width: "10%"
+                    }, {
+                        display: '记录状态',
+                        name: 'LogStatus',
+                        width: "10%"
+                    }, {
+                        display: '黑名单状态',
+                        name: 'BlacklistStatus',
+                        width: "10%"
+                    }, {
+                        display: '备注信息',
+                        name: 'Remark',
+                        width: "30%"
+                    },
+                    {
+                        display: '操作', align: 'left', width: "10%",
+                        render: function (rowdata, rowindex, value, column) {
+                            return '<div class="grid_opp_container">'
+                                    + '<span class="grid_opp_delete" onclick="onDelete(' + rowdata.BespeakID + ',' + rowindex + ')">删除记录</span>'
+                                + '</div>';
+                        }
+                    }
+                ],
+                // data: gridData,
+                sortName: 'AddTime',
+                rownumbers: true,
+                checkbox: false,
+                height: '100%',
+                width: "100%",
+                pageSize: 100,
+                percentWidthMode: true
+            });
+        }
+
+
+
+        function searchHandler() {
+            $.ajax({
+                url: "/LogManage/GetViolateData", //你的路由地址
+                type: "post",
+                dataType: "text",
+                data: $("#queryForm").serialize(),
+                timeout: 30000,
+                success: function (data) {
+                    console.log(data);
+                    var obj = eval('(' + data + ')');
+                    grid.loadData(obj);
+                },
+                error: function () {
+                    top.Toast('showErrorToast', '发生不可预计错误，请重新尝试');
+                }
+            });
+        }
+
+        $(function () {
+            $("#beginDate").val('@ViewBag.before7Day');
+            $("#endDate").val('@ViewBag.nowDay');
+        });
+
+    </script>
 </body>
 </html>

@@ -199,8 +199,128 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             ViewBag.nowDay = nowDay;
             return View();
         }
+
+        /// <summary>
+        /// 获取数据列表
+        /// </summary>
+        /// <returns></returns>
+        private DataTable GetUserInfoDateTable(string starttime, string endtime,bool chkSearchMH,string txtNum,
+            string ddlReadingRoom,string ddllogstatus,string ddlblacklist,string ddlVrType)
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("ID", typeof(string));
+            dt.Columns.Add("CardNo", typeof(string));
+            dt.Columns.Add("ReaderName", typeof(string));
+            dt.Columns.Add("AddTime", typeof(DateTime));
+            dt.Columns.Add("ReadingRoom", typeof(string));
+            dt.Columns.Add("Seat", typeof(string));
+            dt.Columns.Add("LogStatus", typeof(string));
+            dt.Columns.Add("BlacklistStatus", typeof(string));
+            dt.Columns.Add("Remark", typeof(string));
+            List<SeatManage.ClassModel.ViolationRecordsLogInfo> VRlist = new List<SeatManage.ClassModel.ViolationRecordsLogInfo>();
+            if (chkSearchMH == false)
+            {
+                VRlist = SeatManage.Bll.T_SM_ViolateDiscipline.GetViolationRecords(
+                txtNum,
+                ddlReadingRoom,
+                starttime,
+                endtime,
+                (SeatManage.EnumType.LogStatus)int.Parse(ddllogstatus),
+                (SeatManage.EnumType.LogStatus)int.Parse(ddlblacklist),
+                (SeatManage.EnumType.ViolationRecordsType)int.Parse(ddlVrType));
+            }
+            else
+            {
+                VRlist = SeatManage.Bll.T_SM_ViolateDiscipline.GetViolationRecords_ByFuzzySearch(
+                    txtNum,
+                    ddlReadingRoom,
+                    starttime,
+                    endtime,
+                    (SeatManage.EnumType.LogStatus)int.Parse(ddllogstatus),
+                    (SeatManage.EnumType.LogStatus)int.Parse(ddlblacklist),
+                    (SeatManage.EnumType.ViolationRecordsType)int.Parse(ddlVrType));
+            }
+
+            foreach (SeatManage.ClassModel.ViolationRecordsLogInfo vrinfo in VRlist)
+            {
+
+                DataRow dr = dt.NewRow();
+                dr["ID"] = vrinfo.ID;
+                dr["CardNo"] = vrinfo.CardNo;
+                dr["ReaderName"] = vrinfo.ReaderName;
+                dr["AddTime"] = vrinfo.EnterOutTime;
+                dr["ReadingRoom"] = vrinfo.ReadingRoomName;
+                dr["Seat"] = vrinfo.SeatID;
+                if (vrinfo.Flag == LogStatus.Valid)
+                {
+                    dr["LogStatus"] = "有效记录";
+                }
+                else
+                {
+                    dr["LogStatus"] = "失效记录";
+                }
+                if (vrinfo.BlacklistID != "-1")
+                {
+                    dr["BlacklistStatus"] = "已加入黑名单";
+                }
+                else
+                {
+                    dr["BlacklistStatus"] = "未处理";
+                }
+                dr["Remark"] = vrinfo.Remark;
+                dt.Rows.Add(dr);
+            }
+            return dt;
+        }
+
+        public string GetViolateData()
+        {
+            string result = "";
+            StringBuilder sb = new StringBuilder();
+            DateTime starttime = DateTime.Parse(Request.Params["beginDate"]);
+            DateTime endtime = DateTime.Parse(Request.Params["endDate"]);
+
+            if (starttime >= endtime)
+            {
+                result = "结束日期必须大于等于开始日期";
+            }
+            else
+            {
+                bool chkSearchMH = Request.Params["chkSearchMH"] == null ? false : true;
+                string txtNum = Request.Params["txtNum"].Trim();
+                string ddlReadingRoom = Request.Params["selectRooms"];
+                string ddllogstatus = Request.Params["selectlogstatus"];
+                string ddlblacklist = Request.Params["selectblacklist"];
+                string ddlVrType = Request.Params["selectVrType"];
+                DataTable dt = GetUserInfoDateTable(starttime.ToString(), endtime.ToString(), chkSearchMH,txtNum,ddlReadingRoom,ddllogstatus,ddlblacklist,ddlVrType);
+
+                sb.Append("{");
+                sb.Append("\"form.paginate.pageNo\": 1,");
+                sb.Append("\"form.paginate.totalRows\": 100,");
+                sb.Append("	\"rows\": [");
+                foreach (DataRow r in dt.Rows)
+                {
+                    sb.Append("{\"ID\": '" + r["ID"] + "',\"CardNo\": '" + r["CardNo"] + "',\"ReaderName\": \"" + r["ReaderName"] + "\",\"AddTime\": \"" + r["AddTime"] + "\",\"ReadingRoom\": \"" + r["ReadingRoom"] + "\",\"Seat\": \"" + r["Seat"] + "\",\"LogStatus\": \"" + r["LogStatus"] + "\",\"BlacklistStatus\": \"" + r["BlacklistStatus"] + "\",\"Remark\": \"" + r["Remark"] + "\"}");
+                    sb.Append(",");
+                }
+                if (dt.Rows.Count > 0)
+                {
+                    sb.Remove(sb.Length - 1, 1);
+                }
+                sb.Append("]");
+                sb.Append("}");
+                result = sb.ToString();
+            }
+            return result;
+        }
+
+
         public ActionResult ViolateDiscipline()
         {
+            string nowDay = DateTime.Now.ToShortDateString();
+            string before7Day = DateTime.Now.AddDays(-7).ToShortDateString();
+            ViewBag.nowDay = nowDay;
+            ViewBag.before7Day = before7Day;
             return View();
         }
         public ActionResult Blacklist()
