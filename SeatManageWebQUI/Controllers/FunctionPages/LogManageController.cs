@@ -142,8 +142,8 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             StringBuilder sb = new StringBuilder();
 
             string cardNo = Request["txtNum"].ToString().Trim();
-            string roomNum = Request.Params["selectRooms"]; //ddlReadingRoom.SelectedItem.Value;
-            BookingStatus status = (BookingStatus)int.Parse(Request.Params["selectBespeakState"].ToString());
+            string roomNum = Request.Params["selectRooms"] == null ? "" : Request.Params["selectRooms"]; //ddlReadingRoom.SelectedItem.Value;
+            BookingStatus status = Request.Params["selectBespeakState"]==null? BookingStatus.None : (BookingStatus)int.Parse(Request.Params["selectBespeakState"].ToString());
             DateTime startDate = DateTime.Parse(Request.Params["beginDate"].ToString());
             DateTime endDate = DateTime.Parse(Request.Params["endDate"].ToString());
             List<BookingStatus> statusList = new List<BookingStatus>();
