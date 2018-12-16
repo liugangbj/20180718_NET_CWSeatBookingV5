@@ -1,4 +1,6 @@
-﻿using SeatManage.EnumType;
+﻿using SeatManage.Bll;
+using SeatManage.ClassModel;
+using SeatManage.EnumType;
 using SeatManageWebV5.Code;
 using System;
 using System.Collections.Generic;
@@ -16,6 +18,143 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
         public ActionResult Index()
         {
             return View();
+        }
+
+        public ActionResult AddNewViolate()
+        {
+            return View();
+        }
+
+        public JsonResult SaveNewViolate()
+        {
+            JsonResult result = null;
+            SeatManage.ClassModel.RegulationRulesSetting regulationRulesSetting = T_SM_SystemSet.GetRegulationRulesSetting();
+            string CardNo = Request.Params["txtNum"].Trim();
+            string SeatNo = Request.Params["txtSeat"].Trim();
+            string seatnoremark = "";
+            if (!string.IsNullOrEmpty(SeatNo))
+            {
+                seatnoremark = SeatNo + "号座位，";
+            }
+            string Remark = Request.Params["txtRemark"].Trim();// txtRemark.Text;
+            ViolationRecordsType Type = (ViolationRecordsType)int.Parse(Request.Params["selectVrType"].Trim());
+            string ReadingRoomNo = Request.Params["selectRooms"].Trim();//ddlroom.SelectedValue;
+            ReadingRoomInfo room = SeatManage.Bll.T_SM_ReadingRoom.GetSingleRoomInfo(ReadingRoomNo);
+            if (room.Setting.IsRecordViolate)
+            {
+                ViolationRecordsLogInfo vrli = new ViolationRecordsLogInfo();
+                vrli.CardNo = CardNo;
+                vrli.SeatID = SeatNo;
+                vrli.ReadingRoomID = ReadingRoomNo;
+                vrli.EnterOutTime = ServiceDateTime.Now.ToString();
+                vrli.EnterFlag = Type;
+                vrli.Remark = string.Format("在{0}，{1}被管理员{2}，手动记录违规，备注{3}", room.Name, seatnoremark, this.LoginId, Remark);
+                if (T_SM_ViolateDiscipline.AddViolationRecords(vrli))
+                {
+                    result = Json(new { status = "yes", message = "添加成功" }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    result = Json(new { status = "no", message = "添加失败" }, JsonRequestBehavior.AllowGet);
+                  //  FineUI.Alert.Show("添加失败！");
+                }
+            }
+            return result;
+        }
+
+        public JsonResult ViolateRemoveAll(string ViolateIDs)
+        {
+            JsonResult result = null;
+            string[] arrViolateIDS = ViolateIDs.Split(',');
+            List<ViolationRecordsLogInfo> list = new List<ViolationRecordsLogInfo>();
+            int count = 0;
+            foreach (var item in arrViolateIDS)
+            {
+                SeatManage.ClassModel.ViolationRecordsLogInfo vrinfo = SeatManage.Bll.T_SM_ViolateDiscipline.GetViolationRecords(item);
+                if (vrinfo != null)
+                {
+                    vrinfo.Flag = LogStatus.Fail;
+                    if (SeatManage.Bll.T_SM_ViolateDiscipline.UpdateViolationRecords(vrinfo))
+                    {
+                        count++;
+                    }
+                }
+                else
+                {
+                    continue;
+                }
+            }
+            result = Json(new { status = "yes", message = "成功删除"+count+"条记录" }, JsonRequestBehavior.AllowGet);
+            return result;
+        }
+
+        public JsonResult ViolateRemove(string ViolateID)
+        {
+            JsonResult result = null;
+            SeatManage.ClassModel.ViolationRecordsLogInfo vrinfo = SeatManage.Bll.T_SM_ViolateDiscipline.GetViolationRecords(ViolateID);
+            if (vrinfo != null)
+            {
+                vrinfo.Flag = LogStatus.Fail;
+                if (!SeatManage.Bll.T_SM_ViolateDiscipline.UpdateViolationRecords(vrinfo))
+                {
+                    result = Json(new { status = "no", message = "删除失败" }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    result = Json(new { status = "yes", message = "操作成功" }, JsonRequestBehavior.AllowGet);
+                }
+                //SeatManage.ClassModel.ReaderNoticeInfo rni = new SeatManage.ClassModel.ReaderNoticeInfo();
+                //rni.CardNo = vrinfo.CardNo;
+                //rni.AddTime = SeatManage.Bll.ServiceDateTime.Now;
+                //rni.Note = string.Format("{0}记录的违规，{1}，过期", vrinfo.EnterOutTime, vrinfo.Remark);
+                //SeatManage.Bll.T_SM_ReaderNotice.AddReaderNotice(rni);
+            }
+            else
+            {
+                result = Json(new { status = "no", message = "操作失败，状态无效" }, JsonRequestBehavior.AllowGet);
+            }
+            return result;
+        }
+
+        public JsonResult BespeakLogCancel(string BespeakID)
+        {
+            JsonResult result = null;
+            int id = int.Parse(BespeakID);
+            SeatManage.ClassModel.BespeakLogInfo bespeakModel = SeatManage.Bll.T_SM_SeatBespeak.GetBespeaklogById(id);
+            if (bespeakModel.BsepeakState != BookingStatus.Waiting)
+            {
+
+                result = Json(new { status = "no", message = "操作失败，状态无效" }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                bespeakModel.BsepeakState = BookingStatus.Cencaled;
+                bespeakModel.CancelPerson = Operation.Admin;
+                bespeakModel.CancelTime = SeatManage.Bll.ServiceDateTime.Now;
+                bespeakModel.Remark = "被管理员" + this.LoginId + "取消预约";
+                if (SeatManage.Bll.T_SM_SeatBespeak.UpdateBespeakList(bespeakModel) > 0)
+                {
+
+                    //SeatManage.ClassModel.ReaderNoticeInfo rni = new SeatManage.ClassModel.ReaderNoticeInfo();
+                    //rni.CardNo = bespeakModel.CardNo;
+                    //rni.AddTime = bespeakModel.CancelTime;
+                    //rni.Note = bespeakModel.Remark;
+                    //SeatManage.Bll.T_SM_ReaderNotice.AddReaderNotice(rni);
+
+                    //PushMsgInfo msg = new PushMsgInfo();
+                    //msg.Title = "您好，您的预约已被取消";
+                    //msg.MsgType =  MsgPushType.AdminOperation;
+                    //msg.StudentNum = bespeakModel.CardNo;
+                    //msg.Message = bespeakModel.Remark;
+                    //SeatManage.Bll.T_SM_ReaderNotice.SendPushMsg(msg);
+                    result = Json(new { status = "yes", message = "取消成功" }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    result = Json(new { status = "no", message = "操作失败,请重新尝试" }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            return result;
         }
 
         public string GetBespeakStateData()
@@ -272,6 +411,9 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             }
             return dt;
         }
+
+
+
 
         public string GetViolateData()
         {

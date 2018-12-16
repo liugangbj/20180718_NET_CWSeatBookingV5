@@ -124,13 +124,27 @@
                         name: 'Remark',
                         width: "30%"
                     },
-                      { display: '操作', align: 'left', width:"10%",
-                          render: function (rowdata, rowindex, value, column){
-                              return ' <div class="grid_opp_container">'
-                                      + '<span class="grid_opp_delete" onclick="onDelete(' + rowdata.BespeakID+','+rowindex + ')">删除</span>'
-                                  + '</div>';
-                          }
-                      }
+                      //{ display: '操作', align: 'left', width:"10%",
+                      //    render: function (rowdata, rowindex, value, column){
+                      //        return ' <div class="grid_opp_container">'
+                      //                + '<span class="grid_opp_delete" onclick="onDelete(' + rowdata.BespeakID+','+rowindex + ')">删除</span>'
+                      //            + '</div>';
+                      //    }
+                      //}
+
+                    {
+                    display: '操作', isAllowHide: false, align: 'left', width: "10%",
+                render: function (rowdata, rowindex, value, column) {
+                    if (rowdata.BsepeakState == '等待确认') {
+                        return '<div class="grid_opp_container">'
+                        + '<span class="grid_opp_delete" onclick="onDelete(' + rowdata.BespeakID + ',' + rowindex + ')">删除</span>'
+                        + '</div>';
+                    }
+                    return "";
+
+                }
+            }
+
                     ],
                     data: gridData,
                     sortName: 'BespeakTime',

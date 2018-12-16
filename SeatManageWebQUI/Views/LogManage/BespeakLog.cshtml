@@ -128,14 +128,19 @@
                         name: 'Remark',
                         width: "35%"
                     },
-                    {
-                        display: '操作', align: 'left', width: "10%",
-                        render: function (rowdata, rowindex, value, column) {
-                            return '<div class="grid_opp_container">'
-                                    + '<span class="grid_opp_delete" onclick="onDelete(' + rowdata.BespeakID + ',' + rowindex + ')">取消预约</span>'
-                                + '</div>';
+                        {
+                            display: '操作', isAllowHide: false, align: 'left', width: "10%",
+                                    render: function (rowdata, rowindex, value, column) {
+                                        if (rowdata.BsepeakState == '等待确认')
+                                        {
+                                            return '<div class="grid_opp_container">'
+                                            + '<span class="grid_opp_delete" onclick="onDelete(' + rowdata.BespeakID + ',' + rowindex + ')">删除</span>'
+                                            + '</div>';
+                                        }
+                                        return "";
+                                    
+                                }
                         }
-                    }
                 ],
                 // data: gridData,
                 sortName: 'BespeakTime',
@@ -146,6 +151,28 @@
                 pageSize: 100,
                 percentWidthMode: true
             });
+        }
+
+
+        function onDelete(BespeakID, rowindex) {
+
+            top.Dialog.confirm("确认取消这条预约记录吗",
+                function () {
+                    $.ajax({
+                        url: "/LogManage/BespeakLogCancel",
+                        data: { BespeakID: BespeakID },
+                        type: "post",
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.status == "yes") {
+                                top.Toast('showSuccessToast', data.message);
+                                searchHandler();
+                            } else {
+                                top.Toast('showErrorToast', data.message);
+                            }
+                        }
+                    });
+                });
         }
 
 

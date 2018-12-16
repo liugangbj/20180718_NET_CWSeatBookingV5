@@ -119,14 +119,18 @@
                         name: 'Remark',
                         width: "40%"
                     }, 
-                    {
-                        display: '操作', align: 'left', width: "10%",
-                        render: function (rowdata, rowindex, value, column) {
-                            return '<div class="grid_opp_container">'
-                                    + '<span class="grid_opp_delete" onclick="onDelete(' + rowdata.ID + ',' + rowindex + ')">删除记录</span>'
-                                + '</div>';
+                        {
+                            display: '操作', isAllowHide: false, align: 'left', width: "10%",
+                            render: function (rowdata, rowindex, value, column) {
+                                if (rowdata.LogStatus == '处罚中') {
+                                    return '<div class="grid_opp_container">'
+                                    + '<span class="grid_opp_delete" onclick="onDelete(' + rowdata.ID + ',' + rowindex + ')">删除</span>'
+                                    + '</div>';
+                                }
+                                return "";
+
+                            }
                         }
-                    }
                 ],
                 // data: gridData,
                 sortName: 'AddTime',
