@@ -20,6 +20,155 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             return View();
         }
 
+        public JsonResult BlackRemoveAll(string IDs)
+        {
+            JsonResult result = null;
+            string[] arr = IDs.Split(',');
+            List<ViolationRecordsLogInfo> list = new List<ViolationRecordsLogInfo>();
+            int count = 0;
+            foreach (var item in arr)
+            {
+                SeatManage.ClassModel.BlackListInfo blacklist = SeatManage.Bll.T_SM_Blacklist.GetBlistList(item);
+                if (item != null)
+                {
+                    blacklist.BlacklistState = LogStatus.Fail;
+                    if (SeatManage.Bll.T_SM_Blacklist.UpdateBlackList(blacklist)>0)
+                    {
+                        count++;
+                    }
+                }
+                else
+                {
+                    continue;
+                }
+            }
+            result = Json(new { status = "yes", message = "成功删除" + count + "条记录" }, JsonRequestBehavior.AllowGet);
+            return result;
+        }
+
+        public JsonResult BlackRemove(string ID)
+        {
+            JsonResult result = null;
+            SeatManage.ClassModel.BlackListInfo blacklist = SeatManage.Bll.T_SM_Blacklist.GetBlistList(ID);
+            if (blacklist != null)
+            {
+                blacklist.BlacklistState = LogStatus.Fail;
+                if (SeatManage.Bll.T_SM_Blacklist.UpdateBlackList(blacklist) == 0)
+                {
+                    result = Json(new { status = "no", message = "移除失败" }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    //SeatManage.ClassModel.ReaderNoticeInfo rni = new SeatManage.ClassModel.ReaderNoticeInfo();
+                    //rni.CardNo = blacklist.CardNo;
+                    //rni.Type = NoticeType.DeleteBlacklistWarning;
+                    //rni.Note = "被管理员手动移除黑名单";
+                    //if (SeatManage.Bll.T_SM_ReaderNotice.AddReaderNotice(rni) > 0)
+                    //{
+                    result = Json(new { status = "yes", message = "移除成功" }, JsonRequestBehavior.AllowGet);
+                    //}
+                    //else
+                    //{
+                    //    FineUI.Alert.ShowInTop("添加消息失败！");
+                    //}
+                }
+            }
+            else
+            {
+                result = Json(new { status = "no", message = "移除失败" }, JsonRequestBehavior.AllowGet);
+            }
+            return result;
+        }
+
+        public ActionResult AddNewBlack()
+        {
+           string date = DateTime.Now.AddDays(7).ToString("yyyy/MM/dd");
+            ViewBag.dpEndDate = date;
+            return View();
+        }
+
+        public JsonResult SaveNewBlack()
+        {
+            JsonResult result = null;
+            SeatManage.ClassModel.RegulationRulesSetting regulationRulesSetting = SeatManage.Bll.T_SM_SystemSet.GetRegulationRulesSetting();
+            string CardNo = Request.Params["txtNum"].Trim();
+            string Remark = Request.Params["txtRemark"].Trim(); //txtRemark.Text;
+            string ReadingRoomNo = Request.Params["selectRooms"].ToString();//ddlroom.SelectedValue;
+            SeatManage.ClassModel.ReadingRoomInfo room = SeatManage.Bll.T_SM_ReadingRoom.GetSingleRoomInfo(ReadingRoomNo);
+            SeatManage.ClassModel.BlackListInfo bli = new SeatManage.ClassModel.BlackListInfo();
+            bli.CardNo = CardNo;
+            bli.AddTime = SeatManage.Bll.ServiceDateTime.Now;
+            if(Request.Params["ddlleaveMode"] =="0") //(ddlleaveMode.SelectedValue == "0")
+            {
+                if ( DateTime.Parse(Request.Params["dpEndDate"]) < bli.AddTime.Date)
+                {
+                    result = Json(new { status = "no", message = "请输入不小于今天的日期" }, JsonRequestBehavior.AllowGet);
+                    //FineUI.Alert.Show("请输入不小于今天的日期！");
+                    return result;
+                }
+                bli.OutTime = DateTime.Parse(Request.Params["dpEndDate"] + " 23:59:59");
+            }
+            bli.OutBlacklistMode = (SeatManage.EnumType.LeaveBlacklistMode)int.Parse(Request.Params["ddlleaveMode"]);
+            if (bli.OutBlacklistMode == SeatManage.EnumType.LeaveBlacklistMode.ManuallyMode)
+            {
+                bli.ReMark = string.Format("被管理员{0}加入手动加入黑名单，管理员手动移除黑名单，备注：{1}", this.LoginId, Remark);
+            }
+            else
+            {
+                bli.ReMark = string.Format("被管理员{0}加入手动加入黑名单，记录黑名单{1}天，备注：{2}", this.LoginId, (bli.OutTime - bli.AddTime).Days, Remark);
+            }
+            bli.ReadingRoomID = ReadingRoomNo;
+            int blackId = 0;
+            bool cbIsAllRR = Request.Params["cbIsAllRR"] == null ? false : true;
+            if (cbIsAllRR)
+            {
+                int roomCount = 0;
+                List<SeatManage.ClassModel.ReadingRoomInfo> roomlist = SeatManage.Bll.ClientConfigOperate.GetReadingRooms(null);
+                foreach (SeatManage.ClassModel.ReadingRoomInfo roominfo in roomlist)
+                {
+                    if (roominfo.Setting.BlackListSetting.Used)
+                    {
+                        bli.ReadingRoomID = roominfo.No;
+                        if (!(SeatManage.Bll.T_SM_Blacklist.AddBlackList(bli) > 0))
+                        {
+                            result = Json(new { status = "no", message = "添加失败" }, JsonRequestBehavior.AllowGet);
+                          //  FineUI.Alert.Show("添加失败！");
+                           // return;
+                        }
+                        else
+                        {
+                            roomCount++;
+                        }
+                    }
+                }
+                if (roomCount == 0)
+                {
+                    blackId = SeatManage.Bll.T_SM_Blacklist.AddBlackList(bli);
+                }
+                result = Json(new { status = "yes", message = "添加成功" }, JsonRequestBehavior.AllowGet);
+                //PageContext.RegisterStartupScript(ActiveWindow.GetHidePostBackReference());
+                //FineUI.Alert.Show("添加成功！");
+            }
+            else
+            {
+                blackId = SeatManage.Bll.T_SM_Blacklist.AddBlackList(bli);
+                if (blackId > 0)
+                {
+                    result = Json(new { status = "yes", message = "添加成功" }, JsonRequestBehavior.AllowGet);
+                   // PageContext.RegisterStartupScript(ActiveWindow.GetHidePostBackReference());
+                  //  FineUI.Alert.Show("添加成功！");
+                }
+                else
+                {
+                    result = Json(new { status = "no", message = "添加失败" }, JsonRequestBehavior.AllowGet);
+                    //FineUI.Alert.Show("添加失败！");
+                }
+            }
+
+            return result;
+        }
+
+
         public ActionResult AddNewViolate()
         {
             return View();

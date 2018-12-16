@@ -8,7 +8,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>AddNewViolate</title>
+    <title>AddNewBlack</title>
     <!--框架必需start-->
     <script type="text/javascript" src="~/quickui/libs/js/jquery.js"></script>
     <script type="text/javascript" src="~/quickui/libs/js/language/cn.js"></script>
@@ -28,11 +28,18 @@
     <script src="/quickui/libs/js/form/validation.js" type="text/javascript"></script>
 </head>
 <body>
+
     <form id="form1" name="form1">
         <table class="tableStyle" formMode="transparent">
             <tr>
                 <td>读者学号：</td>
                 <td><input type="text" id="txtNum" class="validate[required]" name="txtNum" placeholder="输入读者学号(必填)" /></td>
+            </tr>
+            <tr>
+                <td>限制全部阅览室：</td>
+                <td>
+                    <input type="checkbox" id="cbIsAllRR" name="cbIsAllRR" value="限制全部阅览室" /><label for="cbIsAllRR" class="hand">限制全部阅览室</label>
+                </td>
             </tr>
             <tr>
                 <td>选择阅览室：</td>
@@ -41,23 +48,18 @@
                 </td>
             </tr>
             <tr>
-                <td>座位号：</td>
+                <td>离开方式：</td>
                 <td>
-                    <input type="text" id="txtSeat" name="txtSeat" placeholder="输入座位号" />
+                    <select id="ddlleaveMode" name="ddlleaveMode">
+                        <option value="0">自动离开</option>
+                        <option value="1">手动释放</option>
+                    </select>
                 </td>
             </tr>
             <tr>
-                <td>违规类型：</td>
+                <td>离开黑名单日期：</td>
                 <td>
-                    <select id="selectVrType" name="selectVrType">
-                        <option value="0">预约超时</option>
-                        <option value="2">在座超时</option>
-                        <option value="3">暂离超时</option>
-                        <option value="4">被管理员设为暂离，暂离超时</option>
-                        <option value="5">被读者设为暂离，暂离超时</option>
-                        <option value="1">被管理员设置离开</option>
-                        <option value="8">离开未刷卡</option>
-                    </select>
+                    <input type="text" dateFmt="yyyy/MM/dd" placeholder="开始日期" class="date" id="dpEndDate" name="dpEndDate" />
                 </td>
             </tr>
             <tr>
@@ -70,6 +72,11 @@
     </form>
 
     <script>
+
+        $(function () {
+            $("#dpEndDate").val('@ViewBag.dpEndDate');
+        });
+
         function validateForm(containerId) {
             var valid = $(containerId).validationEngine({ returnIsValid: true });
             if (valid == true) {
@@ -83,7 +90,7 @@
             var valid = $("#form1").validationEngine({ returnIsValid: true });
             if (valid) {
                 $.ajax({
-                    url: "/LogManage/SaveNewViolate", //你的路由地址
+                    url: "/LogManage/SaveNewBlack", //你的路由地址
                     type: "post",
                     dataType: "json",
                     data: $("#form1").serialize(),
@@ -98,9 +105,10 @@
                     }
                 });
             }
-         
+
 
         }
     </script>
+
 </body>
 </html>

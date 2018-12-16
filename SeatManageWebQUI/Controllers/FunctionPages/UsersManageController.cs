@@ -43,7 +43,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
         /// 保存或者更新
         /// </summary>
         /// <returns></returns>
-        public ContentResult SaveOrUpdate()
+        public JsonResult SaveOrUpdate()
         {
             JsonResult result = null;
             List<SeatManage.ClassModel.SysRolesDicInfo> rolelist = SeatManage.Bll.SysRolesDic.GetRoleList(null, null);
@@ -116,8 +116,8 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             }
 
             result = saveOrUpdateIsOk ? Json(new { status = "yes", message = "保存成功" }, JsonRequestBehavior.AllowGet) : Json(new { status = "no", message = "保存失败" }, JsonRequestBehavior.AllowGet);
-            var jsonstr = JsonConvert.SerializeObject(result);
-            return Content(jsonstr);
+            // var jsonstr = JsonConvert.SerializeObject(result);
+            return result;
         }
 
         public ActionResult AddOrEdit(string op, string LoginId)

@@ -70,11 +70,99 @@
             <div class="title">
                 <span>黑名单列表</span>
             </div>
+            <div class="box_tool_min padding_top2 padding_bottom2 padding_right5">
+                <div class="center">
+                    <div class="left">
+                        <div class="right">
+                            <div class="padding_top5 padding_left10">
+                                <a href="javascript:addNewBlack();"><span class="icon_add">新增</span></a>
+                                <div class="box_tool_line"></div>
+                                <a href="javascript:onDeleteAll();"><span class="icon_delete">移除</span></a>
+                                <div class="box_tool_line"></div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
             <div id="dataBasic"></div>
         </div>
     </div>
 
     <script>
+
+        function onDeleteAll() {
+            //   alert("delete");
+            //  grid.getSelectedRows
+            var rows = grid.getSelectedRows();
+            if (rows.length == 0) {
+                top.Toast('showErrorToast', '请至少选择一行');
+                return;
+            }
+            var ids = "";
+
+            for (i = 0; i < rows.length; i++) {
+                ids += rows[i].ID + ",";
+            }
+            ids = ids.substring(0, ids.lastIndexOf(','));
+            top.Dialog.confirm("确认移除所选中黑名单记录吗（并不会真正删除，只是使记录无效）",
+            function () {
+                $.ajax({
+                    url: "/LogManage/BlackRemoveAll",
+                    data: { IDs: ids },
+                    type: "post",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.status == "yes") {
+                            top.Toast('showSuccessToast', data.message);
+                            searchHandler();
+                        } else {
+                            top.Toast('showErrorToast', data.message);
+                        }
+                    }
+                });
+            });
+        }
+
+        function onDelete(ID) {
+
+            top.Dialog.confirm("确认取消这条违规记录吗（并不会真正删除，只是使此条记录无效）",
+                function () {
+                    $.ajax({
+                        url: "/LogManage/BlackRemove",
+                        data: { ID: ID },
+                        type: "post",
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.status == "yes") {
+                                top.Toast('showSuccessToast', data.message);
+                                searchHandler();
+                            } else {
+                                top.Toast('showErrorToast', data.message);
+                            }
+                        }
+                    });
+                });
+        }
+
+        function addNewBlack()
+        {
+            var diag = new top.Dialog();
+            diag.Title = '新增黑名单记录';
+            diag.URL = "/LogManage/AddNewBlack";
+            diag.Width = 500;
+            diag.Height = 300;
+            diag.OkButtonText = "保 存";
+            //顺序很重要，diag.show()之前添加确定按钮事件，show之后添加新按钮
+            diag.OKEvent = function () {
+                var inputValue = diag.innerFrame.contentWindow.myTest();
+                searchHandler();
+            };
+            diag.show();
+        }
+
+        
 
         $(function () {
             $("#beginDate").val('@ViewBag.before7Day');
@@ -135,7 +223,7 @@
                 // data: gridData,
                 sortName: 'AddTime',
                 rownumbers: true,
-                checkbox: false,
+                checkbox: true,
                 height: '100%',
                 width: "100%",
                 pageSize: 100,
@@ -166,6 +254,8 @@
         $(function () {
             $("#beginDate").val('@ViewBag.before7Day');
             $("#endDate").val('@ViewBag.nowDay');
+
+            searchHandler();
         });
 
     </script>

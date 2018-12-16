@@ -4133,6 +4133,7 @@
     <Content Include="Views\SchoolInfoManage\AddNew.cshtml" />
     <Content Include="Views\SchoolInfoManage\DeletePassword.cshtml" />
     <Content Include="Views\LogManage\AddNewViolate.cshtml" />
+    <Content Include="Views\LogManage\AddNewBlack.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

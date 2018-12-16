@@ -132,7 +132,7 @@
                         success: function (data) {
                             if (data.status == "yes") {
                                 top.Toast('showSuccessToast', data.message);
-                                isTrue = "1";
+                                top.Dialog.close();
                             } else {
                                 top.Toast('showErrorToast', data.message);
                             }
@@ -148,7 +148,7 @@
                         success: function (data) {
                             if (data.status == "yes") {
                                 top.Toast('showSuccessToast', data.message);
-                                isTrue = "1";
+                                top.Dialog.close();
                             } else {
                                 top.Toast('showErrorToast', data.message);
                             }

@@ -128,15 +128,15 @@
             var diag = new top.Dialog();
             diag.Title = '新增违规记录';
             diag.URL = "/LogManage/AddNewViolate";
-            diag.Width = 600;
-            diag.Height = 400;
+            diag.Width = 450;
+            diag.Height = 250;
             diag.OkButtonText = "保 存";
             //顺序很重要，diag.show()之前添加确定按钮事件，show之后添加新按钮
             diag.OKEvent = function () {
                 //var inputValue = diag.innerFrame.contentWindow.myTest();
                 var inputValue = diag.innerFrame.contentWindow.myTest();
-                alert(inputValue);
-                diag.close();
+               // alert(inputValue);
+               // diag.close();
                 searchHandler();
             };
             diag.show();
@@ -289,6 +289,7 @@
         $(function () {
             $("#beginDate").val('@ViewBag.before7Day');
             $("#endDate").val('@ViewBag.nowDay');
+            searchHandler();
         });
 
     </script>
