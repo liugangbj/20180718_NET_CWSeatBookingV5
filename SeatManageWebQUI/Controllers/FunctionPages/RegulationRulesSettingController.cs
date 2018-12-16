@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace SeatManageWebQUI.Controllers.FunctionPages
 {
-    public class RegulationRulesSettingController : Controller
+    public class RegulationRulesSettingController : BaseController
     {
         // GET: RegulationRulesSetting
         public ActionResult Index()
