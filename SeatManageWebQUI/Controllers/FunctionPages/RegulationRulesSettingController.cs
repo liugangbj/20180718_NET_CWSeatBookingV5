@@ -75,7 +75,60 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             }
             else
             {
-                result = Json(new { status = "yes", message = "黑名单规则配置保存失败" }, JsonRequestBehavior.AllowGet);
+                result = Json(new { status = "no", message = "黑名单规则配置保存失败" }, JsonRequestBehavior.AllowGet);
+            }
+
+            return result;
+        }
+
+        public JsonResult SavePecketWebSetting()
+        {
+            JsonResult result = null;
+            SeatManage.ClassModel.PecketBookWebSetting setting = new SeatManage.ClassModel.PecketBookWebSetting();
+            setting.UseBookComfirm = Request.Params["cb_UseBookComfirm"] == null ? false : true;// cb_UseBookComfirm.Checked;
+            setting.UseBookNextDaySeat = Request.Params["cb_UseBookNextDaySeat"] == null ? false : true;//cb_UseBookNextDaySeat.Checked;
+            setting.UseBookNowDaySeat = Request.Params["cb_UseBookNowDaySeat"] == null ? false : true;//cb_UseBookNowDaySeat.Checked;
+            setting.UseBookSeat = Request.Params["cb_UseBookSeat"] == null ? false : true;//cb_UseBookSeat.Checked;
+            setting.UseCancelBook = Request.Params["cb_UseCancelBook"] == null ? false : true;//cb_UseCancelBook.Checked;
+            setting.UseCancelWait = Request.Params["cb_UseCancelWait"] == null ? false : true;//cb_UseCancelWait.Checked;
+            setting.UseCanLeave = Request.Params["cb_UseCanLeave"] == null ? false : true;//cb_UseCanLeave.Checked;
+            setting.UseComeBack = Request.Params["cb_UseComeBack"] == null ? false : true;//cb_UseComeBack.Checked;
+            setting.UseContinue = Request.Params["cb_UseContinue"] == null ? false : true;// cb_UseContinue.Checked;
+            setting.UseShortLeave = Request.Params["cb_UseShortLeave"] == null ? false : true;// cb_UseShortLeave.Checked;
+            setting.UseWaitSeat = Request.Params["cb_UseWaitSeat"] == null ? false : true;//cb_UseWaitSeat.Checked;
+            setting.UseSelectSeat = Request.Params["cb_SelectSeat"] == null ? false : true;//cb_SelectSeat.Checked;
+            setting.UseChangeSeat = Request.Params["cb_ChangeSeat"] == null ? false : true;//cb_ChangeSeat.Checked;
+
+            if (SeatManage.Bll.T_SM_SystemSet.UpdatePecketWebSetting(setting))
+            {
+                result = Json(new { status = "yes", message = "微信规则配置保存成功" }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                result = Json(new { status = "no", message = "微信规则配置保存失败" }, JsonRequestBehavior.AllowGet);
+            }
+            return result;
+        }
+
+        public JsonResult SavePushMsgSetting()
+        {
+            JsonResult result = null;
+
+            SeatManage.ClassModel.PushMsssageSetting setting = new SeatManage.ClassModel.PushMsssageSetting();
+            setting.PushSetting[SeatManage.EnumType.MsgPushType.AdminOperation] = Request.Params["cb_AdminOperation"] == null ? false : true; //cb_AdminOperation.Checked;
+            setting.PushSetting[SeatManage.EnumType.MsgPushType.EnterVR] = Request.Params["cb_EnterVr"] == null ? false : true; // cb_EnterVr.Checked;
+            setting.PushSetting[SeatManage.EnumType.MsgPushType.EnterBlack] = Request.Params["cb_EnterBlack"] == null ? false : true; // cb_EnterBlack.Checked;
+            setting.PushSetting[SeatManage.EnumType.MsgPushType.LeaveVrBlack] = Request.Params["cb_LeaveVrBlack"] == null ? false : true; // cb_LeaveVrBlack.Checked;
+            setting.PushSetting[SeatManage.EnumType.MsgPushType.OtherUser] = Request.Params["cb_OtherUser"] == null ? false : true; // cb_OtherUser.Checked;
+            setting.PushSetting[SeatManage.EnumType.MsgPushType.TimeOut] = Request.Params["cb_TimeOut"] == null ? false : true; //cb_TimeOut.Checked;
+            setting.PushSetting[SeatManage.EnumType.MsgPushType.UserOperation] = Request.Params["cb_UserOperation"] == null ? false : true; // cb_UserOperation.Checked;
+            if (SeatManage.Bll.T_SM_SystemSet.SaveMsgPushSet(setting))
+            {
+                result = Json(new { status = "yes", message = "消息推送规则配置保存成功" }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                result = Json(new { status = "no", message = "消息推送规则配置保存失败" }, JsonRequestBehavior.AllowGet);
             }
 
             return result;
@@ -114,7 +167,34 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             ViewBag.IsOnSeatCheckedForm3 = accset.IsReleaseOnSeat ? "yes" : "no";
             ViewBag.IsShortLeaveCheckedForm3 = accset.IsComeBack ? "yes" : "no";
             ViewBag.IsBookingCheckedForm3 = accset.IsBookingConfinmed ? "yes" : "no";
-
+            //初始化微信端设置
+            SeatManage.ClassModel.PecketBookWebSetting setting = SeatManage.Bll.T_SM_SystemSet.GetPecketWebSetting();
+            if (setting == null)
+            {
+                setting = new SeatManage.ClassModel.PecketBookWebSetting();
+            }
+            ViewBag.cb_UseBookComfirmChecked = setting.UseBookComfirm;
+            ViewBag.cb_UseBookNextDaySeatChecked = setting.UseBookNextDaySeat;
+            ViewBag.cb_UseBookNowDaySeatChecked = setting.UseBookNowDaySeat;
+            ViewBag.cb_UseBookSeatChecked = setting.UseBookSeat;
+            ViewBag.cb_UseCancelBookChecked = setting.UseCancelBook;
+            ViewBag.cb_UseCancelWaitChecked = setting.UseCancelWait;
+            ViewBag.cb_UseCanLeaveChecked = setting.UseCanLeave;
+            ViewBag.cb_UseComeBackChecked = setting.UseComeBack;
+            ViewBag.cb_UseContinueChecked = setting.UseContinue;
+            ViewBag.cb_UseShortLeaveChecked = setting.UseShortLeave;
+            ViewBag.cb_UseWaitSeatChecked = setting.UseWaitSeat;
+            ViewBag.cb_ChangeSeatChecked = setting.UseChangeSeat;
+            ViewBag.cb_SelectSeatChecked = setting.UseSelectSeat;
+            //初始化消息推送
+            SeatManage.ClassModel.PushMsssageSetting objPushMsssageSetting = SeatManage.Bll.T_SM_SystemSet.GetMsgPushSet() ?? new SeatManage.ClassModel.PushMsssageSetting();
+            ViewBag.cb_AdminOperationChecked = objPushMsssageSetting.PushSetting[SeatManage.EnumType.MsgPushType.AdminOperation];
+            ViewBag.cb_EnterVrChecked = objPushMsssageSetting.PushSetting[SeatManage.EnumType.MsgPushType.EnterVR];
+            ViewBag.cb_EnterBlackChecked = objPushMsssageSetting.PushSetting[SeatManage.EnumType.MsgPushType.EnterBlack];
+            ViewBag.cb_LeaveVrBlackChecked = objPushMsssageSetting.PushSetting[SeatManage.EnumType.MsgPushType.LeaveVrBlack];
+            ViewBag.cb_OtherUserChecked = objPushMsssageSetting.PushSetting[SeatManage.EnumType.MsgPushType.OtherUser];
+            ViewBag.cb_TimeOutChecked = objPushMsssageSetting.PushSetting[SeatManage.EnumType.MsgPushType.TimeOut];
+            ViewBag.cb_UserOperationChecked = objPushMsssageSetting.PushSetting[SeatManage.EnumType.MsgPushType.UserOperation];
             return View();
         }
 

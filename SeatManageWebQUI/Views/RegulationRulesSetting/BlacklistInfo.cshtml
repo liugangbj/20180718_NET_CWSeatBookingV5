@@ -35,6 +35,7 @@
             
         </div>
         <div name="黑名单设置" style="height:200px;" iconClass="process_item2">
+            <br />
             <div style="width:550px;">
                 <form id="form2" name="form2">
                     <table class="tableStyle" formMode="transparent">
@@ -147,10 +148,85 @@
             </div>
         </div>
         <div name="微信端设置" style="height:200px;" iconClass="process_item4">
-            微信端设置1<br />微信端设置1
+            <br />
+            <div style="width:500px;">
+                <br />
+                <form id="form4" name="form4">
+                    <table class="tableStyle" formMode="transparent">
+                        <tr>
+                            <td>微信预约：</td>
+                            <td>
+                                <input type="checkbox" id="cb_UseBookSeat" name="cb_UseBookSeat" /><label for="cb_UseBookSeat" class="hand">启用</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <input type="checkbox" id="cb_UseBookNextDaySeat" name="cb_UseBookNextDaySeat" /><label for="cb_UseBookNextDaySeat" class="hand">启用隔天预约</label><br />
+                                <input type="checkbox" id="cb_UseBookNowDaySeat" name="cb_UseBookNowDaySeat" /><label for="cb_UseBookNowDaySeat" class="hand">启用当天预约</label><br />
+                                <input type="checkbox" id="cb_UseCancelBook" name="cb_UseCancelBook" /><label for="cb_UseCancelBook" class="hand">允许取消预约</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>座位操作：</td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <input type="checkbox" id="cb_UseShortLeave" name="cb_UseShortLeave" /><label for="cb_UseShortLeave" class="hand">允许暂离座位</label><br />
+                                <input type="checkbox" id="cb_UseComeBack" name="cb_UseComeBack" /><label for="cb_UseComeBack" class="hand">允许暂离回来</label><br />
+                                <input type="checkbox" id="cb_UseCanLeave" name="cb_UseCanLeave" /><label for="cb_UseCanLeave" class="hand">允许释放座位</label><br />
+                                <input type="checkbox" id="cb_UseContinue" name="cb_UseContinue" /><label for="cb_UseContinue" class="hand">允许座位续时</label><br />
+                                <input type="checkbox" id="cb_UseBookComfirm" name="cb_UseBookComfirm" /><label for="cb_UseBookComfirm" class="hand">允许座位签到</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>等待座位：</td>
+                            <td>
+                                <input type="checkbox" id="cb_UseWaitSeat" name="cb_UseWaitSeat" /><label for="cb_UseWaitSeat" class="hand">启用</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <input type="checkbox" id="cb_UseCancelWait" name="cb_UseCancelWait" /><label for="cb_UseCancelWait" class="hand">允许取消等待</label><br />
+                                <input type="checkbox" id="cb_ChangeSeat" name="cb_ChangeSeat" /><label for="cb_ChangeSeat" class="hand">允许更换座位</label><br />
+                                <input type="checkbox" id="cb_SelectSeat" name="cb_SelectSeat" /><label for="cb_SelectSeat" class="hand">允许选择座位</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><input type="button" value="提交" onclick="subForm4()" class="primary" />&nbsp;</td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
         </div>
         <div name="消息推送设置" style="height:200px;" iconClass="process_item5">
-            消息推送设置2<br />消息推送设置2
+            <br />
+            <div style="width:500px;">
+                <br />
+                <form id="form5" name="form5">
+                    <table class="tableStyle" formMode="transparent">
+                        <tr>
+                            <td>消息推送：</td>
+                            <td>
+                                <input type="checkbox" id="cb_UserOperation" name="cb_UserOperation" /><label for="cb_UserOperation" class="hand">记录读者自己操作消息</label><br />
+                                <input type="checkbox" id="cb_AdminOperation" name="cb_AdminOperation" /><label for="cb_AdminOperation" class="hand">记录被管理员操作的消息</label><br />
+                                <input type="checkbox" id="cb_OtherUser" name="cb_OtherUser" /><label for="cb_OtherUser" class="hand">记录被其他读者操作的消息</label><br />
+                                <input type="checkbox" id="cb_EnterVr" name="cb_EnterVr" /><label for="cb_EnterVr" class="hand">记录违规消息</label><br />
+                                <input type="checkbox" id="cb_EnterBlack" name="cb_EnterBlack" /><label for="cb_EnterBlack" class="hand">记录黑名单消息</label><br />
+                                <input type="checkbox" id="cb_LeaveVrBlack" name="cb_LeaveVrBlack" /><label for="cb_LeaveVrBlack" class="hand">记录消除违规和离开黑名单的消息</label><br />
+                                <input type="checkbox" id="cb_TimeOut" name="cb_TimeOut" /><label for="cb_TimeOut" class="hand">记录超时的消息</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><input type="button" value="提交" onclick="subForm5()" class="primary" />&nbsp;</td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
         </div>
     </div>
 
@@ -248,8 +324,7 @@
                 $('#cbBookOverTime').attr("disabled", "disabled");
             }
 
-            if('@ViewBag.IsELUserdCheckedForm3'=="yes")
-            {
+            if ('@ViewBag.IsELUserdCheckedForm3' == "yes") {
                 $("#IsELUserd").attr("checked", 'true');
             } else {
                 $("#IsELUserd").removeAttr("checked");
@@ -295,6 +370,109 @@
             var ddlleavemodeSelectedValueForm3 = '@ViewBag.ddlleavemodeSelectedValueForm3';
             $("input[name='ddlleavemodeForm3'][value='" + ddlleavemodeSelectedValueForm3 + "']").attr("checked", true);
 
+            //初始化微信设置
+            if ('@ViewBag.cb_UseBookComfirmChecked' == 'True') {
+                $("#cb_UseBookComfirm").attr("checked", 'true');
+            } else {
+                $("#cb_UseBookComfirm").removeAttr("checked");
+            }
+            if ('@ViewBag.cb_UseBookNextDaySeatChecked' == 'True') {
+                $("#cb_UseBookNextDaySeat").attr("checked", 'true');
+            } else {
+                $("#cb_UseBookNextDaySeat").removeAttr("checked");
+            }
+            if ('@ViewBag.cb_UseBookNowDaySeatChecked' == 'True') {
+                $("#cb_UseBookNowDaySeat").attr("checked", 'true');
+            } else {
+                $("#cb_UseBookNowDaySeat").removeAttr("checked");
+            }
+            if ('@ViewBag.cb_UseBookSeatChecked' == 'True') {
+                $("#cb_UseBookSeat").attr("checked", 'true');
+            } else {
+                $("#cb_UseBookSeat").removeAttr("checked");
+            }
+            if ('@ViewBag.cb_UseCancelBookChecked' == 'True') {
+                $("#cb_UseCancelBook").attr("checked", 'true');
+            } else {
+                $("#cb_UseCancelBook").removeAttr("checked");
+            }
+            if ('@ViewBag.cb_UseCancelWaitChecked' == 'True') {
+                $("#cb_UseCancelWait").attr("checked", 'true');
+            } else {
+                $("#cb_UseCancelWait").removeAttr("checked");
+            }
+            if ('@ViewBag.cb_UseCanLeaveChecked' == 'True') {
+                $("#cb_UseCanLeave").attr("checked", 'true');
+            } else {
+                $("#cb_UseCanLeave").removeAttr("checked");
+            }
+            if ('@ViewBag.cb_UseComeBackChecked' == 'True') {
+                $("#cb_UseComeBack").attr("checked", 'true');
+            } else {
+                $("#cb_UseComeBack").removeAttr("checked");
+            }
+            if ('@ViewBag.cb_UseContinueChecked' == 'True') {
+                $("#cb_UseContinue").attr("checked", 'true');
+            } else {
+                $("#cb_UseContinue").removeAttr("checked");
+            }
+            if ('@ViewBag.cb_UseShortLeaveChecked' == 'True') {
+                $("#cb_UseShortLeave").attr("checked", 'true');
+            } else {
+                $("#cb_UseShortLeave").removeAttr("checked");
+            }
+            if ('@ViewBag.cb_UseWaitSeatChecked' == 'True') {
+                $("#cb_UseWaitSeat").attr("checked", 'true');
+            } else {
+                $("#cb_UseWaitSeat").removeAttr("checked");
+            }
+            if ('@ViewBag.cb_ChangeSeatChecked' == 'True') {
+                $("#cb_ChangeSeat").attr("checked", 'true');
+            } else {
+                $("#cb_ChangeSeat").removeAttr("checked");
+            }
+            if ('@ViewBag.cb_SelectSeatChecked' == 'True') {
+                $("#cb_SelectSeat").attr("checked", 'true');
+            } else {
+                $("#cb_SelectSeat").removeAttr("checked");
+            }
+
+            //初始化消息推送
+            if ('@ViewBag.cb_AdminOperationChecked' == 'True') {
+                $("#cb_AdminOperation").attr("checked", 'true');
+            } else {
+                $("#cb_AdminOperation").removeAttr("checked");
+            }
+            if ('@ViewBag.cb_EnterVrChecked' == 'True') {
+                $("#cb_EnterVr").attr("checked", 'true');
+            } else {
+                $("#cb_EnterVr").removeAttr("checked");
+            }
+            if ('@ViewBag.cb_EnterBlackChecked' == 'True') {
+                $("#cb_EnterBlack").attr("checked", 'true');
+            } else {
+                $("#cb_EnterBlack").removeAttr("checked");
+            }
+            if ('@ViewBag.cb_LeaveVrBlackChecked' == 'True') {
+                $("#cb_LeaveVrBlack").attr("checked", 'true');
+            } else {
+                $("#cb_LeaveVrBlack").removeAttr("checked");
+            }
+            if ('@ViewBag.cb_OtherUserChecked' == 'True') {
+                $("#cb_OtherUser").attr("checked", 'true');
+            } else {
+                $("#cb_OtherUser").removeAttr("checked");
+            }
+            if ('@ViewBag.cb_TimeOutChecked' == 'True') {
+                $("#cb_TimeOut").attr("checked", 'true');
+            } else {
+                $("#cb_TimeOut").removeAttr("checked");
+            }
+            if ('@ViewBag.cb_UserOperationChecked' == 'True') {
+                $("#cb_UserOperation").attr("checked", 'true');
+            } else {
+                $("#cb_UserOperation").removeAttr("checked");
+            }
         });
 
         function cbIsBlUserdChange() {
@@ -354,8 +532,7 @@
             }
         }
 
-        function IsOLUserdChange()
-        {
+        function IsOLUserdChange() {
             if ($("#IsOLUserd")[0].checked == true) {
                 $('#ddlleavemodeForm3_0').removeAttr("disabled");
                 $('#ddlleavemodeForm3_1').removeAttr("disabled");
@@ -367,8 +544,7 @@
         }
 
 
-        function IsELUserdChange()
-        {
+        function IsELUserdChange() {
             if ($("#IsELUserd")[0].checked == true) {
                 $('#IsShortLeave').removeAttr("disabled");
                 $('#IsOnSeat').removeAttr("disabled");
@@ -386,8 +562,7 @@
             }
         }
 
-        function IsASUserdChange()
-        {
+        function IsASUserdChange() {
             if ($("#IsASUserd")[0].checked == true) {
                 $('#IsELUserd').removeAttr("disabled");
                 $('#IsShortLeave').removeAttr("disabled");
@@ -401,7 +576,7 @@
                 $('#cbBLIsUsed').removeAttr("disabled");
             }
             else {
-               // $('#nbvrcont').attr("disabled", "disabled");
+                // $('#nbvrcont').attr("disabled", "disabled");
                 $('#IsELUserd').attr("disabled", "disabled");
                 $('#IsShortLeave').attr("disabled", "disabled");
                 $('#IsOnSeat').attr("disabled", "disabled");
@@ -415,13 +590,53 @@
             }
         }
 
-        function subForm3()
-        {
+        function subForm3() {
             $.ajax({
                 url: "/RegulationRulesSetting/SaveAccessSetting", //你的路由地址
                 type: "post",
                 dataType: "json",
                 data: $("#form3").serialize(),
+                timeout: 30000,
+                success: function (data) {
+                    if (data.status == "yes") {
+                        top.Toast('showSuccessToast', data.message);
+                    } else {
+                        top.Toast('showErrorToast', data.message);
+                    }
+                },
+                error: function () {
+                    top.Toast('showErrorToast', '发生不可预计错误，请重新尝试');
+                }
+            });
+        }
+
+        function subForm4() {
+            $.ajax({
+                url: "/RegulationRulesSetting/SavePecketWebSetting", //你的路由地址
+                type: "post",
+                dataType: "json",
+                data: $("#form4").serialize(),
+                timeout: 30000,
+                success: function (data) {
+                    if (data.status == "yes") {
+                        top.Toast('showSuccessToast', data.message);
+                    } else {
+                        top.Toast('showErrorToast', data.message);
+                    }
+                },
+                error: function () {
+                    top.Toast('showErrorToast', '发生不可预计错误，请重新尝试');
+                }
+            });
+        }
+
+        function subForm5()
+        {
+            $.ajax({
+                url: "/RegulationRulesSetting/SavePushMsgSetting", //你的路由地址
+                type: "post",
+                dataType: "json",
+                data: $("#form5").serialize(),
                 timeout: 30000,
                 success: function (data) {
                     if (data.status == "yes") {
