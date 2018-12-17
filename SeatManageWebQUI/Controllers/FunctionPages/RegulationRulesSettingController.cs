@@ -21,6 +21,33 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             return View();
         }
 
+        public JsonResult SaveAccessSetting()
+        {
+            JsonResult result = null;
+
+            SeatManage.ClassModel.AccessSetting accset = new SeatManage.ClassModel.AccessSetting();
+            accset.IsUsed = Request.Params["IsASUserd"] == null ? false : true;// Request.Params["IsASUserd"];// IsASUserd.Checked;
+            accset.EnterLib = Request.Params["IsELUserd"] == null ? false : true;// IsELUserd.Checked;
+            accset.OutLib = Request.Params["IsOLUserd"] == null ? false : true;// IsOLUserd.Checked;
+            accset.IsLimitBlackList = Request.Params["cbBLIsUsed"] == null ? false : true;// cbBLIsUsed.Checked;
+            accset.AddViolationRecords = Request.Params["IsAddrv"] == null ? false : true;// IsAddrv.Checked;
+            accset.LeaveTimeSpan = Request.Params["LeaveTimeForm3"] == null ? 5 : int.Parse(Request.Params["LeaveTimeForm3"]);//int.Parse(LeaveTime.Text);
+            accset.LeaveMode = Request.Params["ddlleavemodeForm3"] == null ? SeatManage.EnumType.EnterOutLogType.Leave : (SeatManage.EnumType.EnterOutLogType)int.Parse(Request.Params["ddlleavemodeForm3"]);// SeatManage.EnumType.EnterOutLogType.ShortLeave; //(SeatManage.EnumType.EnterOutLogType)int.Parse(ddlleavemode.SelectedValue);
+            accset.IsReleaseOnSeat = Request.Params["IsOnSeat"] == null ? false : true; //IsOnSeat.Checked;
+            accset.IsComeBack = Request.Params["IsShortLeave"] == null ? false : true; //IsShortLeave.Checked;
+            accset.IsBookingConfinmed = Request.Params["IsBooking"] == null ? false : true; //IsBooking.Checked;
+            if (SeatManage.Bll.T_SM_SystemSet.UpdateAccessSetting(accset))
+            {
+                result = Json(new { status = "yes", message = "门禁联动规则配置保存成功" }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                result = Json(new { status = "no", message = "门禁联动规则配置保存成功" }, JsonRequestBehavior.AllowGet);
+            }
+
+            return result;
+        }
+
         public JsonResult SaveBlacklistInfoSetting()
         {
             JsonResult result = null;

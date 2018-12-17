@@ -122,7 +122,7 @@
                         <tr>
                             <td>离馆设置</td>
                             <td>
-                                <input type="checkbox" id="IsOLUserd" name="IsOLUserd" /><label for="IsOLUserd" class="hand">启用设置</label>
+                                <input type="checkbox" onchange="IsOLUserdChange()" id="IsOLUserd" name="IsOLUserd" /><label for="IsOLUserd" class="hand">启用设置</label>
                             </td>
                         </tr>
                         <tr>
@@ -354,6 +354,18 @@
             }
         }
 
+        function IsOLUserdChange()
+        {
+            if ($("#IsOLUserd")[0].checked == true) {
+                $('#ddlleavemodeForm3_0').removeAttr("disabled");
+                $('#ddlleavemodeForm3_1').removeAttr("disabled");
+            }
+            else {
+                $('#ddlleavemodeForm3_0').attr("disabled", "disabled");
+                $('#ddlleavemodeForm3_1').attr("disabled", "disabled");
+            }
+        }
+
 
         function IsELUserdChange()
         {
@@ -405,7 +417,23 @@
 
         function subForm3()
         {
-
+            $.ajax({
+                url: "/RegulationRulesSetting/SaveAccessSetting", //你的路由地址
+                type: "post",
+                dataType: "json",
+                data: $("#form3").serialize(),
+                timeout: 30000,
+                success: function (data) {
+                    if (data.status == "yes") {
+                        top.Toast('showSuccessToast', data.message);
+                    } else {
+                        top.Toast('showErrorToast', data.message);
+                    }
+                },
+                error: function () {
+                    top.Toast('showErrorToast', '发生不可预计错误，请重新尝试');
+                }
+            });
         }
 
 
