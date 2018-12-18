@@ -1,6 +1,10 @@
-﻿using System;
+﻿using SeatManage.ClassModel;
+using SeatManage.EnumType;
+using SeatManageWebQUI.Controllers.FunctionPages.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -12,6 +16,180 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
         public ActionResult Index()
         {
             return View();
+        }
+       private List<SeatManage.ClassModel.TerminalInfoV2> clientlist = SeatManage.Bll.TerminalOperatorService.GetAllTeminalInfo();
+
+        /// <summary>
+        /// 赋值
+        /// </summary>
+        /// <param name="term"></param>
+        private TerminalInfoV2 NewSetting(TerminalInfoV2 term)
+        {
+            TerminalInfoV2 newterm = term;
+            newterm.DeviceSetting.IsShowInitPOS = Request.Params["cbipos"] == null ? false : true;//cbipos.Checked;
+            newterm.DeviceSetting.UsingPrintSlip = Request.Params["rbprint"] == null ? PrintSlipMode.None : (PrintSlipMode)int.Parse(Request.Params["rbprint"]);// SeatManage.EnumType.EnterOutLogType.ShortLeave; //(SeatManage.EnumType.EnterOutLogType)int.Parse(ddlleavemode.SelectedValue);//(SeatManage.EnumType.PrintSlipMode)int.Parse(rbprint.SelectedValue);
+            newterm.DeviceSetting.UsingEnterNoForSeat = Request.Params["cbNumSelect"] == null ? false : true;// cbNumSelect.Checked;
+            newterm.DeviceSetting.SelectMethod = Request.Params["rblSelectSeatMode"] == null ? SelectSeatMode.ManualMode : (SelectSeatMode)int.Parse(Request.Params["rblSelectSeatMode"]);//(SeatManage.EnumType.SelectSeatMode)int.Parse(rblSelectSeatMode.SelectedValue);
+            newterm.DeviceSetting.UsingActiveBespeakSeat = Request.Params["cbBespeak"] == null ? false : true;//cbBespeak.Checked;
+            newterm.DeviceSetting.UsingOftenUsedSeat.Used = Request.Params["cbOftenSeat"] == null ? false : true;// cbOftenSeat.Checked;
+            newterm.DeviceSetting.UsingOftenUsedSeat.LengthDays = Request.Params["nbostime"] ==null?15:int.Parse(Request.Params["nbostime"]);
+            newterm.DeviceSetting.UsingOftenUsedSeat.SeatCount = Request.Params["nboscont"] == null ? 12 : int.Parse(Request.Params["nboscont"]);
+            newterm.DeviceSetting.PosTimes.Minutes = Request.Params["numSelectSeatTime"] == null ? 10 : int.Parse(Request.Params["numSelectSeatTime"]);// int.Parse(numSelectSeatTime.Text);
+            newterm.DeviceSetting.PosTimes.Times = Request.Params["numSelectSeatCont"] == null ? 3 : int.Parse(Request.Params["numSelectSeatCont"]); //int.Parse(numSelectSeatCont.Text);
+            newterm.DeviceSetting.PosTimes.IsUsed = Request.Params["cbSelectSeatCount"] == null ? false : true;// cbSelectSeatCount.Checked;
+
+            //if (rblfbl.SelectedValue == "0")
+            //{
+            //    newterm.DeviceSetting.SystemResoultion = new ResolutionV2();
+            //    string[] xy = txtReDiy.Text.Split('x');
+            //    if (xy.Length > 1)
+            //    {
+            //        int w = 0;
+            //        int h = 0;
+            //        if (int.TryParse(xy[0], out w) && int.TryParse(xy[1], out h))
+            //        {
+            //            newterm.DeviceSetting.SystemResoultion.WindowSize.Size.X = w;
+            //            newterm.DeviceSetting.SystemResoultion.WindowSize.Size.Y = h;
+            //            newterm.DeviceSetting.SystemResoultion.WindowSize.Location.X = 0;
+            //            newterm.DeviceSetting.SystemResoultion.WindowSize.Location.Y = 0;
+            //            newterm.DeviceSetting.SystemResoultion.TooltipSize.Location.X = 0;
+            //            newterm.DeviceSetting.SystemResoultion.TooltipSize.Location.Y = 0;
+            //            newterm.DeviceSetting.SystemResoultion.TooltipSize.Size.X = 0;
+            //            newterm.DeviceSetting.SystemResoultion.TooltipSize.Size.Y = 0;
+            //        }
+            //        else
+            //        {
+            //            return null;
+            //        }
+            //    }
+            //    else
+            //    {
+            //        return null;
+            //    }
+            //}
+            //else
+            //{
+            //    newterm.DeviceSetting.SystemResoultion = new ResolutionV2(rblfbl.SelectedValue);
+            //}
+            //newterm.DeviceSetting.Rooms.Clear();
+            //foreach (FineUI.CheckItem item in clbroom.Items)
+            //{
+            //    if (item.Selected)
+            //    {
+            //        newterm.DeviceSetting.Rooms.Add(item.Value);
+            //    }
+            //}
+            return newterm;
+        }
+
+        public JsonResult SaveDeviceSetting()
+        {
+            JsonResult result = null;
+
+
+
+            return result;
+        }
+
+
+        public JsonResult GetDeviceInfoData(string ClientNo)
+        {
+            JsonResult result = null;
+            string cNo = ClientNo;
+            if (cNo == "0")
+            {
+                cNo = clientlist[0].ClientNo;
+            }
+
+            TerminalInfoV2 term = SeatManage.Bll.TerminalOperatorService.GetTeminalSetting(cNo);
+            DeviceInfoModel showModel = new DeviceInfoModel();
+            showModel.ClientNo = term.ClientNo;//终端机编号
+            showModel.SelesctALLtem = "false"; //默认先设定最下方关联机器不选
+            showModel.Cbselectallrr = "false";//默认先设定最下方关联阅览室不选
+            showModel.TxtRemark = term.Describe; //机器备注
+            showModel.SelectMethod = ((int)term.DeviceSetting.SelectMethod).ToString(); //选座方式
+            showModel.CbSelectSeatCountChecked = term.DeviceSetting.PosTimes.IsUsed ? "Y" : "N"; //选座次数限定是否启用
+            showModel.NumSelectSeatTimeText = term.DeviceSetting.PosTimes.Minutes.ToString();//选座次数限定启用的时间分钟数
+            showModel.NumSelectSeatContText = term.DeviceSetting.PosTimes.Times.ToString();//选座次数限定启用的选座次数
+            showModel.CbOftenSeatChecked = term.DeviceSetting.UsingOftenUsedSeat.Used ? "Y" : "N"; //是否启用常用座位
+            showModel.NbostimeText = term.DeviceSetting.UsingOftenUsedSeat.LengthDays.ToString(); //常用座位记录天数
+            showModel.NboscontText = term.DeviceSetting.UsingOftenUsedSeat.SeatCount.ToString(); //常用座位记录人次
+            showModel.RbprintSelectedValue = ((int)term.DeviceSetting.UsingPrintSlip).ToString();
+            showModel.CbBespeakChecked = term.DeviceSetting.UsingActiveBespeakSeat ? "Y" : "N";
+            showModel.CbiposChecked = term.DeviceSetting.IsShowInitPOS ? "Y" : "N";
+            showModel.CbNumSelectChecked = term.DeviceSetting.UsingEnterNoForSeat ? "Y" : "N";
+            bool isSelect = false;
+            switch (term.DeviceSetting.SystemResoultion.WindowSize.Size.X)
+            {
+                case 1080:
+                    isSelect = true;
+                    break;
+                case 1024:
+                    isSelect = true;
+                    break;
+                case 1280:
+                    isSelect = true;
+                    break;
+                case 1440:
+                    isSelect = true;
+                    break;
+                case 1920:
+                    isSelect = true;
+                    break;
+            }
+            showModel.RblfblSelectedValue = isSelect ? term.DeviceSetting.SystemResoultion.WindowSize.Size.X.ToString() : "0";
+            showModel.TxtReDiy = "";
+            if (!isSelect) showModel.TxtReDiy = term.DeviceSetting.SystemResoultion.WindowSize.Size.X + "x" + term.DeviceSetting.SystemResoultion.WindowSize.Size.Y;
+            List<SeatManage.ClassModel.ReadingRoomInfo> roomlist = SeatManage.Bll.ClientConfigOperate.GetReadingRooms(null);
+            StringBuilder sbHtmlRooms = new StringBuilder();
+            int roomCount = 1;
+            foreach (var roominfo in roomlist)
+            {
+                if (term.DeviceSetting.Rooms.Contains(roominfo.No))//包含
+                {
+                    sbHtmlRooms.Append("<input type=\"checkbox\" checked=\"checked\"  ID=\"SameRoomSet_" + roominfo.No + "\" name=\"SameRoomSet_" + roominfo.No + "\" /><label for=\"SameRoomSet_" + roominfo.No + "\" class=\"hand\">" + roominfo.Name + "[" + roominfo.No + "]</label>");
+                }
+                else
+                {
+                    sbHtmlRooms.Append("<input type=\"checkbox\"  ID=\"SameRoomSet_" + roominfo.No + "\" name=\"SameRoomSet_" + roominfo.No + "\" /><label for=\"SameRoomSet_" + roominfo.No + "\" class=\"hand\">" + roominfo.Name + "[" + roominfo.No + "]</label>");
+                }
+                if (roomCount % 3 == 0) sbHtmlRooms.Append("<br/>");
+                roomCount++;
+            }
+            showModel.HtmlRooms = sbHtmlRooms.ToString();
+
+            StringBuilder sbHtmlDevice = new StringBuilder();
+            foreach (var item in clientlist)
+            {
+                if (item.ClientNo != ClientNo)
+                {
+                    sbHtmlDevice.Append("<input type=\"checkbox\"  ID=\"SameDeviceSet_" + item.ClientNo + "\" name=\"SameDeviceSet_" + item.ClientNo + "\" /><label for=\"SameDeviceSet_" + item.ClientNo + "\" class=\"hand\">" + item.Describe + "[" + item.ClientNo + "]</label><br/>");
+                }
+            }
+            showModel.HtmlDevice = sbHtmlDevice.ToString();
+            result = Json(new { status = "yes", message = "查询成功", showModel }, JsonRequestBehavior.AllowGet);
+            return result;
+        }
+
+        public string GetDeviceInfoTreeData()
+        {
+            string result = null;
+            StringBuilder sb = new StringBuilder();
+        //    List<SeatManage.ClassModel.TerminalInfoV2> clientlist = SeatManage.Bll.TerminalOperatorService.GetAllTeminalInfo();
+            sb.Append(" [");
+            sb.Append(" { id:1,  parentId:0,open: true , name:\"选座机列表\"},");
+            foreach (var item in clientlist)
+            {
+                string desc = string.IsNullOrEmpty(item.Describe) ? item.ClientNo : item.Describe;
+                sb.Append(" { id:"+item.ClientNo+",  parentId:1, name:\""+ desc + "\"},");
+            }
+            if (clientlist.Count > 0)
+            {
+                sb.Remove(sb.Length - 1, 1);
+            }
+            sb.Append("]");
+            result = sb.ToString();
+            return result;
         }
 
 
