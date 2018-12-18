@@ -38,55 +38,85 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             newterm.DeviceSetting.PosTimes.Times = Request.Params["numSelectSeatCont"] == null ? 3 : int.Parse(Request.Params["numSelectSeatCont"]); //int.Parse(numSelectSeatCont.Text);
             newterm.DeviceSetting.PosTimes.IsUsed = Request.Params["cbSelectSeatCount"] == null ? false : true;// cbSelectSeatCount.Checked;
 
-            //if (rblfbl.SelectedValue == "0")
-            //{
-            //    newterm.DeviceSetting.SystemResoultion = new ResolutionV2();
-            //    string[] xy = txtReDiy.Text.Split('x');
-            //    if (xy.Length > 1)
-            //    {
-            //        int w = 0;
-            //        int h = 0;
-            //        if (int.TryParse(xy[0], out w) && int.TryParse(xy[1], out h))
-            //        {
-            //            newterm.DeviceSetting.SystemResoultion.WindowSize.Size.X = w;
-            //            newterm.DeviceSetting.SystemResoultion.WindowSize.Size.Y = h;
-            //            newterm.DeviceSetting.SystemResoultion.WindowSize.Location.X = 0;
-            //            newterm.DeviceSetting.SystemResoultion.WindowSize.Location.Y = 0;
-            //            newterm.DeviceSetting.SystemResoultion.TooltipSize.Location.X = 0;
-            //            newterm.DeviceSetting.SystemResoultion.TooltipSize.Location.Y = 0;
-            //            newterm.DeviceSetting.SystemResoultion.TooltipSize.Size.X = 0;
-            //            newterm.DeviceSetting.SystemResoultion.TooltipSize.Size.Y = 0;
-            //        }
-            //        else
-            //        {
-            //            return null;
-            //        }
-            //    }
-            //    else
-            //    {
-            //        return null;
-            //    }
-            //}
-            //else
-            //{
-            //    newterm.DeviceSetting.SystemResoultion = new ResolutionV2(rblfbl.SelectedValue);
-            //}
-            //newterm.DeviceSetting.Rooms.Clear();
-            //foreach (FineUI.CheckItem item in clbroom.Items)
-            //{
-            //    if (item.Selected)
-            //    {
-            //        newterm.DeviceSetting.Rooms.Add(item.Value);
-            //    }
-            //}
+            if (Request.Params["rblfbl"] == "0")
+            {
+                newterm.DeviceSetting.SystemResoultion = new ResolutionV2();
+                string[] xy = Request.Params["txtReDiy"].Split('x');
+                if (xy.Length > 1)
+                {
+                    int w = 0;
+                    int h = 0;
+                    if (int.TryParse(xy[0], out w) && int.TryParse(xy[1], out h))
+                    {
+                        newterm.DeviceSetting.SystemResoultion.WindowSize.Size.X = w;
+                        newterm.DeviceSetting.SystemResoultion.WindowSize.Size.Y = h;
+                        newterm.DeviceSetting.SystemResoultion.WindowSize.Location.X = 0;
+                        newterm.DeviceSetting.SystemResoultion.WindowSize.Location.Y = 0;
+                        newterm.DeviceSetting.SystemResoultion.TooltipSize.Location.X = 0;
+                        newterm.DeviceSetting.SystemResoultion.TooltipSize.Location.Y = 0;
+                        newterm.DeviceSetting.SystemResoultion.TooltipSize.Size.X = 0;
+                        newterm.DeviceSetting.SystemResoultion.TooltipSize.Size.Y = 0;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                newterm.DeviceSetting.SystemResoultion = new ResolutionV2(Request.Params["rblfbl"]);
+            }
+            newterm.DeviceSetting.Rooms.Clear();
+
+            List<SeatManage.ClassModel.ReadingRoomInfo> rooms = SeatManage.Bll.ClientConfigOperate.GetReadingRooms(null);
+            foreach (ReadingRoomInfo item in rooms)
+            {
+                if (Request.Params["SameRoomSet_" + item.No]!=null)
+                {
+                    newterm.DeviceSetting.Rooms.Add(item.No);
+                }
+            }
             return newterm;
         }
 
-        public JsonResult SaveDeviceSetting()
+        public JsonResult SaveDeviceSetting(string lbno)
         {
             JsonResult result = null;
 
-
+            TerminalInfoV2 newterm = NewSetting(SeatManage.Bll.TerminalOperatorService.GetTeminalSetting(lbno));
+            if (newterm != null)
+            {
+                newterm.Describe = Request.Params["txtRemark"].Trim();
+                if (SeatManage.Bll.TerminalOperatorService.UpdateTeminalSetting(newterm) == "")
+                {
+                    foreach (var item in clientlist)
+                    {
+                        if (item.ClientNo == newterm.ClientNo) continue;
+                        if (Request.Params["SameDeviceSet_" + item.ClientNo] != null)
+                        {
+                            if (SeatManage.Bll.TerminalOperatorService.UpdateTeminalSetting(NewSetting(SeatManage.Bll.TerminalOperatorService.GetTeminalSetting(item.ClientNo))) != "")
+                            {
+                                result = Json(new { status = "no", message = "终端设备更新失败" }, JsonRequestBehavior.AllowGet);
+                                return result;
+                            }
+                        }
+                    }
+                    result = Json(new { status = "yes", message = "终端设备更新成功" }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    result = Json(new { status = "no", message = "终端设备更新失败" }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            else
+            {
+                result = Json(new { status = "no", message = "终端设备更新失败" }, JsonRequestBehavior.AllowGet);
+            }
 
             return result;
         }
