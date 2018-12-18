@@ -101,7 +101,7 @@ namespace SeatManageWebQUI.Controllers
             foreach (SysMenuInfo item in listSysMenu)
             {
                 if (item.MenuID <= 3  ) continue; //不加载系统设置功能
-                menuString.Append("	{ \"id\":\""+ item.MenuID+ "\", \"parentId\":\"0\", \"name\":\""+item.MenuName+"\", \"isParent\": \"true\",\"backgroundPosition\":\"0px - 80px\",\"img\":\"./ skin / topIcons / icon01.png\"},");
+                menuString.Append("	{ \"id\":\""+ item.MenuID+ "\", \"parentId\":\"0\", \"name\":\"" + item.MenuName+"\", \"isParent\": \"true\",\"backgroundPosition\":\"0px - 80px\",\"img\":\"./ skin / topIcons / icon01.png\"},");
                 foreach (SysMenuInfo subItem in item.ChildMenu)
                 {
                     menuString.Append("{ \"id\":\""+subItem.MenuID+"\", \"parentId\":\""+item.MenuID+"\", \"name\":\""+ subItem.MenuName+ "\",\"url\":\"/"+ subItem.MenuLink+"\", \"target\":\"frmright\",\"icon\": \"./ skin / nav_icon_bg.png\",\"backgroundPosition\":\"0px - 128px\"},");
@@ -110,44 +110,7 @@ namespace SeatManageWebQUI.Controllers
             string str = menuString.ToString().TrimEnd(',');
             str += "]";
             return str;
-           
-
-
-            //if (listSysMenu != null)
-            //{
-            //    foreach (SeatManage.ClassModel.SysMenuInfo list in listSysMenu)
-            //    {
-            //        FineUI.TreeNode node = new FineUI.TreeNode();
-            //        node.Text = list.MenuName;
-            //        node.Expanded = false;
-            //        node.SingleClickExpand = true;
-            //        TreeMenu.Nodes.Add(node);
-            //        foreach (SeatManage.ClassModel.SysMenuInfo listChild in list.ChildMenu)
-            //        {
-            //            FineUI.TreeNode nodeChild = new FineUI.TreeNode();
-            //            nodeChild.Text = listChild.MenuName;
-            //            nodeChild.Expanded = false;
-            //            nodeChild.NavigateUrl = "../" + listChild.MenuLink;
-            //            node.Nodes.Add(nodeChild);
-            //        }
-            //    }
-            //}
-            //if (LoginUser.UserType == SeatManage.EnumType.UserType.Admin)
-            //{
-            //    houseTab.IFrameUrl = "../FunctionPages/Statistical/LibraryUsedStatistical.aspx";
-            //}
-            //else
-            //{
-            //    if (ConfigurationManager.AppSettings["ChangePassWord"] == "close")
-            //    {
-            //        btnPassword.Visible = false;
-            //    }
-            //    else
-            //    {
-            //        btnPassword.Visible = true;
-            //    }
-            //    houseTab.IFrameUrl = "../FunctionPages/Statistical/LibraryUsedStat.aspx";
-            //}
+       
         }
 
         public ActionResult About()
