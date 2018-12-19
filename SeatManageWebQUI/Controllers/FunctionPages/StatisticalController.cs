@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace SeatManageWebQUI.Controllers.FunctionPages
 {
-    public class StatisticalController : Controller
+    public class StatisticalController : BaseController
     {
         // GET: Statistical
         public ActionResult Index()
