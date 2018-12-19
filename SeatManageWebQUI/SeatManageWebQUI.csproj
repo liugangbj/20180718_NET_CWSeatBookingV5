@@ -2094,6 +2094,18 @@
     <Content Include="Content\Styles\Pad.css" />
     <Content Include="Content\Styles\SeatGraph.css" />
     <Content Include="Content\Styles\Site.css" />
+    <Content Include="echartjs\echarts-en.common.js" />
+    <Content Include="echartjs\echarts-en.common.min.js" />
+    <Content Include="echartjs\echarts-en.js" />
+    <Content Include="echartjs\echarts-en.min.js" />
+    <Content Include="echartjs\echarts-en.simple.js" />
+    <Content Include="echartjs\echarts-en.simple.min.js" />
+    <Content Include="echartjs\echarts.common.js" />
+    <Content Include="echartjs\echarts.common.min.js" />
+    <Content Include="echartjs\echarts.js" />
+    <Content Include="echartjs\echarts.min.js" />
+    <Content Include="echartjs\echarts.simple.js" />
+    <Content Include="echartjs\echarts.simple.min.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -4042,6 +4054,8 @@
     <Content Include="quickui\system\style16_accordion_blue_tab\skin\Thumbs.db" />
     <Content Include="quickui\skin\Thumbs.db" />
     <Content Include="Content\Scripts\My97DatePicker\WdatePicker.js.bak" />
+    <Content Include="echartjs\echarts-en.js.map" />
+    <Content Include="echartjs\echarts.js.map" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -4135,9 +4149,11 @@
     <Content Include="Views\SchoolInfoManage\DeletePassword.cshtml" />
     <Content Include="Views\LogManage\AddNewViolate.cshtml" />
     <Content Include="Views\LogManage\AddNewBlack.cshtml" />
+    <Content Include="Views\home\IndexData.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="echartjs\extension\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
