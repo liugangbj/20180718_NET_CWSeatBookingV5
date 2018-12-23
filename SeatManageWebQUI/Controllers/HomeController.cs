@@ -22,104 +22,109 @@ namespace SeatManageWebQUI.Controllers
 
         public string GetCharts(string libID,string libText)
         {
-           // string Title = string.Format("{0}{1}座位使用情况", DateTime.Now.ToLongDateString(), libList[0].Name);
-
-            string libNo = string.IsNullOrEmpty(libID) ? libList[0].No : libID;
-            string titleText = string.IsNullOrEmpty(libText) ? libList[0].Name : libText;
-
-            string Title = string.Format("{0}{1}座位使用情况", DateTime.Now.ToLongDateString(), titleText);
-
-            DataTable dt = SeatManageWebV5.Code.LogQueryHelper.LibrarySeatInfo(libNo);
-
             StringBuilder sb = new StringBuilder();
-            sb.Append("{");
-            sb.Append("title: {");
-            sb.Append("text: '"+ Title + "'");
-            sb.Append("},");
-            sb.Append(" tooltip: {},");
-            sb.Append("legend: {");
-            sb.Append(" data: ['座位总数', '正在使用', '进出人次']");
-            sb.Append("},");
-            sb.Append(" xAxis: {");
-
-            sb.Append("axisLabel:");
-            sb.Append(" {");
-            sb.Append("interval: 0,");
-            sb.Append("rotate:45,");
-            sb.Append("margin:2,");
-            sb.Append("textStyle:{");
-            sb.Append("color:\"#222\"");
-            sb.Append("}");
-            sb.Append("},");
-
-            sb.Append(" data: [");// '衬衫', '羊毛衫', '雪纺衫','裤子','高跟鞋','袜子']");
-            foreach (DataRow r in dt.Rows)
+            // string Title = string.Format("{0}{1}座位使用情况", DateTime.Now.ToLongDateString(), libList[0].Name);
+            if (libList != null && libList.Count > 0)
             {
-                sb.Append("'"+r["ReadingRoomName"] +"'");
-                sb.Append(",");
+                string libNo = string.IsNullOrEmpty(libID) ? libList[0].No : libID;
+                string titleText = string.IsNullOrEmpty(libText) ? libList[0].Name : libText;
+
+                string Title = string.Format("{0}{1}座位使用情况", DateTime.Now.ToLongDateString(), titleText);
+
+                DataTable dt = SeatManageWebV5.Code.LogQueryHelper.LibrarySeatInfo(libNo);
+
+                
+                sb.Append("{");
+                sb.Append("title: {");
+                sb.Append("text: '" + Title + "'");
+                sb.Append("},");
+                sb.Append(" tooltip: {},");
+                sb.Append("legend: {");
+                sb.Append(" data: ['座位总数', '正在使用', '进出人次']");
+                sb.Append("},");
+                sb.Append(" xAxis: {");
+
+                sb.Append("axisLabel:");
+                sb.Append(" {");
+                sb.Append("interval: 0,");
+                sb.Append("rotate:45,");
+                sb.Append("margin:2,");
+                sb.Append("textStyle:{");
+                sb.Append("color:\"#222\"");
+                sb.Append("}");
+                sb.Append("},");
+
+                sb.Append(" data: [");// '衬衫', '羊毛衫', '雪纺衫','裤子','高跟鞋','袜子']");
+                foreach (DataRow r in dt.Rows)
+                {
+                    sb.Append("'" + r["ReadingRoomName"] + "'");
+                    sb.Append(",");
+                }
+                if (libList.Count > 0) sb.Remove(sb.Length - 1, 1);
+                sb.Append("]");
+                sb.Append(" },");
+
+                sb.Append(" grid: { ");
+                sb.Append("x: 40,");
+                sb.Append("x2: 100,");
+                sb.Append("y2: 150");
+                sb.Append("},");
+
+                sb.Append(" yAxis: {},");
+                sb.Append(" series: [");
+                sb.Append("{");
+                sb.Append("name: '座位总数',");
+                sb.Append("type: 'bar',");
+
+                //sb.Append("data: [50, 20, 36, 10, 10, 20],");
+                sb.Append(" data: [");
+                foreach (DataRow r in dt.Rows)
+                {
+                    sb.Append("" + r["SeatAmount"] + "");
+                    sb.Append(",");
+                }
+                if (libList.Count > 0) sb.Remove(sb.Length - 1, 1);
+                sb.Append("],");
+
+                sb.Append("color: ['#0099cc']");
+                sb.Append("},");
+                sb.Append("{");
+                sb.Append(" name: '正在使用',");
+                sb.Append("type: 'bar',");
+
+                //  sb.Append("data: [60, 30, 10, 30, 20, 50],");
+                sb.Append(" data: [");
+                foreach (DataRow r in dt.Rows)
+                {
+                    sb.Append("" + r["SeatUsedAmount"] + "");
+                    sb.Append(",");
+                }
+                if (libList.Count > 0) sb.Remove(sb.Length - 1, 1);
+                sb.Append("],");
+
+                sb.Append("color: ['#ff0000']");
+                sb.Append("},");
+                sb.Append("{");
+                sb.Append("name: '进出人次',");
+                sb.Append("type: 'bar',");
+
+                // sb.Append("data: [90, 55, 44, 33, 22, 11],");
+                sb.Append(" data: [");
+                foreach (DataRow r in dt.Rows)
+                {
+                    sb.Append("" + r["PersonTimes"] + "");
+                    sb.Append(",");
+                }
+                if (libList.Count > 0) sb.Remove(sb.Length - 1, 1);
+                sb.Append("],");
+                sb.Append("color: ['#ffff00']");
+                sb.Append("}");
+                sb.Append("]");
+                sb.Append("}");
+
             }
-            if (libList.Count > 0) sb.Remove(sb.Length - 1, 1);
-            sb.Append("]");
-            sb.Append(" },");
 
-            sb.Append(" grid: { ");
-            sb.Append("x: 40,");
-            sb.Append("x2: 100,");
-            sb.Append("y2: 150");
-            sb.Append("},");
-
-            sb.Append(" yAxis: {},");
-            sb.Append(" series: [");
-            sb.Append("{");
-            sb.Append("name: '座位总数',");
-            sb.Append("type: 'bar',");
-            
-            //sb.Append("data: [50, 20, 36, 10, 10, 20],");
-            sb.Append(" data: [");
-            foreach (DataRow r in dt.Rows)
-            {
-                sb.Append("" + r["SeatAmount"] + "");
-                sb.Append(",");
-            }
-            if (libList.Count > 0) sb.Remove(sb.Length - 1, 1);
-            sb.Append("],");
-
-            sb.Append("color: ['#0099cc']");
-            sb.Append("},");
-            sb.Append("{");
-            sb.Append(" name: '正在使用',");
-            sb.Append("type: 'bar',");
-
-            //  sb.Append("data: [60, 30, 10, 30, 20, 50],");
-            sb.Append(" data: [");
-            foreach (DataRow r in dt.Rows)
-            {
-                sb.Append("" + r["SeatUsedAmount"] + "");
-                sb.Append(",");
-            }
-            if (libList.Count > 0) sb.Remove(sb.Length - 1, 1);
-            sb.Append("],");
-
-            sb.Append("color: ['#ff0000']");
-            sb.Append("},");
-            sb.Append("{");
-            sb.Append("name: '进出人次',");
-            sb.Append("type: 'bar',");
-
-            // sb.Append("data: [90, 55, 44, 33, 22, 11],");
-            sb.Append(" data: [");
-            foreach (DataRow r in dt.Rows)
-            {
-                sb.Append("" + r["PersonTimes"] + "");
-                sb.Append(",");
-            }
-            if (libList.Count > 0) sb.Remove(sb.Length - 1, 1);
-            sb.Append("],");
-            sb.Append("color: ['#ffff00']");
-            sb.Append("}");
-            sb.Append("]");
-            sb.Append("}");
-
+     
             return sb.ToString() ;
         }
 
@@ -140,7 +145,14 @@ namespace SeatManageWebQUI.Controllers
 
         public ActionResult IndexData()
         {
-            ViewBag.Title = string.Format("{0}{1}座位使用情况", DateTime.Now.ToLongDateString(), libList[0].Name);
+            if (libList.Count > 0)
+            {
+                ViewBag.Title = string.Format("{0}{1}座位使用情况", DateTime.Now.ToLongDateString(), libList[0].Name);
+            }
+            else {
+                ViewBag.Title = "暂无图书馆，请补充完善学校信息";//string.Format("{0}{1}座位使用情况", DateTime.Now.ToLongDateString(), libList[0].Name);
+            }
+            
             return View();
         }
 

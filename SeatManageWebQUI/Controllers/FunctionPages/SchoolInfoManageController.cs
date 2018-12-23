@@ -193,21 +193,32 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
                 newschool.No = Request.Params["schoolId"].ToString();
                 newschool.Name = Request.Params["schoolName"].ToString();
                 List<SeatManage.ClassModel.School> schoollist = SeatManage.Bll.T_SM_School.GetSchoolInfoList(null, null);
-                foreach (SeatManage.ClassModel.School school in schoollist)
+                if (schoollist.Count > 0)
                 {
-                    if (school.No == newschool.No || school.Name == newschool.Name)
+                    foreach (SeatManage.ClassModel.School school in schoollist)
                     {
-                        result = Json(new { status = "no", message = "校区编号或学校名称已存在，请重新输入！" }, JsonRequestBehavior.AllowGet);
+                        if (school.No == newschool.No || school.Name == newschool.Name)
+                        {
+                            result = Json(new { status = "no", message = "校区编号或学校名称已存在，请重新输入！" }, JsonRequestBehavior.AllowGet);
+                        }
+                        else if (SeatManage.Bll.T_SM_School.AddNewSchool(newschool))
+                        {
+                            result = Json(new { status = "yes", message = "校区添加成功！" }, JsonRequestBehavior.AllowGet);
+                        }
+                        else
+                        {
+                            result = Json(new { status = "no", message = "校区添加失败，请重新尝试！" }, JsonRequestBehavior.AllowGet);
+                        }
                     }
-                    else if (SeatManage.Bll.T_SM_School.AddNewSchool(newschool))
+                }
+                else
+                {
+                    if (SeatManage.Bll.T_SM_School.AddNewSchool(newschool))
                     {
                         result = Json(new { status = "yes", message = "校区添加成功！" }, JsonRequestBehavior.AllowGet);
                     }
-                    else
-                    {
-                        result = Json(new { status = "no", message = "校区添加失败，请重新尝试！" }, JsonRequestBehavior.AllowGet);
-                    }
                 }
+                
             }
             else if (arg == "lib")
             {
