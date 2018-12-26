@@ -4056,6 +4056,7 @@
     <Content Include="Content\Scripts\My97DatePicker\WdatePicker.js.bak" />
     <Content Include="echartjs\echarts-en.js.map" />
     <Content Include="echartjs\echarts.js.map" />
+    <None Include="Properties\PublishProfiles\a.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
