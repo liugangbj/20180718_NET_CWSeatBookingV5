@@ -1,0 +1,34 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>TestLoading</title>
+    <style type="text/css">
+        #loading {
+            z-index: 1;
+            padding: 5px 0 5px 29px;
+            background: url(images/loading.gif) no-repeat 10px top;
+            left: 0;
+            top: 0;
+            width: 90px;
+            position: fixed;
+            height: 21px;
+        }
+    </style>
+    <script type="text/javascript" src="/quickui/libs/js/jquery.js"></script>
+</head>
+<body>
+    <div id="loading"></div>
+
+
+    <script type="text/javascript">
+        $("#loading").fadeOut();
+    </script>
+</body>
+</html>

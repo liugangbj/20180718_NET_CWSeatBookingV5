@@ -90,6 +90,9 @@
                         } else {
                             top.Toast('showErrorToast', data.message);
                         }
+                    },
+                    error: function (data) {
+                        top.Toast('showErrorToast', "网络异常，请联系管理员");
                     }
                 });
 

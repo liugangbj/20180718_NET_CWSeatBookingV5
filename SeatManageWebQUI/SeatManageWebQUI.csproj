@@ -253,6 +253,7 @@
     <Compile Include="Controllers\FunctionPages\SeatMonitorController.cs" />
     <Compile Include="Controllers\FunctionPages\StatisticalController.cs" />
     <Compile Include="Controllers\FunctionPages\SystemSetController.cs" />
+    <Compile Include="Controllers\FunctionPages\TestController.cs" />
     <Compile Include="Controllers\FunctionPages\UsersManageController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Login\LoginController.cs" />
@@ -2110,6 +2111,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="images\loading.gif" />
     <Content Include="lib\DotNetCasClient.dll" />
     <Content Include="lib\ExtAspNet.dll" />
     <Content Include="lib\FineUI.dll" />
@@ -4151,6 +4153,7 @@
     <Content Include="Views\LogManage\AddNewViolate.cshtml" />
     <Content Include="Views\LogManage\AddNewBlack.cshtml" />
     <Content Include="Views\home\IndexData.cshtml" />
+    <Content Include="Views\Test\TestLoading.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
