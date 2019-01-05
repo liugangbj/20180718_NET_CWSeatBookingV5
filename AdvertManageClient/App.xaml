@@ -14,7 +14,7 @@
                 <ResourceDictionary Source="MyDictionary/UC_SystemManageFormDictionary.xaml"/>-->
 
                 <!--<ResourceDictionary Source="MyDictionary/LoginWindowDictionary.xaml"/>-->
-                <!--<ResourceDictionary Source="MyDictionary/MainWindowDictionary.xaml"/>-->
+                <!--<ResourceDictionary Source="MyDictionary/MainWindowDictionary.xaml"/>--> 
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
