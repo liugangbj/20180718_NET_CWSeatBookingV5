@@ -17,12 +17,12 @@
         <Viewbox>
             <Grid Height="300" Width="520">
                 <Rectangle Margin="5,5,5,5" Stroke="White"  StrokeThickness="3" RadiusX="5" RadiusY="5" />
-                <TextBlock HorizontalAlignment="Center" Margin="260,0,0,10" TextWrapping="Wrap" Text="座位签到" VerticalAlignment="Bottom" Style="{DynamicResource TextBlock_White_XS}"/>
-                <TextBlock HorizontalAlignment="Center" Margin="260,10,0,0" TextWrapping="Wrap" Text="民图微信公众号" VerticalAlignment="Top" Style="{DynamicResource TextBlock_White_XS}"/>
-                <TextBlock HorizontalAlignment="Center" Margin="0,10,260,0" TextWrapping="Wrap" Text="扫一扫" VerticalAlignment="Top" Style="{DynamicResource TextBlock_White_XS}"/>
-                <TextBlock HorizontalAlignment="Center" Margin="0,0,260,10" TextWrapping="Wrap" Text="关注选座系统微信" VerticalAlignment="Bottom" Style="{DynamicResource TextBlock_White_XS}"/>
-                <Image Height="230" Margin="20,35,35,0" Source="Resources/Background/JuneberryWeiCharCode.jpg" HorizontalAlignment="Left" Width="230" VerticalAlignment="Top"/>
-                <!--<Image Height="230" Margin="271,36,0,0" Source="Resources/Background/weixin.jpg" HorizontalAlignment="Left" Width="230" VerticalAlignment="Top"/>-->
+                <!--<TextBlock HorizontalAlignment="Center" Margin="260,0,0,10" TextWrapping="Wrap" Text="座位签到" VerticalAlignment="Bottom" Style="{DynamicResource TextBlock_White_XS}"/>-->
+                <TextBlock HorizontalAlignment="Center" Margin="260,10,0,0" TextWrapping="Wrap" Text="微信公众号" VerticalAlignment="Top" Style="{DynamicResource TextBlock_White_XS}"/>
+                <!--<TextBlock HorizontalAlignment="Center" Margin="0,10,260,0" TextWrapping="Wrap" Text="扫一扫" VerticalAlignment="Top" Style="{DynamicResource TextBlock_White_XS}"/>-->
+                <!--<TextBlock HorizontalAlignment="Center" Margin="0,0,260,10" TextWrapping="Wrap" Text="关注选座系统微信" VerticalAlignment="Bottom" Style="{DynamicResource TextBlock_White_XS}"/>-->
+                <!--<Image Height="230" Margin="20,35,35,0" Source="Resources/Background/weixin.jpg" HorizontalAlignment="Left" Width="230" VerticalAlignment="Top"/>-->
+                <Image Height="230" Margin="271,36,0,0" Source="Resources/Background/JuneberryWeiCharCode.jpg" HorizontalAlignment="Left" Width="230" VerticalAlignment="Top"/>
                 <Rectangle Margin="0,20,20,20" HorizontalAlignment="Right" x:Name="imgCode" Height="230" Width="230"/>
             </Grid>
         </Viewbox>

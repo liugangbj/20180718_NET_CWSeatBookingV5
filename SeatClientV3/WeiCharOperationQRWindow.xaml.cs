@@ -31,7 +31,7 @@ namespace SeatClientV3
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            viewModel.CodeChange += viewModel_CodeChange;
+          //  viewModel.CodeChange += viewModel_CodeChange;
             viewModel.CheckCodeRun();
         }
         /// <summary>
