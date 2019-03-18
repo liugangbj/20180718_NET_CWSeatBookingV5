@@ -75,8 +75,10 @@ namespace AppWebService
                // IMobileAppDataObtianProxy obtainProxy = new MobileAppDataWCFProxy("20171203");
                 string r = obtainProxy.GetUserInfo(studentNo);
                 obtainProxy.Dispose();
+                WriteLog.Write(r);
                 return r;
             }
+            WriteLog.Write("权限验证失败");
             AJM_HandleResult result = new AJM_HandleResult();
             result.Result = false;
             result.Msg = "权限验证失败!";

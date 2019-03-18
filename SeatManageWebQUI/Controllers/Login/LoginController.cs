@@ -14,6 +14,8 @@ namespace SeatManageWebQUI.Controllers.Login
             return View("Login");
         }
 
+        
+
 
         public JsonResult CheckLogin(string username,string password)
         {
