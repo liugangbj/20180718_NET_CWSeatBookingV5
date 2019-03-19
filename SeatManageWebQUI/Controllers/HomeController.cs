@@ -15,7 +15,6 @@ namespace SeatManageWebQUI.Controllers
 
         public ActionResult Index()
         {
-             
             string str = LoadData();
             ViewBag.listTree = str;
             return View();
