@@ -387,8 +387,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.config" />
-    <Resource Include="bin\Debug\方正综艺简体.TTF" />
-    <Resource Include="bin\Debug\汉仪超粗宋简.ttf" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -537,15 +535,14 @@
     <Resource Include="Image\chuwei.png" />
     <Resource Include="Resources\Elevator.png" />
     <Resource Include="Resources\Stairway.png" />
-    <Resource Include="bin\Debug\CodeImage.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
     <Resource Include="app.ico" />
-    <Content Include="bin\Debug\ffmpeg.exe" />
     <Resource Include="Resources\ResourceImage.png" />
     <Resource Include="Resources\CodeImage.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Debug\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
