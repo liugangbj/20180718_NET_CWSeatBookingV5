@@ -95,7 +95,7 @@ namespace SeatManage.ClassModel
         }
         private DataTable _SeatSelect = new DataTable();
         /// <summary>
-        /// 在座时长
+        /// 选座方式
         /// </summary>
         public DataTable SeatSelect
         {
@@ -104,7 +104,7 @@ namespace SeatManage.ClassModel
         }
         private DataTable _SeatLeave = new DataTable();
         /// <summary>
-        /// 在座时长
+        /// 离开方式
         /// </summary>
         public DataTable SeatLeave
         {

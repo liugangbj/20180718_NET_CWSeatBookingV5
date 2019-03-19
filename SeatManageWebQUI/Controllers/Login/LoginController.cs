@@ -11,9 +11,13 @@ namespace SeatManageWebQUI.Controllers.Login
         // GET: Login
         public ActionResult Index()
         {
+            var msg = TempData["msg"];
+            if (msg != null)
+            {
+                ViewData["msg"] = msg;
+            }
             return View("Login");
         }
-
 
         public JsonResult CheckLogin(string username,string password)
         {

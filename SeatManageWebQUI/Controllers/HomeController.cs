@@ -267,10 +267,19 @@ namespace SeatManageWebQUI.Controllers
 
         public ActionResult LoginOut()
         {
-            Session.Clear();
-            Response.Write("<script>location.href='/Login'</script>");
-            Response.End();
-            return View("/Login");
+            if (Session["casLogin"] != null && Session["casLogin"].ToString() == "1")
+            {
+                Session.Clear();
+                return Redirect("http://ids.xmu.edu.cn/authserver/logout?service=https://lib.xmu.edu.cn/seat/xmulogin");
+            }
+            else
+            {
+                Session.Clear();
+                Response.Write("<script>location.href='/Login'</script>");
+                Response.End();
+                return View("/Login");
+            }
+            
         }
     }
 }

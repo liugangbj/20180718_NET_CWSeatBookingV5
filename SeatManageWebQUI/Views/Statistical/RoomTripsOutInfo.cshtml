@@ -10,14 +10,16 @@
     <meta name="viewport" content="width=device-width" />
     <title>RoomTripsOutInfo</title>
     <!--框架必需start-->
-    <script type="text/javascript" src="~/quickui/libs/js/jquery.js"></script>
-    <script type="text/javascript" src="~/quickui/libs/js/language/cn.js"></script>
-    <script type="text/javascript" src="~/quickui/libs/js/framework.js"></script>
+    
     <link href="~/quickui/libs/css/import_basic.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" id="skin" prePath="~/quickui/" />
     <link rel="stylesheet" type="text/css" id="customSkin" />
+    <link href="/quickui/libs/js/tree/ztree/ztree.css" rel="stylesheet" type="text/css" />
     <!--框架必需end-->
     <link rel="stylesheet" type="text/css" href="~/quickui/style/style.css" />
+    <script type="text/javascript" src="~/quickui/libs/js/jquery.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/language/cn.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/framework.js"></script>
     <script src="~/quickui/libs/js/table/quiGrid.js" type="text/javascript"></script>
     <!--引入提示组件start-->
     <script type="text/javascript" src="/quickui/libs/js/popup/toast.js"></script>
@@ -25,33 +27,148 @@
     <!--引入提示组件end-->
     <!--树组件start -->
     <script type="text/javascript" src="/quickui/libs/js/tree/ztree/ztree.js"></script>
-    <link href="/quickui/libs/js/tree/ztree/ztree.css" rel="stylesheet" type="text/css" />
+    
     <!--树组件end -->
     <!--布局控件start-->
     <script type="text/javascript" src="/quickui/libs/js/nav/layout.js"></script>
     <!--布局控件end-->
     <script src="/quickui/libs/js/form/validationRule.js" type="text/javascript"></script>
     <script src="/quickui/libs/js/form/validation.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/quickui/libs/js/form/datePicker/WdatePicker.js"></script>
+    <script src="/echartjs/echarts.min.js" type="text/javascript"></script>
+    <style>
+        .check1 {
+            position:initial !important;
+            margin-left:20px;
+        }
+    </style>
+    <script>
+        $(function () {
+            $("#selLibrary").change(function () {
+                binReadRoom();
+            });
+            binReadRoom();
+        });
 
-    <script src="/echartjs/echarts.min.js" type="text/javascript"></script>
-    <script src="/echartjs/echarts.min.js" type="text/javascript"></script>
+        //绑定阅览室
+        var binReadRoom = function () {
+            var selLib = $("#selLibrary").val();
+            if (selLib) {
+                $.post("@Url.Action("ReadingRoomBinding")", { libNo: selLib }, function (data) {
+                    if (data) {
+                        $("#readingRoom").html(data);
+                    }
+                });
+            }
+        }
+    </script>
 </head>
 <body>
-    <div id="main" style="width: 600px;height:400px;"></div>
+    <table>
+            <tr align="center">
+                <td>
+                    <span class="style2">阅览室进出人次统计（天-每小时）</span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <span class="style1">查询注意事项：</span><br />
+                    <span class="style1">1、在未勾选阅览室的情况下查出的数据是整个图书馆的数据</span><br />
+                    <span class="style1">2、自动排除没有记录的日期，不加入统计。如果只有2个月的数据，时间范围是1年，计算时按照2个月的范围计算</span><br />
+                    <span class="style1">3、统计平均每天的每小时进出人次，查看每小时选座或离开的人流量</span><br />
+                    <span class="style1">4、勾选多个阅览室可以对多个阅览室进行单独计算并对数据进行对比</span><br />
+                    <span class="style1">5、勾选统计“统计入座人次”或“统计离开人次”分别查看或进行数据对比</span>
+                </td>
+            </tr>
+            <tr align="center">
+                <td colspan="2">
+                    <span id="Span3" class="style3" >统计条件设置</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="style1">统计日期 从</span>
+                    <input type="text" dateFmt="yyyy/MM/dd" placeholder="开始日期" class="date" id="beginDate" name="beginDate" />
+                    <span class="style1">到</span>
+                    <input type="text" dateFmt="yyyy/MM/dd" placeholder="截止日期" class="date" id="endDate" name="beginDate" />
+                    <span class="style1">
+                        选择图书馆:
+                        <select ID="selLibrary">
+                            @{
+                                var libList = ViewData["libList"] as List<SeatManage.ClassModel.LibraryInfo>;
+                                if (libList != null && libList.Count > 0)
+                                {
+                                    int i = 0;
+                                    foreach (var item in libList)
+                                    {
+                                        i++;
+                                        <option value="@item.No">@item.Name</option>
+                                    }
+                                }
+                            }
+                        </select>
+                    </span>
+                    <button ID="btn1" OnClick="showCharts()" >开始统计</button>
+                    <button ID="btn2" OnClick="loadExcel()" >导出Excel</button>
+                </td>
+            </tr>
+            <tr>
+                <td align="left">
+                    <label><input type="CheckBox" ID="cbonseat" value="" class="check1"/>统计在座人数</label>
+                    <label><input type="CheckBox" ID="cbselect" value="" class="check1"/>统计入座人次</label>
+                    <label><input type="CheckBox" ID="cbleave"  value="" class="check1"/>统计离开人次</label>
+                </td>
+            </tr>
+            <tr>
+                <td align="left" id="readingRoom">
+
+                </td>
+            </tr>
+        </table>
+    <div id="main" style="width: 99%;height:600px;"></div>
     <script>
-        // 绘制图表。
-        echarts.init(document.getElementById('main')).setOption({
-            series: {
-                type: 'pie',
-                data: [
-                    {name: 'A', value: 1212},
-                    {name: 'B', value: 2323},
-                    {name: 'C', value: 1919}
-                ]
+        function showCharts() {
+            var url = "@Url.Action("HourChartDataBinding")";
+            var begin = $("#beginDate").val();
+            var end = $("#endDate").val();
+            var libNo = $("#selLibrary").val();
+            var cbonseat = "";
+            var cbselect = "";
+            var cbleave = "";
+            if ($("#cbonseat").prop('checked')) {
+                cbonseat = "1";
             }
-        });
+            if ($("#cbselect").prop('checked')) {
+                cbselect = "1";
+            }
+            if ($("#cbleave").prop('checked')) {
+                cbleave = "1";
+            }
+            var roomStr = "";
+            $("#readingRoom input").each(function (index, element) {
+                if ($(element).prop('checked')) {
+                    roomStr += "," + $(element).val();
+                }
+            });
+            var data = { begin: begin, end: end, libNo: libNo, roomStr: roomStr, cbonseat: cbonseat, cbselect: cbselect, cbleave: cbleave };
+            $.post(url,data, function (result) {
+                if (result.data) {
+                    var obj = eval('(' + result.data + ')');
+                    option = obj;
+                    myChart.setOption(option);
+                }
+                else {
+                    top.Toast("showErrorToast", result.msg);
+                }
+            });
+        }
+
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+        var option = "";
     </script>
 
+    
 
 </body>
 </html>

@@ -1,6 +1,7 @@
 ﻿
 @{
     Layout = null;
+    var msg = ViewData["msg"];
 }
 
 <!DOCTYPE html>
@@ -49,7 +50,9 @@
                 <div class="remember clear">
                     @*<a href="javascript:;">忘记密码？</a>*@
                 </div>
-                <input type="button" id="btnLogin" value="登 录" class="submit" />
+                <input type="button" id="btnLogin" value="登 录" class="submit"/>
+
+                <a type="button" href="http://ids.xmu.edu.cn/authserver/login?service=https://lib.xmu.edu.cn/seat/xmulogin" id="casLogin" class="submit" style="background:url(/images/open_xmu_48.png) no-repeat;border:0px;margin-top:5px;background-size: 100% 40px; "></a>
 
                 <div class="login_copy">
                     <a href="http://library.xmu.edu.cn" target="_blank">官方网站：http://library.xmu.edu.cn</a>
@@ -63,6 +66,12 @@
     </div>
 
     <script>
+        $(function () {
+            var msg = "@msg";
+            if (msg) {
+                top.Toast('showErrorToast', msg);
+            }
+        });
 
         $("#btnLogin").click(function () {
           
@@ -78,7 +87,7 @@
                 return false;
             } else {
                 $.ajax({
-                    url: "/Login/CheckLogin",
+                    url: "@Url.Action("CheckLogin")",
                     data: { username: $.trim($username.val()), password: $password.val() },
                     type: "post",
                     dataType: "json",
@@ -96,13 +105,12 @@
                         top.Toast('showErrorToast', "网络异常，请联系管理员");
                     }
                 });
-
             }
-
-
-
         });
 
+        /*$("#casLogin").click(function () {
+            //window.href = "http://ids.xmu.edu.cn/authserver/login?service=https://lib.xmu.edu.cn/seat/xmulogin";
+        });*/
     </script>
 </body>
 </html>

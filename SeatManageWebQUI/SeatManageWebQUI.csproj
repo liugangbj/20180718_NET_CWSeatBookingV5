@@ -258,10 +258,12 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Login\LoginController.cs" />
     <Compile Include="Controllers\Menu\MenuController.cs" />
+    <Compile Include="Controllers\xmuloginController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\CasReturnModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -2112,6 +2114,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="images\loading.gif" />
+    <Content Include="images\open_xmu_48.png" />
     <Content Include="lib\DotNetCasClient.dll" />
     <Content Include="lib\ExtAspNet.dll" />
     <Content Include="lib\FineUI.dll" />
@@ -4154,10 +4157,13 @@
     <Content Include="Views\LogManage\AddNewBlack.cshtml" />
     <Content Include="Views\home\IndexData.cshtml" />
     <Content Include="Views\Test\TestLoading.cshtml" />
+    <Content Include="Views\xmulogin\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="echartjs\extension\" />
+    <Folder Include="Views\Seat\" />
+    <Folder Include="Views\serviceValidate\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -4195,6 +4201,10 @@
     <ProjectReference Include="..\SeatManageComm\SeatManageComm.csproj">
       <Project>{19063808-3340-4563-8b40-573d8dd0baba}</Project>
       <Name>SeatManageComm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SeatManageWebV5\SeatManageWebV5.csproj">
+      <Project>{3F0B8A69-1941-4B8E-B465-A419D71A90C7}</Project>
+      <Name>SeatManageWebV5</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
