@@ -72,7 +72,7 @@
                 <tr>
                     <td>所属校区：</td>
                     <td>
-                        <select id="selectSchool" name="selectSchool" url="/SchoolInfoManage/GetSelectSchool" ></select>
+                        <select id="selectSchool" name="selectSchool" url="@Url.Action("GetSelectSchool","SchoolInfoManage")" ></select>
                     </td>
                 </tr>
             </table>
@@ -94,7 +94,7 @@
                 <tr>
                     <td>所属图书馆：</td>
                     <td>
-                        <select id="selectLib" onchange="libChange();" name="selectLib" url="/SchoolInfoManage/GetSelectLib"></select>
+                        <select id="selectLib" onchange="libChange();" name="selectLib" url="@Url.Action("GetSelectLib","SchoolInfoManage")"></select>
                     </td>
                 </tr>
                 <tr>
