@@ -22,8 +22,8 @@
     <script src="~/quickui/libs/js/table/quiGrid.js" type="text/javascript"></script>
 
     <!--引入提示组件start-->
-    <script type="text/javascript" src="/quickui/libs/js/popup/toast.js"></script>
-    <script type="text/javascript" src="/quickui/libs/js/popup/notice.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/popup/toast.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/popup/notice.js"></script>
     <!--引入提示组件end-->
 </head>
 <body>
@@ -117,7 +117,7 @@
 
 			    var diag = new top.Dialog();
 			    diag.Title = "新增功能";
-			    diag.URL = "/SystemSet/AddOrEditingFunc?Op=add&ModSeq=0";
+			    diag.URL = "@Url.Action("AddOrEditingFunc", "SystemSet")"+"?Op=add&ModSeq=0";
 			    diag.Width=400;
 			    diag.Height=200;
 			    diag.OkButtonText = "保存并新建";
@@ -140,7 +140,7 @@
 			    }else{
 			        var diag = new top.Dialog();
 			        diag.Title = "编辑功能";
-			        diag.URL = "/SystemSet/AddOrEditingFunc?Op=Edit&ModSeq="+selectData.ModSeq;
+			        diag.URL = "@Url.Action("AddOrEditingFunc", "SystemSet")"+"?Op=Edit&ModSeq="+selectData.ModSeq;
 			        diag.Width=400;
 			        diag.Height=200;
 			        diag.OkButtonText = "保 存";
@@ -167,13 +167,13 @@
 			        top.Dialog.confirm("确认删除"+selectData.ModSeq+"编号的记录吗",
 			            function(){
 			                $.ajax({
-			                    url: "/SystemSet/RemoveItem",
+			                    url: "@Url.Action("RemoveItem", "SystemSet")",
 			                    data: { ModSeq: selectData.ModSeq },
 			                    type: "post",
 			                    dataType: "json",
 			                    success: function (data) {
 			                        if (data.status == "yes") {
-			                            location.href='/SystemSet/FunctionPagesManage'
+			                            location.href='@Url.Action("FunctionPagesManage", "SystemSet")'
 			                            top.Toast('showSuccessToast', data.message);
 			                        } else {
 			                            top.Toast('showErrorToast', data.message);

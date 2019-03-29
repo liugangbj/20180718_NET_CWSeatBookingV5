@@ -2031,6 +2031,7 @@
     <Content Include="Content\Images\Pad\onTime.png" />
     <Content Include="Content\Images\Pad\pink.png" />
     <Content Include="Content\Images\Pad\SeatOnTime.png" />
+    <Content Include="Content\Images\Process.png" />
     <Content Include="Content\Images\SeatImage\btn_busy.png" />
     <Content Include="Content\Images\SeatImage\btn_busy_p.png" />
     <Content Include="Content\Images\SeatImage\btn_free.png" />
@@ -4157,13 +4158,13 @@
     <Content Include="Views\LogManage\AddNewBlack.cshtml" />
     <Content Include="Views\home\IndexData.cshtml" />
     <Content Include="Views\Test\TestLoading.cshtml" />
-    <Content Include="Views\xmulogin\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="echartjs\extension\" />
     <Folder Include="Views\Seat\" />
     <Folder Include="Views\serviceValidate\" />
+    <Folder Include="Views\xmulogin\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

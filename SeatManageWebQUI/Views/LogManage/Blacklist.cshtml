@@ -20,12 +20,12 @@
     <link rel="stylesheet" type="text/css" href="~/quickui/style/style.css" />
     <script src="~/quickui/libs/js/table/quiGrid.js" type="text/javascript"></script>
     <!--引入提示组件start-->
-    <script type="text/javascript" src="/quickui/libs/js/popup/toast.js"></script>
-    <script type="text/javascript" src="/quickui/libs/js/popup/notice.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/popup/toast.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/popup/notice.js"></script>
     <!--引入提示组件end-->
     <script type="text/javascript" src="/quickui/libs/js/form/datePicker/WdatePicker.js"></script>
-    <script src="/quickui/libs/js/form/validationRule.js" type="text/javascript"></script>
-    <script src="/quickui/libs/js/form/validation.js" type="text/javascript"></script>
+    <script src="~/quickui/libs/js/form/validationRule.js" type="text/javascript"></script>
+    <script src="~/quickui/libs/js/form/validation.js" type="text/javascript"></script>
 </head>
 <body>
     <div class="page_content">
@@ -109,7 +109,7 @@
             top.Dialog.confirm("确认移除所选中黑名单记录吗（并不会真正删除，只是使记录无效）",
             function () {
                 $.ajax({
-                    url: "/LogManage/BlackRemoveAll",
+                    url: "@Url.Action("BlackRemoveAll", "LogManage")",
                     data: { IDs: ids },
                     type: "post",
                     dataType: "json",
@@ -130,7 +130,7 @@
             top.Dialog.confirm("确认取消这条违规记录吗（并不会真正删除，只是使此条记录无效）",
                 function () {
                     $.ajax({
-                        url: "/LogManage/BlackRemove",
+                        url: "@Url.Action("BlackRemove", "LogManage")",
                         data: { ID: ID },
                         type: "post",
                         dataType: "json",
@@ -150,7 +150,7 @@
         {
             var diag = new top.Dialog();
             diag.Title = '新增黑名单记录';
-            diag.URL = "/LogManage/AddNewBlack";
+            diag.URL = "@Url.Action("AddNewBlack", "LogManage")";
             diag.Width = 500;
             diag.Height = 300;
             diag.OkButtonText = "保 存";
@@ -235,7 +235,7 @@
 
         function searchHandler() {
             $.ajax({
-                url: "/LogManage/GetBlackData", //你的路由地址
+                url: "@Url.Action("GetBlackData", "LogManage")", //你的路由地址
                 type: "post",
                 dataType: "text",
                 data: $("#queryForm").serialize(),

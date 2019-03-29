@@ -20,18 +20,18 @@
     <link rel="stylesheet" type="text/css" href="~/quickui/style/style.css" />
     <script src="~/quickui/libs/js/table/quiGrid.js" type="text/javascript"></script>
     <!--引入提示组件start-->
-    <script type="text/javascript" src="/quickui/libs/js/popup/toast.js"></script>
-    <script type="text/javascript" src="/quickui/libs/js/popup/notice.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/popup/toast.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/popup/notice.js"></script>
     <!--引入提示组件end-->
     <!--树组件start -->
-    <script type="text/javascript" src="/quickui/libs/js/tree/ztree/ztree.js"></script>
-    <link href="/quickui/libs/js/tree/ztree/ztree.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="~/quickui/libs/js/tree/ztree/ztree.js"></script>
+    <link href="~/quickui/libs/js/tree/ztree/ztree.css" rel="stylesheet" type="text/css" />
     <!--树组件end -->
     <!--布局控件start-->
-    <script type="text/javascript" src="/quickui/libs/js/nav/layout.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/nav/layout.js"></script>
     <!--布局控件end-->
-    <script src="/quickui/libs/js/form/validationRule.js" type="text/javascript"></script>
-    <script src="/quickui/libs/js/form/validation.js" type="text/javascript"></script>
+    <script src="~/quickui/libs/js/form/validationRule.js" type="text/javascript"></script>
+    <script src="~/quickui/libs/js/form/validation.js" type="text/javascript"></script>
 </head>
 <body>
     <div style="padding-left:5px;" id="divSchoolForm">
@@ -137,7 +137,7 @@
         function libChange() {
             var selectLibNo = $("#selectLib").val();
             $.ajax({
-                url: "/SchoolInfoManage/GetSelectArea?libNo=" + selectLibNo, //你的路由地址
+                url: "@Url.Action("GetSelectArea", "SchoolInfoManage")"+"?libNo=" + selectLibNo, //你的路由地址
                 type: "post",
                 dataType: "text",
                 timeout: 30000,
@@ -162,7 +162,7 @@
 
             if (valid) {
                 $.ajax({
-                    url: "/SchoolInfoManage/SaveAddNew?arg=" + arg, //你的路由地址
+                    url: "@Url.Action("SaveAddNew", "SchoolInfoManage")"+"?arg=" + arg, //你的路由地址
                     type: "post",
                     dataType: "json",
                     data: $("#form" + formIndex).serialize(),

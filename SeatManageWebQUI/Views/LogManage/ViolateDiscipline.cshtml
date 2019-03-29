@@ -20,12 +20,12 @@
     <link rel="stylesheet" type="text/css" href="~/quickui/style/style.css" />
     <script src="~/quickui/libs/js/table/quiGrid.js" type="text/javascript"></script>
     <!--引入提示组件start-->
-    <script type="text/javascript" src="/quickui/libs/js/popup/toast.js"></script>
-    <script type="text/javascript" src="/quickui/libs/js/popup/notice.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/popup/toast.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/popup/notice.js"></script>
     <!--引入提示组件end-->
-    <script type="text/javascript" src="/quickui/libs/js/form/datePicker/WdatePicker.js"></script>
-    <script src="/quickui/libs/js/form/validationRule.js" type="text/javascript"></script>
-    <script src="/quickui/libs/js/form/validation.js" type="text/javascript"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/form/datePicker/WdatePicker.js"></script>
+    <script src="~/quickui/libs/js/form/validationRule.js" type="text/javascript"></script>
+    <script src="~/quickui/libs/js/form/validation.js" type="text/javascript"></script>
 </head>
 <body>
     <div class="page_content">
@@ -43,7 +43,7 @@
                         </td>
                         <td>阅览室</td>
                         <td>
-                            <select url="/LogManage/GetRoomData" id="selectRooms" name="selectRooms"></select>
+                            <select url="@Url.Action("GetRoomData","LogManage")" id="selectRooms" name="selectRooms"></select>
                         </td>
                         <td>黑名单状态</td>
                         <td>
@@ -127,7 +127,7 @@
         {
             var diag = new top.Dialog();
             diag.Title = '新增违规记录';
-            diag.URL = "/LogManage/AddNewViolate";
+            diag.URL = "@Url.Action("AddNewViolate", "LogManage")";
             diag.Width = 450;
             diag.Height = 250;
             diag.OkButtonText = "保 存";
@@ -231,7 +231,7 @@
             top.Dialog.confirm("确认取消所选中违规记录吗（并不会真正删除，只是使记录无效）",
             function () {
                 $.ajax({
-                    url: "/LogManage/ViolateRemoveAll",
+                    url: "@Url.Action("ViolateRemoveAll", "LogManage")",
                     data: { ViolateIDs: ids },
                     type: "post",
                     dataType: "json",
@@ -252,7 +252,7 @@
             top.Dialog.confirm("确认取消这条违规记录吗（并不会真正删除，只是使此条记录无效）",
                 function () {
                     $.ajax({
-                        url: "/LogManage/ViolateRemove",
+                        url: "@Url.Action("ViolateRemove", "LogManage")",
                         data: { ViolateID: ID },
                         type: "post",
                         dataType: "json",
@@ -270,7 +270,7 @@
 
         function searchHandler() {
             $.ajax({
-                url: "/LogManage/GetViolateData", //你的路由地址
+                url: "@Url.Action("GetViolateData", "LogManage")", //你的路由地址
                 type: "post",
                 dataType: "text",
                 data: $("#queryForm").serialize(),

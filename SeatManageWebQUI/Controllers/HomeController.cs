@@ -165,7 +165,7 @@ namespace SeatManageWebQUI.Controllers
             {
                 if (!IsLogin())
                 {
-                    Response.Write("<html><head><title>系统安全提示</title><script>alert('当前登录账户已经超时，请重新登录');location.href='/Login'</script></head><body></body></html>");
+                    Response.Write("<html><head><title>系统安全提示</title><script>alert('当前登录账户已经超时，请重新登录');location.href='" + Url.Action("Index", "Login") + "'</script></head><body></body></html>");
                     Response.End();
                 }
 
@@ -241,7 +241,7 @@ namespace SeatManageWebQUI.Controllers
                 menuString.Append("	{ \"id\":\""+ item.MenuID+ "\", \"parentId\":\"0\", \"name\":\"" + item.MenuName+"\", \"isParent\": \"true\",\"backgroundPosition\":\"0px - 80px\",\"img\":\"./ skin / topIcons / icon01.png\"},");
                 foreach (SysMenuInfo subItem in item.ChildMenu)
                 {
-                    menuString.Append("{ \"id\":\""+subItem.MenuID+"\", \"parentId\":\""+item.MenuID+"\", \"name\":\""+ subItem.MenuName+ "\",\"url\":\"/"+ subItem.MenuLink+"\", \"target\":\"frmright\",\"icon\": \"./ skin / nav_icon_bg.png\",\"backgroundPosition\":\"0px - 128px\"},");
+                    menuString.Append("{ \"id\":\""+subItem.MenuID+"\", \"parentId\":\""+item.MenuID+"\", \"name\":\""+ subItem.MenuName+ "\",\"url\":\"/"+ subItem.MenuLink+"\", \"target\":\"frmright\",\"icon\": \"./skin/nav_icon_bg.png\",\"backgroundPosition\":\"0px - 128px\"},");
                 }
             }
             string str = menuString.ToString().TrimEnd(',');
@@ -275,7 +275,7 @@ namespace SeatManageWebQUI.Controllers
             else
             {
                 Session.Clear();
-                Response.Write("<script>location.href='/Login'</script>");
+                Response.Write("<script>location.href='"+Url.Action("Index","Login")+"'</script>");
                 Response.End();
                 return View("/Login");
             }

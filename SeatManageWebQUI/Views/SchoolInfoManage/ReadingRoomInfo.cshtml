@@ -22,8 +22,8 @@
     <script src="~/quickui/libs/js/table/quiGrid.js" type="text/javascript"></script>
 
     <!--引入提示组件start-->
-    <script type="text/javascript" src="/quickui/libs/js/popup/toast.js"></script>
-    <script type="text/javascript" src="/quickui/libs/js/popup/notice.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/popup/toast.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/popup/notice.js"></script>
     <!--引入提示组件end-->
 </head>
 <body>
@@ -121,7 +121,7 @@
 			    }else{
 			        var diag = new top.Dialog();
 			        diag.Title = "阅览室设置";
-			        diag.URL = "/SchoolInfoManage/ReadingRoomSetting?id="+selectData.No;
+			        diag.URL = "@Url.Action("ReadingRoomSetting", "SchoolInfoManage")"+"?id="+selectData.No;
 			        diag.Width=1200;
 			        diag.Height=800;
 			        diag.OkButtonText = "保 存";

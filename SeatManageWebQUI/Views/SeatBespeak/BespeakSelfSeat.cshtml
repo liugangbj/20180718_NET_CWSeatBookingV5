@@ -20,8 +20,8 @@
     <link rel="stylesheet" type="text/css" href="~/quickui/style/style.css" />
     <script src="~/quickui/libs/js/table/quiGrid.js" type="text/javascript"></script>
     <!--引入提示组件start-->
-    <script type="text/javascript" src="/quickui/libs/js/popup/toast.js"></script>
-    <script type="text/javascript" src="/quickui/libs/js/popup/notice.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/popup/toast.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/popup/notice.js"></script>
     <!--引入提示组件end-->
 </head>
 <body>
@@ -31,19 +31,19 @@
                 <div class="right">
                     <a href="javascript:btnDelayTimeEnabledClick();" id="btnDelayTimeEnabled" >
                         <div class="navIconTool" onclick="top.Toast('showNoticeToast', '搜索')">
-                            <img src="/lib/delayseat.png" /><br />
+                            <img src="~/lib/delayseat.png" /><br />
                             座位续时
                         </div>
                     </a>
                     <a href="javascript:btnShortLeaveEnabledClick();" id="btnShortLeaveEnabled">
                         <div class="navIconTool" onclick="top.Toast('showNoticeToast', '应用')">
-                            <img src="/lib/shortleaveseat.png" /><br />
+                            <img src="~/lib/shortleaveseat.png" /><br />
                             座位暂离
                         </div>
                     </a>
                     <a href="javascript:btnLeaveEnabledClick();" id="btnLeaveEnabled">
                         <div class="navIconTool" onclick="top.Toast('showNoticeToast', '统计')">
-                            <img src="/lib/leaveseat.png" /><br />
+                            <img src="~/lib/leaveseat.png" /><br />
                             座位释放
                         </div>
                     </a>
@@ -76,7 +76,7 @@
             top.Dialog.confirm("确认续时？",
                 function () {
                     $.ajax({
-                        url: "/SeatBespeak/SeatOp?opFlag=delay",
+                        url: "@Url.Action("SeatOp", "SeatBespeak")"+"?opFlag=delay",
                         data: { LoginId: selectData.LoginId },
                         type: "post",
                         dataType: "json",
@@ -100,7 +100,7 @@
             top.Dialog.confirm("确认暂离？",
                 function () {
                     $.ajax({
-                        url: "/SeatBespeak/SeatOp?opFlag=shortLeave",
+                        url: "@Url.Action("SeatOp", "SeatBespeak")"+"?opFlag=shortLeave",
                         data: { LoginId: selectData.LoginId },
                         type: "post",
                         dataType: "json",
@@ -124,7 +124,7 @@
             top.Dialog.confirm("确认离开？",
                 function () {
                     $.ajax({
-                        url: "/SeatBespeak/SeatOp?opFlag=leave",
+                        url: "@Url.Action("SeatOp", "SeatBespeak")"+"?opFlag=leave",
                         data: { LoginId: selectData.LoginId },
                         type: "post",
                         dataType: "json",

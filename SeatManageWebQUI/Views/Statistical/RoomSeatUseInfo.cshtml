@@ -14,7 +14,7 @@
     <link href="~/quickui/libs/css/import_basic.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" id="skin" prePath="~/quickui/" />
     <link rel="stylesheet" type="text/css" id="customSkin" />
-    <link href="/quickui/libs/js/tree/ztree/ztree.css" rel="stylesheet" type="text/css" />
+    <link href="~/quickui/libs/js/tree/ztree/ztree.css" rel="stylesheet" type="text/css" />
     <!--框架必需end-->
     <link rel="stylesheet" type="text/css" href="~/quickui/style/style.css" />
     <script type="text/javascript" src="~/quickui/libs/js/jquery.js"></script>
@@ -22,20 +22,20 @@
     <script type="text/javascript" src="~/quickui/libs/js/framework.js"></script>
     <script src="~/quickui/libs/js/table/quiGrid.js" type="text/javascript"></script>
     <!--引入提示组件start-->
-    <script type="text/javascript" src="/quickui/libs/js/popup/toast.js"></script>
-    <script type="text/javascript" src="/quickui/libs/js/popup/notice.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/popup/toast.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/popup/notice.js"></script>
     <!--引入提示组件end-->
     <!--树组件start -->
-    <script type="text/javascript" src="/quickui/libs/js/tree/ztree/ztree.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/tree/ztree/ztree.js"></script>
 
     <!--树组件end -->
     <!--布局控件start-->
-    <script type="text/javascript" src="/quickui/libs/js/nav/layout.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/nav/layout.js"></script>
     <!--布局控件end-->
-    <script src="/quickui/libs/js/form/validationRule.js" type="text/javascript"></script>
-    <script src="/quickui/libs/js/form/validation.js" type="text/javascript"></script>
-    <script type="text/javascript" src="/quickui/libs/js/form/datePicker/WdatePicker.js"></script>
-    <script src="/echartjs/echarts.min.js" type="text/javascript"></script>
+    <script src="~/quickui/libs/js/form/validationRule.js" type="text/javascript"></script>
+    <script src="~/quickui/libs/js/form/validation.js" type="text/javascript"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/form/datePicker/WdatePicker.js"></script>
+    <script src="~/echartjs/echarts.min.js" type="text/javascript"></script>
     <style>
         .check1 {
             position: initial !important;
@@ -90,9 +90,9 @@
         <tr>
             <td>
                 <span class="style1">统计日期 从</span>
-                <input type="text" dateFmt="yyyy/MM/dd" placeholder="开始日期" class="date" id="beginDate" name="beginDate" />
+                <input type="text" dateFmt="yyyy/MM/dd" placeholder="开始日期" class="date" id="beginDate" name="beginDate" value="@DateTime.Now.AddDays(-2).ToString("yyyy/MM/dd")"/>
                 <span class="style1">到</span>
-                <input type="text" dateFmt="yyyy/MM/dd" placeholder="截止日期" class="date" id="endDate" name="beginDate" />
+                <input type="text" dateFmt="yyyy/MM/dd" placeholder="截止日期" class="date" id="endDate" name="beginDate" value="@DateTime.Now.AddDays(-1).ToString("yyyy/MM/dd")"/>
                 <span class="style1">
                     选择图书馆:
                     <select ID="selLibrary">
@@ -110,20 +110,20 @@
                         }
                     </select>
                 </span>
-                <button ID="btn1" OnClick="showCharts()">开始统计</button>
-                <button ID="btn2" OnClick="loadExcel()">导出Excel</button>
+                <button ID="btn1" class="primary" OnClick="showCharts()">开始统计</button>
+                <button ID="btn2" class="primary" OnClick="ToExcel()">导出Excel</button>
             </td>
         </tr>
         <tr>
             <td align="left" id="readingRoom"></td>
         </tr>
     </table>
-    <div id="main1" style="width: 420px;height:420px;"></div>
-    <div id="main2" style="width: 420px;height:420px;"></div>
-    <div id="main3" style="width: 420px;height:420px;"></div>
+    <div id="main1" style="width: 560px;height:420px;float:left;"></div>
+    <div id="main2" style="width: 560px;height:420px;float:right;"></div>
+    <div id="main3" style="width: 560px;height:420px;float:left;"></div>
     <script>
         function showCharts() {
-            var url = "@Url.Action("ChartDataBinding")";
+            var url = "@Url.Action("SeatUseChartDataBinding")";
             var begin = $("#beginDate").val();
             var end = $("#endDate").val();
             var libNo = $("#selLibrary").val();
@@ -138,25 +138,52 @@
                 if (result) {
                     var data1 = eval('(' + result.data1 + ')');
                     echarts.init(document.getElementById('main1')).setOption({
+                        title: {
+                            text: '选座方式统计',
+                            x: 'center'
+                        },
+                        tooltip: {
+                            trigger: 'item',
+                            formatter: "{a} <br/>{b} : {c} ({d}%)"
+                        },
                         series: {
+                            name: '选座方式',
                             type: 'pie',
-                            data: [data1]
+                            data: data1
                         }
                     });
 
                     var data2 = eval('(' + result.data2 + ')');
                     echarts.init(document.getElementById('main2')).setOption({
+                        title: {
+                            text: '离开方式统计',
+                            x: 'center'
+                        },
+                        tooltip: {
+                            trigger: 'item',
+                            formatter: "{a} <br/>{b} : {c} ({d}%)"
+                        },
                         series: {
+                            name: '离开方式',
                             type: 'pie',
-                            data: [data2]
+                            data: data2
                         }
                     });
 
-                    var data3 = eval('(' + result.data1 + ')');
+                    var data3 = eval('(' + result.data3 + ')');
                     echarts.init(document.getElementById('main3')).setOption({
+                        title: {
+                            text: '在座时长统计',
+                            x: 'center'
+                        },
+                        tooltip: {
+                            trigger: 'item',
+                            formatter: "{a} <br/>{b} : {c} ({d}%)"
+                        },
                         series: {
+                            name: '在座时长',
                             type: 'pie',
-                            data: [data1]
+                            data: data3
                         }
                     });
                 }
@@ -164,6 +191,10 @@
                     top.Toast("showErrorToast", result.msg);
                 }
             });
+        }
+
+        var ToExcel = function () {
+            window.open("@Url.Action("ToExcel")");
         }
     </script>
 </body>

@@ -21,7 +21,7 @@ namespace SeatManageWebQUI.Controllers
 
             if (!IsLogin())
             {
-                Response.Write("<html><head><title>系统安全提示</title><script>alert('您没有权限进行当前操作，请重新选择用户登陆操作');location.href='/Login'</script></head><body></body></html>");
+                Response.Write("<html><head><title>系统安全提示</title><script>alert('您没有权限进行当前操作，请重新选择用户登陆操作');location.href='" + Url.Action("Index", "Login") + "'</script></head><body></body></html>");
                 Response.End();
             }
 
@@ -89,14 +89,18 @@ namespace SeatManageWebQUI.Controllers
                 //string s2 = Request.ServerVariables["HTTP_REFERER"].Trim();//http接收的名称 
                 //string s4 = Request.ServerVariables["HTTP_HOST"].Trim();//类似这样的格式www.ccopus.com 
                 int count = httpHost.Length + 1 + 7;
-                string strFlorms = "home/index";
+                if (httpReferer.IndexOf("https") >= 0)
+                {
+                    count++;
+                }
+                string strFlorms = "seat/home";
                // string strFlorms = "Florms/FormSYS.aspx";//home/index
                 string strGetUrl = httpReferer.Substring(count).ToLower();
                 if (string.IsNullOrEmpty(strGetUrl))
                 {
                     result = true;
                 }
-                if (strGetUrl != strFlorms.ToLower().Trim() && strGetUrl != "home/index")
+                if (strGetUrl != strFlorms.ToLower().Trim() && strGetUrl != "seat/home/index")
                 {
                     result = false;
                     WriteLogs(url);

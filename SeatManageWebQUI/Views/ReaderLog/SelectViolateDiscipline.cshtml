@@ -22,10 +22,10 @@
     <script src="~/quickui/libs/js/table/quiGrid.js" type="text/javascript"></script>
 
     <!--引入提示组件start-->
-    <script type="text/javascript" src="/quickui/libs/js/popup/toast.js"></script>
-    <script type="text/javascript" src="/quickui/libs/js/popup/notice.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/popup/toast.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/popup/notice.js"></script>
     <!--引入提示组件end-->
-    <script type="text/javascript" src="/quickui/libs/js/form/datePicker/WdatePicker.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/form/datePicker/WdatePicker.js"></script>
     <style>
         .oppContent {
             width: 340px;
@@ -168,7 +168,7 @@
             var $selIsInBlack = $("#selIsInBlack").val();
 
             $.ajax({
-                url: "/ReaderLog/ViolateDisciplineGridString",
+                url: "@Url.Action("ViolateDisciplineGridString", "ReaderLog")",
                 data: { beginDateString: $beginDateString,endDateString: $endDateString,roomNoString: $roomNoString,selRecStatus:$selRecStatus,selIsInBlack:$selIsInBlack },
                 type: "post",
                 dataType: "text",

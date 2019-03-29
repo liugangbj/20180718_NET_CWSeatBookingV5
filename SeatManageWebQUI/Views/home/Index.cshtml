@@ -10,27 +10,27 @@
     <meta http-equiv="X-UA-Compatible" content="IE=11" />
     <title></title>
     <!--框架必需start-->
-    <link href="/quickui/libs/css/import_main.css" rel="stylesheet" type="text/css" />
-    <link href="/quickui/libs/skins/blue/style.css" rel="stylesheet" type="text/css" id="theme" themeColor="blue" positionTarget="positionContent" />
-    <link href="/quickui/system/style16_accordion_blue/skin/style.css" rel="stylesheet" type="text/css" id="skin" skinPath="/quickui/system/style16_accordion_blue/skin/" />
-    <script type="text/javascript" src="/quickui/libs/js/jquery.js"></script>
-    <script type="text/javascript" src="/quickui/libs/js/language/cn.js"></script>
-    <script type="text/javascript" src="/quickui/libs/js/main.js"></script>
+    <link href="~/quickui/libs/css/import_main.css" rel="stylesheet" type="text/css" />
+    <link href="~/quickui/libs/skins/blue/style.css" rel="stylesheet" type="text/css" id="theme" themeColor="blue" positionTarget="positionContent" />
+    <link href="~/quickui/system/style16_accordion_blue/skin/style.css" rel="stylesheet" type="text/css" id="skin" skinPath="~/quickui/system/style16_accordion_blue/skin/" />
+    <script type="text/javascript" src="~/quickui/libs/js/jquery.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/language/cn.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/main.js"></script>
     <!--框架必需end-->
     <!--弹窗组件start-->
-    <script type="text/javascript" src="/quickui/libs/js/popup/drag.js"></script>
-    <script type="text/javascript" src="/quickui/libs/js/popup/dialog.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/popup/drag.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/popup/dialog.js"></script>
     <!--弹窗组件end-->
     <!--引入提示组件start-->
-    <script type="text/javascript" src="/quickui/libs/js/popup/toast.js"></script>
-    <script type="text/javascript" src="/quickui/libs/js/popup/notice.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/popup/toast.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/popup/notice.js"></script>
     <!--引入提示组件end-->
     <!--左侧导航start-->
-    <script type="text/javascript" src="/quickui/libs/js/nav/menuNav.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/nav/menuNav.js"></script>
     <!--左侧导航end-->
     <!--信件箱start-->
-    <link rel="stylesheet" type="text/css" href="/quickui/libs/skins/blue/msgbox.css" />
-    <script type="text/javascript" src="/quickui/libs/js/popup/msgbox.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/quickui/libs/skins/blue/msgbox.css" />
+    <script type="text/javascript" src="~/quickui/libs/js/popup/msgbox.js"></script>
     <!--信件箱end-->
 
     <style>
@@ -104,7 +104,7 @@
                                     <div class="clear"></div>
                                 </div>
                                 <div class="logo_win">
-                                    <img src="/quickui/system/style16_accordion_blue/skin/logo.png" />
+                                    <img src="~/quickui/system/style16_accordion_blue/skin/logo.png" />
                                     <p>厦门大学图书馆座位管理平台</p>
                                 </div>
                             </div>
@@ -143,16 +143,15 @@
                                     <span>@ViewBag.welcomeMsg</span>
                                     @*<div id="positionContent">首页</div>*@
                                     <ul>
-                                        <div class="right_tip"></div>
                                         <li><b></b></li>
-                                        <li><a href="/Home/IndexData" target="frmright"><span class="icon_home">系统首页</span></a></li>
+                                        <li><a href="@Url.Action("IndexData","Home")" target="frmright"><span class="icon_home">系统首页</span></a></li>
                                         <li><b></b></li>
                                         @*<li><span class="icon_lock" onclick="lockScreen()">屏幕锁定</span></li>*@
                                         <li><b></b></li>
                                         @*<li><span class="icon_user">个人中心</span></li>*@
 
                                         <li><b></b></li>
-                                        <li><span class="icon_exit" onclick="top.Dialog.confirm('确定要退出系统吗',function(){ location.href='/Home/LoginOut' });">退出系统</span></li>
+                                        <li><span class="icon_exit" onclick="top.Dialog.confirm('确定要退出系统吗',function(){ location.href='@Url.Action("LoginOut","Home")' });">退出系统</span></li>
                                         <div class="clear"></div>
                                     </ul>
                                     <div class="clear"></div>
@@ -162,7 +161,7 @@
                                 <div id="rbox_middleleft">
                                     <div id="rbox_middleright">
                                         <div id="bs_right">
-                                            <IFRAME style="box-sizing: border-box; background: white;" height="100%" width="100%" frameBorder=0 id=frmright name=frmright src="/Home/IndexData" allowTransparency="true"></IFRAME>
+                                            <IFRAME style="box-sizing: border-box; background: white;" height="100%" width="100%" frameBorder=0 id=frmright name=frmright src="@Url.Action("IndexData","Home")" allowTransparency="true"></IFRAME>
                                         </div>
                                     </div>
                                 </div>
@@ -249,7 +248,7 @@ function openLockWindow(){
 	var diag = new top.Dialog();
 		diag.Title = "系统锁屏";
 		diag.ID = "a1";
-		diag.URL="/quickui/libs/lock.html";
+		diag.URL="../quickui/libs/lock.html";
 		diag.Width=350;
 		diag.Height=150;
 		diag.ShowCloseButton=false;

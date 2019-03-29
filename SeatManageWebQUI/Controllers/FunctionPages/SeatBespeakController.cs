@@ -214,12 +214,12 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
 
             if (!OpVerifiction())
             {
-                Response.Write("<html><head><title>系统安全提示</title><script>alert('请使用正常方式访问网站');location.href='/Login'</script></head><body></body></html>");
+                Response.Write("<html><head><title>系统安全提示</title><script>alert('请使用正常方式访问网站');location.href='/seat/Login'</script></head><body></body></html>");
                 Response.End();
             }
             else if (string.IsNullOrEmpty(Request.QueryString["Param"]))
             {
-                Response.Write("<html><head><title>系统安全提示</title><script>alert('你的操作不合法，请使用正确途径预约座位');location.href='/Login'</script></head><body></body></html>");
+                Response.Write("<html><head><title>系统安全提示</title><script>alert('你的操作不合法，请使用正确途径预约座位');location.href='/seat/Login'</script></head><body></body></html>");
                 Response.End();
             }
             else
@@ -317,17 +317,17 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
                 SeatManage.ClassModel.ReadingRoomSetting set = SeatManage.Bll.T_SM_ReadingRoom.GetSingleRoomInfo(roomNo).Setting;
                 if (!set.SeatBespeak.Used)
                 {
-                    Response.Write("<html><head><title>系统安全提示</title><script>alert('阅览室没有开放预约');location.href='/Login'</script></head><body></body></html>");
+                    Response.Write("<html><head><title>系统安全提示</title><script>alert('阅览室没有开放预约');location.href='/seat/Login'</script></head><body></body></html>");
                     Response.End();
                 }
                 if (!dateBespeak(set.SeatBespeak, nowDate, selDate))
                 {
-                    Response.Write("<html><head><title>系统安全提示</title><script>alert('该日期不能预约');location.href='/Login'</script></head><body></body></html>");
+                    Response.Write("<html><head><title>系统安全提示</title><script>alert('该日期不能预约');location.href='/seat/Login'</script></head><body></body></html>");
                     Response.End();
                 }
                 if (!timeCanBespeak(set.SeatBespeak, nowDate))
                 {
-                    Response.Write("<html><head><title>系统安全提示</title><script>alert('" + string.Format("预约时间为：{0}到{1}", set.SeatBespeak.CanBespeatTimeSpace.BeginTime, set.SeatBespeak.CanBespeatTimeSpace.EndTime) + "');location.href='/Login'</script></head><body></body></html>");
+                    Response.Write("<html><head><title>系统安全提示</title><script>alert('" + string.Format("预约时间为：{0}到{1}", set.SeatBespeak.CanBespeatTimeSpace.BeginTime, set.SeatBespeak.CanBespeatTimeSpace.EndTime) + "');location.href='/seat/Login'</script></head><body></body></html>");
                     Response.End();
                 }
                 return result;
@@ -353,7 +353,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             if (!IsCanBespeak(roomNum, date))
             {
                 WriteLogs("阅览室布局页面");
-                Response.Write("<html><head><title>系统安全提示</title><script>alert('你的操作不合法，请使用正确途径预约座位');location.href='/Login'</script></head><body></body></html>");
+                Response.Write("<html><head><title>系统安全提示</title><script>alert('你的操作不合法，请使用正确途径预约座位');location.href='/seat/Login'</script></head><body></body></html>");
                 Response.End();
             }
 
@@ -796,12 +796,12 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             string roomNum = "";
             if (!OpVerifiction())
             {
-                Response.Write("<html><head><title>系统安全提示</title><script>alert('请使用正常方式访问网站');location.href='/Login'</script></head><body></body></html>");
+                Response.Write("<html><head><title>系统安全提示</title><script>alert('请使用正常方式访问网站');location.href='/seat/Login'</script></head><body></body></html>");
                 Response.End();
             }
             else if (string.IsNullOrEmpty(Request.QueryString["Param"]))
             {
-                Response.Write("<html><head><title>系统安全提示</title><script>alert('请使用正常方式访问网站');location.href='/Login'</script></head><body></body></html>");
+                Response.Write("<html><head><title>系统安全提示</title><script>alert('请使用正常方式访问网站');location.href='/seat/Login'</script></head><body></body></html>");
                 Response.End();
             }
             else

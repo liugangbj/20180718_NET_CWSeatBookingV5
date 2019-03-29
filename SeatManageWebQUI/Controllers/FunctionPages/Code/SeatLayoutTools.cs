@@ -75,10 +75,10 @@ namespace SeatManageWebQUI.Controllers.FunctionPages.Code
                 seatLayoutHtml.AppendFormat("<div id='divSeatLayout' class='SeatLayout' style='height:{0}px; width:{1}px;top:{2}px;left:{3}px'>", layoutHeight, layoutWidth, layoutTop, layoutLeft);
                 foreach (SeatManage.ClassModel.Seat seat in _SeatLayout.Seats.Values)
                 {
-                    string shortleaveimg = "/Content/Images/Node/note_blank.png";
-                    string powerimh = "/Content/Images/Node/note_blank.png";
-                    string readerimg = "/Content/Images/Node/note_blank.png";
-                    string seatimg = "/Content/Images/SeatImage/ImgSeat.png";
+                    string shortleaveimg = "/seat/Content/Images/Node/note_blank.png";
+                    string powerimh = "/seat/Content/Images/Node/note_blank.png";
+                    string readerimg = "/seat/Content/Images/Node/note_blank.png";
+                    string seatimg = "/seat/Content/Images/SeatImage/ImgSeat.png";
                     //string seatStyle = "";//座位样式
                     string seatTop = (18 * seat.PositionY).ToString();//座位顶部位置
                     string seatLeft = (18 * seat.PositionX).ToString();//座位左边位置
@@ -86,15 +86,15 @@ namespace SeatManageWebQUI.Controllers.FunctionPages.Code
                     string used = "";
                     if (seat.HavePower)
                     {
-                        powerimh = "/Content/Images/SeatImage/ImgPower.png";
+                        powerimh = "/seat/Content/Images/SeatImage/ImgPower.png";
                     }
                     switch (seat.SeatUsedState)
                     {
                         case SeatManage.EnumType.EnterOutLogType.Leave:
                             if (seat.IsSuspended)
                             {
-                                seatimg = "/Content/Images/SeatImage/ImgSeatDisable.png";
-                                readerimg = "/Content/Images/SeatImage/ImgStopUse.png";
+                                seatimg = "/seat/Content/Images/SeatImage/ImgSeatDisable.png";
+                                readerimg = "/seat/Content/Images/SeatImage/ImgStopUse.png";
                                 tipContent = string.Format("暂停使用");
                                 used = "3";
                             }
@@ -110,23 +110,23 @@ namespace SeatManageWebQUI.Controllers.FunctionPages.Code
                         case SeatManage.EnumType.EnterOutLogType.ContinuedTime:
                         case SeatManage.EnumType.EnterOutLogType.BookingConfirmation:
                         case SeatManage.EnumType.EnterOutLogType.WaitingSuccess:
-                            readerimg = "/Content/Images/SeatImage/ImgReader.png";
-                            seatimg = "/Content/Images/SeatImage/ImgSeatUsing.png";
+                            readerimg = "/seat/Content/Images/SeatImage/ImgReader.png";
+                            seatimg = "/seat/Content/Images/SeatImage/ImgSeatUsing.png";
                             string time = String.Format("{0:MM月dd日 HH:mm:ss}", seat.BeginUsedTime);
                             tipContent = string.Format("学号：{0}<br />姓名：{1}<br />入座时间：{2}", seat.UserCardNo, seat.UserName, time);
                             //TODO:无人管理模式事件 
                             used = "1";
                             break;
                         case SeatManage.EnumType.EnterOutLogType.ShortLeave:
-                            seatimg = "/Content/Images/SeatImage/ImgSeatShortLeave.png";
-                            shortleaveimg = "/Content/Images/SeatImage/ImgShortLeave.png";
-                            readerimg = "/Content/Images/SeatImage/ImgShortLeaveReader.png";
+                            seatimg = "/seat/Content/Images/SeatImage/ImgSeatShortLeave.png";
+                            shortleaveimg = "/seat/Content/Images/SeatImage/ImgShortLeave.png";
+                            readerimg = "/seat/Content/Images/SeatImage/ImgShortLeaveReader.png";
                             time = String.Format("{0:MM月dd日 HH:mm:ss}", seat.BeginUsedTime);
                             tipContent = string.Format("学号：{0}<br />姓名：{1}<br />暂离时间：{2}", seat.UserCardNo, seat.UserName, time);
                             used = "1";
                             break;
                         case SeatManage.EnumType.EnterOutLogType.BespeakWaiting:
-                            shortleaveimg = "/Content/Images/SeatImage/ImgBook.png";
+                            shortleaveimg = "/seat/Content/Images/SeatImage/ImgBook.png";
                             tipContent = string.Format("已经被预约<br />学号：{0}", seat.UserCardNo);
                             used = "2";
                             break;
@@ -198,7 +198,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages.Code
                             noteImage = "note_Stairway";
                             break;
                     }
-                    seatLayoutHtml.AppendFormat("<div id='{0}' class='note_blank' style='left: {1}px; top: {2}px;width: {3}px;height: {4}px;transform: rotate({6}deg);-o-transform: rotate({6}deg);-webkit-transform: rotate({6}deg);-moz-transform: rotate({6}deg); '><img  src='/Content/Images/Node/{7}.png' style='width: {3}px;height: {4}px;'/><div style='margin-top: {8}px;transform: rotate(-0deg); -o-transform: rotate(-0deg);-webkit-transform: rotate(-0deg); -moz-transform: rotate(-0deg);'>{5}</div></div>", countNode, seatLeft, seatTop, note.BaseWidth * 18, note.BaseHeight * 18, note.Remark, note.RotationAngle, noteImage, -note.BaseHeight * 9 - 18);
+                    seatLayoutHtml.AppendFormat("<div id='{0}' class='note_blank' style='left: {1}px; top: {2}px;width: {3}px;height: {4}px;transform: rotate({6}deg);-o-transform: rotate({6}deg);-webkit-transform: rotate({6}deg);-moz-transform: rotate({6}deg); '><img  src='/seat/Content/Images/Node/{7}.png' style='width: {3}px;height: {4}px;'/><div style='margin-top: {8}px;transform: rotate(-0deg); -o-transform: rotate(-0deg);-webkit-transform: rotate(-0deg); -moz-transform: rotate(-0deg);'>{5}</div></div>", countNode, seatLeft, seatTop, note.BaseWidth * 18, note.BaseHeight * 18, note.Remark, note.RotationAngle, noteImage, -note.BaseHeight * 9 - 18);
                 }
                 seatLayoutHtml.Append("</div>");
                 seatLayoutHtml.Append("</div>");
@@ -328,9 +328,9 @@ namespace SeatManageWebQUI.Controllers.FunctionPages.Code
                 //布局座位
                 foreach (SeatManage.ClassModel.Seat seat in _SeatLayout.Seats.Values)
                 {
-                    string shortleaveimg = "/Content/Images/Node/note_blank.png";
-                    string powerimh = "/Content/Images/Node/note_blank.png";
-                    string readerimg = "/Content/Images/Node/note_blank.png";
+                    string shortleaveimg = "/seat/Content/Images/Node/note_blank.png";
+                    string powerimh = "/seat/Content/Images/Node/note_blank.png";
+                    string readerimg = "/seat/Content/Images/Node/note_blank.png";
                     //string seatStyle = "";//座位样式
                     string seatTop = (18 * seat.PositionY).ToString();//座位顶部位置
                     string seatLeft = (18 * seat.PositionX).ToString();//座位左边位置
@@ -338,18 +338,18 @@ namespace SeatManageWebQUI.Controllers.FunctionPages.Code
                     string tipContent = "";
                     if (seat.HavePower)
                     {
-                        powerimh = "/Content/Images/SeatImage/ImgPower.png";
+                        powerimh = "/seat/Content/Images/SeatImage/ImgPower.png";
                     }
                     if (seat.IsSuspended)
                     {
-                        readerimg = "/Content/Images/SeatImage/ImgStopUse.png";
+                        readerimg = "/seat/Content/Images/SeatImage/ImgStopUse.png";
                         tipContent = "座位暂停使用";
                         urlParameters = "";
                     }
 
                     else if (seat.CanBeBespeak)
                     {
-                        readerimg = "/Content/Images/SeatImage/ImgBook.png";
+                        readerimg = "/seat/Content/Images/SeatImage/ImgBook.png";
                         tipContent = "点击设置座位不可预约";
                         urlParameters = "roomNo=" + roomNum + "&seatNo=" + seat.SeatNo + "&canBook=nobook";
                     }
@@ -359,7 +359,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages.Code
                         urlParameters = "roomNo=" + roomNum + "&seatNo=" + seat.SeatNo + "&canBook=canbook";
                     }
                     string seatdiv = "<div id='{0}' class='SeatBackground' style='left: {1}px; top: {2}px;width: 42px; height: 42px;transform: rotate({3}deg); -o-transform: rotate({3}deg); -webkit-transform: rotate({3}deg);-moz-transform: rotate({3}deg);'  onclick='BespeakSeatSettingClick(\"{0}\",\"{4}\")' onmouseover='tipShow(this,\"{5}\")' onmouseout='tipHidden(this)'>" +
-                                     "<img src='/Content/Images/SeatImage/ImgSeat.png' height='34px' width='34px' />" +
+                                     "<img src='/seat/Content/Images/SeatImage/ImgSeat.png' height='34px' width='34px' />" +
                                      "<div style='margin-top: -34px; margin-left: 24px; height: 12px; width: 12px'>" +
                                      "<img src='{6}' height='12px' width='12px' />" +
                                      "</div>" +
@@ -425,7 +425,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages.Code
                             noteImage = "note_Stairway";
                             break;
                     }
-                    seatLayoutHtml.AppendFormat("<div id='{0}' class='note_blank' style='left: {1}px; top: {2}px;width: {3}px;height: {4}px;transform: rotate({6}deg);-o-transform: rotate({6}deg);-webkit-transform: rotate({6}deg);-moz-transform: rotate({6}deg); '><img  src='/Content/Images/Node/{7}.png' style='width: {3}px;height: {4}px;'/><div style='margin-top: {8}px;transform: rotate(-0deg); -o-transform: rotate(-0deg);-webkit-transform: rotate(-0deg); -moz-transform: rotate(-0deg);'>{5}</div></div>", countNode, seatLeft, seatTop, note.BaseWidth * 18, note.BaseHeight * 18, note.Remark, note.RotationAngle, noteImage, -note.BaseHeight * 9 - 18);
+                    seatLayoutHtml.AppendFormat("<div id='{0}' class='note_blank' style='left: {1}px; top: {2}px;width: {3}px;height: {4}px;transform: rotate({6}deg);-o-transform: rotate({6}deg);-webkit-transform: rotate({6}deg);-moz-transform: rotate({6}deg); '><img  src='/seat/Content/Images/Node/{7}.png' style='width: {3}px;height: {4}px;'/><div style='margin-top: {8}px;transform: rotate(-0deg); -o-transform: rotate(-0deg);-webkit-transform: rotate(-0deg); -moz-transform: rotate(-0deg);'>{5}</div></div>", countNode, seatLeft, seatTop, note.BaseWidth * 18, note.BaseHeight * 18, note.Remark, note.RotationAngle, noteImage, -note.BaseHeight * 9 - 18);
                 }
                 seatLayoutHtml.Append("</div>");
                 seatLayoutHtml.Append("</div>");
@@ -552,9 +552,9 @@ namespace SeatManageWebQUI.Controllers.FunctionPages.Code
                 //布局座位
                 foreach (SeatManage.ClassModel.Seat seat in _SeatLayout.Seats.Values)
                 {
-                    string shortleaveimg = "/Content/Images/Node/note_blank.png";
-                    string powerimh = "/Content/Images/Node/note_blank.png";
-                    string readerimg = "/Content/Images/Node/note_blank.png";
+                    string shortleaveimg = "/seat/Content/Images/Node/note_blank.png";
+                    string powerimh = "/seat/Content/Images/Node/note_blank.png";
+                    string readerimg = "/seat/Content/Images/Node/note_blank.png";
                     //string seatStyle = "";//座位样式
                     string seatTop = (18 * seat.PositionY).ToString();//座位顶部位置
                     string seatLeft = (18 * seat.PositionX).ToString();//座位左边位置
@@ -563,11 +563,11 @@ namespace SeatManageWebQUI.Controllers.FunctionPages.Code
 
                     if (seat.HavePower)
                     {
-                        powerimh = "/Content/Images/SeatImage/ImgPower.png";
+                        powerimh = "/seat/Content/Images/SeatImage/ImgPower.png";
                     }
                     if (seat.IsSuspended || !seat.CanBeBespeak)
                     {
-                        readerimg = "/Content/Images/SeatImage/ImgStopUse.png";
+                        readerimg = "/seat/Content/Images/SeatImage/ImgStopUse.png";
                         tipContent = "不可预约";
                         urlParameters = "";
                     }
@@ -579,7 +579,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages.Code
 
                     if (seat.SeatUsedState == SeatManage.EnumType.EnterOutLogType.BookingConfirmation)
                     {
-                        readerimg = "/Content/Images/SeatImage/Imgbook.png";
+                        readerimg = "/seat/Content/Images/SeatImage/Imgbook.png";
                         tipContent = string.Format("已经被预约<br />学号：{0}", seat.UserCardNo);
                         urlParameters = "";
                     }
@@ -589,7 +589,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages.Code
                         urlParameters = SeatManage.SeatManageComm.AESAlgorithm.DESEncode(urlParameters);
                     }
                     string seatdiv = "<div id='{0}' class='SeatBackground' style='left: {1}px; top: {2}px;width: 36px; height: 36px;transform: rotate({3}deg); -o-transform: rotate({3}deg); -webkit-transform: rotate({3}deg);-moz-transform: rotate({3}deg);'  onclick='BespeakSeatClick(\"{4}\")' onmouseover='tipShow(this,\"{5}\")' onmouseout='tipHidden(this)'>" +
-                                     "<img src='/Content/Images/SeatImage/ImgSeat.png' height='34px' width='34px' />" +
+                                     "<img src='/seat/Content/Images/SeatImage/ImgSeat.png' height='34px' width='34px' />" +
                                     "<div style='margin-top: -34px; margin-left: 24px; height: 12px; width: 12px'>" +
                                      "<img src='{6}' height='12px' width='12px' />" +
                                      "</div>" +
@@ -655,7 +655,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages.Code
                             noteImage = "note_Stairway";
                             break;
                     }
-                    seatLayoutHtml.AppendFormat("<div id='{0}' class='note_blank' style='left: {1}px; top: {2}px;width: {3}px;height: {4}px;transform: rotate({6}deg);-o-transform: rotate({6}deg);-webkit-transform: rotate({6}deg);-moz-transform: rotate({6}deg); '><img  src='/Content/Images/Node/{7}.png' style='width: {3}px;height: {4}px;'/><div style='margin-top: {8}px;transform: rotate(-0deg); -o-transform: rotate(-0deg);-webkit-transform: rotate(-0deg); -moz-transform: rotate(-0deg);'>{5}</div></div>", countNode, seatLeft, seatTop, note.BaseWidth * 18, note.BaseHeight * 18, note.Remark, note.RotationAngle, noteImage, -note.BaseHeight * 9 - 18);
+                    seatLayoutHtml.AppendFormat("<div id='{0}' class='note_blank' style='left: {1}px; top: {2}px;width: {3}px;height: {4}px;transform: rotate({6}deg);-o-transform: rotate({6}deg);-webkit-transform: rotate({6}deg);-moz-transform: rotate({6}deg); '><img  src='/seat/Content/Images/Node/{7}.png' style='width: {3}px;height: {4}px;'/><div style='margin-top: {8}px;transform: rotate(-0deg); -o-transform: rotate(-0deg);-webkit-transform: rotate(-0deg); -moz-transform: rotate(-0deg);'>{5}</div></div>", countNode, seatLeft, seatTop, note.BaseWidth * 18, note.BaseHeight * 18, note.Remark, note.RotationAngle, noteImage, -note.BaseHeight * 9 - 18);
                 }
                 seatLayoutHtml.Append("</div>");
                 seatLayoutHtml.Append("</div>");
@@ -784,9 +784,9 @@ namespace SeatManageWebQUI.Controllers.FunctionPages.Code
                 foreach (SeatManage.ClassModel.Seat seat in _SeatLayout.Seats.Values)
                 {
                     string urlParameters = "";
-                    string shortleaveimg = "/Content/Images/Node/note_blank.png";
-                    string powerimh = "/Content/Images/Node/note_blank.png";
-                    string readerimg = "/Content/Images/Node/note_blank.png";
+                    string shortleaveimg = "/seat/Content/Images/Node/note_blank.png";
+                    string powerimh = "/seat/Content/Images/Node/note_blank.png";
+                    string readerimg = "/seat/Content/Images/Node/note_blank.png";
                     //string seatStyle = "";//座位样式
                     string seatTop = (18 * seat.PositionY).ToString();//座位顶部位置
                     string seatLeft = (18 * seat.PositionX).ToString();//座位左边位置
@@ -794,14 +794,14 @@ namespace SeatManageWebQUI.Controllers.FunctionPages.Code
                     string used = "";
                     if (seat.HavePower)
                     {
-                        powerimh = "/Content/Images/SeatImage/ImgPower.png";
+                        powerimh = "/seat/Content/Images/SeatImage/ImgPower.png";
                     }
                     switch (seat.SeatUsedState)
                     {
                         case SeatManage.EnumType.EnterOutLogType.Leave:
                             if (seat.IsSuspended)
                             {
-                                readerimg = "/Content/Images/SeatImage/ImgStopUse.png";
+                                readerimg = "/seat/Content/Images/SeatImage/ImgStopUse.png";
                                 tipContent = string.Format("暂停使用");
                             }
                             else
@@ -817,12 +817,12 @@ namespace SeatManageWebQUI.Controllers.FunctionPages.Code
                         case SeatManage.EnumType.EnterOutLogType.BookingConfirmation:
                         case SeatManage.EnumType.EnterOutLogType.WaitingSuccess:
                         case SeatManage.EnumType.EnterOutLogType.ShortLeave:
-                            readerimg = "/Content/Images/SeatImage/ImgReader.png";
+                            readerimg = "/seat/Content/Images/SeatImage/ImgReader.png";
                             tipContent = string.Format("已经被使用");
                             //TODO:无人管理模式事件 
                             break;
                         case SeatManage.EnumType.EnterOutLogType.BespeakWaiting:
-                            readerimg = "/Content/Images/SeatImage/ImgBook.png";
+                            readerimg = "/seat/Content/Images/SeatImage/ImgBook.png";
                             tipContent = string.Format("已经被预约");
                             break;
                     }
@@ -831,7 +831,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages.Code
                         urlParameters = SeatManage.SeatManageComm.AESAlgorithm.DESEncode(urlParameters);
                     }
                     string seatdiv = "<div id='{0}' class='SeatBackground' style='left: {1}px; top: {2}px;width: 36px; height: 36px;transform: rotate({3}deg); -o-transform: rotate({3}deg); -webkit-transform: rotate({3}deg);-moz-transform: rotate({3}deg);'  onclick='BespeakSeatNowDayClick(\"{4}\")' onmouseover='tipShow(this,\"{5}\")' onmouseout='tipHidden(this)'>" +
-                                     "<img src='/Content/Images/SeatImage/ImgSeat.png' height='34px' width='34px' />" +
+                                     "<img src='/seat/Content/Images/SeatImage/ImgSeat.png' height='34px' width='34px' />" +
                                      "<div style='margin-top: -34px; margin-left: 24px; height: 12px; width: 12px'>" +
                                      "<img src='{6}' height='12px' width='12px' />" +
                                      "</div>" +
@@ -895,7 +895,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages.Code
                             noteImage = "note_Stairway";
                             break;
                     }
-                    seatLayoutHtml.AppendFormat("<div id='{0}' class='note_blank' style='left: {1}px; top: {2}px;width: {3}px;height: {4}px;transform: rotate({6}deg);-o-transform: rotate({6}deg);-webkit-transform: rotate({6}deg);-moz-transform: rotate({6}deg); '><img  src='/Content/Images/Node/{7}.png' style='width: {3}px;height: {4}px;'/><div style='margin-top: {8}px;transform: rotate(-0deg); -o-transform: rotate(-0deg);-webkit-transform: rotate(-0deg); -moz-transform: rotate(-0deg);'>{5}</div></div>", countNode, seatLeft, seatTop, note.BaseWidth * 18, note.BaseHeight * 18, note.Remark, note.RotationAngle, noteImage, -note.BaseHeight * 9 - 18);
+                    seatLayoutHtml.AppendFormat("<div id='{0}' class='note_blank' style='left: {1}px; top: {2}px;width: {3}px;height: {4}px;transform: rotate({6}deg);-o-transform: rotate({6}deg);-webkit-transform: rotate({6}deg);-moz-transform: rotate({6}deg); '><img  src='/seat/Content/Images/Node/{7}.png' style='width: {3}px;height: {4}px;'/><div style='margin-top: {8}px;transform: rotate(-0deg); -o-transform: rotate(-0deg);-webkit-transform: rotate(-0deg); -moz-transform: rotate(-0deg);'>{5}</div></div>", countNode, seatLeft, seatTop, note.BaseWidth * 18, note.BaseHeight * 18, note.Remark, note.RotationAngle, noteImage, -note.BaseHeight * 9 - 18);
                 }
                 seatLayoutHtml.Append("</div>");
                 seatLayoutHtml.Append("</div>");

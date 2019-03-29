@@ -20,10 +20,10 @@
     <link rel="stylesheet" type="text/css" href="~/quickui/style/style.css" />
     <script src="~/quickui/libs/js/table/quiGrid.js" type="text/javascript"></script>
     <!--引入提示组件start-->
-    <script type="text/javascript" src="/quickui/libs/js/popup/toast.js"></script>
-    <script type="text/javascript" src="/quickui/libs/js/popup/notice.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/popup/toast.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/popup/notice.js"></script>
     <!--引入提示组件end-->
-    <script type="text/javascript" src="/quickui/libs/js/form/datePicker/WdatePicker.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/form/datePicker/WdatePicker.js"></script>
     <style>
         .oppContent {
             width: 340px;
@@ -42,7 +42,7 @@
 <body>
     <div class="page_content">
         <div>
-            <select prompt="请选择图书馆" selectedIdx="0" url="/SeatBespeak/BindLibaray" id="selectLib"></select>
+            <select prompt="请选择图书馆" selectedIdx="0" url="@Url.Action("BindLibaray", "SeatBespeak")" id="selectLib"></select>
         </div>
         <input type="button" value="查询" onclick="btnQueryClick()" class="primary" />
         <div class="clear"></div>
@@ -105,7 +105,7 @@
         function booking(roomNum, CanBespeakAmcount) {
 
             $.ajax({
-                url: "/SeatBespeak/CheckingBespeakNowDay",
+                url: "@Url.Action("CheckingBespeakNowDay", "SeatBespeak")",
                 data: { roomNo: roomNum, canBespeakAmountString: CanBespeakAmcount },
                 type: "post",
                 dataType: "text",
@@ -117,7 +117,7 @@
                         //加载布局图
                         var diag = new top.Dialog();
                         diag.Title = "座位视图";
-                        diag.URL = "/SeatBespeak/BespeakNowDaySeatLayout?Param=" + obj.urlParameters;
+                        diag.URL = "@Url.Action("BespeakNowDaySeatLayout", "SeatBespeak")"+"?Param=" + obj.urlParameters;
                         diag.Width = 1200;
                         diag.Height = 800;
                         diag.OkButtonText = "确定";
@@ -143,7 +143,7 @@
             var $libValue = $("#selectLib").val();
 
             $.ajax({
-                url: "/SeatBespeak/BindingNowDatGrid",
+                url: "@Url.Action("BindingNowDatGrid", "SeatBespeak")",
                 data: { libno: $libValue },
                 type: "post",
                 dataType: "text",

@@ -10,27 +10,27 @@
     <meta charset="UTF-8">
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="stylesheet" type="text/css" href="/quickui/login/style.css" />
-    <script src="/quickui/libs/js/jquery.js"></script>
-    <script src="/quickui/libs/js/form/placeholder.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/quickui/login/style.css" />
+    <script src="~/quickui/libs/js/jquery.js"></script>
+    <script src="~/quickui/libs/js/form/placeholder.js"></script>
     <!--框架必需start-->
-    <link href="/quickui/libs/css/import_main.css" rel="stylesheet" type="text/css" />
-    <link href="/quickui/libs/skins/blue/style.css" rel="stylesheet" type="text/css" id="theme" themeColor="blue" positionTarget="positionContent" />
-    <link href="skin/style.css" rel="stylesheet" type="text/css" id="skin" skinPath="/quickui/system/style16_accordion_blue/skin/" />
-    <script type="text/javascript" src="/quickui/libs/js/jquery.js"></script>
-    <script type="text/javascript" src="/quickui/libs/js/language/cn.js"></script>
-    <script type="text/javascript" src="/quickui/libs/js/main.js"></script>
+    <link href="~/quickui/libs/css/import_main.css" rel="stylesheet" type="text/css" />
+    <link href="~/quickui/libs/skins/blue/style.css" rel="stylesheet" type="text/css" id="theme" themeColor="blue" positionTarget="positionContent" />
+    <link href="skin/style.css" rel="stylesheet" type="text/css" id="skin" skinPath="~/quickui/system/style16_accordion_blue/skin/" />
+    <script type="text/javascript" src="~/quickui/libs/js/jquery.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/language/cn.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/main.js"></script>
     <!--框架必需end-->
     <!--弹窗组件start-->
-    <script type="text/javascript" src="/quickui/libs/js/popup/drag.js"></script>
-    <script type="text/javascript" src="/quickui/libs/js/popup/dialog.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/popup/drag.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/popup/dialog.js"></script>
     <!--弹窗组件end-->
     <!--引入提示组件start-->
-    <script type="text/javascript" src="/quickui/libs/js/popup/toast.js"></script>
-    <script type="text/javascript" src="/quickui/libs/js/popup/notice.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/popup/toast.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/popup/notice.js"></script>
     <!--引入提示组件end-->
     <!--左侧导航start-->
-    <script type="text/javascript" src="/quickui/libs/js/nav/menuNav.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/nav/menuNav.js"></script>
     <!--左侧导航end-->
 </head>
 <body>
@@ -52,7 +52,7 @@
                 </div>
                 <input type="button" id="btnLogin" value="登 录" class="submit"/>
 
-                <a type="button" href="http://ids.xmu.edu.cn/authserver/login?service=https://lib.xmu.edu.cn/seat/xmulogin" id="casLogin" class="submit" style="background:url(/images/open_xmu_48.png) no-repeat;border:0px;margin-top:5px;background-size: 100% 40px; "></a>
+                <a type="button" href="http://ids.xmu.edu.cn/authserver/login?service=https://lib.xmu.edu.cn/seat/xmulogin" id="casLogin" class="submit" style="background:url(/seat/images/open_xmu_48.png) no-repeat;border:0px;margin-top:5px;background-size: 100% 40px; "></a>
 
                 <div class="login_copy">
                     <a href="http://library.xmu.edu.cn" target="_blank">官方网站：http://library.xmu.edu.cn</a>
@@ -74,7 +74,7 @@
         });
 
         $("#btnLogin").click(function () {
-          
+
             var $username = $("#txtUserName");
             var $password = $("#txtPass");
             if ($username.val() == "") {
@@ -95,7 +95,7 @@
                         if (data.status == "yes") {
                             top.Toast('showSuccessToast', '成功登录，正在跳转');
                             window.setTimeout(function () {
-                                window.location.href = "/Home/Index";
+                                window.location.href = "@Url.Action("index","home")";
                             }, 500);
                         } else {
                             top.Toast('showErrorToast', data.message);

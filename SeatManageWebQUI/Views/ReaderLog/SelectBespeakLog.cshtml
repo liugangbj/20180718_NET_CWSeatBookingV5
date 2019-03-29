@@ -22,10 +22,10 @@
     <script src="~/quickui/libs/js/table/quiGrid.js" type="text/javascript"></script>
 
     <!--引入提示组件start-->
-    <script type="text/javascript" src="/quickui/libs/js/popup/toast.js"></script>
-    <script type="text/javascript" src="/quickui/libs/js/popup/notice.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/popup/toast.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/popup/notice.js"></script>
     <!--引入提示组件end-->
-    <script type="text/javascript" src="/quickui/libs/js/form/datePicker/WdatePicker.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/form/datePicker/WdatePicker.js"></script>
     <style>
         .oppContent {
             width: 340px;
@@ -170,7 +170,7 @@
                     top.Dialog.confirm("确认删除吗",
                         function(){
                             $.ajax({
-                                url: "/ReaderLog/BespeakLogRemove",
+                                url: "@Url.Action("BespeakLogRemove", "ReaderLog")",
                                 data: { BespeakID: BespeakID },
                                 type: "post",
                                 dataType: "json",
@@ -205,7 +205,7 @@
                 var $statusString = $("#selStatus").val();
 
                 $.ajax({
-                    url: "/ReaderLog/GetGridString",
+                    url: "@Url.Action("GetGridString", "ReaderLog")",
                     data: { beginDateString: $beginDateString,endDateString: $endDateString,statusString: $statusString },
                     type: "post",
                     dataType: "text",

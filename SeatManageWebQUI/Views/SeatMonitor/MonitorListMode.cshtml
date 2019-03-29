@@ -22,8 +22,8 @@
     <script src="~/quickui/libs/js/table/quiGrid.js" type="text/javascript"></script>
 
     <!--引入提示组件start-->
-    <script type="text/javascript" src="/quickui/libs/js/popup/toast.js"></script>
-    <script type="text/javascript" src="/quickui/libs/js/popup/notice.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/popup/toast.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/popup/notice.js"></script>
     <!--引入提示组件end-->
 
     <script>
@@ -134,7 +134,7 @@
 
             var diag = new top.Dialog();
             diag.Title = "座位操作";
-            diag.URL = "/SeatMonitor/SeatHandle" + urlParameters;
+            diag.URL = "@Url.Action("SeatHandle", "SeatMonitor")" + urlParameters;
             diag.Width = 600;
             diag.Height = 400;
             diag.OkButtonText = "关闭";
@@ -151,7 +151,7 @@
                     urlParameters += "&isShortLeave=n";
                 }
                 $.ajax({
-                    url: "/SeatMonitor/ShortLeave" + urlParameters,
+                    url: "@Url.Action("ShortLeave", "SeatMonitor")" + urlParameters,
                     type: "post",
                     dataType: "json",
                     success: function (data) {
@@ -167,7 +167,7 @@
             diag.addButton("next", " 释放 ", function () {
                 //Leave
                 $.ajax({
-                    url: "/SeatMonitor/Leave" + urlParameters,
+                    url: "@Url.Action("Leave", "SeatMonitor")" + urlParameters,
                     type: "post",
                     dataType: "json",
                     success: function (data) {
@@ -187,7 +187,7 @@
                 var CardNo = diag.innerFrame.contentWindow.document.getElementById('CardNo').value;
                 urlParameters += "&CardNo=" + CardNo + "&addBlackListRemark=" + addBlackListRemark;
                 $.ajax({
-                    url: "/SeatMonitor/SureAddBlacklist" + urlParameters,
+                    url: "@Url.Action("SureAddBlacklist", "SeatMonitor")" + urlParameters,
                     type: "post",
                     dataType: "json",
                     success: function (data) {

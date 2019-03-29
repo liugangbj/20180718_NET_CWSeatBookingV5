@@ -20,12 +20,12 @@
     <link rel="stylesheet" type="text/css" href="~/quickui/style/style.css" />
     <script src="~/quickui/libs/js/table/quiGrid.js" type="text/javascript"></script>
     <!--引入提示组件start-->
-    <script type="text/javascript" src="/quickui/libs/js/popup/toast.js"></script>
-    <script type="text/javascript" src="/quickui/libs/js/popup/notice.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/popup/toast.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/popup/notice.js"></script>
     <!--引入提示组件end-->
-    <script type="text/javascript" src="/quickui/libs/js/form/datePicker/WdatePicker.js"></script>
-    <script src="/quickui/libs/js/form/validationRule.js" type="text/javascript"></script>
-    <script src="/quickui/libs/js/form/validation.js" type="text/javascript"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/form/datePicker/WdatePicker.js"></script>
+    <script src="~/quickui/libs/js/form/validationRule.js" type="text/javascript"></script>
+    <script src="~/quickui/libs/js/form/validation.js" type="text/javascript"></script>
 </head>
 <body>
     <div class="page_content">
@@ -46,7 +46,7 @@
                         </td>
                         <td>所在阅览室</td>
                         <td>
-                            <select url="/LogManage/GetRoomData" id="selectRooms" name="selectRooms"></select>
+                            <select url="@Url.Action("GetRoomData","LogManage")" id="selectRooms" name="selectRooms"></select>
                         </td>
                     </tr>
                     <tr>
@@ -144,7 +144,7 @@
             var valid = $("#queryForm").validationEngine({ returnIsValid: true });
             if (valid) {
                 $.ajax({
-                    url: "/LogManage/GetEnterOutData", //你的路由地址
+                    url: "@Url.Action("GetEnterOutData", "LogManage")", //你的路由地址
                     type: "post",
                     dataType: "text",
                     data: $("#queryForm").serialize(),

@@ -30,7 +30,7 @@ function seatClick(urlParameters) {
   
     var diag = new top.Dialog();
     diag.Title = "座位操作";
-    diag.URL = "/SeatMonitor/SeatHandle" + urlParameters;
+    diag.URL = "/seat/SeatMonitor/SeatHandle" + urlParameters;
     diag.Width = 600;
     diag.Height = 400;
     diag.OkButtonText = "关闭";
@@ -50,7 +50,7 @@ function seatClick(urlParameters) {
             urlParameters += "&cardNo="+inputValue;
             //SeatMonitor
             $.ajax({
-                url: "/SeatMonitor/SureAllotSeat" + urlParameters,
+                url: "/seat/SeatMonitor/SureAllotSeat" + urlParameters,
                // data: { username: $.trim($username.val()), password: $password.val() },
                 type: "post",
                 dataType: "json",
@@ -80,7 +80,7 @@ function seatClick(urlParameters) {
                 urlParameters += "&isShortLeave=n";
             }
             $.ajax({
-                url: "/SeatMonitor/ShortLeave" + urlParameters,
+                url: "/seat/SeatMonitor/ShortLeave" + urlParameters,
                 type: "post",
                 dataType: "json",
                 success: function (data) {
@@ -96,7 +96,7 @@ function seatClick(urlParameters) {
         diag.addButton("next", " 释放 ", function () {
             //Leave
             $.ajax({
-                url: "/SeatMonitor/Leave" + urlParameters,
+                url: "/seat/SeatMonitor/Leave" + urlParameters,
                 type: "post",
                 dataType: "json",
                 success: function (data) {
@@ -115,7 +115,7 @@ function seatClick(urlParameters) {
             var CardNo = diag.innerFrame.contentWindow.document.getElementById('CardNo').value;
             urlParameters += "&CardNo=" + CardNo + "&addBlackListRemark=" + addBlackListRemark;
             $.ajax({
-                url: "/SeatMonitor/SureAddBlacklist" + urlParameters,
+                url: "/seat/SeatMonitor/SureAddBlacklist" + urlParameters,
                 type: "post",
                 dataType: "json",
                 success: function (data) {
@@ -141,7 +141,7 @@ function BespeakSeatClick(urlParameters) {
     }
     var diag = new top.Dialog();
     diag.Title = "座位操作";
-    diag.URL = "/SeatBespeak/BespeakSubmitWindow?parm=" + urlParameters;
+    diag.URL = "/seat/SeatBespeak/BespeakSubmitWindow?parm=" + urlParameters;
     diag.Width = 450;
     diag.Height = 300;
     diag.ShowButtonRow = true;
@@ -162,7 +162,7 @@ function BespeakSeatNowDayClick(urlParameters) {
    
     var diag = new top.Dialog();
     diag.Title = "座位操作";
-    diag.URL = "/SeatBespeak/BespeakNowDayHandle?parameters=" + urlParameters;
+    diag.URL = "/seat/SeatBespeak/BespeakNowDayHandle?parameters=" + urlParameters;
     diag.Width = 450;
     diag.Height = 300;
     diag.ShowButtonRow = true;
@@ -184,7 +184,7 @@ function BespeakSeatSettingClick(seatNo, urlParameters) {
         return;
     }
     $.ajax({
-        url: "/SchoolInfoManage/BespeakSeatSettingCanBook?" + urlParameters,
+        url: "/seat/SchoolInfoManage/BespeakSeatSettingCanBook?" + urlParameters,
      //   data: { username: $.trim($username.val()), password: $password.val() },
         type: "post",
         dataType: "json",
@@ -226,7 +226,7 @@ function loadSeatLayout() {
             type: "post", //使用get方法访问后台
             dataType: "html", //返回json格式的数据
             // dataType: "text",
-            url: "/SeatMonitor/DrowSeatLayoutHtml", //要访问的后台地址
+            url: "/seat/SeatMonitor/DrowSeatLayoutHtml", //要访问的后台地址
           //  url: "SeatLayout.ashx", //要访问的后台地址
             data: { "roomNum": roomNum, "divTransparentTop": divTop, "divTransparentLeft": divleft }, //要发送的数据
 
@@ -250,7 +250,7 @@ function loadBespeakSeatLayout() {
         type: "post", //使用get方法访问后台
         dataType: "html", //返回json格式的数据 
        // url: "SeatLayoutHandle.ashx", //要访问的后台地址
-        url: "/SeatBespeak/drowBespeakSeatLayOutHtml", //要访问的后台地址
+        url: "/seat/SeatBespeak/drowBespeakSeatLayOutHtml", //要访问的后台地址
         data: { "roomNum": roomNum, "date": bespeakDate, "divTransparentTop": divTop, "divTransparentLeft": divleft }, //要发送的数据
 
         // complete: function () { $("#load").hide(); }, //AJAX请求完成时隐藏loading提示
@@ -270,7 +270,7 @@ function loadBespeakSeatNowDayLayout() {
     $.ajax({ //一个Ajax过程 
         type: "post", //使用get方法访问后台
         dataType: "html", //返回json格式的数据 
-        url: "/SeatBespeak/NowBespeakSeatLayoutHTML",
+        url: "/seat/SeatBespeak/NowBespeakSeatLayoutHTML",
         //url: "NowBespeakSeatLayout.ashx", //要访问的后台地址
         data: { "roomNum": roomNum, "divTransparentTop": divTop, "divTransparentLeft": divleft }, //要发送的数据
 
@@ -291,7 +291,7 @@ function loadBespeakSeatSettingLayout() { //可预约座位
     $.ajax({ //一个Ajax过程 
         type: "post", //使用get方法访问后台
         dataType: "html", //返回json格式的数据 
-        url: "/SchoolInfoManage/DrawBespeakSeatSettingLayout",//"BespeakSeatGraph.ashx", //要访问的后台地址
+        url: "/seat/SchoolInfoManage/DrawBespeakSeatSettingLayout",//"BespeakSeatGraph.ashx", //要访问的后台地址
         data: { "roomNum": roomNum, "divTransparentTop": divTop, "divTransparentLeft": divleft }, //要发送的数据
 
         // complete: function () { $("#load").hide(); }, //AJAX请求完成时隐藏loading提示

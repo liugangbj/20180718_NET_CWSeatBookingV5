@@ -10,17 +10,197 @@
     <meta name="viewport" content="width=device-width" />
     <title>ReadingRoomUsageInfo</title>
     <!--框架必需start-->
-    <script type="text/javascript" src="/quickui/libs/js/jquery.js"></script>
-    <script type="text/javascript" src="/quickui/libs/js/language/cn.js"></script>
-    <script type="text/javascript" src="/quickui/libs/js/framework.js"></script>
-    <link href="/quickui/libs/css/import_basic.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" type="text/css" id="skin" prePath="/quickui/system/style16_accordion_blue/skin/" />
+    <script type="text/javascript" src="~/quickui/libs/js/jquery.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/language/cn.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/framework.js"></script>
+    <link href="~/quickui/libs/css/import_basic.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" id="skin" prePath="~/quickui/" />
     <link rel="stylesheet" type="text/css" id="customSkin" />
     <!--框架必需end-->
+    <link rel="stylesheet" type="text/css" href="~/quickui/style/style.css" />
+    <script src="~/quickui/libs/js/table/quiGrid.js" type="text/javascript"></script>
+    <!--引入提示组件start-->
+    <script type="text/javascript" src="~/quickui/libs/js/popup/toast.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/popup/notice.js"></script>
+    <!--引入提示组件end-->
+    <script type="text/javascript" src="/quickui/libs/js/form/datePicker/WdatePicker.js"></script>
+    <script src="~/quickui/libs/js/form/validationRule.js" type="text/javascript"></script>
+    <script src="~/quickui/libs/js/form/validation.js" type="text/javascript"></script>
 </head>
 <body>
-    <div> 
-        ReadingRoomUsageInfo
+    <div class="page_content">
+        <div class="searchContent">
+            <form id="queryForm" name="queryForm" method="post">
+                <table style="float: left;">
+                    <tr>
+                        <td>选择图书馆</td>
+                        <td>
+                            <span class="style1">
+                                <select ID="selLibrary">
+                                    @{
+                                        var libList = ViewData["libList"] as List<SeatManage.ClassModel.LibraryInfo>;
+                                        if (libList != null && libList.Count > 0)
+                                        {
+                                            int i = 0;
+                                            foreach (var item in libList)
+                                            {
+                                                i++;
+                                                <option value="@item.No">@item.Name</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </span>
+                        </td>
+                        <td>选择读者类型</td>
+                        <td>
+                            <span class="style1">
+                                <select ID="selReaderType">
+                                    <option value="全部类型">全部类型</option>
+                                    @{
+                                        var readertypeList = ViewData["readertypeList"] as List<string>;
+                                        if (readertypeList != null && readertypeList.Count > 0)
+                                        {
+                                            int i = 0;
+                                            foreach (var item in readertypeList)
+                                            {
+                                                i++;
+                                                <option value="@item">@item</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </span>
+                        </td>
+                        <td>开始时间</td>
+                        <td>
+                            <input type="text" dateFmt="yyyy/MM/dd" placeholder="开始日期" class="date" id="beginDate" name="beginDate" />
+                        </td>
+                        <td>结束时间</td>
+                        <td>
+                            <input type="text" dateFmt="yyyy/MM/dd" placeholder="结束日期" class="date" id="endDate" name="endDate" />
+                        </td>
+                        <td>
+                            <button type="button" onclick="searchHandler()" id="search" class="primary"><span class="icon_find">查询</span></button>
+                            
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div class="clear"></div>
+        <br />
+        <div class="infoCard infoCard2">
+            <div class="title">
+                <span>阅览室信息统计</span>
+            </div>
+
+            <div id="dataBasic">
+
+            </div>
+        </div>
     </div>
+
+    <script>
+        $(function () {
+            $("#beginDate").val('@DateTime.Now.AddDays(-7).ToString("yyyy/MM/dd")');
+            $("#endDate").val('@DateTime.Now.ToString("yyyy/MM/dd")');
+        });
+
+        function initComplete() {
+            grid = $("#dataBasic").quiGrid({
+                columns: [
+                    {
+                        display: '阅览室',
+                        name: 'Name',
+                        width: "8%"
+                    }, {
+                        display: '编号',
+                        name: 'No',
+                        width: "8%"
+                    },{
+                        display: '开放时间',
+                        name: 'BeginTime',
+                        width: "8%"
+                    }, {
+                        display: '关闭时间',
+                        name: 'EndTime',
+                        width: "8%"
+                    }, {
+                        display: '开放时长',
+                        name: 'otime',
+                        width: "8%"
+                    }, {
+                        display: '累计时长',
+                        name: 'opentime',
+                        width: "8%"
+                    }, {
+                        display: '座位总数',
+                        name: 'SeatsCount',
+                        width: "5%"
+                    }, {
+                        display: '进出人次',
+                        name: 'staListCount',
+                        width: "5%"
+                    }, {
+                        display: '上座率',
+                        name: 'upSeat',
+                        width: "5%"
+                    }, {
+                        display: '平均在座时长',
+                        name: 'avgSeat',
+                        width: "10%"
+                    }, {
+                        display: '启用功能',
+                        name: 'userFun',
+                        width: "10%"
+                    }, {
+                        display: '违规设置',
+                        name: 'setting',
+                        width: "15%"
+                    }
+                ],
+                sortName: 'No',
+                rownumbers: false,
+                checkbox: false,
+                height: '100%',
+                width: "100%",
+                pageSize: 100,
+                percentWidthMode: true
+            });
+        }
+
+        function searchHandler() {
+            var begin = $("#beginDate").val();
+            var end = $("#endDate").val();
+            var libNo = $("#selLibrary").val();
+            var readerType = $("#selReaderType").val();
+            $.ajax({
+                url: "@Url.Action("GetReadingRoomUsageInfoData", "Statistical")", //你的路由地址
+                type: "post",
+            dataType: "text",
+            data: { begin: begin, end: end, libNo: libNo, readerType: readerType },
+            timeout: 30000,
+            success: function (data) {
+                var obj = eval('(' + data + ')');
+                grid.loadData(obj);
+            },
+            error: function () {
+                top.Toast('showErrorToast', '发生不可预计错误，请重新尝试');
+            }
+        });
+        }
+
+        $(function () {
+            $("#beginDate").val('@DateTime.Now.AddDays(-7).ToString("yyyy/MM/dd")');
+            $("#endDate").val('@DateTime.Now.ToString("yyyy/MM/dd")');
+
+            searchHandler();
+        });
+
+        var ToExcel = function () {
+            window.open("@Url.Action("ToExcel")");
+        }
+    </script>
 </body>
 </html>

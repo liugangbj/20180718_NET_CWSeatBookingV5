@@ -10,17 +10,171 @@
     <meta name="viewport" content="width=device-width" />
     <title>LogTopStatisticalV2</title>
     <!--框架必需start-->
-    <script type="text/javascript" src="/quickui/libs/js/jquery.js"></script>
-    <script type="text/javascript" src="/quickui/libs/js/language/cn.js"></script>
-    <script type="text/javascript" src="/quickui/libs/js/framework.js"></script>
-    <link href="/quickui/libs/css/import_basic.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" type="text/css" id="skin" prePath="/quickui/system/style16_accordion_blue/skin/" />
+    <script type="text/javascript" src="~/quickui/libs/js/jquery.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/language/cn.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/framework.js"></script>
+    <link href="~/quickui/libs/css/import_basic.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" id="skin" prePath="~/quickui/" />
     <link rel="stylesheet" type="text/css" id="customSkin" />
     <!--框架必需end-->
+    <link rel="stylesheet" type="text/css" href="~/quickui/style/style.css" />
+    <script src="~/quickui/libs/js/table/quiGrid.js" type="text/javascript"></script>
+    <!--引入提示组件start-->
+    <script type="text/javascript" src="~/quickui/libs/js/popup/toast.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/popup/notice.js"></script>
+    <!--引入提示组件end-->
+    <script type="text/javascript" src="/quickui/libs/js/form/datePicker/WdatePicker.js"></script>
+    <script src="~/quickui/libs/js/form/validationRule.js" type="text/javascript"></script>
+    <script src="~/quickui/libs/js/form/validation.js" type="text/javascript"></script>
 </head>
 <body>
-    <div> 
-        LogTopStatisticalV2
+    <div class="page_content">
+        <div class="searchContent">
+            <form id="queryForm" name="queryForm" method="post">
+                <table style="float: left;">
+                    <tr>
+                        <td>排行榜类型</td>
+                        <td>
+                            <span class="style1">
+                                <select ID="ddllogtype">
+                                    <option Value="0">选座次数排行  </option>
+                                    <option Value="1">在座时长排行  </option>
+                                    <option Value="2">违规记录排行  </option>
+                                    <option Value="3">黑名单排行 </option>
+                                </select>
+                            </span>
+                        </td>
+                        <td>统计分类</td>
+                        <td>
+                            <span class="style1">
+                                <select ID="ddlreadertype">
+                                    <option Value="0">按读者统计  </option>
+                                    <option Value="1">按读者类型统计  </option>
+                                    <option Value="2">按院系统计  </option>
+                                </select>
+                            </span>
+                        </td>
+                        <td>统计前</td>
+                        <td>
+                            <span class="style1">
+                                <select ID="ddltopnum">
+                                    <option Value="100">100名</option>
+                                    <option Value="200">200名</option>
+                                    <option Value="500">500名</option>
+                                    <option Value="1000">1000名</option>
+                                </select>
+                            </span>
+                        </td>
+                        <td>开始时间</td>
+                        <td>
+                            <input type="text" dateFmt="yyyy/MM/dd" placeholder="开始日期" class="date" id="beginDate" name="beginDate" />
+                        </td>
+                        <td>结束时间</td>
+                        <td>
+                            <input type="text" dateFmt="yyyy/MM/dd" placeholder="结束日期" class="date" id="endDate" name="endDate" />
+                        </td>
+                        <td>
+                            <button type="button" onclick="searchHandler()" id="search" class="primary"><span class="icon_find">查询</span></button>
+                            <button ID="btn2" class="primary" OnClick="ToExcel()">导出Excel</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div class="clear"></div>
+        <br />
+        <div class="infoCard infoCard2">
+            <div class="title">
+                <span>记录排行榜</span>
+            </div>
+
+            <div id="dataBasic">
+
+            </div>
+        </div>
     </div>
+
+    <script>
+        $(function () {
+            $("#beginDate").val('@DateTime.Now.AddDays(-7).ToString("yyyy/MM/dd")');
+            $("#endDate").val('@DateTime.Now.ToString("yyyy/MM/dd")');
+        });
+
+        function initComplete() {
+            grid = $("#dataBasic").quiGrid({
+                columns: [
+                    {
+                        display: '排名',
+                        name: 'TopNum',
+                        width: "10%"
+                    }, {
+                        display: '学号',
+                        name: 'CardNo',
+                        width: "10%"
+                    },{
+                        display: '读者姓名',
+                        name: 'ReaderName',
+                        width: "10%"
+                    }, {
+                        display: '读者类型',
+                        name: 'TypeName',
+                        width: "10%"
+                    }, {
+                        display: '读者院系',
+                        name: 'DeptName',
+                        width: "10%"
+                    }, {
+                        display: '记录数目',
+                        name: 'LogCount',
+                        width: "10%"
+                    }, {
+                        display: '备注',
+                        name: 'Remark',
+                        width: "20%"
+                    }
+                ],
+                sortName: 'No',
+                rownumbers: false,
+                checkbox: false,
+                height: '100%',
+                width: "100%",
+                pageSize: 100,
+                percentWidthMode: true
+            });
+        }
+
+        function searchHandler() {
+            var begin = $("#beginDate").val();
+            var end = $("#endDate").val();
+            var ddllogtype = $("#ddllogtype").val();
+            var ddlreadertype = $("#ddlreadertype").val();
+            var ddltopnum = $("#ddltopnum").val();
+            $.ajax({
+                url: "@Url.Action("GetLogTopStatisticalV2Data", "Statistical")", //你的路由地址
+                type: "post",
+            dataType: "text",
+            data: { begin: begin, end: end, ddllogtype: ddllogtype, ddlreadertype: ddlreadertype, ddltopnum: ddltopnum },
+            timeout: 30000,
+            success: function (data) {
+                var obj = eval('(' + data + ')');
+                grid.loadData(obj);
+            },
+            error: function () {
+                top.Toast('showErrorToast', '发生不可预计错误，请重新尝试');
+            }
+        });
+        }
+
+        $(function () {
+            $("#beginDate").val('@DateTime.Now.AddDays(-7).ToString("yyyy/MM/dd")');
+            $("#endDate").val('@DateTime.Now.ToString("yyyy/MM/dd")');
+
+            searchHandler();
+        });
+
+        var ToExcel = function () {
+            window.open("@Url.Action("ToExcel")");
+        }
+    </script>
 </body>
 </html>

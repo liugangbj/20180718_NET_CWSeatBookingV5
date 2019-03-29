@@ -20,23 +20,23 @@
     <link rel="stylesheet" type="text/css" href="~/quickui/style/style.css" />
     <script src="~/quickui/libs/js/table/quiGrid.js" type="text/javascript"></script>
     <!--引入提示组件start-->
-    <script type="text/javascript" src="/quickui/libs/js/popup/toast.js"></script>
-    <script type="text/javascript" src="/quickui/libs/js/popup/notice.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/popup/toast.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/popup/notice.js"></script>
     <!--引入提示组件end-->
     <!--树组件start -->
-    <script type="text/javascript" src="/quickui/libs/js/tree/ztree/ztree.js"></script>
-    <link href="/quickui/libs/js/tree/ztree/ztree.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="~/quickui/libs/js/tree/ztree/ztree.js"></script>
+    <link href="~/quickui/libs/js/tree/ztree/ztree.css" rel="stylesheet" type="text/css" />
     <!--树组件end -->
     <!--布局控件start-->
-    <script type="text/javascript" src="/quickui/libs/js/nav/layout.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/nav/layout.js"></script>
     <!--布局控件end-->
-    <script src="/quickui/libs/js/form/validationRule.js" type="text/javascript"></script>
-    <script src="/quickui/libs/js/form/validation.js" type="text/javascript"></script>
+    <script src="~/quickui/libs/js/form/validationRule.js" type="text/javascript"></script>
+    <script src="~/quickui/libs/js/form/validation.js" type="text/javascript"></script>
 </head>
 <body>
 
     <div id="layout1">
-        <div position="center" style="" panelTitle="组织架构">
+        <div position="center" style="min-width:200px;" panelTitle="组织架构">
             <div id="orgContent" style="overflow-y:auto;">
                 <ul id="tree-1" class="ztree"></ul>
             </div>
@@ -118,7 +118,7 @@
                         <tr>
                             <td>所属图书馆：</td>
                             <td>
-                                <select id="selectLib" name="selectLib" url="/SchoolInfoManage/GetSelectLib"></select>
+                                <select id="selectLib" name="selectLib" url="@Url.Action("GetSelectLib", "SchoolInfoManage")"></select>
                             </td>
                         </tr>
                         <tr>
@@ -167,7 +167,7 @@
 
             var diag = new top.Dialog();
             diag.Title = "删除" + title;
-            diag.URL = "/SchoolInfoManage/DeletePassword?Flag=" + flag + "&No=" + No + "&Name=" + Name;
+            diag.URL = "@Url.Action("DeletePassword", "SchoolInfoManage")"+"?Flag=" + flag + "&No=" + No + "&Name=" + Name;
             diag.Width = 500;
             diag.Height = 250;
             diag.OkButtonText = "保 存";
@@ -186,7 +186,7 @@
             var valid = $("#form" + formIndex).validationEngine({ returnIsValid: true });
             if (valid) {
                 $.ajax({
-                    url: "/SchoolInfoManage/SaveUpdate?arg=" + parm, //你的路由地址
+                    url: "@Url.Action("SaveUpdate", "SchoolInfoManage")"+"?arg=" + parm, //你的路由地址
                     type: "post",
                     dataType: "json",
                     data: $("#form" + formIndex).serialize(),
@@ -253,7 +253,7 @@
         function getOrgTreeData() {
             $.ajax({
                 type: 'POST',
-                url: '/SchoolInfoManage/GetTreeData',
+                url: '@Url.Action("GetTreeData", "SchoolInfoManage")',
                 data: null,
                 success: function (result) {
                     var obj = eval('(' + result + ')');
@@ -324,7 +324,7 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: '/SchoolInfoManage/GetSelectSchool',
+                    url: '@Url.Action("GetSelectSchool", "SchoolInfoManage")',
                     data: null,
                     success: function (result) {
                         var obj = eval('(' + result + ')');
@@ -334,7 +334,7 @@
                         //绑定区域 txtArea
                         $.ajax({
                             type: 'POST',
-                            url: '/SchoolInfoManage/GetSelectAreaText?libNo=' + libId,
+                            url: '@Url.Action("GetSelectAreaText", "SchoolInfoManage")"+"?libNo=' + libId,
                             data: null,
                             success: function (result) {
                                 $("#txtArea").val(result);
@@ -359,7 +359,7 @@
                 $("#roomName").val(roomName);
                 $.ajax({
                     type: 'POST',
-                    url: '/SchoolInfoManage/GetSelectLib',
+                    url: '@Url.Action("GetSelectLib", "SchoolInfoManage")',
                     data: null,
                     success: function (result) {
                         var obj = eval('(' + result + ')');
@@ -375,7 +375,7 @@
                 //加载所属区域
                 $.ajax({
                     type: 'POST',
-                    url: '/SchoolInfoManage/GetSelectArea?libNo=' + parentId,
+                    url: '@Url.Action("GetSelectArea", "SchoolInfoManage")'+'?libNo=' + parentId,
                     data: null,
                     success: function (result) {
                         var obj = eval('(' + result + ')');
@@ -401,7 +401,7 @@
 
             var diag = new top.Dialog();
             diag.Title = title;
-            diag.URL = "/SchoolInfoManage/AddNew?arg="+arg;
+            diag.URL = "@Url.Action("AddNew", "SchoolInfoManage")"+"?arg="+arg;
             diag.Width = 500;
             diag.Height = 250;
             diag.OkButtonText = "保 存";
@@ -421,7 +421,7 @@
             } else {
                 var diag = new top.Dialog();
                 diag.Title = "[" + selectNo + "]阅览室设置";
-                diag.URL = "/SchoolInfoManage/ReadingRoomSetting?id=" + selectNo;
+                diag.URL = "@Url.Action("ReadingRoomSetting", "SchoolInfoManage")"+"?id=" + selectNo;
                 diag.Width = 1200;
                 diag.Height = 800;
                 diag.OkButtonText = "保 存";

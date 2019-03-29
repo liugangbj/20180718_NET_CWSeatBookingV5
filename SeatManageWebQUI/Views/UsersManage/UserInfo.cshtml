@@ -22,8 +22,8 @@
     <script src="~/quickui/libs/js/table/quiGrid.js" type="text/javascript"></script>
 
     <!--引入提示组件start-->
-    <script type="text/javascript" src="/quickui/libs/js/popup/toast.js"></script>
-    <script type="text/javascript" src="/quickui/libs/js/popup/notice.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/popup/toast.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/popup/notice.js"></script>
     <!--引入提示组件end-->
 
     <script>
@@ -125,7 +125,7 @@
             console.log($strWhere);
 
             $.ajax({
-                url: "/UsersManage/QueryUserInfo",
+                url: "@Url.Action("QueryUserInfo", "UsersManage")",
                 data: { strWhere: $strWhere },
                 type: "post",
                 dataType: "text",
@@ -150,7 +150,7 @@
                 top.Dialog.confirm("确认删除"+selectData.LoginId+"编号的记录吗",
                     function(){
                         $.ajax({
-                            url: "/UsersManage/RemoveUser",
+                            url: "@Url.Action("RemoveUser", "UsersManage")",
                             data: { LoginId: selectData.LoginId },
                             type: "post",
                             dataType: "json",
@@ -175,7 +175,7 @@
             
             var url = "";
             if(op == 'add'){
-                url = "/UsersManage/AddOrEdit?op="+op+"&LoginId=0";
+                url = "@Url.Action("AddOrEdit", "UsersManage")?op="+op+"&LoginId=0";
             }else if(op == 'edit'){
                 var selectData = grid.getSelectedRow(); 
 
@@ -184,7 +184,7 @@
                     top.Toast('showErrorToast', '请选中要编辑的行');
                 }
 
-                url = "/UsersManage/AddOrEdit?op="+op+"&LoginId="+selectData.LoginId;
+                url = "@Url.Action("AddOrEdit", "UsersManage")?op="+op+"&LoginId="+selectData.LoginId;
             }
             var diag = new top.Dialog();
             diag.Title = '操作窗口';

@@ -21,20 +21,20 @@
     <link rel="stylesheet" type="text/css" href="~/quickui/style/style.css" />
     <script src="~/quickui/libs/js/table/quiGrid.js" type="text/javascript"></script>
     <!--引入提示组件start-->
-    <script type="text/javascript" src="/quickui/libs/js/popup/toast.js"></script>
-    <script type="text/javascript" src="/quickui/libs/js/popup/notice.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/popup/toast.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/popup/notice.js"></script>
     <!--引入提示组件end-->
     <!--树组件start -->
-    <script type="text/javascript" src="/quickui/libs/js/tree/ztree/ztree.js"></script>
-    <link href="/quickui/libs/js/tree/ztree/ztree.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="~/quickui/libs/js/tree/ztree/ztree.js"></script>
+    <link href="~/quickui/libs/js/tree/ztree/ztree.css" rel="stylesheet" type="text/css" />
     <!--树组件end -->
     <!--布局控件start-->
-    <script type="text/javascript" src="/quickui/libs/js/nav/layout.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/nav/layout.js"></script>
     <!--布局控件end-->
-    <script src="/quickui/libs/js/form/validationRule.js" type="text/javascript"></script>
-    <script src="/quickui/libs/js/form/validation.js" type="text/javascript"></script>
+    <script src="~/quickui/libs/js/form/validationRule.js" type="text/javascript"></script>
+    <script src="~/quickui/libs/js/form/validation.js" type="text/javascript"></script>
 
-    <script src="/echartjs/echarts.min.js" type="text/javascript"></script>
+    <script src="~/echartjs/echarts.min.js" type="text/javascript"></script>
    
 </head>
 <body>
@@ -42,7 +42,7 @@
     <form id="form1" name="form1">
         <table cellpadding="5" cellspacing="5">
             <tr>
-                <td><select id="selectLibs" name="selectLibs" url="/Home/GetLibsData"></select></td>
+                <td><select id="selectLibs" name="selectLibs" url="@Url.Action("GetLibsData", "Home")"></select></td>
                 <td><input type="button" value="查询" class="primary" id="btnQuery" onclick="btnQueryClick()" /></td>
             </tr>
         </table>
@@ -64,7 +64,7 @@
         {
             $.ajax({
                 type: 'POST',
-                url: '/Home/GetCharts?libID=' + libId + '&libText='+text,
+                url: '@Url.Action("GetCharts", "Home")'+'?libID=' + libId + '&libText='+text,
                 data: null,
                 success: function (result) {
                     var obj = eval('(' + result + ')');
