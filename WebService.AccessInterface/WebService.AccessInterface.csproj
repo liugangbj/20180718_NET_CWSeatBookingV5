@@ -84,6 +84,7 @@
     <None Include="Properties\PublishProfiles\testweb.pubxml" />
     <None Include="Properties\PublishProfiles\u.pubxml" />
     <None Include="Properties\PublishProfiles\web.pubxml" />
+    <None Include="Properties\PublishProfiles\web1.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
