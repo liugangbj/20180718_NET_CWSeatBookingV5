@@ -1,0 +1,58 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>修改密码</title>
+    <!--框架必需start-->
+    <link href="~/quickui/libs/css/import_main.css" rel="stylesheet" type="text/css" />
+    <link href="~/quickui/libs/skins/blue/style.css" rel="stylesheet" type="text/css" id="theme" themeColor="blue" positionTarget="positionContent" />
+    <link href="~/quickui/system/style16_accordion_blue/skin/style.css" rel="stylesheet" type="text/css" id="skin" skinPath="~/quickui/system/style16_accordion_blue/skin/" />
+    <script type="text/javascript" src="~/quickui/libs/js/jquery.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/language/cn.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/main.js"></script>
+    <!--框架必需end-->
+    <!--弹窗组件start-->
+    <script type="text/javascript" src="~/quickui/libs/js/popup/drag.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/popup/dialog.js"></script>
+    <!--弹窗组件end-->
+    <!--引入提示组件start-->
+    <script type="text/javascript" src="~/quickui/libs/js/popup/toast.js"></script>
+    <script type="text/javascript" src="~/quickui/libs/js/popup/notice.js"></script>
+    <!--引入提示组件end-->
+    <!--左侧导航start-->
+    <script type="text/javascript" src="~/quickui/libs/js/nav/menuNav.js"></script>
+    <!--左侧导航end-->
+    <!--信件箱start-->
+    <link rel="stylesheet" type="text/css" href="~/quickui/libs/skins/blue/msgbox.css" />
+    <script type="text/javascript" src="~/quickui/libs/js/popup/msgbox.js"></script>
+    <!--信件箱end-->
+    <script src="~/quickui/libs/js/form/validationRule.js" type="text/javascript"></script>
+    <script src="~/quickui/libs/js/form/validation.js" type="text/javascript"></script>
+</head>
+<body>
+    <div style="width:550px;">
+        <form>
+            <table class="tableStyle" formMode="transparent">
+                <tr>
+                    <td>旧密码</td>
+                    <td><input type="password" id="txtOldPassword" class="validate[required]" /></td>
+                </tr>
+                <tr>
+                    <td>新密码：</td>
+                    <td><input type="password" id="txtNewPassword1" class="validate[required,length[6,11]]" /></td>
+                </tr>
+                <tr>
+                    <td>再次确认新密码：</td>
+                    <td><input type="password" id="txtNewPassword2" class="validate[required,confirm[txtNewPassword1]]" /></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</body>
+</html>

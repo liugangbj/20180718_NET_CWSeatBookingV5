@@ -13,6 +13,46 @@ namespace SeatManageWebQUI.Controllers
     {
         List<SeatManage.ClassModel.LibraryInfo> libList = SeatManage.Bll.T_SM_Library.GetLibraryInfoList(null, null, null);
 
+        #region 修改密码
+
+        public ActionResult OpenChangePassWindows()
+        {
+            return View();
+        }
+
+
+        public JsonResult ChangePass(string passOld,string pass1,string pass2)
+        {
+            JsonResult result = null;
+            SeatManage.ClassModel.UserInfo user = SeatManage.Bll.Users_ALL.GetUserInfo(LoginId);
+            if (user.Password != SeatManage.SeatManageComm.MD5Algorithm.GetMD5Str32(passOld))
+            {
+                result = Json(new { status = "no", message = "原密码错误，请重新输入！" }, JsonRequestBehavior.AllowGet);
+            }
+            else if (pass1 != pass2)
+            {
+                result = Json(new { status = "no", message = "两次新密码输入不匹配" }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                user.Password = SeatManage.SeatManageComm.MD5Algorithm.GetMD5Str32(pass1);
+                if (SeatManage.Bll.Users_ALL.UpdateUserOnlyInfo(user))
+                {
+                    //密码更新成功
+                    result = Json(new { status = "yes", message = "密码更新成功" }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    //密码更新失败
+                    result = Json(new { status = "no", message = "密码更新失败" }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            return result;
+        }
+
+        #endregion
+
+
         public ActionResult Index()
         {
 

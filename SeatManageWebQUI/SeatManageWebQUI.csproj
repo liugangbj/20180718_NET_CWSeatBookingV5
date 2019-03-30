@@ -4158,6 +4158,7 @@
     <Content Include="Views\LogManage\AddNewBlack.cshtml" />
     <Content Include="Views\home\IndexData.cshtml" />
     <Content Include="Views\Test\TestLoading.cshtml" />
+    <Content Include="Views\home\OpenChangePassWindows.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
