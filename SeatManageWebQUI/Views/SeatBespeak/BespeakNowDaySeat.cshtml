@@ -84,7 +84,7 @@
                      display: '操作', align: 'left', width: '10%',
                      render: function (rowdata, rowindex, value, column) {
                          return '<div class="grid_opp_container">'
-                                 + ' <span class="grid_opp_edit" onclick="booking(' + rowdata.roomNum + ',' + rowdata.SurplusBespeskAmcount + ')">预约</span>'
+                                 + ' <span class="grid_opp_edit" onclick="booking(\'' + rowdata.roomNum + '\',' + rowdata.SurplusBespeskAmcount + ')">预约</span>'
                              + '</div>';
                      }
                  }

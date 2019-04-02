@@ -95,7 +95,7 @@
                          	width: "20%",
                          	render: function(rowdata, rowindex, value, column) {
                          		var mainCon = $('<div></div>');
-                         		var con = $('<span class="operation_look" onclick="roomView('+rowdata.roomNum+')" style="float:none;">阅览室监控</span><span class="operation_picking" onclick="readerListView('+rowdata.roomNum+')">读者列表</span>');
+                         		var con = $('<span class="operation_look" onclick="roomView(\''+rowdata.roomNum+'\')" style="float:none;">阅览室监控</span><span class="operation_picking" onclick="readerListView(\''+rowdata.roomNum+'\')">读者列表</span>');
                          		mainCon.append(con);
                          		return mainCon.html();
                          	}
