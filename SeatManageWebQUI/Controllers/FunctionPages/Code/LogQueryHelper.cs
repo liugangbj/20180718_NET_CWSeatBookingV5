@@ -213,7 +213,7 @@ namespace SeatManageWebV5.Code
             foreach (ReadingRoomInfo model in potency.RightRoomList)
             {
                 DataRow dr = dt.NewRow();
-                dr["roomNum"] = model.No;
+                dr["roomNum"] = model.No.ToString();
                 dr["roomName"] = model.Name;
                 dr["libraryName"] = model.Libaray.Name;
                 //int stopSeatCount = 0;

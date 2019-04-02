@@ -705,7 +705,7 @@ namespace SeatManageWebQUI.Controllers.FunctionPages
             sb.Append("	\"rows\": [");
             foreach (DataRow item in dt.Rows)
             {
-                sb.Append("{\"roomNum\": " + item["roomNum"] + ",\"roomName\": \"" + item["roomName"] + "\",\"libraryName\": \"" + item["libraryName"] + "\",\"seatCountAll\": \"" + item["seatCountAll"] + "\",\"seatCountUsed\": \"" + item["seatCountUsed"] + "\",\"seatCountShortLeave\": \"" + item["seatCountShortLeave"] + "\"}");
+                sb.Append("{\"roomNum\": \"" + item["roomNum"].ToString() + "\",\"roomName\": \"" + item["roomName"] + "\",\"libraryName\": \"" + item["libraryName"] + "\",\"seatCountAll\": \"" + item["seatCountAll"] + "\",\"seatCountUsed\": \"" + item["seatCountUsed"] + "\",\"seatCountShortLeave\": \"" + item["seatCountShortLeave"] + "\"}");
                 sb.Append(",");
             }
             sb.Remove(sb.Length - 1, 1);
