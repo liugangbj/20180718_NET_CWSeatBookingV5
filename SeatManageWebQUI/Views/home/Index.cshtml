@@ -148,7 +148,7 @@
                                         <li><b></b></li>
                                         @*<li><span class="icon_lock" onclick="lockScreen()">屏幕锁定</span></li>*@
                                         <li><b></b></li>
-                                        @*<li><span class="icon_user">个人中心</span></li>*@
+                                        <li><span class="icon_user" onclick="javascript:openChangePassWindows();" >修改密码</span></li>
 
                                         <li><b></b></li>
                                         <li><span class="icon_exit" onclick="top.Dialog.confirm('确定要退出系统吗',function(){ location.href='@Url.Action("LoginOut","Home")' });">退出系统</span></li>
@@ -214,6 +214,54 @@
     <!--载进度条end-->
     <!---->
     <script type="text/javascript">
+
+        function openChangePassWindows()
+        {
+            var diag = new top.Dialog();
+            diag.Title = "修改密码";
+            diag.URL = "@Url.Action("OpenChangePassWindows")";// "Home/";
+            diag.Height='200px';
+            diag.Width='450px';
+            diag.ShowButtonRow = true;
+            diag.OkButtonText = " 提 交 ";
+            diag.OKEvent = function(){
+            //    top.Dialog.alert("点击了确定")
+
+                var $passOld = diag.innerFrame.contentWindow.document.getElementById('txtOldPassword').value;
+                var $pass1 = diag.innerFrame.contentWindow.document.getElementById('txtNewPassword1').value;
+                var $pass2 = diag.innerFrame.contentWindow.document.getElementById('txtNewPassword2').value;
+                
+                if($passOld=="") 
+                {
+                    top.Toast('showErrorToast', '请输入旧密码');    
+                }else if($pass1=="")
+                {
+                    top.Toast('showErrorToast', '请输入新密码');    
+                }else if($pass1!=$pass2)
+                {
+                    top.Toast('showErrorToast', '两次密码输入不一致');    
+                }else
+                {
+                    $.ajax({
+                        url: "@Url.Action("ChangePass")",
+                        data: { passOld: $passOld, pass1: $pass1,pass2: $pass2},
+                    type: "post",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.status == "yes") {
+                            top.Toast('showSuccessToast', data.message);
+                        } else {
+                            top.Toast('showErrorToast', data.message);
+                        }
+                    }
+                });
+                
+                }
+            };
+            diag.show();
+        }
+
+
 	var data = [
 		{ "news": "请假正在审批中" },
 		{ "news": "请各位周五前提交周报" },
