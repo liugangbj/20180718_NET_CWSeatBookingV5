@@ -661,7 +661,7 @@
 
             var diag = new top.Dialog();
             diag.Title = "指定可预约座位";
-            diag.URL = "@Url.Action("BespeakSeatSetting", "SchoolInfoManage")"+"?id=" + @ViewBag.RoomNo;
+            diag.URL = "@Url.Action("BespeakSeatSetting", "SchoolInfoManage")"+"?id='" + @ViewBag.RoomNo + "'";
             diag.Width = 1200;
             diag.Height = 800;
             diag.OkButtonText = "保 存";
