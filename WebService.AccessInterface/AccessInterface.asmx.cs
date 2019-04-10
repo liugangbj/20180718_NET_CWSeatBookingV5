@@ -48,8 +48,9 @@ namespace SeatManageWebV2.WebService
             {
                 if (string.IsNullOrEmpty(CardNo))
                 {
+                    SeatManage.SeatManageComm.WriteLog.Write(CardNo);
                     throw new Exception("输入的学号为空！");
-                   // SeatManage.SeatManageComm.WriteLog.Write(CardNo);
+                    
                 }
                 SeatManage.ClassModel.AccessSetting accset = SeatManage.Bll.T_SM_SystemSet.GetAccessSetting();
                 if (accset == null)

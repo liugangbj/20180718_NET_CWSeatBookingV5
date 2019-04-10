@@ -80,6 +80,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\PublishProfiles\12.pubxml" />
     <None Include="Properties\PublishProfiles\AccessInterface.pubxml" />
     <None Include="Properties\PublishProfiles\testweb.pubxml" />
     <None Include="Properties\PublishProfiles\u.pubxml" />

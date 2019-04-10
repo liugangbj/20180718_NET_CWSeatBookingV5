@@ -151,7 +151,7 @@
         </div>
         <div data-theme="d" data-role="footer" data-position="fixed">
             <h5>
-                楚风云座位移动管理平台</h5>
+                云座位移动管理平台</h5>
         </div>
     </div>
     </form>

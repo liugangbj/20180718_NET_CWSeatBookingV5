@@ -174,7 +174,7 @@
     </table>
     <div data-theme="c" data-role="footer" data-position="fixed">
         <h3>
-            楚风云座位移动管理平台
+            云座位移动管理平台
         </h3>
         <a data-role="button" class="ui-btn-right" onclick="SetOperateFlag('LoginOut')">注销</a>
     </div>

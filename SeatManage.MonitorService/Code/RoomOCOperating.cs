@@ -210,7 +210,7 @@ namespace SeatService.MonitorService.Code
                             T_SM_SeatWaiting.UpdateWaitLog(wsllist[0]);
                         }
                     }
-                    eol.EnterOutState = EnterOutLogType.Leave;
+                    eol.EnterOutState = EnterOutLogType.Leave; 
                     eol.EnterOutTime = nowDateTime;
                     eol.Flag = Operation.Service;
                     eol.Remark = string.Format("在{0}，{1}号座位，闭馆释放座位", eol.ReadingRoomName, eol.SeatNo.Substring(eol.SeatNo.Length - room.Setting.SeatNumAmount));

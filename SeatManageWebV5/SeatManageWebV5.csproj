@@ -2535,7 +2535,6 @@
     <Content Include="Images\SeatImage\btn_leave.png" />
     <Content Include="Images\SeatImage\btn_leave_p.png" />
     <Content Include="Images\SeatImage\btn_violate.png" />
-    <Content Include="Images\FormTop.png" />
     <Content Include="Images\Login\bg.jpg" />
     <Content Include="Images\Login\img_cz.jpg" />
     <Content Include="Images\Login\img_dl.jpg" />
