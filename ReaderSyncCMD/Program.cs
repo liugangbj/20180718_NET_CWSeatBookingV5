@@ -14,6 +14,7 @@ namespace ReaderSyncCMD
         private static TimeLoop timeLoop;//循环时间  
         static string loopInterval = ConfigurationManager.AppSettings["CheckTimes"];
         static string SyncTimeHour = ConfigurationManager.AppSettings["SyncTimeHour"];
+        static string SyncTimeMinute = ConfigurationManager.AppSettings["SyncTimeMinute"];
         static bool IsWork = false;
 
         static void Display(string msg)
@@ -28,11 +29,10 @@ namespace ReaderSyncCMD
         static bool IsTimeToWork()
         {
             bool isTrue = false;
-            if (DateTime.Now.Hour.ToString() == SyncTimeHour)
+            if (DateTime.Now.Hour.ToString() == SyncTimeHour && DateTime.Now.Minute.ToString() == SyncTimeMinute)
             {
                 isTrue = true;
             }
-
             return isTrue;
         }
 
@@ -76,7 +76,7 @@ namespace ReaderSyncCMD
                         objAddReaderInfo.AddNewData(dt,System.Configuration.ConfigurationManager.AppSettings["ConnectionToDB"]);
                         Display("将数据添加到目标表结束,读者表同步完毕.");
                         Display("开始激活用户");
-                       int count = objActiveUser.Active();
+                        int count = objActiveUser.Active();
                         Display("激活用户结束,新增了"+count+"个用户");
                         SeatManage.SeatManageComm.WriteLog.Write("激活用户结束,新增了" + count + "个用户");
 
@@ -85,6 +85,7 @@ namespace ReaderSyncCMD
                     catch (Exception ex)
                     {
                         Display(ex.ToString());
+                        IsWork = false;
                         SeatManage.SeatManageComm.WriteLog.Write(ex.ToString());
                     }
                     IsWork = false;

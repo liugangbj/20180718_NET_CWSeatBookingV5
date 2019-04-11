@@ -64,7 +64,7 @@ namespace ReaderSyncCMD
                 ndr["Sex"] = dr["sex"];
                 ndr["ReaderTypeName"] = dr["typeno"];
                 ndr["ReaderDeptName"] = dr["deptno"];
-                ndr["ReaderProName"] = "";
+                ndr["ReaderProName"] = dr["Password"];
                 ndr["Flag"] = dr["Flag"];
                 if (string.IsNullOrEmpty(ndr["CardNo"].ToString()))
                 {

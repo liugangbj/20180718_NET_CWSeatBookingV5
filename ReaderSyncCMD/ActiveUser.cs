@@ -62,7 +62,8 @@ namespace ReaderSyncCMD
                 List<string> sqlRoles = new List<string>();
                 foreach (DataRow r in dt.Rows)
                 {
-                    string sqlUser = "insert into [Users_ALL](LoginID,UsrName,UsrPwd,UsrType,UsrEnabled,Remark,IPLockIPAdress) values('" + r["CardNo"] + "','" + r["ReaderName"] + "','202CB962AC59075B964B07152D234B70',1,1,'系统自动激活','')";
+                    //ReaderProName为汇文密码字段
+                    string sqlUser = "insert into [Users_ALL](LoginID,UsrName,UsrPwd,UsrType,UsrEnabled,Remark,IPLockIPAdress) values('" + r["CardNo"] + "','" + r["ReaderName"] + "','"+r["ReaderProName"] +"',1,1,'系统自动激活','')";
                     sqlInsertUsers.Add(sqlUser);
 
                     string sqlRole = "insert into sysEmpRoles(RoleID,LoginID) values(3,'" + r["CardNo"] + "')";
