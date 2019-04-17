@@ -31,29 +31,35 @@
     <!--引入提示组件end-->
     <!--左侧导航start-->
     <script type="text/javascript" src="~/quickui/libs/js/nav/menuNav.js"></script>
+
     <!--左侧导航end-->
+    <style>
+        .syslogin {display:none;
+        }
+    </style>
 </head>
 <body>
     <div class="win">
         <div class="login_win">
             <div class="login_title"></div>
             <form action="" method="post" class="form_win">
-                <div class="form_title">
+                <div class="form_title ">
                     <span>用户登录</span>
                 </div>
-                <div class="user">
+                <div class="user syslogin">
                     <i></i><input type="text" name="txtUserName" id="txtUserName" placeholder="账号" />
                 </div>
-                <div class="passerword">
+                <div class="passerword syslogin">
                     <i></i><input type="password" name="txtPass" id="txtPass" placeholder="密码" />
                 </div>
-                <div class="remember clear">
+                <div class="remember clear syslogin">
                     @*<a href="javascript:;">忘记密码？</a>*@
                 </div>
-                <input type="button" id="btnLogin" value="登 录" class="submit"/>
-
-                <a type="button" href="http://ids.xmu.edu.cn/authserver/login?service=https://lib.xmu.edu.cn/seat/xmulogin" id="casLogin" class="submit" style="background:url(/seat/images/open_xmu_48.png) no-repeat;border:0px;margin-top:5px;background-size: 100% 40px; "></a>
-
+                <input type="button" id="btnLogin" value="登 录" class="submit syslogin" style="display:none;"/>
+                <input type="button" id="btnReturn" value="返 回" onclick="loginSel()" class="submit syslogin" style="display:none;margin-top:10px;background-color:#9baa98;" />
+                
+                <a type="button" href="http://ids.xmu.edu.cn/authserver/login?service=https://lib.xmu.edu.cn/seat/xmulogin" id="casLogin" class="submit icologin" style="background:url(/seat/images/open_xmu_48.png) no-repeat;border:0px;margin-top:10px;background-size: 100% 40px; "></a>
+                <a type="button" href="javascript:;" id="sysLogin" onclick="sysLogin()" class="submit icologin" style="background:url(/seat/images/open_xmu_32.png) no-repeat;border:0px;margin-top:10px;background-size: 100% 40px; "></a>
                 <div class="login_copy">
                     <a href="http://library.xmu.edu.cn" target="_blank">官方网站：http://library.xmu.edu.cn</a>
                 </div>
@@ -66,6 +72,7 @@
     </div>
 
     <script>
+        var loginType = "";
         $(function () {
             var msg = "@msg";
             if (msg) {
@@ -73,8 +80,22 @@
             }
         });
 
-        $("#btnLogin").click(function () {
+        var sysLogin = function(){
+            loginType = "sysLogin";
+            $(".syslogin").css("display", "block");
+            $(".icologin").hide();
+        }
 
+        var loginSel = function () {
+            loginType = "";
+            $(".syslogin").css("display", "none");
+            $(".icologin").show();
+        }
+
+        $("#btnLogin").click(function () {
+            if (loginType == "") {
+                return;
+            }
             var $username = $("#txtUserName");
             var $password = $("#txtPass");
             if ($username.val() == "") {

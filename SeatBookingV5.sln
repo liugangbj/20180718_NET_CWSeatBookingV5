@@ -251,6 +251,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GuangXiCaiJing", "GuangXiCa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuangXiCaiJingReaderSyncCMD", "GuangXiCaiJingReaderSyncCMD\GuangXiCaiJingReaderSyncCMD.csproj", "{3E4CEC85-8EFD-462A-962F-F7DFFFBB85FE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolPocketBookWeb_XD", "SchoolPocketBookOnlineV3_XD\SchoolPocketBookWeb_XD.csproj", "{BF18889A-358C-4D2D-A8CA-8CC7892CB452}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1315,6 +1317,18 @@ Global
 		{3E4CEC85-8EFD-462A-962F-F7DFFFBB85FE}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{3E4CEC85-8EFD-462A-962F-F7DFFFBB85FE}.Release|x86.ActiveCfg = Release|Any CPU
 		{3E4CEC85-8EFD-462A-962F-F7DFFFBB85FE}.Release|x86.Build.0 = Release|Any CPU
+		{BF18889A-358C-4D2D-A8CA-8CC7892CB452}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF18889A-358C-4D2D-A8CA-8CC7892CB452}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF18889A-358C-4D2D-A8CA-8CC7892CB452}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{BF18889A-358C-4D2D-A8CA-8CC7892CB452}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{BF18889A-358C-4D2D-A8CA-8CC7892CB452}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BF18889A-358C-4D2D-A8CA-8CC7892CB452}.Debug|x86.Build.0 = Debug|Any CPU
+		{BF18889A-358C-4D2D-A8CA-8CC7892CB452}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF18889A-358C-4D2D-A8CA-8CC7892CB452}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF18889A-358C-4D2D-A8CA-8CC7892CB452}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{BF18889A-358C-4D2D-A8CA-8CC7892CB452}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{BF18889A-358C-4D2D-A8CA-8CC7892CB452}.Release|x86.ActiveCfg = Release|Any CPU
+		{BF18889A-358C-4D2D-A8CA-8CC7892CB452}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1432,6 +1446,7 @@ Global
 		{BD92766A-59AB-490A-9FBE-08033EE0E5CB} = {618A1F84-87EA-4077-B13E-C33652DF3A7E}
 		{27FC0039-B7C9-45A5-9921-A8A3FE5C808A} = {E4CCD01E-7AE5-4ED8-878A-E7E2474EB8AD}
 		{3E4CEC85-8EFD-462A-962F-F7DFFFBB85FE} = {27FC0039-B7C9-45A5-9921-A8A3FE5C808A}
+		{BF18889A-358C-4D2D-A8CA-8CC7892CB452} = {618A1F84-87EA-4077-B13E-C33652DF3A7E}
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SeatManageV21.vsmdi
