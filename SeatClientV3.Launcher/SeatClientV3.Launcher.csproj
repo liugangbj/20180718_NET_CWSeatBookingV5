@@ -125,10 +125,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Logo.ico" />
+    <Resource Include="Resources\BackgroundImage.png" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Resource Include="Resources\BackgroundImage.png" />
+    <Resource Include="Resources\BackgroundImage_1.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EnumType\EnumType.csproj">
