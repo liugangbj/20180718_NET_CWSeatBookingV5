@@ -129,9 +129,6 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Resource Include="Resources\BackgroundImage_1.png" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\EnumType\EnumType.csproj">
       <Project>{3e7c2198-f6b3-4fae-8ebf-2271e752dff3}</Project>
       <Name>EnumType</Name>
