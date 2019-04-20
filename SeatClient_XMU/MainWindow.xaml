@@ -29,9 +29,9 @@
                     </Canvas>
                 </Canvas>
                 <Path Style="{DynamicResource PathIn}" Height="702" Canvas.Left="74" Width="842" Canvas.Top="14" Stretch="Fill"/>
-                <RadioButton x:Name="btn_Guide" Click="btn_Guide_Click" Content="使&#xa;用&#xa;手&#xa;册" Canvas.Left="15" Canvas.Top="404" Style="{DynamicResource RadioButton_Main}"/>
-                <RadioButton x:Name="btn_Note" Click="btn_Note_Click"  Content="校&#xa;园&#xa;通&#xa;知" Canvas.Left="15" Canvas.Top="508" Style="{DynamicResource RadioButton_Main}"/>
-                <RadioButton x:Name="btn_Promotion" Click="btn_Promotion_Click" Content="校&#xa;园&#xa;推&#xa;广" Canvas.Left="15" Canvas.Top="612" Style="{DynamicResource RadioButton_Main}" IsChecked="True"/>
+                <RadioButton x:Name="btn_Guide" Click="btn_Guide_Click" Content="使&#xa;用&#xa;手&#xa;册" Canvas.Left="15" Canvas.Top="518" Style="{DynamicResource RadioButton_Main}"/>
+                <RadioButton x:Name="btn_Note" Click="btn_Note_Click"  Content="校&#xa;园&#xa;通&#xa;知" Canvas.Left="15" Canvas.Top="618" Style="{DynamicResource RadioButton_Main}"/>
+                <!--<RadioButton x:Name="btn_Promotion" Click="btn_Promotion_Click" Content="校&#xa;园&#xa;推&#xa;广" Canvas.Left="15" Canvas.Top="612" Style="{DynamicResource RadioButton_Main}" IsChecked="True"/>-->
 
                 <!--<RadioButton x:Name="btn_Guide" Click="btn_Guide_Click" Content="使&#xa;用&#xa;手&#xa;册" Canvas.Left="15" Canvas.Top="508" Style="{DynamicResource RadioButton_Main}"/>
                 <RadioButton x:Name="btn_Note" Click="btn_Note_Click"  Content="校&#xa;园&#xa;通&#xa;知" Canvas.Left="15" Canvas.Top="612" Style="{DynamicResource RadioButton_Main}" IsChecked="True"/>-->

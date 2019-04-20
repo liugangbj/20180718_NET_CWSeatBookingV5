@@ -182,7 +182,7 @@ namespace SeatClientV3
                 switch (viewModel.NowTap)
                 {
                     case SeatManage.EnumType.AdType.None: btn_Guide.IsChecked = true; break;
-                    case SeatManage.EnumType.AdType.PromotionAd: btn_Promotion.IsChecked = true; break;
+                  //  case SeatManage.EnumType.AdType.PromotionAd: btn_Promotion.IsChecked = true; break;
                     case SeatManage.EnumType.AdType.SchoolNotice: btn_Note.IsChecked = true; break;
                 }
                 CanvasMove(x, y);
@@ -422,10 +422,10 @@ namespace SeatClientV3
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btn_Promotion_Click(object sender, RoutedEventArgs e)
-        {
-            viewModel.ImageUpDown(SeatManage.EnumType.AdType.PromotionAd);
-        }
+        //private void btn_Promotion_Click(object sender, RoutedEventArgs e)
+        //{
+        //    viewModel.ImageUpDown(SeatManage.EnumType.AdType.PromotionAd);
+        //}
         /// <summary>
         /// 隐藏关闭
         /// </summary>
