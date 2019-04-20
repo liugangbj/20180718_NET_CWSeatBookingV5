@@ -95,6 +95,11 @@ namespace AppMessagePush
             try
             {
                 string service = url;
+                //厦大学校编号：201812221   配置key:  ConfigurationManager.AppSettings["XMUWeCharPushUrl"];
+                if (msg.IndexOf("201812221", StringComparison.Ordinal) > 0)
+                {
+                    url = ConfigurationManager.AppSettings["XMUWeCharPushUrl"];
+                }
                 string aesStr = SeatManage.SeatManageComm.AESAlgorithm.AESEncrypt(msg, "SeatManage_WeiCharCode");
                 string contenttype = "application/x-www-form-urlencoded"; //更网站该方法支持的类型要一致
                 //根据接口，写参数
