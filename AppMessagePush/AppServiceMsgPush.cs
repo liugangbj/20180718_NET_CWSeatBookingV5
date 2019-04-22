@@ -105,11 +105,12 @@ namespace AppMessagePush
                 //根据接口，写参数
                 aesStr = aesStr.Replace("+", "%2B");
                 string para = "msg=" + aesStr;
-                //if (msg.IndexOf("20180627", StringComparison.Ordinal) > 0)
-               // {
-                    SeatManage.SeatManageComm.WriteLog.Write(msg);
-                   // SeatManage.SeatManageComm.WriteLog.Write(aesStr);
-               // }
+
+                //if (msg.IndexOf("201812221", StringComparison.Ordinal) > 0)
+                //{
+                //    SeatManage.SeatManageComm.WriteLog.Write("1:"+msg);
+                //    SeatManage.SeatManageComm.WriteLog.Write("2"+aesStr);
+                //}
 
 
                 //para += "&action=" + aesStr;
@@ -128,11 +129,12 @@ namespace AppMessagePush
                 HttpWebResponse myResponse = (HttpWebResponse)myRequest.GetResponse();
                 StreamReader reader = new StreamReader(myResponse.GetResponseStream(), Encoding.UTF8);
                 string content = reader.ReadToEnd(); //得到结果
+                SeatManage.SeatManageComm.WriteLog.Write("3:" + content);
                 return content;
             }
             catch (Exception ex)
             {
-                SeatManage.SeatManageComm.WriteLog.Write(ex.ToString());
+                SeatManage.SeatManageComm.WriteLog.Write("4:"+ex.ToString());
                 return ex.Message;
             }
         }
