@@ -539,7 +539,6 @@
     <Resource Include="bin\Debug\CodeImage.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Content Include="bin\Debug\ffmpeg.exe" />
     <Resource Include="Resources\ResourceImage.png" />
     <Resource Include="Resources\CodeImage.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
