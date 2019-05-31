@@ -60,7 +60,8 @@ namespace SeatManageWeb.WebService
         /// </summary>
         /// <param name="roomNum"></param>
         /// <returns></returns>
-        private ReadingRoomInfo GetSingleRoomInfo(string roomNum)
+     //   [WebMethod]
+        public ReadingRoomInfo GetSingleRoomInfo(string roomNum)
         {
             return T_SM_ReadingRoom.GetSingleRoomInfo(roomNum);
         }

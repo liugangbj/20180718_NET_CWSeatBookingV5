@@ -2849,6 +2849,7 @@
     <Content Include="WebService\SeatLayoutInterface.asmx" />
     <Content Include="WebService\SMS_DataQueryInterface.asmx" />
     <Content Include="WebService\SM_AccessInterface.asmx" />
+    <Content Include="WebService\WebService1.asmx" />
     <Content Include="说明.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -3521,6 +3522,10 @@
       <DependentUpon>SM_AccessInterface.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="WebService\WebService1.asmx.cs">
+      <DependentUpon>WebService1.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -3544,6 +3549,10 @@
     <ProjectReference Include="..\InterfaceFactory\SeatManage.InterfaceFactory.csproj">
       <Project>{FAF7C3DC-E2A6-482B-989E-735BE18517BA}</Project>
       <Name>SeatManage.InterfaceFactory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IWCFService\IWCFService.csproj">
+      <Project>{F7C44CB4-96BD-4B90-BC1A-A4313D362FE9}</Project>
+      <Name>IWCFService</Name>
     </ProjectReference>
     <ProjectReference Include="..\SeatManage.BLL\SeatManage.BllV2.csproj">
       <Project>{82ddb168-dde2-4a20-a4c2-801b0e3f7172}</Project>
