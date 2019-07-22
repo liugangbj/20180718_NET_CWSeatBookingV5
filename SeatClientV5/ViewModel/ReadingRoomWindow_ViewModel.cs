@@ -218,6 +218,7 @@ namespace SeatClientV3.ViewModel
             Dictionary<string, ReadingRoomSeatUsedState> roomStateList = EnterOutOperate.GetReadingRoomSeatUsingStateV2(ClientObject.ClientSetting.DeviceSetting.Rooms);
             foreach (KeyValuePair<string, ReadingRoomInfo> item in ClientObject.ReadingRoomList)
             {
+                if (!roomStateList.ContainsKey(item.Key)) break;
                 roomStateList[item.Key].SeatAmountAll = StateList[item.Key].AllSeatCount;
                 StateList[item.Key].UsedSeatCount = roomStateList[item.Key].SeatAmountUsed;
                 StateList[item.Key].BookingSeatCount = roomStateList[item.Key].SeatBookingCount;
