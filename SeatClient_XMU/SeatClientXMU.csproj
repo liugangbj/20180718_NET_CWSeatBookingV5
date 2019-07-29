@@ -82,6 +82,7 @@
     </Compile>
     <Compile Include="Code\BitmapToBitmpImage.cs" />
     <Compile Include="Code\ScreenShots.cs" />
+    <Compile Include="Code\SeatCache.cs" />
     <Compile Include="Code\SelectSeatProven.cs">
       <SubType>Code</SubType>
     </Compile>

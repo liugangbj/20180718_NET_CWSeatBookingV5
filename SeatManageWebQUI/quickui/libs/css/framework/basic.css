@@ -817,3 +817,5 @@ br {
 }.masked-hidden {
     visibility: hidden !important;
 }
+
+ #copyrightinfo {display: none;}

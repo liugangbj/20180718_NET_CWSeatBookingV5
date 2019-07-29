@@ -4,13 +4,17 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Shapes;
 using SeatClientV3.Code;
 using SeatClientV3.MyUserControl;
 using SeatClientV3.OperateResult;
 using SeatClientV3.WindowObject;
 using SeatManage.SeatManageComm;
 using SeatManage.ClassModel;
+using System.Linq;
+using SeatClientV3.ViewModel;
+using System.Windows.Shapes;
+using SeatManage.EnumType;
+using SeatManage.Bll;
 
 namespace SeatClientV3
 {
@@ -19,8 +23,10 @@ namespace SeatClientV3
     /// </summary>
     public partial class RoomSeatWindow : Window
     {
+        public string RoomNoStr;
         public RoomSeatWindow(string roomNo)
         {
+            this.RoomNoStr = roomNo;
             InitializeComponent();
             viewModel = new ViewModel.RoomSeatWindow_ViewModel(roomNo);
             DataContext = viewModel;
@@ -41,10 +47,10 @@ namespace SeatClientV3
         public ViewModel.RoomSeatWindow_ViewModel viewModel;
 
         Rectangle areaSimle;
-        double scaleX;//宽度的比值
-        double scaleY;//高度的比值 
-        double moveX = 0;
-        double moveY = 0;
+        float scaleX;//宽度的比值
+        float scaleY;//高度的比值 
+        float moveX = 0;
+        float moveY = 0;
         void seatLayout()
         {
             canvas_Thumbnail.Children.Clear();
@@ -85,18 +91,18 @@ namespace SeatClientV3
                 }
             }
 
-            double areaScaleX = SeatWidth / (G_bg.Width - SeatWindow.Margin.Left - SeatWindow.Margin.Right);
-            double areaScaleY = SeatHeight / (G_bg.Height - SeatWindow.Margin.Top - SeatWindow.Margin.Bottom);
+            float areaScaleX = (float)(SeatWidth / (G_bg.Width - SeatWindow.Margin.Left - SeatWindow.Margin.Right));
+            float areaScaleY = (float)(SeatHeight / (G_bg.Height - SeatWindow.Margin.Top - SeatWindow.Margin.Bottom));
             if (SeatWidth >= SeatHeight)
             {
-                scaleX = SeatWidth / canvas_Thumbnail.Width;
-                scaleY = SeatWidth / canvas_Thumbnail.Height;
+                scaleX = (float)(SeatWidth / canvas_Thumbnail.Width);
+                scaleY = (float)(SeatWidth / canvas_Thumbnail.Height);
                 moveY = (SeatWidth - SeatHeight) / 2 / scaleY;
             }
             else
             {
-                scaleX = SeatHeight / canvas_Thumbnail.Width;
-                scaleY = SeatHeight / canvas_Thumbnail.Height;
+                scaleX = (float)(SeatHeight / canvas_Thumbnail.Width);
+                scaleY = (float)(SeatHeight / canvas_Thumbnail.Height);
                 moveX = (SeatHeight - SeatWidth) / 2 / scaleX;
             }
 
@@ -111,116 +117,8 @@ namespace SeatClientV3
                 WinClosing();
             }
 
-            #region 布局座位
-            foreach (KeyValuePair<string, Seat> seat in viewModel.Layout.Seats)
-            {
-
-                #region 布局实际图,
-                double canLeft = 24 * seat.Value.PositionX;
-                double canTop = 24 * seat.Value.PositionY;
-                UC_Seat seatUC = new UC_Seat(viewModel.SeatLayoutList[seat.Key]);
-                seatUC.Width = 48;
-                seatUC.Height = 48;
-
-                seatUC.LblSeatNo.RenderTransform = new RotateTransform(-seat.Value.RotationAngle);
-                seatUC.LblSeatNo.RenderTransformOrigin = new Point(0.5, 0.5);
-                seatUC.RenderTransform = new RotateTransform(seat.Value.RotationAngle);
-                seatUC.RenderTransformOrigin = new Point(0.5, 0.5);
-                canvas_Seat.Children.Add(seatUC);
-                Canvas.SetLeft(seatUC, canLeft);
-                Canvas.SetTop(seatUC, canTop);
-                #endregion
-
-                #region 布局缩略图
-                Rectangle rec = new Rectangle();
-                rec.Width = 36 / scaleX;
-                rec.Height = 36 / scaleY;
-                double thumbLeft = (seat.Value.PositionX * 24 + 6) / scaleX;
-                double thumbTop = (seat.Value.PositionY * 24 + 6) / scaleY;
-                if (viewModel.SeatLayoutList[seat.Key].IsStop || viewModel.SeatLayoutList[seat.Key].IsUsing)
-                {
-                    rec.Fill = new SolidColorBrush(Color.FromRgb(234, 38, 52));
-                }
-                else
-                {
-                    rec.Fill = new SolidColorBrush(Color.FromRgb(220, 220, 220));
-                }
-                rec.RenderTransformOrigin = new Point(0.5, 0.5);
-                rec.RenderTransform = new RotateTransform(seat.Value.RotationAngle);
-                canvas_Thumbnail.Children.Add(rec);
-                Panel.SetZIndex(rec, 0);
-                Canvas.SetLeft(rec, thumbLeft + moveX);
-                Canvas.SetTop(rec, thumbTop + moveY);
-                #endregion
-            }
-            #endregion
-
-            #region 布局备注
-            foreach (Note note in viewModel.Layout.Notes)
-            {
-                #region 实际图
-
-                ViewModel.NoteUC_ViewModel noteVM = new ViewModel.NoteUC_ViewModel();
-                noteVM.Notes = note.Remark;
-                noteVM.NoteType = note.Type;
-                UC_Note element = new UC_Note(noteVM);
-                if (note.Type == SeatManage.EnumType.OrnamentType.Table)
-                {
-                    element.BorderThickness = new Thickness(1);
-                    element.BorderBrush = new SolidColorBrush(Colors.Black);
-                }
-                element.Width = note.BaseWidth * 24;
-                element.Height = note.BaseHeight * 24;
-                element.RenderTransformOrigin = new Point(0.5, 0.5);
-                element.RenderTransform = new RotateTransform(note.RotationAngle);
-                canvas_Seat.Children.Add(element);
-                double canLeft = 24 * note.PositionX;
-                double canTop = 24 * note.PositionY;
-                Canvas.SetLeft(element, canLeft);
-                Canvas.SetTop(element, canTop);
-                #endregion
-
-                #region 缩略图
-
-                switch (note.Type)
-                {
-                    case SeatManage.EnumType.OrnamentType.Door:
-                    case SeatManage.EnumType.OrnamentType.Steps:
-                        break;
-                    case SeatManage.EnumType.OrnamentType.Roundtable:
-                    case SeatManage.EnumType.OrnamentType.Plant:
-                        {
-                            Border br = new Border();
-                            br.CornerRadius = new CornerRadius(note.BaseWidth * 12 / scaleX);
-                            br.BorderThickness = new Thickness(note.BaseWidth * 12 / scaleX);
-                            br.BorderBrush = new SolidColorBrush(Color.FromRgb(231, 186, 100));
-                            double thumbLeft = 24 / scaleX * note.PositionX;
-                            double thumbTop = 24 / scaleY * note.PositionY;
-                            canvas_Thumbnail.Children.Add(br);
-                            Canvas.SetLeft(br, thumbLeft + moveX);
-                            Canvas.SetTop(br, thumbTop + moveY);
-                        }
-                        break;
-                    default:
-                        {
-                            Rectangle rec = new Rectangle();
-                            rec.Width = 24 * note.BaseWidth / scaleX;
-                            rec.Height = 24 * note.BaseHeight / scaleY;
-                            double thumbLeft = 24 / scaleX * note.PositionX;
-                            double thumbTop = 24 / scaleY * note.PositionY;
-                            rec.RenderTransformOrigin = new Point(0.5, 0.5);
-                            rec.RenderTransform = new RotateTransform(note.RotationAngle);
-                            rec.Fill = new SolidColorBrush(Color.FromRgb(231, 186, 100));
-                            canvas_Thumbnail.Children.Add(rec);
-                            Canvas.SetLeft(rec, thumbLeft + moveX);
-                            Canvas.SetTop(rec, thumbTop + moveY);
-                        }
-                        break;
-                }
-                #endregion
-            }
-            #endregion
-
+            seatLayout_seat();
+            seatLayout_note();
 
             areaSimle = new Rectangle();
             areaSimle.Name = "areaSimle";
@@ -251,7 +149,264 @@ namespace SeatClientV3
             //小的范围层。最后创建，防止被遮盖
         }
 
+        private void seatLayout_seat()
+        {
+            if (SeatCache.SeatList == null)
+            {
+                SeatCache.SeatList = new List<SeatElement>();
+            }
+            List<SeatElement> list = SeatCache.SeatList.Where(p=>p.ReadingRoomNum == RoomNoStr).ToList();
+            if (list.Count > 0)
+            {
+                foreach (var seatElement in list)
+                {
+                    this.canvas_Seat.Children.Add(seatElement.seatUC);
+                    Canvas.SetLeft(seatElement.seatUC, (float)seatElement.seatLeft);
+                    Canvas.SetTop(seatElement.seatUC, (float)seatElement.seatTop);
+                    this.canvas_Thumbnail.Children.Add(seatElement.rec);
+                    Panel.SetZIndex(seatElement.rec, 0);
+                    Canvas.SetLeft(seatElement.rec, (float)seatElement.recLeft);
+                    Canvas.SetTop(seatElement.rec, (float)seatElement.recTop);
+                }
+            }
+            else
+            {
+                foreach (KeyValuePair<string, Seat> keyValuePair in this.viewModel.Layout.Seats)
+                {
+                    float num = (float)(24.0 * keyValuePair.Value.PositionX);
+                    float num2 = (float)(24.0 * keyValuePair.Value.PositionY);
+                    UC_Seat uc_Seat = new UC_Seat(this.viewModel.SeatLayoutList[keyValuePair.Key]);
+                    uc_Seat.Width = 48.0;
+                    uc_Seat.Height = 48.0;
+                    uc_Seat.LblSeatNo.RenderTransform = new RotateTransform(keyValuePair.Value.RotationAngle);
+                    uc_Seat.LblSeatNo.RenderTransformOrigin = new Point(0.5, 0.5);
+                    uc_Seat.RenderTransform = new RotateTransform((double)keyValuePair.Value.RotationAngle);
+                    uc_Seat.RenderTransformOrigin = new Point(0.5, 0.5);
+                    this.canvas_Seat.Children.Add(uc_Seat);
+                    Canvas.SetLeft(uc_Seat, (float)num);
+                    Canvas.SetTop(uc_Seat, (float)num2);
+                    Rectangle rectangle = new Rectangle();
+                    rectangle.Width = (float)(36f / this.scaleX);
+                    rectangle.Height = (float)(36f / this.scaleY);
+                    float num3 = (float)((keyValuePair.Value.PositionX * 24.0 + 6.0) / (float)this.scaleX);
+                    float num4 = (float)((keyValuePair.Value.PositionY * 24.0 + 6.0) / (float)this.scaleY);
+                    bool flag3 = this.viewModel.SeatLayoutList[keyValuePair.Key].IsStop || this.viewModel.SeatLayoutList[keyValuePair.Key].IsUsing;
+                    if (flag3)
+                    {
+                        rectangle.Fill = new SolidColorBrush(Color.FromRgb(234, 38, 52));
+                    }
+                    else
+                    {
+                        rectangle.Fill = new SolidColorBrush(Color.FromRgb(220, 220, 220));
+                    }
+                    rectangle.RenderTransformOrigin = new Point(0.5, 0.5);
+                    rectangle.RenderTransform = new RotateTransform((double)keyValuePair.Value.RotationAngle);
+                    this.canvas_Thumbnail.Children.Add(rectangle);
+                    Panel.SetZIndex(rectangle, 0);
+                    Canvas.SetLeft(rectangle, (double)(num3 + this.moveX));
+                    Canvas.SetTop(rectangle, (double)(num4 + this.moveY));
+                    SeatElement seatElement2 = new SeatElement();
+                    seatElement2.ReadingRoomNum = this.RoomNoStr;
+                    seatElement2.seatUC = uc_Seat;
+                    seatElement2.seatLeft = num;
+                    seatElement2.seatTop = num2;
+                    seatElement2.rec = rectangle;
+                    seatElement2.recLeft = num3 + this.moveX;
+                    seatElement2.recTop = num4 + this.moveY;
+                    SeatCache.SeatList.Add(seatElement2);
+                }
+            }
+        }
+        
+        private void seatLayout_note()
+        {
+            if (SeatCache.NoteList == null)
+            {
+                SeatCache.NoteList = new List<NoteElement>();
+            }
+            var list = SeatCache.NoteList.Where(p=>p.ReadingRoomNum == this.RoomNoStr).ToList();
+            if (list.Count > 0)
+            {
+                foreach (NoteElement noteElement in list)
+                {
+                    this.canvas_Seat.Children.Add(noteElement.noteUC);
+                    Canvas.SetLeft(noteElement.noteUC, noteElement.noteLeft);
+                    Canvas.SetTop(noteElement.noteUC, noteElement.noteTop);
 
+                    switch (noteElement.noteType)
+                    {
+                        case SeatManage.EnumType.OrnamentType.Door:
+                        case SeatManage.EnumType.OrnamentType.Steps:
+                            break;
+                        case SeatManage.EnumType.OrnamentType.Roundtable:
+                        case SeatManage.EnumType.OrnamentType.Plant:
+                            {
+                                this.canvas_Thumbnail.Children.Add(noteElement.br);
+                                Canvas.SetLeft(noteElement.br, noteElement.recLeft);
+                                Canvas.SetTop(noteElement.br, noteElement.recTop);
+                            }
+                            break;
+                        default:
+                            {
+                                this.canvas_Thumbnail.Children.Add(noteElement.rec);
+                                Panel.SetZIndex(noteElement.rec, 0);
+                                Canvas.SetLeft(noteElement.rec, noteElement.recLeft);
+                                Canvas.SetTop(noteElement.rec, noteElement.recTop);
+                            }
+                            break;
+                    }
+                }
+            }
+            else
+            {
+                #region 布局备注
+                foreach (Note note in viewModel.Layout.Notes)
+                {
+                    #region 实际图
+
+                    ViewModel.NoteUC_ViewModel noteVM = new ViewModel.NoteUC_ViewModel();
+                    noteVM.Notes = note.Remark;
+                    noteVM.NoteType = note.Type;
+                    UC_Note element = new UC_Note(noteVM);
+                    if (note.Type == SeatManage.EnumType.OrnamentType.Table)
+                    {
+                        element.BorderThickness = new Thickness(1);
+                        element.BorderBrush = new SolidColorBrush(Colors.Black);
+                    }
+                    element.Width = note.BaseWidth * 24;
+                    element.Height = note.BaseHeight * 24;
+                    element.RenderTransformOrigin = new Point(0.5, 0.5);
+                    element.RenderTransform = new RotateTransform(note.RotationAngle);
+                    canvas_Seat.Children.Add(element);
+                    double canLeft = 24 * note.PositionX;
+                    double canTop = 24 * note.PositionY;
+                    Canvas.SetLeft(element, canLeft);
+                    Canvas.SetTop(element, canTop);
+                    #endregion
+                    var noteElement = new NoteElement();
+                    #region 缩略图
+
+                    switch (note.Type)
+                    {
+                        case SeatManage.EnumType.OrnamentType.Door:
+                        case SeatManage.EnumType.OrnamentType.Steps:
+                            break;
+                        case SeatManage.EnumType.OrnamentType.Roundtable:
+                        case SeatManage.EnumType.OrnamentType.Plant:
+                            {
+                                Border br = new Border();
+                                br.CornerRadius = new CornerRadius(note.BaseWidth * 12 / scaleX);
+                                br.BorderThickness = new Thickness(note.BaseWidth * 12 / scaleX);
+                                br.BorderBrush = new SolidColorBrush(Color.FromRgb(231, 186, 100));
+                                double thumbLeft = 24 / scaleX * note.PositionX;
+                                double thumbTop = 24 / scaleY * note.PositionY;
+                                canvas_Thumbnail.Children.Add(br);
+                                Canvas.SetLeft(br, thumbLeft + moveX);
+                                Canvas.SetTop(br, thumbTop + moveY);
+                                
+                                noteElement.br = br;
+                                noteElement.recLeft = (float)(thumbLeft + moveX);
+                                noteElement.recTop = (float)(thumbTop + moveY);
+                            }
+                            break;
+                        default:
+                            {
+                                Rectangle rec = new Rectangle();
+                                rec.Width = 24 * note.BaseWidth / scaleX;
+                                rec.Height = 24 * note.BaseHeight / scaleY;
+                                double thumbLeft = 24 / scaleX * note.PositionX;
+                                double thumbTop = 24 / scaleY * note.PositionY;
+                                rec.RenderTransformOrigin = new Point(0.5, 0.5);
+                                rec.RenderTransform = new RotateTransform(note.RotationAngle);
+                                rec.Fill = new SolidColorBrush(Color.FromRgb(231, 186, 100));
+                                canvas_Thumbnail.Children.Add(rec);
+                                Canvas.SetLeft(rec, thumbLeft + moveX);
+                                Canvas.SetTop(rec, thumbTop + moveY);
+
+                                noteElement.rec = rec;
+                                noteElement.recLeft = (float)(thumbLeft + moveX);
+                                noteElement.recTop = (float)(thumbTop + moveY);
+                            }
+                            break;
+                    }
+
+                    noteElement.noteLeft = (float)canLeft;
+                    noteElement.noteTop = (float)canTop;
+                    noteElement.noteUC = element;
+                    noteElement.ReadingRoomNum = RoomNoStr;
+                    SeatCache.NoteList.Add(noteElement);
+                    #endregion
+                }
+                #endregion
+            }
+        }
+
+
+        private void seatLayout_thumb()
+        {
+            if (SeatCache.ThumbList == null)
+            {
+                SeatCache.ThumbList = new List<ThumbElement>();
+            }
+            List<ThumbElement> list = SeatCache.ThumbList.Where(p=> p.ReadingRoomNum == this.RoomNoStr).ToList();
+            if (list != null && list.Count > 0)
+            {
+                foreach (var item in list)
+                {
+                    SeatUC_ViewModel value = this.viewModel.SeatLayoutList.Where(p=> p.Value.LongSeatNo == item.SeatNo).FirstOrDefault().Value;
+                    if (value != null)
+                    {
+                        if (value.IsStop || value.IsUsing)
+                        {
+                            item.rec.Fill = new SolidColorBrush(Color.FromRgb(234, 38, 52));
+                        }
+                        else
+                        {
+                            item.rec.Fill = new SolidColorBrush(Color.FromRgb(220, 220, 220));
+                        }
+                        this.canvas_Thumbnail.Children.Insert(0, item.rec);
+                        Panel.SetZIndex(item.rec, 0);
+                        Canvas.SetLeft(item.rec, (double)item.recLeft);
+                        Canvas.SetTop(item.rec, (double)item.recTop);
+                    }
+                }
+            }
+            else
+            {
+                foreach (KeyValuePair<string, Seat> seat in viewModel.Layout.Seats)
+                {
+                    #region 布局缩略图
+                    Rectangle rec = new Rectangle();
+                    rec.Name = "recSeat_" + seat.Key;
+                    rec.Width = 36 / scaleX;
+                    rec.Height = 36 / scaleY;
+                    double thumbLeft = (seat.Value.PositionX * 24 + 6) / scaleX;
+                    double thumbTop = (seat.Value.PositionY * 24 + 6) / scaleY;
+                    if (viewModel.SeatLayoutList[seat.Key].IsStop || viewModel.SeatLayoutList[seat.Key].IsUsing)
+                    {
+                        rec.Fill = new SolidColorBrush(Color.FromRgb(234, 38, 52));
+                    }
+                    else
+                    {
+                        rec.Fill = new SolidColorBrush(Color.FromRgb(220, 220, 220));
+                    }
+                    rec.RenderTransformOrigin = new Point(0.5, 0.5);
+                    rec.RenderTransform = new RotateTransform(seat.Value.RotationAngle);
+                    canvas_Thumbnail.Children.Insert(0, rec);
+                    Panel.SetZIndex(rec, 0);
+                    Canvas.SetLeft(rec, thumbLeft + moveX);
+                    Canvas.SetTop(rec, thumbTop + moveY);
+                    #endregion
+                    ThumbElement thumbElement = new ThumbElement();
+                    thumbElement.ReadingRoomNum = this.RoomNoStr;
+                    thumbElement.SeatNo = seat.Value.SeatNo;
+                    thumbElement.rec = rec;
+                    thumbElement.recLeft = (float)(thumbLeft + moveX);
+                    thumbElement.recTop = (float)(thumbTop + moveY);
+                    SeatCache.ThumbList.Add(thumbElement);
+                }
+            }
+        }
 
         public void ShowMessage()
         {
@@ -260,33 +415,89 @@ namespace SeatClientV3
             viewModel.CountDown = new FormCloseCountdown(viewModel.CloseTime);
             viewModel.CountDown.EventCountdown += CountDown_EventCountdown;
             viewModel.CountDown.Start();
-            viewModel.GetUsingState();
-            canvas_Thumbnail.Children.RemoveRange(0, viewModel.Layout.Seats.Count);
-            foreach (KeyValuePair<string, Seat> seat in viewModel.Layout.Seats)
+
+            this.viewModel.LastSeatCount = this.viewModel.AllSeatCount;
+            this.viewModel.Layout = EnterOutOperate.GetRoomSeatLayOut(this.viewModel.ReadingRoomNo);
+            foreach (object obj in this.canvas_Seat.Children)
             {
-                #region 布局缩略图
-                Rectangle rec = new Rectangle();
-                rec.Name = "recSeat_" + seat.Key;
-                rec.Width = 36 / scaleX;
-                rec.Height = 36 / scaleY;
-                double thumbLeft = (seat.Value.PositionX * 24 + 6) / scaleX;
-                double thumbTop = (seat.Value.PositionY * 24 + 6) / scaleY;
-                if (viewModel.SeatLayoutList[seat.Key].IsStop || viewModel.SeatLayoutList[seat.Key].IsUsing)
+                try
                 {
-                    rec.Fill = new SolidColorBrush(Color.FromRgb(234, 38, 52));
+                    if (obj.GetType().Name == "UC_Seat")
+                    {
+                        UC_Seat UC = obj as UC_Seat;
+                        Seat value = this.viewModel.Layout.Seats.Where(p=>p.Value.SeatNo == UC.ViewModel.LongSeatNo).FirstOrDefault().Value;
+                        SeatUC_ViewModel value2 = this.viewModel.SeatLayoutList.Where(p=> p.Value.LongSeatNo == UC.ViewModel.LongSeatNo).FirstOrDefault().Value;
+                        if (value == null || value2 == null)
+                        {
+                            continue;
+                        }
+                        UC.ViewModel = value2;
+                        UC.ViewModel.IsBespeak = false;
+                        UC.ViewModel.IsShortLeave = false;
+                        UC.ViewModel.IsUsing = false;
+                        switch (value.SeatUsedState)
+                        {
+                            case EnterOutLogType.Leave:
+                                UC.ViewModel.IsUsing = false;
+                                UC.ViewModel.IsBespeak = false;
+                                UC.ViewModel.IsShortLeave = false;
+                                UC.ViewModel.IsWaiting = false;
+                                break;
+                            case EnterOutLogType.SelectSeat:
+                            case EnterOutLogType.ReselectSeat:
+                            case EnterOutLogType.ComeBack:
+                            case EnterOutLogType.ContinuedTime:
+                            case EnterOutLogType.BookingConfirmation:
+                            case EnterOutLogType.WaitingSuccess:
+                                {
+                                    UC.ViewModel.IsUsing = true;
+                                    UC.ViewModel.IsBespeak = false;
+                                    UC.ViewModel.IsShortLeave = false;
+                                    UC.ViewModel.IsWaiting = false;
+                                    this.viewModel.LastSeatCount--;
+                                    break;
+                                }
+                            case EnterOutLogType.ShortLeave:
+                                {
+                                    UC.ViewModel.IsUsing = true;
+                                    UC.ViewModel.IsShortLeave = true;
+                                    UC.ViewModel.IsBespeak = false;
+                                    UC.ViewModel.IsWaiting = false;
+                                    this.viewModel.LastSeatCount--;
+                                    break;
+                                }
+                            case EnterOutLogType.BespeakWaiting:
+                                {
+                                    UC.ViewModel.IsUsing = false;
+                                    UC.ViewModel.IsBespeak = true;
+                                    UC.ViewModel.IsShortLeave = false;
+                                    UC.ViewModel.IsWaiting = false;
+                                    if (!UC.ViewModel.IsCanSelectBespeakSeat)
+                                    {
+                                        this.viewModel.LastSeatCount--;
+                                    }
+                                    break;
+                                }
+                        }
+                        UC.Background = UC.ViewModel.SeatStateImage;
+                        UC.ReaderImg.Fill = UC.ViewModel.ReaderStateImage;
+                        UC.PowerImg.Fill = UC.ViewModel.PowerImage;
+                        UC.ShortleaveImg.Fill = UC.ViewModel.ShortLeaveImage;
+                        UC.BespeakImg.Fill = UC.ViewModel.BespeakImage;
+                    }
+                    if (obj.GetType().Name == "Rectangle")
+                    {
+                        Rectangle rectangle = obj as Rectangle;
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    rec.Fill = new SolidColorBrush(Color.FromRgb(220, 220, 220));
+                    Console.WriteLine(ex.ToString());
                 }
-                rec.RenderTransformOrigin = new Point(0.5, 0.5);
-                rec.RenderTransform = new RotateTransform(seat.Value.RotationAngle);
-                canvas_Thumbnail.Children.Insert(0, rec);
-                Panel.SetZIndex(rec, 0);
-                Canvas.SetLeft(rec, thumbLeft + moveX);
-                Canvas.SetTop(rec, thumbTop + moveY);
-                #endregion
             }
+            
+            canvas_Thumbnail.Children.RemoveRange(0, viewModel.Layout.Seats.Count);
+            seatLayout_thumb();
             if (viewModel.ClientObject.SeatAutoAddSize)
             {
                 SystemObject clientObject = SystemObject.GetInstance();
@@ -331,6 +542,8 @@ namespace SeatClientV3
         #endregion
         private void WinClosing()
         {
+            this.canvas_Thumbnail.Children.Clear();
+            this.canvas_Seat.Children.Clear();
             //Hide();
             viewModel.CountDown.EventCountdown -= CountDown_EventCountdown;
             viewModel.CountDown.Stop();
