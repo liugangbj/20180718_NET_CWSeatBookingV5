@@ -15,7 +15,7 @@ namespace SpaceBooking.WcfHost
 
         public override string ToString()
         {
-            return "空间预约管理系统核心服务";
+            return "空间预约管理系统核心数据服务";
         }
 
         public void Start()

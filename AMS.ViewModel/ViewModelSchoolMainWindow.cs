@@ -507,6 +507,9 @@ namespace AMS.ViewModel
                         campusNode.UpdateMenuVisibility = "Visible";
                         campusNode.DeleteMenuName = "删除校区";
                         campusNode.DeleteMenuVisibility = "Visible";
+
+                        campusNode.AddMenuName1 = "添加新锁头";
+                 
                         for (int k = 0; k < schools[i].Campus[j].Device.Count; k++)
                         {
                             NodeEntry deviceNode = new NodeEntry();
@@ -522,6 +525,10 @@ namespace AMS.ViewModel
                             deviceNode.DeleteMenuName = "删除设备";
                             deviceNode.DeleteMenuVisibility = "Visible";
                             campusNode.ChildNodes.Add(deviceNode);
+
+                            //20190730  zdh编辑，新增添加锁头模块
+
+
                         }
                         schoolNode.ChildNodes.Add(campusNode);
                     }
@@ -655,6 +662,16 @@ namespace AMS.ViewModel
             get { return _AddMenuName; }
             set { _AddMenuName = value; OnPropertyChanged("AddMenuName"); }
         }
+        private string _AddMenuName1 = "";
+        /// <summary>
+        /// 增加菜单名字
+        /// </summary>
+        public string AddMenuName1
+        {
+            get { return _AddMenuName1; }
+            set { _AddMenuName1 = value; OnPropertyChanged("AddMenuName1"); }
+        }
+
         private string _UpdataMenuName = "";
         /// <summary>
         /// 修改菜单名称
@@ -682,6 +699,9 @@ namespace AMS.ViewModel
             get { return _AddMenuVisibility; }
             set { _AddMenuVisibility = value; OnPropertyChanged("AddMenuVisibility"); }
         }
+
+
+
         /// <summary>
         /// 更新菜单显示
         /// </summary>

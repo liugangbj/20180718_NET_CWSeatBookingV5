@@ -137,14 +137,14 @@ namespace AMS.ViewModel
         /// 操作
         /// </summary>
         /// <returns></returns>
-        public bool ButtonSubmit()
+        public bool ButtonSubmit(int deviceType)
         {
             switch (Cmd)
             {
                 case Enum.HandleType.Edit:
                     return UpdateDevice();
                 case Enum.HandleType.Add:
-                    return AddDevice();
+                    return AddDevice(deviceType);
                 case Enum.HandleType.Delete:
                     return DeleteDevice();
             }
@@ -212,13 +212,14 @@ namespace AMS.ViewModel
         /// 添加设备信息
         /// </summary>
         /// <returns></returns>
-        private bool AddDevice()
+        private bool AddDevice(int deviceType)
         {
             if (checkData())
             {
                 try
                 {
                     this.DeviceModel.CampusId = this.CampusModel.Id;
+                    this.DeviceModel.DeviceType = deviceType;
                     string r = ServiceProxy.SchoolMainWindow.AddDevice(this.DeviceModel);
                     if (string.IsNullOrEmpty(r))
                     {
