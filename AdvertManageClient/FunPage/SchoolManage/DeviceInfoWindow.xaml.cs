@@ -61,7 +61,7 @@ namespace AdvertManageClient.FunPage.SchoolManage
             mbw.ShowDialog();
             if (mbw.vm_MessageBoxWindow.Result)
             {
-                if (ViewModelDevice.ButtonSubmit())
+                if (ViewModelDevice.ButtonSubmit(0))
                 {
                     mbw = new MessageBoxWindow();
                     mbw.vm_MessageBoxWindow = new AMS.ViewModel.ViewModelMessageBoxWindow(AMS.Model.Enum.MessageBoxType.Success, "删除成功");
@@ -82,7 +82,13 @@ namespace AdvertManageClient.FunPage.SchoolManage
 
         private void button4_Click(object sender, RoutedEventArgs e)
         {
-            IsSuccess = ViewModelDevice.ButtonSubmit();
+            //获取设备类型
+            int deviceType = -1;
+
+            if ((bool)this.rbtnSeatDevice.IsChecked) deviceType = 0;
+            if ((bool)this.rbtnSpaceDevice.IsChecked) deviceType = 1;
+            if ((bool)this.rbtnLockerDevice.IsChecked) deviceType = 2;
+            IsSuccess = ViewModelDevice.ButtonSubmit(deviceType);
             if (IsSuccess)
             {
                 MessageBoxWindow mbw = new MessageBoxWindow();

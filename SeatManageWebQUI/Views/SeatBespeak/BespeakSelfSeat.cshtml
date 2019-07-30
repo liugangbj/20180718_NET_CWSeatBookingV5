@@ -30,19 +30,19 @@
             <div class="left">
                 <div class="right">
                     <a href="javascript:btnDelayTimeEnabledClick();" id="btnDelayTimeEnabled" >
-                        <div class="navIconTool" onclick="top.Toast('showNoticeToast', '搜索')">
+                        <div class="navIconTool">
                             <img src="~/lib/delayseat.png" /><br />
                             座位续时
                         </div>
                     </a>
                     <a href="javascript:btnShortLeaveEnabledClick();" id="btnShortLeaveEnabled">
-                        <div class="navIconTool" onclick="top.Toast('showNoticeToast', '应用')">
+                        <div class="navIconTool">
                             <img src="~/lib/shortleaveseat.png" /><br />
                             座位暂离
                         </div>
                     </a>
                     <a href="javascript:btnLeaveEnabledClick();" id="btnLeaveEnabled">
-                        <div class="navIconTool" onclick="top.Toast('showNoticeToast', '统计')">
+                        <div class="navIconTool">
                             <img src="~/lib/leaveseat.png" /><br />
                             座位释放
                         </div>
@@ -76,8 +76,8 @@
             top.Dialog.confirm("确认续时？",
                 function () {
                     $.ajax({
-                        url: "@Url.Action("SeatOp", "SeatBespeak")"+"?opFlag=delay",
-                        data: { LoginId: selectData.LoginId },
+                        url: "@Url.Action("SeatOp", "SeatBespeak")",
+                        data: { opFlag: 'delay' },
                         type: "post",
                         dataType: "json",
                         success: function (data) {
@@ -100,8 +100,8 @@
             top.Dialog.confirm("确认暂离？",
                 function () {
                     $.ajax({
-                        url: "@Url.Action("SeatOp", "SeatBespeak")"+"?opFlag=shortLeave",
-                        data: { LoginId: selectData.LoginId },
+                        url: "@Url.Action("SeatOp", "SeatBespeak")",
+                        data: { opFlag: 'shortLeave' },
                         type: "post",
                         dataType: "json",
                         success: function (data) {
@@ -124,8 +124,8 @@
             top.Dialog.confirm("确认离开？",
                 function () {
                     $.ajax({
-                        url: "@Url.Action("SeatOp", "SeatBespeak")"+"?opFlag=leave",
-                        data: { LoginId: selectData.LoginId },
+                        url: "@Url.Action("SeatOp", "SeatBespeak")",
+                        data: { opFlag: 'leave' },
                         type: "post",
                         dataType: "json",
                         success: function (data) {
