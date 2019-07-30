@@ -265,6 +265,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceBooking.WcfHost", "Spa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceBookingClassModel", "SpaceBookingClassModel\SpaceBookingClassModel.csproj", "{49DC2B49-E4E5-4C12-BC66-AEBFF0E8EB91}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceBooking.WCFHost.ConsoleApplication", "SpaceBooking.WCFHost.ConsoleApplication\SpaceBooking.WCFHost.ConsoleApplication.csproj", "{A94128BF-635E-4290-A4BE-E48C5CE91D34}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1401,6 +1403,18 @@ Global
 		{49DC2B49-E4E5-4C12-BC66-AEBFF0E8EB91}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{49DC2B49-E4E5-4C12-BC66-AEBFF0E8EB91}.Release|x86.ActiveCfg = Release|Any CPU
 		{49DC2B49-E4E5-4C12-BC66-AEBFF0E8EB91}.Release|x86.Build.0 = Release|Any CPU
+		{A94128BF-635E-4290-A4BE-E48C5CE91D34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A94128BF-635E-4290-A4BE-E48C5CE91D34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A94128BF-635E-4290-A4BE-E48C5CE91D34}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A94128BF-635E-4290-A4BE-E48C5CE91D34}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A94128BF-635E-4290-A4BE-E48C5CE91D34}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A94128BF-635E-4290-A4BE-E48C5CE91D34}.Debug|x86.Build.0 = Debug|Any CPU
+		{A94128BF-635E-4290-A4BE-E48C5CE91D34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A94128BF-635E-4290-A4BE-E48C5CE91D34}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A94128BF-635E-4290-A4BE-E48C5CE91D34}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A94128BF-635E-4290-A4BE-E48C5CE91D34}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{A94128BF-635E-4290-A4BE-E48C5CE91D34}.Release|x86.ActiveCfg = Release|Any CPU
+		{A94128BF-635E-4290-A4BE-E48C5CE91D34}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1525,6 +1539,7 @@ Global
 		{646C802C-BAB6-4599-B06F-0B11922C77B0} = {7FC0854D-9248-4B59-AD5D-02D969BE10A8}
 		{1EA7A408-8AF2-4850-B9B7-FD8D4BFD32A9} = {7FC0854D-9248-4B59-AD5D-02D969BE10A8}
 		{49DC2B49-E4E5-4C12-BC66-AEBFF0E8EB91} = {7FC0854D-9248-4B59-AD5D-02D969BE10A8}
+		{A94128BF-635E-4290-A4BE-E48C5CE91D34} = {7FC0854D-9248-4B59-AD5D-02D969BE10A8}
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SeatManageV21.vsmdi

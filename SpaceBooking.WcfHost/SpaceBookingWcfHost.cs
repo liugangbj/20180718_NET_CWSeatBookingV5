@@ -6,6 +6,9 @@ using System.ServiceModel;
 
 namespace SpaceBooking.WcfHost
 {
+   /// <summary>
+   /// 空间预约管理系统服务
+   /// </summary>
     public class SpaceBookingWcfHost : IService.IService
     {
         ServiceHost host = null;
@@ -15,17 +18,11 @@ namespace SpaceBooking.WcfHost
             return "空间预约管理系统核心服务";
         }
 
-
-
         public void Start()
         {
             host = new ServiceHost(typeof(WCFServiceForSpaceBooking.SpaceBookingManager));
             host.Open();
-            host = new ServiceHost(typeof(WCFServiceForSpaceBooking.SpaceBookingManager));
-            host.Open();
         }
-
-
 
         public void Stop()
         {

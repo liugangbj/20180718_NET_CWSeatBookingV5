@@ -41,12 +41,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SpaceBookingTest.cs" />
+    <Compile Include="SpaceBookingManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EnumType\EnumType.csproj">
       <Project>{3e7c2198-f6b3-4fae-8ebf-2271e752dff3}</Project>
       <Name>EnumType</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IService\IService.csproj">
+      <Project>{2f8165a3-5f0a-4516-8185-15a1a9708e00}</Project>
+      <Name>IService</Name>
     </ProjectReference>
     <ProjectReference Include="..\ISpaceBookingWCFService\ISpaceBookingWCFService.csproj">
       <Project>{c744d157-5f10-4d59-ab08-1c2a6a821bfe}</Project>

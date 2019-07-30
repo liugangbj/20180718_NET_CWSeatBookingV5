@@ -8,9 +8,10 @@ using System.Text;
 namespace ISpaceBookingWCFService
 {
     /// <summary>
-    /// 空间预约系统测试例子接口
+    /// 空间预约系统接口层
     /// </summary>
-    public partial interface ISpaceBookingTest: IExceptionService
+    [ServiceContract]
+    public partial interface ISpaceBookingManager: IExceptionService
     {
         [OperationContract]
         string  Display();

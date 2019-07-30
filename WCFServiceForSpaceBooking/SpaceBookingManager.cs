@@ -6,14 +6,13 @@ using System.Text;
 
 namespace WCFServiceForSpaceBooking
 {
-    public partial class SpaceBookingManager : ISpaceBookingTest
+
+    public partial class SpaceBookingManager : ISpaceBookingManager
     {
         public string Display()
         {
             return "Hello world";
         }
-
-
 
         public void ThrowExceptionOneWay()
         {
