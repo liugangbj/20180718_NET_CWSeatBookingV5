@@ -4,16 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A94128BF-635E-4290-A4BE-E48C5CE91D34}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{42AA8A60-4BF5-451B-9CD8-3B509BCF1DC2}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SpaceBooking.WCFHost.ConsoleApplication</RootNamespace>
-    <AssemblyName>SpaceBooking.WCFHost.ConsoleApplication</AssemblyName>
+    <RootNamespace>SpaceDeviceAccess.WCFHost</RootNamespace>
+    <AssemblyName>SpaceDeviceAccess.WCFHost</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +23,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -38,10 +37,11 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="SpaceDeviceAccessWCFHost.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -49,23 +49,6 @@
       <Project>{2f8165a3-5f0a-4516-8185-15a1a9708e00}</Project>
       <Name>IService</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SpaceBooking.WcfHost\SpaceBooking.WcfHost.csproj">
-      <Project>{1ea7a408-8af2-4850-b9b7-fd8d4bfd32a9}</Project>
-      <Name>SpaceBooking.WcfHost</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SpaceBookingTimerMonitor.WCFHost\SpaceBookingTimerMonitor.WCFHost.csproj">
-      <Project>{937be05a-4efd-4da0-bb2d-66c17b73ca2a}</Project>
-      <Name>SpaceBookingTimerMonitor.WCFHost</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SpaceDeviceAccess.WCFHost\SpaceDeviceAccess.WCFHost.csproj">
-      <Project>{42aa8a60-4bf5-451b-9cd8-3b509bcf1dc2}</Project>
-      <Name>SpaceDeviceAccess.WCFHost</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config">
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
