@@ -231,7 +231,11 @@ namespace AMS.BllService
             {
                 model.CaputreTime = DateTime.Parse(dr["CaputreTime"].ToString());
             }
-            return model;
+            if (dr["DeviceType"] != null && dr["DeviceType"].ToString() != "")
+            {
+                model.DeviceType= int.Parse(dr["DeviceType"].ToString());
+            }
+                return model;
         }
         #endregion
     }
